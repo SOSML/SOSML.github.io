@@ -534,7 +534,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
         let needNewline = false;
         for (let val of warnings) {
-            if (val.position >= 0) {
+            if (val.position >= -1) {
                 res += '\\*WARN\\*: ';
             }
             res += this.outputEscape(val.message);
