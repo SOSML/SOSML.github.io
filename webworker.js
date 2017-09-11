@@ -525,7 +525,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
                 else {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), undefined, indent + 1);
                 }
-                out += stsym + ' ' + istr + 'end\n';
+                out += stsym + ' ' + istr + 'end;\n';
             }
         }
         return out;
