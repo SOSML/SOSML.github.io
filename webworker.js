@@ -518,14 +518,14 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         for (let i in dynamicBasis.structureEnvironment) {
             if (dynamicBasis.structureEnvironment.hasOwnProperty(i)) {
-                out += stsym + ' ' + istr + 'structure \\*' + i + '\\*: sig\n';
+                out += stsym + ' ' + istr + 'structure \\*' + i + ' = {\\*\n';
                 if (staticBasis) {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), staticBasis.getStructure(i), indent + 1);
                 }
                 else {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), undefined, indent + 1);
                 }
-                out += stsym + ' ' + istr + 'end;\n';
+                out += stsym + ' ' + istr + '\\*}\\*\n';
             }
         }
         return out;
@@ -534,7 +534,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
         let needNewline = false;
         for (let val of warnings) {
-            if (val.position >= -1) {
+            if (val.position >= 0) {
                 res += '\\*WARN\\*: ';
             }
             res += this.outputEscape(val.message);
