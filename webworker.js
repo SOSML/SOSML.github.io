@@ -128,7 +128,6 @@ class Communication {
         Communication.registerHandler('settings', (settings) => {
             if (settings) {
                 interpreterSettings = JSON.parse(settings);
-                console.log(interpreterSettings);
             }
         });
     }
@@ -310,6 +309,7 @@ class IncrementalInterpretation {
         let partial = '';
         let errorEncountered = false;
         let previousState = (baseIndex === -1) ? null : this.data[baseIndex].state;
+        let previousCounter = (baseIndex === -1) ? -1 : this.data[baseIndex].successCounter;
         for (let i = 0; i < splitByLine.length; i++) {
             let lineOffset = 0;
             if (i === 0) {
@@ -340,7 +340,11 @@ class IncrementalInterpretation {
                             partial += ';';
                         }
                         else if (ret.result === ErrorType.OK) {
-                            this.addSemicolon(semiPos, ret.state, Communication.markText(lastPos, semiPos, 'eval-success'), ret.warnings);
+                            let className = 'eval-success';
+                            if (previousCounter % 2 === 0) {
+                                className = 'eval-success-odd';
+                            }
+                            this.addSemicolon(semiPos, ret.state, Communication.markText(lastPos, semiPos, className), ret.warnings, ++previousCounter);
                             lastPos = this.copyPos(semiPos);
                             lastPos.ch++;
                             previousState = ret.state;
@@ -453,7 +457,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
     return [pos.line + 1, pos.ch + 1];
 }
      */
-    addSemicolon(pos, newState, marker, warnings) {
+    addSemicolon(pos, newState, marker, warnings, newCounter) {
         this.semicoli.push(pos);
         let baseIndex = this.findBaseIndex(this.data.length - 1);
         let baseStateId = this.initialState.id + 1;
@@ -464,7 +468,8 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: newState,
             marker: marker,
             error: false,
-            output: this.computeNewStateOutput(newState, baseStateId, warnings)
+            output: this.computeNewStateOutput(newState, baseStateId, warnings),
+            successCounter: newCounter
         });
     }
     addIncompleteSemicolon(pos) {
@@ -473,7 +478,8 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: null,
             marker: -1,
             error: false,
-            output: ''
+            output: '',
+            successCounter: 0
         });
     }
     addErrorSemicolon(pos, errorMessage, marker) {
@@ -482,7 +488,8 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: null,
             marker: marker,
             error: true,
-            output: errorMessage
+            output: errorMessage,
+            successCounter: 0
         });
     }
     addSMLErrorSemicolon(pos, error, marker) {
@@ -492,7 +499,8 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: null,
             marker: marker,
             error: true,
-            output: outputErr
+            output: outputErr,
+            successCounter: 0
         });
     }
     outputEscape(str) {
@@ -518,14 +526,14 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         for (let i in dynamicBasis.structureEnvironment) {
             if (dynamicBasis.structureEnvironment.hasOwnProperty(i)) {
-                out += stsym + ' ' + istr + 'structure \\*' + i + ' = {\\*\n';
+                out += stsym + ' ' + istr + 'structure \\*' + i + '\\*: sig\n';
                 if (staticBasis) {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), staticBasis.getStructure(i), indent + 1);
                 }
                 else {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), undefined, indent + 1);
                 }
-                out += stsym + ' ' + istr + '\\*}\\*\n';
+                out += stsym + ' ' + istr + 'end;\n';
             }
         }
         return out;
@@ -534,7 +542,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
         let needNewline = false;
         for (let val of warnings) {
-            if (val.position >= 0) {
+            if (val.position >= -1) {
                 res += '\\*WARN\\*: ';
             }
             res += this.outputEscape(val.message);
