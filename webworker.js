@@ -540,7 +540,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
     }
     computeNewStateOutput(state, id, warnings, stateCounter) {
         let startWith = (stateCounter % 2 === 0) ? '\\1' : '\\2';
-        let res = startWith + this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
+        let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
         let needNewline = false;
         for (let val of warnings) {
             if (val.position >= -1) {
@@ -549,6 +549,10 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             res += this.outputEscape(val.message);
             needNewline = !val.message.endsWith('\n');
         }
+        if (res.trim() === '') {
+            res = '> (Nothing to display)\n';
+        }
+        res = startWith + res;
         if (needNewline) {
             res += '\n';
         }
