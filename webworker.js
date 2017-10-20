@@ -468,7 +468,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: newState,
             marker: marker,
             error: false,
-            output: this.computeNewStateOutput(newState, baseStateId, warnings),
+            output: this.computeNewStateOutput(newState, baseStateId, warnings, newCounter),
             successCounter: newCounter
         });
     }
@@ -488,7 +488,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: null,
             marker: marker,
             error: true,
-            output: errorMessage,
+            output: '\\3' + errorMessage,
             successCounter: 0
         });
     }
@@ -499,7 +499,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             state: null,
             marker: marker,
             error: true,
-            output: outputErr,
+            output: '\\3' + outputErr,
             successCounter: 0
         });
     }
@@ -538,8 +538,9 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         return out;
     }
-    computeNewStateOutput(state, id, warnings) {
-        let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
+    computeNewStateOutput(state, id, warnings, stateCounter) {
+        let startWith = (stateCounter % 2 === 0) ? '\\1' : '\\2';
+        let res = startWith + this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
         let needNewline = false;
         for (let val of warnings) {
             if (val.position >= -1) {
