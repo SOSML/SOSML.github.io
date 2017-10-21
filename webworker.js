@@ -540,7 +540,14 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
     }
     computeNewStateOutput(state, id, warnings, stateCounter) {
         let startWith = (stateCounter % 2 === 0) ? '\\1' : '\\2';
-        let res = this.printBasis(state, state.getDynamicChanges(id - 1), state.getStaticChanges(id - 1), 0);
+        let res = '';
+        let curst = state;
+        for (let i = state.id; i >= id; --i) {
+            res = this.printBasis(curst, curst.getDynamicChanges(i - 1), curst.getStaticChanges(i - 1), 0) + res;
+            while (curst.id >= i) {
+                curst = curst.parent;
+            }
+        }
         let needNewline = false;
         for (let val of warnings) {
             if (val.position >= -1) {
