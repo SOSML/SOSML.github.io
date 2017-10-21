@@ -543,7 +543,9 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         let res = '';
         let curst = state;
         for (let i = state.id; i >= id; --i) {
-            res = this.printBasis(curst, curst.getDynamicChanges(i - 1), curst.getStaticChanges(i - 1), 0) + res;
+            if (curst.id === i) {
+                res = this.printBasis(curst, curst.getDynamicChanges(i - 1), curst.getStaticChanges(i - 1), 0) + res;
+            }
             while (curst.id >= i) {
                 curst = curst.parent;
             }
