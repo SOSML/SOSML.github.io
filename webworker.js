@@ -508,32 +508,76 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
     }
     printBasis(state, dynamicBasis, staticBasis, indent = 0) {
         let out = '';
-        let stsym = '>';
+        let fullst = '>';
+        let emptyst = '>';
+        let cD = new Date();
+        if (cD.getMonth() === 9 && cD.getDate() >= 25) {
+            fullst = "🎃";
+        }
+        else if (cD.getMonth() === 11 && cD.getDate() >= 24 && cD.getDate() <= 26) {
+            fullst = "🎄";
+        }
+        else if (cD.getMonth() === 6 && cD.getDate() === 7) {
+            fullst = "🎋";
+        }
+        let stsym = indent === 0 ? fullst : emptyst;
         let istr = '';
         for (let i = 0; i < indent; ++i) {
             istr += '  ';
         }
         for (let i in dynamicBasis.valueEnvironment) {
             if (dynamicBasis.valueEnvironment.hasOwnProperty(i)) {
-                if (staticBasis) {
-                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i],
-                        staticBasis.getValue(i)]) + '\n';
+                if (this.getPrototypeName(dynamicBasis.valueEnvironment[i][0])
+                    !== "ValueConstructor") {
+                    if (staticBasis) {
+                        out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i],
+                            staticBasis.getValue(i)]) + '\n';
+                    }
+                    else {
+                        out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined]) + '\n';
+                    }
                 }
-                else {
-                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined]) + '\n';
+            }
+        }
+        for (let i in dynamicBasis.typeEnvironment) {
+            if (dynamicBasis.typeEnvironment.hasOwnProperty(i)) {
+                if (staticBasis.typeEnvironment.hasOwnProperty(i)) {
+                    if (this.getPrototypeName(staticBasis.getType(i).type) === "CustomType") {
+                        out += stsym + ' ' + istr + 'datatype \\*' + staticBasis.getType(i).type
+                            + '\\* = {\n';
+                        for (let j of staticBasis.getType(i).constructors) {
+                            out += emptyst;
+                            out += '   ' + istr + this.printBinding(state, [j, dynamicBasis.valueEnvironment[j],
+                                staticBasis.getValue(j)]) + '\n';
+                        }
+                        out += emptyst;
+                        out += ' ' + istr + '};\n';
+                    }
+                }
+            }
+        }
+        for (let i in dynamicBasis.typeEnvironment) {
+            if (dynamicBasis.typeEnvironment.hasOwnProperty(i)) {
+                if (staticBasis.typeEnvironment.hasOwnProperty(i)) {
+                    if (this.getPrototypeName(staticBasis.getType(i).type) === "FunctionType") {
+                        out += stsym + ' ' + istr + 'type \\*'
+                            + staticBasis.getType(i).type.parameterType + ' = '
+                            + staticBasis.getType(i).type.returnType + '\\*;\n';
+                    }
                 }
             }
         }
         for (let i in dynamicBasis.structureEnvironment) {
             if (dynamicBasis.structureEnvironment.hasOwnProperty(i)) {
-                out += stsym + ' ' + istr + 'structure \\*' + i + '\\*: sig\n';
+                out += stsym + ' ' + istr + 'structure \\*' + i + '\\* = struct\n';
                 if (staticBasis) {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), staticBasis.getStructure(i), indent + 1);
                 }
                 else {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), undefined, indent + 1);
                 }
-                out += stsym + ' ' + istr + 'end;\n';
+                out += emptyst;
+                out += ' ' + istr + 'end;\n';
             }
         }
         return out;
@@ -559,7 +603,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             needNewline = !val.message.endsWith('\n');
         }
         if (res.trim() === '') {
-            res = '> (Nothing to display)\n';
+            res = '(No output.)\n';
         }
         res = startWith + res;
         if (needNewline) {
