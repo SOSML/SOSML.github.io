@@ -527,15 +527,12 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         for (let i in dynamicBasis.valueEnvironment) {
             if (dynamicBasis.valueEnvironment.hasOwnProperty(i)) {
-                if (this.getPrototypeName(dynamicBasis.valueEnvironment[i][0])
-                    !== "ValueConstructor") {
-                    if (staticBasis) {
-                        out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i],
-                            staticBasis.getValue(i)]) + '\n';
-                    }
-                    else {
-                        out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined]) + '\n';
-                    }
+                if (staticBasis) {
+                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i],
+                        staticBasis.getValue(i)]) + '\n';
+                }
+                else {
+                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined]) + '\n';
                 }
             }
         }
