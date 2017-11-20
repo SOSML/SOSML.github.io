@@ -529,10 +529,10 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             if (dynamicBasis.valueEnvironment.hasOwnProperty(i)) {
                 if (staticBasis) {
                     out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i],
-                        staticBasis.getValue(i)]) + '\n';
+                        staticBasis.getValue(i)], false) + '\n';
                 }
                 else {
-                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined]) + '\n';
+                    out += stsym + ' ' + istr + this.printBinding(state, [i, dynamicBasis.valueEnvironment[i], undefined], false) + '\n';
                 }
             }
         }
@@ -632,7 +632,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         return output;
     }*/
-    printBinding(state, bnd) {
+    printBinding(state, bnd, acon = true) {
         let res = '';
         let value = bnd[1][0];
         let type = bnd[2];
@@ -640,7 +640,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             type = type[0];
         }
         let protoName = this.getPrototypeName(value);
-        if (protoName === 'ValueConstructor') {
+        if (protoName === 'ValueConstructor' && acon) {
             res += 'con';
         }
         else if (protoName === 'ExceptionConstructor') {
