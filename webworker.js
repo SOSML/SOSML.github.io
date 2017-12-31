@@ -518,7 +518,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
             fullst = "🎄";
         }
         else if (cD.getMonth() === 11 && cD.getDate() === 31) {
-            fullst = "🌃";
+            fullst = "🎊";
         }
         else if (cD.getMonth() === 0 && cD.getDate() === 1) {
             fullst = "🎆";
