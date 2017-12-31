@@ -509,7 +509,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
     printBasis(state, dynamicBasis, staticBasis, indent = 0) {
         let out = '';
         let fullst = '>';
-        let emptyst = ' ';
+        let emptyst = '>';
         let cD = new Date();
         if (cD.getMonth() === 9 && cD.getDate() >= 25) {
             fullst = "🎃";
