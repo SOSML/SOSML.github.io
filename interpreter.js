@@ -1,1 +1,12614 @@
-var Interpreter=function(t){function __webpack_require__(n){if(e[n])return e[n].exports;var i=e[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,__webpack_require__),i.l=!0,i.exports}var e={};return __webpack_require__.m=t,__webpack_require__.c=e,__webpack_require__.i=function(t){return t},__webpack_require__.d=function(exports,t,e){__webpack_require__.o(exports,t)||Object.defineProperty(exports,t,{configurable:!1,enumerable:!0,get:e})},__webpack_require__.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return __webpack_require__.d(e,"a",e),e},__webpack_require__.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},__webpack_require__.p="",__webpack_require__(__webpack_require__.s=8)}([function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=function(t){function InterpreterError(e,n){var i=t.call(this,n)||this;return i.position=e,Object.setPrototypeOf(i,InterpreterError.prototype),i}return n(InterpreterError,t),InterpreterError}(Error);exports.InterpreterError=i;var r=function(t){function InternalInterpreterError(e,n){void 0===n&&(n="internal compiler error");var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,InternalInterpreterError.prototype),i}return n(InternalInterpreterError,t),InternalInterpreterError}(i);exports.InternalInterpreterError=r;var o=function(t){function FeatureNotImplementedError(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,FeatureNotImplementedError.prototype),i}return n(FeatureNotImplementedError,t),FeatureNotImplementedError}(i);exports.FeatureNotImplementedError=o;var a=function(t){function FeatureDisabledError(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,FeatureDisabledError.prototype),i}return n(FeatureDisabledError,t),FeatureDisabledError}(i);exports.FeatureDisabledError=a;var s=function(t){function IncompleteError(e,n){void 0===n&&(n="unexpected end of input");var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,IncompleteError.prototype),i}return n(IncompleteError,t),IncompleteError}(i);exports.IncompleteError=s;var u=function(t){function LexerError(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,LexerError.prototype),i}return n(LexerError,t),LexerError}(i);exports.LexerError=u;var p=function(t){function ParserError(e,n){var i=t.call(this,n,e)||this;return Object.setPrototypeOf(i,ParserError.prototype),i}return n(ParserError,t),ParserError}(i);exports.ParserError=p;var c=function(t){function ElaborationError(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,ElaborationError.prototype),i}return n(ElaborationError,t),ElaborationError.getUnguarded=function(t,e){var n="";e.length>1&&(n+="s"),n+=" ";for(var i=0;i<e.length;++i)i>0&&(n+=", "),n+='"'+e[i]+'"';return new ElaborationError(t,"Unguarded type variable"+n+".")},ElaborationError}(i);exports.ElaborationError=c;var h=function(t){function EvaluationError(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,EvaluationError.prototype),i}return n(EvaluationError,t),EvaluationError}(i);exports.EvaluationError=h;var f=function(t){function Warning(e,n){var i=t.call(this,e,n)||this;return Object.setPrototypeOf(i,Warning.prototype),i}return n(Warning,t),Warning}(i);exports.Warning=f},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=function(){function KeywordToken(t,e){this.text=t,this.position=e}return KeywordToken.prototype.getText=function(){return this.text},KeywordToken.prototype.isValidRecordLabel=function(){return!1},KeywordToken.prototype.isVid=function(){return!1},KeywordToken}();exports.KeywordToken=i;var r=function(){function ConstantToken(){}return ConstantToken.prototype.isVid=function(){return!1},ConstantToken}();exports.ConstantToken=r;var o=function(t){function IntegerConstantToken(e,n,i){var r=t.call(this)||this;return r.text=e,r.position=n,r.value=i,r}return n(IntegerConstantToken,t),IntegerConstantToken.prototype.getText=function(){return""+this.value},IntegerConstantToken.prototype.isValidRecordLabel=function(){return!1},IntegerConstantToken}(r);exports.IntegerConstantToken=o;var a=function(t){function RealConstantToken(e,n,i){var r=t.call(this)||this;return r.text=e,r.position=n,r.value=i,r}return n(RealConstantToken,t),RealConstantToken.prototype.getText=function(){return""+this.value},RealConstantToken.prototype.isValidRecordLabel=function(){return!1},RealConstantToken}(r);exports.RealConstantToken=a;var s=function(t){function WordConstantToken(e,n,i){var r=t.call(this)||this;return r.text=e,r.position=n,r.value=i,r}return n(WordConstantToken,t),WordConstantToken.prototype.getText=function(){return""+this.value},WordConstantToken.prototype.isValidRecordLabel=function(){return!1},WordConstantToken}(r);exports.WordConstantToken=s;var u=function(t){function CharacterConstantToken(e,n,i){var r=t.call(this)||this;return r.text=e,r.position=n,r.value=i,r}return n(CharacterConstantToken,t),CharacterConstantToken.prototype.getText=function(){return""+this.text},CharacterConstantToken.prototype.isValidRecordLabel=function(){return!1},CharacterConstantToken}(r);exports.CharacterConstantToken=u;var p=function(t){function StringConstantToken(e,n,i){var r=t.call(this)||this;return r.text=e,r.position=n,r.value=i,r}return n(StringConstantToken,t),StringConstantToken.prototype.getText=function(){return""+this.text},StringConstantToken.prototype.isValidRecordLabel=function(){return!1},StringConstantToken}(r);exports.StringConstantToken=p;var c=function(){function IdentifierToken(t,e){this.text=t,this.position=e,this.opPrefixed=!1}return IdentifierToken.prototype.getText=function(){return this.text},IdentifierToken.prototype.isValidRecordLabel=function(){return!0},IdentifierToken.prototype.isVid=function(){return!0},IdentifierToken}();exports.IdentifierToken=c;var h=function(t){function AlphanumericIdentifierToken(e,n){return t.call(this,e,n)||this}return n(AlphanumericIdentifierToken,t),AlphanumericIdentifierToken.prototype.getText=function(){return this.text},AlphanumericIdentifierToken.prototype.isValidRecordLabel=function(){return!0},AlphanumericIdentifierToken}(c);exports.AlphanumericIdentifierToken=h;var f=function(){function TypeVariableToken(t,e){this.text=t,this.position=e}return TypeVariableToken.prototype.getText=function(){return this.text},TypeVariableToken.prototype.isValidRecordLabel=function(){return!1},TypeVariableToken.prototype.isVid=function(){return!1},TypeVariableToken}();exports.TypeVariableToken=f;var l=function(t){function EqualityTypeVariableToken(e,n){return t.call(this,e,n)||this}return n(EqualityTypeVariableToken,t),EqualityTypeVariableToken.prototype.getText=function(){return this.text},EqualityTypeVariableToken.prototype.isValidRecordLabel=function(){return!1},EqualityTypeVariableToken.prototype.isVid=function(){return!1},EqualityTypeVariableToken}(f);exports.EqualityTypeVariableToken=l;var d=function(t){function StarToken(e){var n=t.call(this,"*",e)||this;return n.position=e,n.opPrefixed=!1,n}return n(StarToken,t),StarToken.prototype.getText=function(){return this.text},StarToken.prototype.isValidRecordLabel=function(){return!0},StarToken.prototype.isVid=function(){return!0},StarToken}(i);exports.StarToken=d;var y=function(t){function EqualsToken(e){var n=t.call(this,"=",e)||this;return n.position=e,n}return n(EqualsToken,t),EqualsToken.prototype.getText=function(){return this.text},EqualsToken.prototype.isValidRecordLabel=function(){return!1},EqualsToken.prototype.isVid=function(){return!0},EqualsToken}(i);exports.EqualsToken=y;var v=function(t){function NumericToken(e,n,i){return t.call(this,e,n,i)||this}return n(NumericToken,t),NumericToken.prototype.getText=function(){return this.text},NumericToken.prototype.isValidRecordLabel=function(){return!0},NumericToken.prototype.isVid=function(){return!1},NumericToken}(o);exports.NumericToken=v;var m=function(){function LongIdentifierToken(t,e,n,i){this.text=t,this.position=e,this.qualifiers=n,this.id=i,this.opPrefixed=!1}return LongIdentifierToken.prototype.getText=function(){for(var t="",e=0;e<this.qualifiers.length;++e)e>0&&(t+="."),t+=this.qualifiers[e].getText();return t+"."+this.id.getText()},LongIdentifierToken.prototype.isValidRecordLabel=function(){return!1},LongIdentifierToken.prototype.isVid=function(){return!1},LongIdentifierToken}();exports.LongIdentifierToken=m},function(t,exports,e){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var n=e(3),i=e(1),r=e(0);!function(t){t[t.VALUE_VARIABLE=0]="VALUE_VARIABLE",t[t.VALUE_CONSTRUCTOR=1]="VALUE_CONSTRUCTOR",t[t.EXCEPTION_CONSTRUCTOR=2]="EXCEPTION_CONSTRUCTOR"}(exports.IdentifierStatus||(exports.IdentifierStatus={}));var o=function(){function TypeInformation(t,e,n,i){void 0===i&&(i=!0),this.type=t,this.constructors=e,this.arity=n,this.allowsEquality=i}return TypeInformation}();exports.TypeInformation=o;var a=function(){function DynamicFunctorInformation(t,e,n,i){this.paramName=t,this.param=e,this.body=n,this.state=i}return DynamicFunctorInformation}();exports.DynamicFunctorInformation=a;var s=function(){function DynamicInterface(t,e,n){this.typeInterface=t,this.valueInterface=e,this.structureInterface=n}return DynamicInterface.prototype.extend=function(t){for(var e in t.typeInterface)t.typeInterface.hasOwnProperty(e)&&(this.typeInterface[e]=t.typeInterface[e]);for(var e in t.valueInterface)t.valueInterface.hasOwnProperty(e)&&(this.valueInterface[e]=t.valueInterface[e]);for(var e in t.structureInterface)t.structureInterface.hasOwnProperty(e)&&(this.structureInterface[e]=t.structureInterface[e]);return this},DynamicInterface}();exports.DynamicInterface=s;var u=function(){function InfixStatus(t,e,n){void 0===e&&(e=0),void 0===n&&(n=!1),this.infix=t,this.precedence=e,this.rightAssociative=n}return InfixStatus}();exports.InfixStatus=u;var p=function(){function DynamicBasis(t,e,n,i,r){this.typeEnvironment=t,this.valueEnvironment=e,this.structureEnvironment=n,this.signatureEnvironment=i,this.functorEnvironment=r}return DynamicBasis.prototype.getValue=function(t){if(this.valueEnvironment.hasOwnProperty(t))return this.valueEnvironment[t]},DynamicBasis.prototype.getType=function(t){if(this.typeEnvironment.hasOwnProperty(t))return this.typeEnvironment[t]},DynamicBasis.prototype.getStructure=function(t){if(this.structureEnvironment.hasOwnProperty(t))return this.structureEnvironment[t]},DynamicBasis.prototype.getSignature=function(t){if(this.signatureEnvironment.hasOwnProperty(t))return this.signatureEnvironment[t]},DynamicBasis.prototype.getFunctor=function(t){if(this.functorEnvironment.hasOwnProperty(t))return this.functorEnvironment[t]},DynamicBasis.prototype.setValue=function(t,e,n){this.valueEnvironment[t]=[e,n]},DynamicBasis.prototype.setType=function(t,e){this.typeEnvironment[t]=e},DynamicBasis.prototype.setStructure=function(t,e){this.structureEnvironment[t]=e},DynamicBasis.prototype.setSignature=function(t,e){this.signatureEnvironment[t]=e},DynamicBasis.prototype.setFunctor=function(t,e){this.functorEnvironment[t]=e},DynamicBasis.prototype.extend=function(t){for(var e in t.typeEnvironment)t.typeEnvironment.hasOwnProperty(e)&&(this.typeEnvironment[e]=t.typeEnvironment[e]);for(var e in t.valueEnvironment)t.valueEnvironment.hasOwnProperty(e)&&(this.valueEnvironment[e]=t.valueEnvironment[e]);for(var e in t.structureEnvironment)t.structureEnvironment.hasOwnProperty(e)&&(this.structureEnvironment[e]=t.structureEnvironment[e]);for(var e in t.signatureEnvironment)t.signatureEnvironment.hasOwnProperty(e)&&(this.signatureEnvironment[e]=t.signatureEnvironment[e]);for(var e in t.functorEnvironment)t.functorEnvironment.hasOwnProperty(e)&&(this.functorEnvironment[e]=t.functorEnvironment[e]);return this},DynamicBasis.prototype.restrict=function(t){var e=new DynamicBasis({},{},{},this.signatureEnvironment,this.functorEnvironment);for(var n in t.typeInterface)if(t.typeInterface.hasOwnProperty(n)&&this.typeEnvironment.hasOwnProperty(n)){for(var i=new Set,r=[],o=0;o<this.typeEnvironment[n].length;++o)i=i.add(this.typeEnvironment[n][o]);for(var o=0;o<t.typeInterface[n].length;++o)i.has(t.typeInterface[n][o])&&r.push(t.typeInterface[n][o]);e.typeEnvironment[n]=r}for(var n in t.valueInterface)t.valueInterface.hasOwnProperty(n)&&this.valueEnvironment.hasOwnProperty(n)&&(e.valueEnvironment[n]=[this.valueEnvironment[n][0],t.valueInterface[n]]);for(var n in t.structureInterface)t.structureInterface.hasOwnProperty(n)&&this.structureEnvironment.hasOwnProperty(n)&&(e.structureEnvironment[n]=this.structureEnvironment[n].restrict(t.structureInterface[n]));return e},DynamicBasis}();exports.DynamicBasis=p;var c=function(){function StaticBasis(t,e,n,i,r){this.typeEnvironment=t,this.valueEnvironment=e,this.structureEnvironment=n,this.signatureEnvironment=i,this.functorEnvironment=r}return StaticBasis.prototype.getValue=function(t){if(this.valueEnvironment.hasOwnProperty(t))return this.valueEnvironment[t]},StaticBasis.prototype.getType=function(t){if(this.typeEnvironment.hasOwnProperty(t))return this.typeEnvironment[t]},StaticBasis.prototype.getStructure=function(t){if(this.structureEnvironment.hasOwnProperty(t))return this.structureEnvironment[t]},StaticBasis.prototype.getSignature=function(t){if(this.signatureEnvironment.hasOwnProperty(t))return this.signatureEnvironment[t]},StaticBasis.prototype.getFunctor=function(t){if(this.functorEnvironment.hasOwnProperty(t))return this.functorEnvironment[t]},StaticBasis.prototype.setValue=function(t,e,n){this.valueEnvironment[t]=[e,n]},StaticBasis.prototype.deleteValue=function(t){this.valueEnvironment[t]=void 0},StaticBasis.prototype.setType=function(t,e,n,i,r){void 0===r&&(r=!0),this.typeEnvironment[t]=new o(e,n,i,r)},StaticBasis.prototype.setStructure=function(t,e){this.structureEnvironment[t]=e},StaticBasis.prototype.setSignature=function(t,e){this.signatureEnvironment[t]=e},StaticBasis.prototype.setFunctor=function(t,e){this.functorEnvironment[t]=e},StaticBasis.prototype.extend=function(t){for(var e in t.typeEnvironment)t.typeEnvironment.hasOwnProperty(e)&&(this.typeEnvironment[e]=t.typeEnvironment[e]);for(var e in t.valueEnvironment)t.valueEnvironment.hasOwnProperty(e)&&(this.valueEnvironment[e]=t.valueEnvironment[e]);for(var e in t.structureEnvironment)t.structureEnvironment.hasOwnProperty(e)&&(this.structureEnvironment[e]=t.structureEnvironment[e]);for(var e in t.signatureEnvironment)t.signatureEnvironment.hasOwnProperty(e)&&(this.signatureEnvironment[e]=t.signatureEnvironment[e]);for(var e in t.functorEnvironment)t.functorEnvironment.hasOwnProperty(e)&&(this.functorEnvironment[e]=t.functorEnvironment[e]);return this},StaticBasis}();exports.StaticBasis=c;var h=function(){function State(t,e,n,i,r,o,a,s,u,p,c,h){void 0===o&&(o=[0,new Map]),void 0===a&&(a={}),void 0===s&&(s={}),void 0===u&&(u=[]),void 0===p&&(p=!1),void 0===c&&(c=!1),void 0===h&&(h=[]),this.id=t,this.parent=e,this.staticBasis=n,this.dynamicBasis=i,this.memory=r,this.freeTypeVariables=o,this.infixEnvironment=a,this.valueIdentifierId=s,this.warns=u,this.insideLocalDeclBody=p,this.localDeclStart=c,this.loadedModules=h}return State.allowsRebind=function(t){return void 0==={true:!1,false:!1,nil:!1,"::":!1,"=":!1,ref:!1,":=":!1,"!":!1}[t]},State.prototype.getNestedState=function(t){void 0===t&&(t=void 0),void 0===t&&(t=this.id+1);var e=new State(t,this,new c({},{},{},{},{}),new p({},{},{},{},{}),[this.memory[0],{}],[this.freeTypeVariables[0],new Map]);e.insideLocalDeclBody=this.insideLocalDeclBody;for(var n=0,i=this.loadedModules;n<i.length;n++){var r=i[n];e.loadedModules.push(r)}return e},State.prototype.hasModule=function(t){for(var e=0,n=this.loadedModules;e<n.length;e++){if(n[e]===t)return!0}return!1},State.prototype.registerModule=function(t){this.loadedModules.push(t)},State.prototype.getIdChanges=function(t){if(this.id<=t)return{};var e={};void 0!==this.parent&&(e=this.parent.getIdChanges(t));for(var n in this.valueIdentifierId)this.valueIdentifierId.hasOwnProperty(n)&&(e[n]=this.valueIdentifierId[n]);return e},State.prototype.getMemoryChanges=function(t){if(this.id<=t)return[];var e=[];void 0!==this.parent&&(e=this.parent.getMemoryChanges(t));for(var n in this.memory[1])this.memory[1].hasOwnProperty(n)&&e.push([+n,this.memory[1][n]]);return e},State.prototype.getDynamicChanges=function(t){if(this.id<=t)return new p({},{},{},{},{});var e=new p({},{},{},{},{});return void 0!==this.parent&&(e=this.parent.getDynamicChanges(t)),e=e.extend(this.dynamicBasis)},State.prototype.getDynamicLocalDeclChanges=function(t){if(this.id<=t||this.localDeclStart)return new p({},{},{},{},{});var e=new p({},{},{},{},{});return void 0!==this.parent&&(e=this.parent.getDynamicLocalDeclChanges(t)),e=e.extend(this.dynamicBasis)},State.prototype.getStaticChanges=function(t){if(this.id<=t)return new c({},{},{},{},{});var e=new c({},{},{},{},{});return void 0!==this.parent&&(e=this.parent.getStaticChanges(t)),e=e.extend(this.staticBasis)},State.prototype.getCell=function(t){return void 0!==this.memory[1][t]?this.memory[1][t]:void 0===this.parent?void 0:this.parent.getCell(t)},State.prototype.getTypeVariableBinds=function(t){void 0===t&&(t=0);var e=this.freeTypeVariables;if(void 0===this.parent||this.parent.id<t){var n=new Map;return e[1].forEach(function(t,e){n.set(e,t)}),[e[0],n]}var i=this.parent.getTypeVariableBinds(t);return e[1].forEach(function(t,e){i[1].set(e,t)}),[Math.max(e[0],i[0]),i[1]]},State.prototype.getStaticValue=function(t,e){void 0===e&&(e=0);var n=this.staticBasis.getValue(t);return void 0!==n||void 0===this.parent||this.parent.id<e?void 0!==n?[n[0],n[1]]:n:this.parent.getStaticValue(t,e)},State.prototype.getStaticType=function(t,e){void 0===e&&(e=0);var n=this.staticBasis.getType(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getStaticType(t,e)},State.prototype.getStaticStructure=function(t,e){void 0===e&&(e=0);var n=this.staticBasis.getStructure(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getStaticStructure(t,e)},State.prototype.getAndResolveStaticStructure=function(t,e){void 0===e&&(e=0);var n=void 0;if(0===t.qualifiers.length)throw new r.EvaluationError(t.position,"Unqualified LongIdentifierToken are too unqualified to be useful here.");n=this.getStaticStructure(t.qualifiers[0].getText(),e);for(var i=1;i<t.qualifiers.length;++i){if(void 0===n)return n;n=n.getStructure(t.qualifiers[i].getText())}return n},State.prototype.getStaticSignature=function(t,e){void 0===e&&(e=0);var n=this.staticBasis.getSignature(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getStaticSignature(t,e)},State.prototype.getStaticFunctor=function(t,e){void 0===e&&(e=0);var n=this.staticBasis.getFunctor(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getStaticFunctor(t,e)},State.prototype.getDynamicValue=function(t,e){void 0===e&&(e=0);var n=this.dynamicBasis.getValue(t);return void 0!==n||void 0===this.parent||this.parent.id<e?void 0!==n?[n[0],n[1]]:n:this.parent.getDynamicValue(t,e)},State.prototype.getDynamicType=function(t,e){void 0===e&&(e=0);var n=this.dynamicBasis.getType(t);return void 0!==n||void 0===this.parent||this.parent.id<e?void 0!==n?[n[0],n[1]]:n:this.parent.getDynamicType(t,e)},State.prototype.getDynamicStructure=function(t,e){void 0===e&&(e=0);var n=this.dynamicBasis.getStructure(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getDynamicStructure(t,e)},State.prototype.getAndResolveDynamicStructure=function(t,e){void 0===e&&(e=0);var n=void 0;if(0===t.qualifiers.length)throw new r.EvaluationError(t.position,"Unqualified LongIdentifierToken are too unqualified to be useful here.");n=this.getDynamicStructure(t.qualifiers[0].getText(),e);for(var i=1;i<t.qualifiers.length;++i){if(void 0===n)return n;n=n.getStructure(t.qualifiers[i].getText())}return n},State.prototype.getDynamicSignature=function(t,e){void 0===e&&(e=0);var n=this.dynamicBasis.getSignature(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getDynamicSignature(t,e)},State.prototype.getDynamicFunctor=function(t,e){void 0===e&&(e=0);var n=this.dynamicBasis.getFunctor(t);return void 0!==n||void 0===this.parent||this.parent.id<e?n:this.parent.getDynamicFunctor(t,e)},State.prototype.getInfixStatus=function(t,e){if(void 0===e&&(e=0),t.isVid()||t instanceof i.LongIdentifierToken)return this.infixEnvironment.hasOwnProperty(t.getText())||!this.parent||this.parent.id<e?this.infixEnvironment[t.getText()]:this.parent.getInfixStatus(t,e);throw new r.InternalInterpreterError(t.position,'You gave me some "'+t.getText()+'" ('+t.constructor.name+") but I only want (Long)IdentifierToken.")},State.prototype.getValueIdentifierId=function(t,e){return void 0===e&&(e=0),this.valueIdentifierId.hasOwnProperty(t)?this.valueIdentifierId[t]:!this.parent||this.parent.id<e?0:this.parent.getValueIdentifierId(t,e)},State.prototype.getWarnings=function(){return this.warns},State.prototype.incrementValueIdentifierId=function(t,e){if(void 0===e&&(e=void 0),void 0===e||this.id===e)this.valueIdentifierId[t]=this.getValueIdentifierId(t,e)+1;else{if(e>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+e+'" does not exist.');this.parent.incrementValueIdentifierId(t,e)}},State.prototype.setCell=function(t,e){t>=this.memory[0]&&(this.memory[0]=t+1),this.memory[1][t]=e},State.prototype.setNewCell=function(t){return this.memory[1][this.memory[0]]=t,new n.ReferenceValue(this.memory[0]++)},State.prototype.deleteStaticValue=function(t){this.staticBasis.deleteValue(t),void 0!==this.parent&&this.parent.deleteStaticValue(t)},State.prototype.setStaticValue=function(t,e,n,i){if(void 0===i&&(i=void 0),void 0===i||i===this.id)this.staticBasis.setValue(t,e,n);else{if(i>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+i+'" does not exist.');this.parent.setStaticValue(t,e,n,i)}},State.prototype.setStaticType=function(t,e,n,i,o){if(void 0===o&&(o=void 0),void 0===o||o===this.id)this.staticBasis.setType(t,e,n,i);else{if(o>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+o+'" does not exist.');this.parent.setStaticType(t,e,n,i,o)}},State.prototype.setStaticStructure=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.staticBasis.setStructure(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setStaticStructure(t,e,n)}},State.prototype.setStaticSignature=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.staticBasis.setSignature(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setStaticSignature(t,e,n)}},State.prototype.setStaticFunctor=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.staticBasis.setFunctor(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setStaticFunctor(t,e,n)}},State.prototype.setDynamicValue=function(t,e,n,i){if(void 0===i&&(i=void 0),void 0===i||i===this.id)this.dynamicBasis.setValue(t,e,n);else{if(i>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+i+'" does not exist.');this.parent.setDynamicValue(t,e,n,i)}},State.prototype.setDynamicType=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.dynamicBasis.setType(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setDynamicType(t,e,n)}},State.prototype.setDynamicStructure=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.dynamicBasis.setStructure(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setDynamicStructure(t,e,n)}},State.prototype.setDynamicSignature=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.dynamicBasis.setSignature(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setDynamicSignature(t,e,n)}},State.prototype.setDynamicFunctor=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.dynamicBasis.setFunctor(t,e);else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setDynamicFunctor(t,e,n)}},State.prototype.setInfixStatus=function(t,e,n,o,a){if(void 0===a&&(a=void 0),void 0===a||a===this.id)(t.isVid()||t instanceof i.LongIdentifierToken)&&(this.infixEnvironment[t.getText()]=new u(o,e,n));else{if(a>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+a+'" does not exist.');this.parent.setInfixStatus(t,e,n,o,a)}},State.prototype.setValueIdentifierId=function(t,e,n){if(void 0===n&&(n=void 0),void 0===n||n===this.id)this.valueIdentifierId[t]=e;else{if(n>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+n+'" does not exist.');this.parent.setValueIdentifierId(t,e,n)}},State.prototype.addWarning=function(t,e){if(void 0===e&&(e=void 0),void 0===e||e===this.id)this.warns.push(t);else{if(e>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+e+'" does not exist.');this.parent.addWarning(t,e)}},State.prototype.setWarnings=function(t,e){if(void 0===e&&(e=void 0),void 0===e||e===this.id)this.warns=t;else{if(e>this.id||void 0===this.parent)throw new r.InternalInterpreterError(-1,'State with id "'+e+'" does not exist.');this.parent.setWarnings(t,e)}},State}();exports.State=h},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=e(2),r=e(0),o=e(1);exports.MAXINT=1073741823,exports.MININT=-1073741824;var a=function(){function PrintCounter(t){this.charactersLeft=t}return PrintCounter}();exports.PrintCounter=a;var s=function(){function Value(){}return Value.prototype.toString=function(t,e){return void 0===e&&(e=120),this.pcToString(t,new a(e))},Value.prototype.equals=function(t){throw new r.InternalInterpreterError(-1,"Tried comparing incomparable things.")},Value}();exports.Value=s;var u=function(t){function ReferenceValue(e){var n=t.call(this)||this;return n.address=e,n}return n(ReferenceValue,t),ReferenceValue.prototype.equals=function(t){return this.address===t.address},ReferenceValue.prototype.pcToString=function(t,e){if(void 0===t){var n="$"+this.address;return e.charactersLeft-=n.length,n}if(void 0!==t.getCell(this.address))return e.charactersLeft-=4,"ref "+t.getCell(this.address).pcToString(t,e);throw new r.EvaluationError(-1,'Ouch, you may not de-reference "$'+this.address+'".')},ReferenceValue}(s);exports.ReferenceValue=u;var p=function(t){function VectorValue(e){void 0===e&&(e=[]);var n=t.call(this)||this;return n.entries=e,n}return n(VectorValue,t),VectorValue.prototype.equals=function(t){if(this.entries.length!==t.entries.length)return!1;for(var e=0;e<this.entries.length;++e)if(!this.entries[e].equals(t.entries[e]))return!1;return!0},VectorValue.prototype.pcToString=function(t,e){var n="#[";e.charactersLeft-=3;for(var i=0;i<this.entries.length;++i){if(i>0&&(n+=", ",e.charactersLeft-=2),!(e.charactersLeft>0)){n+="…";break}var r=0;i<this.entries.length&&(r=Math.floor(e.charactersLeft/2)),e.charactersLeft-=r,n+=this.entries[i].pcToString(t,e),e.charactersLeft+=r}return n+="]"},VectorValue}(s);exports.VectorValue=p;var c=function(t){function ArrayValue(e,n){var i=t.call(this)||this;return i.address=e,i.length=n,i}return n(ArrayValue,t),ArrayValue.prototype.equals=function(t){return this.address===t.address},ArrayValue.prototype.pcToString=function(t,e){if(void 0===t){var n="[|$"+this.address+"...$"+(this.address+this.length-1)+"|]";return e.charactersLeft-=n.length,n}var i="[|";e.charactersLeft-=4;for(var o=0;o<this.length;++o){if(o>0&&(i+=", ",e.charactersLeft-=2),!(e.charactersLeft>0)){i+="…";break}if(void 0===t.getCell(this.address+o))throw new r.EvaluationError(-1,'Ouch, you may not de-reference "$'+(this.address+o)+'".');var a=0;o<this.length&&(a=Math.floor(e.charactersLeft/2)),e.charactersLeft-=a,i+=t.getCell(this.address+o).pcToString(t,e),e.charactersLeft+=a}return i+="|]"},ArrayValue}(s);exports.ArrayValue=c;var h=function(t){function BoolValue(e){var n=t.call(this)||this;return n.value=e,n}return n(BoolValue,t),BoolValue.prototype.equals=function(t){return this.value===t.value},BoolValue.prototype.pcToString=function(t,e){return this.value?(e.charactersLeft-=4,"true"):(e.charactersLeft-=5,"false")},BoolValue}(s);exports.BoolValue=h;var f=function(t){function CharValue(e){var n=t.call(this)||this;return n.value=e,n}return n(CharValue,t),CharValue.prototype.pcToString=function(t,e){return e.charactersLeft-=1,"#"+new l(this.value).pcToString(t,e)},CharValue.prototype.compareTo=function(t){return this.value<t.value?-1:this.value>t.value?1:0},CharValue.prototype.equals=function(t){return this.value===t.value},CharValue}(s);exports.CharValue=f;var l=function(t){function StringValue(e){var n=t.call(this)||this;return n.value=e,n}return n(StringValue,t),StringValue.implode=function(t){for(var e="";"nil"!==t.constructorName;){if("::"!==t.constructorName)throw new r.InternalInterpreterError(-1,"Is this a char list? I can't implode \""+t.constructorName+'".');var n=t.argument;if(!(n instanceof m))throw new r.InternalInterpreterError(-1,"Is this a char list? I can't implode \""+t.constructorName+'".');var i=n.getValue("1"),o=n.getValue("2");if(!(i instanceof f&&o instanceof w))throw new r.InternalInterpreterError(-1,"Is this a char list? I can't implode \""+t.constructorName+'".');e+=i.value,t=o}return new StringValue(e)},StringValue.prototype.pcToString=function(t,e){var n="";e.charactersLeft-=2;for(var i=0,r=this.value;i<r.length;i++){var o=r[i];if(e.charactersLeft<0){n+="…";break}switch(e.charactersLeft-=1,o){case"\n":n+="\\n";break;case"\t":n+="\\t";break;case"\r":n+="\\r";break;case"":n+="\\a";break;case"\b":n+="\\b";break;case"\v":n+="\\v";break;case"\f":n+="\\f";break;case"":n+="\\127";break;case"ÿ":n+="\\255";break;default:if(o.charCodeAt(0)<32){var a="\\^"+String.fromCharCode(o.charCodeAt(0)+64);n+=a,e.charactersLeft-=a.length-1}else n+=o}}return'"'+n+'"'},StringValue.prototype.equals=function(t){return this.value===t.value},StringValue.prototype.compareTo=function(t){return this.value<t.value?-1:this.value>t.value?1:0},StringValue.prototype.concat=function(t){return new StringValue(this.value+t.value)},StringValue.prototype.explode=function(){for(var t=new w("nil"),e=this.value.length-1;e>=0;--e)t=new w("::",new m(new Map([["1",new f(this.value[e])],["2",t]])));return t},StringValue}(s);exports.StringValue=l;var d=function(t){function Word(e){var n=t.call(this)||this;return n.value=e,n}return n(Word,t),Word.prototype.pcToString=function(t,e){var n=""+this.value;return e.charactersLeft-=n.length,n},Word.prototype.compareTo=function(t){if(t instanceof Word){var e=t.value;return this.value<e?-1:this.value>e?1:0}return 2},Word.prototype.negate=function(){return new Word(-this.value)},Word.prototype.equals=function(t){return 0===this.compareTo(t)},Word.prototype.add=function(t){return new Word(this.value+t.value)},Word.prototype.multiply=function(t){return new Word(this.value*t.value)},Word.prototype.divide=function(t){return new Word(Math.floor(this.value/t.value))},Word.prototype.modulo=function(t){return new Word(this.value%t.value)},Word.prototype.toReal=function(){return new v(this.value)},Word.prototype.hasOverflow=function(){return this.value>exports.MAXINT||this.value<exports.MININT},Word}(s);exports.Word=d;var y=function(t){function Integer(e){var n=t.call(this)||this;return n.value=e,n}return n(Integer,t),Integer.prototype.pcToString=function(t,e){var n=""+this.value;return e.charactersLeft-=n.length,n.replace(/-/,"~")},Integer.prototype.compareTo=function(t){if(t instanceof Integer){var e=t.value;return this.value<e?-1:this.value>e?1:0}return!1},Integer.prototype.equals=function(t){return 0===this.compareTo(t)},Integer.prototype.negate=function(){return new Integer(-this.value)},Integer.prototype.add=function(t){return new Integer(this.value+t.value)},Integer.prototype.multiply=function(t){return new Integer(this.value*t.value)},Integer.prototype.divide=function(t){return new Integer(Math.floor(this.value/t.value))},Integer.prototype.modulo=function(t){return new Integer(this.value-Math.floor(this.value/t.value)*t.value)},Integer.prototype.toReal=function(){return new v(this.value)},Integer.prototype.hasOverflow=function(){return this.value>exports.MAXINT||this.value<exports.MININT},Integer}(s);exports.Integer=y;var v=function(t){function Real(e){var n=t.call(this)||this;return n.value=e,n}return n(Real,t),Real.prototype.pcToString=function(t,e){var n=""+this.value;return-1===n.search(/\./)&&(n+=".0"),e.charactersLeft-=n.length,n.replace(/-/,"~")},Real.prototype.compareTo=function(t){if(t instanceof Real){var e=t.value;return this.value<e?-1:this.value>e?1:0}return!1},Real.prototype.equals=function(t){return 0===this.compareTo(t)},Real.prototype.negate=function(){return new Real(-this.value)},Real.prototype.add=function(t){return new Real(this.value+t.value)},Real.prototype.multiply=function(t){return new Real(this.value*t.value)},Real.prototype.divide=function(t){return new Real(this.value/t.value)},Real.prototype.toInteger=function(){return new y(Math.floor(this.value))},Real.prototype.hasOverflow=function(){return!1},Real}(s);exports.Real=v;var m=function(t){function RecordValue(e){void 0===e&&(e=new Map);var n=t.call(this)||this;return n.entries=e,n}return n(RecordValue,t),RecordValue.prototype.pcToString=function(t,e){for(var n=this,i=1!==this.entries.size,o=1;o<=this.entries.size;++o)this.entries.has(""+o)||(i=!1);if(i){var a="(";e.charactersLeft-=2;for(var o=1;o<=this.entries.size;++o){o>1&&(a+=", ",e.charactersLeft-=2);var s=this.entries.get(""+o);if(void 0===s)throw new r.InternalInterpreterError(-1,"How did we loose this value? It was there before. I promise…");if(!(e.charactersLeft>0)){a+="…";break}var u=0;o<this.entries.size&&(u=Math.floor(e.charactersLeft/2)),e.charactersLeft-=u,a+=s.pcToString(t,e),e.charactersLeft+=u}return a+")"}var p="{";e.charactersLeft-=2;var c=!0,h=!1,f=0;return this.entries.forEach(function(i,r){if(!h){if(c?c=!1:(p+=", ",e.charactersLeft-=2),e.charactersLeft>0){var o=0;f<n.entries.size&&(o=Math.floor(e.charactersLeft/2)),e.charactersLeft-=o,p+=r+" = "+i.pcToString(t,e),e.charactersLeft+=o}else p+="…",h=!0;++f}}),p+"}"},RecordValue.prototype.getValue=function(t){if(!this.entries.has(t))throw new r.EvaluationError(0,"Tried accessing non-existing record part.");return this.entries.get(t)},RecordValue.prototype.hasValue=function(t){return this.entries.has(t)},RecordValue.prototype.equals=function(t){var e=this;if(!(t instanceof RecordValue))return!1;var n=!1;return this.entries.forEach(function(e,i){t.entries.has(i)||(n=!0),e.equals(t.entries.get(i))||(n=!0)}),!n&&(t.entries.forEach(function(i,r){e.entries.has(r)||(n=!0),i.equals(t.entries.get(r))||(n=!0)}),!n)},RecordValue}(s);exports.RecordValue=m;var g=function(t){function FunctionValue(e,n,i){var r=t.call(this)||this;return r.state=e,r.recursives=n,r.body=i,r}return n(FunctionValue,t),FunctionValue.prototype.pcToString=function(t,e){return e.charactersLeft-=2,"fn"},FunctionValue.prototype.compute=function(t,e,n){for(var r=this.state.getNestedState(this.state.id),o=0;o<this.recursives.length;++o)this.recursives[o][1]instanceof FunctionValue?r.setDynamicValue(this.recursives[o][0],new FunctionValue(this.state,this.recursives,this.recursives[o][1].body),i.IdentifierStatus.VALUE_VARIABLE):r.setDynamicValue(this.recursives[o][0],this.recursives[o][1],i.IdentifierStatus.VALUE_VARIABLE);t.push({next:this.body,params:{state:r,recResult:void 0,modifiable:n,value:e}})},FunctionValue.prototype.equals=function(t){throw new r.InternalInterpreterError(-1,'You simply cannot compare "'+this.pcToString(void 0,new a(20))+'" and "'+t.pcToString(void 0,new a(20))+'".')},FunctionValue}(s);exports.FunctionValue=g;var w=function(t){function ConstructedValue(e,n,i){void 0===n&&(n=void 0),void 0===i&&(i=0);var r=t.call(this)||this;return r.constructorName=e,r.argument=n,r.id=i,r}return n(ConstructedValue,t),ConstructedValue.prototype.pcToString=function(t,e){if("::"===this.constructorName){var n="[";e.charactersLeft-=2;for(var i=this;"nil"!==i.constructorName;){if("::"!==i.constructorName)throw new r.InternalInterpreterError(-1,'Is this even a list? 1 "'+i.constructorName+'".');var a=i.argument;if(!(a instanceof m&&2===a.entries.size))throw new r.InternalInterpreterError(-1,'Is this even a list? 3 "'+i.constructorName+'".');var u=a.getValue("1"),p=a.getValue("2");if(!(u instanceof s&&p instanceof ConstructedValue))throw new r.InternalInterpreterError(-1,'Is this even a list? 2 "'+i.constructorName+'".');if(i!==this&&(n+=", ",e.charactersLeft-=2),!(e.charactersLeft>0)){n+="…";break}var c=0;"nil"!==p.constructorName&&(c=Math.floor(e.charactersLeft/2)),e.charactersLeft-=c,n+=u.pcToString(t,e),e.charactersLeft+=c,i=p}return n+"]"}if("nil"===this.constructorName)return e.charactersLeft-=2,"[]";if(void 0!==t){var h=t.getInfixStatus(new o.IdentifierToken(this.constructorName,-1));if(void 0!==h&&h.infix&&this.argument instanceof m&&2===this.argument.entries.size){var f=this.argument.getValue("1"),l=this.argument.getValue("2");if(f instanceof s&&l instanceof s){e.charactersLeft-=4+this.constructorName.length;var c=Math.floor(e.charactersLeft/2);e.charactersLeft-=c;var n="(";if(e.charactersLeft>0?n+=f.pcToString(t,e):n+="…",e.charactersLeft+=c,n+=" "+this.constructorName,this.id>0){var d="/"+this.id;n+=d,e.charactersLeft-=d.length}return e.charactersLeft>0?n+=" "+l.pcToString(t,e):n+=" …",n+")"}}}var y="";if(y+=this.constructorName,e.charactersLeft-=this.constructorName.length+1,this.id>0){var d="/"+this.id;y+=d,e.charactersLeft-=d.length}return this.argument&&(e.charactersLeft>0?(y+=" ",this.argument instanceof ConstructedValue&&this.argument.argument?y+="(":this.argument instanceof T&&this.argument.argument&&(y+="("),y+=this.argument.pcToString(t,e),this.argument instanceof ConstructedValue&&this.argument.argument?y+=")":this.argument instanceof T&&this.argument.argument&&(y+=")")):y+=" …"),y},ConstructedValue.prototype.equals=function(t){return t instanceof S&&(t=t.construct()),t instanceof ConstructedValue&&(this.constructorName===t.constructorName&&this.id===t.id&&(void 0!==this.argument?void 0===t.argument||this.argument.equals(t.argument):void 0===t.argument))},ConstructedValue}(s);exports.ConstructedValue=w;var T=function(t){function ExceptionValue(e,n,i){void 0===n&&(n=void 0),void 0===i&&(i=0);var r=t.call(this)||this;return r.constructorName=e,r.argument=n,r.id=i,r}return n(ExceptionValue,t),ExceptionValue.prototype.pcToString=function(t,e){var n=this.constructorName;if(e.charactersLeft-=this.constructorName.length+1,this.id>0){var i="/"+this.id;n+=i,e.charactersLeft-=i.length}return this.argument&&(e.charactersLeft>0?n+=" "+this.argument.pcToString(t,e):n+=" …"),n},ExceptionValue.prototype.equals=function(t){return t instanceof x&&(t=t.construct()),t instanceof ExceptionValue&&(this.constructorName===t.constructorName&&this.id===t.id&&(void 0!==this.argument?void 0===t.argument||this.argument.equals(t.argument):void 0===t.argument))},ExceptionValue}(s);exports.ExceptionValue=T;var E=function(t){function PredefinedFunction(e,n){var i=t.call(this)||this;return i.name=e,i.apply=n,i}return n(PredefinedFunction,t),PredefinedFunction.prototype.pcToString=function(t,e){return e.charactersLeft-=2,"fn"},PredefinedFunction.prototype.equals=function(t){return t instanceof PredefinedFunction&&this.name===t.name},PredefinedFunction}(s);exports.PredefinedFunction=E;var S=function(t){function ValueConstructor(e,n,i){void 0===n&&(n=0),void 0===i&&(i=0);var r=t.call(this)||this;return r.constructorName=e,r.numArgs=n,r.id=i,r}return n(ValueConstructor,t),ValueConstructor.prototype.equals=function(t){return t instanceof ValueConstructor&&(this.constructorName===t.constructorName&&this.id===t.id)},ValueConstructor.prototype.construct=function(t){return void 0===t&&(t=void 0),new w(this.constructorName,t,this.id)},ValueConstructor.prototype.pcToString=function(t,e){var n=this.constructorName;if(e.charactersLeft-=this.constructorName.length,this.id>0){var i="/"+this.id;n+=i,e.charactersLeft-=i.length}return n},ValueConstructor}(s);exports.ValueConstructor=S;var x=function(t){function ExceptionConstructor(e,n,i){void 0===n&&(n=0),void 0===i&&(i=0);var r=t.call(this)||this;return r.exceptionName=e,r.numArgs=n,r.id=i,r}return n(ExceptionConstructor,t),ExceptionConstructor.prototype.equals=function(t){return t instanceof ExceptionConstructor&&(this.exceptionName===t.exceptionName&&this.id===t.id)},ExceptionConstructor.prototype.construct=function(t){return void 0===t&&(t=void 0),new T(this.exceptionName,t,this.id)},ExceptionConstructor.prototype.pcToString=function(t,e){var n=this.exceptionName;if(e.charactersLeft-=this.exceptionName.length,this.id>0){var i="/"+this.id;n+=i,e.charactersLeft-=i.length}return n},ExceptionConstructor}(s);exports.ExceptionConstructor=x},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=e(0),r=e(2),o=e(1),a=e(6),s=function(){function Domain(t){this.entries=t}return Domain.prototype.getSize=function(){if(this.entries instanceof Array)return this.entries.length;if(void 0===this.entries)return 1;var t=1;return this.entries.forEach(function(e){t*=e.getSize()}),t},Domain.prototype.isInfinite=function(){if(void 0===this.entries)return!0;if(this.entries instanceof Map){var t=!1;return this.entries.forEach(function(e,n){t=t||e.isInfinite()}),t}return!1},Domain.prototype.getValues=function(){if(this.entries instanceof Array)return this.entries;if(this.entries instanceof Map){var t=[];return this.entries.forEach(function(e,n){if(!e.isInfinite()){var i=e.getValues(),r=[];if(0===t.length)t=i;else{for(var o=0,a=t;o<a.length;o++)for(var s=a[o],u=0,p=i;u<p.length;u++){var c=p[u];r.push(s+" * "+c)}t=r}}}),t}throw new i.ElaborationError(-1,"Irredeemable.")},Domain.prototype.finitize=function(t){if(this.entries instanceof Array)return new Domain(this.entries);if(void 0===this.entries)return new Domain(t.entries);var e=new Map;return this.entries.forEach(function(n,i){e=e.set(i,n.finitize(t.entries.get(i)))}),new Domain(e)},Domain.prototype.match=function(t,e){var n=[],r=!1,o=!1;if(void 0===this.entries){r=!0;for(var a=0,s=e;a<s.length;a++){var u=s[a];void 0===u.entries&&(r||(o=!0),r=!1)}}else if(this.entries instanceof Map){for(var p=new Set,c=this,u=0;u<e.length;++u){var h=function(n){if(void 0===e[n].entries)return r=!1,o=n<e.length-1,"break";if(e[n].entries instanceof Array)throw new i.ElaborationError(t,"Pizza…");if(e[n].entries instanceof Map){var a=[],s=!0;c.entries.forEach(function(t,i){if(t.isInfinite())e[n].entries.get(i).isInfinite()||(s=!1);else{for(var r=[],o=0,u=e[n].entries.get(i).finitize(t).getValues();o<u.length;o++){var p=u[o];if(0===a.length){var c={};c[i]=p,r.push(c)}else for(var h=0,f=a;h<f.length;h++){var l=f[h],c={};for(var d in l)l.hasOwnProperty(d)&&(c[d]=l[d]);c[i]=p,r.push(c)}}a=r}});for(var u=!1,h=0,f=a;h<f.length;h++){var l=f[h];p.has(JSON.stringify(l))||(u=!0),s&&(p=p.add(JSON.stringify(l)))}a.length>0&&(o=o||!u)}}(u);if("break"===h)break}r=p.size!==this.getSize()}else{for(var p=new Map,f=0,l=this.entries;f<l.length;f++){var u=l[f];p=p.set(u,!1)}r=!0;for(var u=0;u<e.length;++u){if(void 0===e[u].entries){r=!1,o=u<e.length-1;break}if(e[u].entries instanceof Array)for(var d=0,y=e[u].entries;d<y.length;d++){var v=y[d];p=p.set(v,!0)}throw new i.ElaborationError(t,"I'm not interested in ordinary people's bugs. But, if any of you are aliens, time-travelers, or espers, please come see me. That is all!")}if(!r){var m=[];if(p.forEach(function(t,e){t||m.push(e)}),m.length>0){for(var g="",u=0;u<m.length;++u)u>0&&(g+=", "),g+='"'+m[u]+'"';g=m.length>1?" (Rules for constructors "+n+" are non-exhaustive.)\n":m.length>0?" (Rules for constructor "+n+" are non-exhaustive.)\n":"\n",r=!1,n.push(new i.Warning(t,"Pattern matching is non-exhaustive."+n))}}}return r&&n.push(new i.Warning(t,"Pattern matching is non-exhaustive.\n")),o&&n.push(new i.Warning(t,"Some cases are unused in this match.\n")),n},Domain}();exports.Domain=s;var u=function(){function Type(){}return Type.prototype.instantiate=function(t,e,n){throw void 0===n&&(n=new Set),new i.ElaborationError(-1,"I mustn't run away. I mustn't run away. I mustn't run away.")},Type.prototype.merge=function(t,e,n){throw new i.ElaborationError(-1,"I don't know anything. But you know everything.")},Type.prototype.makeEqType=function(t,e){throw new i.ElaborationError(-1,"I don't know everything. I just know what I know.")},Type.prototype.getTypeVariables=function(t){throw void 0===t&&(t=!1),new i.ElaborationError(-1,"This is wrong.\nI said with a posed look.")},Type.prototype.getOrderedTypeVariables=function(){throw new i.ElaborationError(-1,"You seem well today.\nDid something nice happen?")},Type.prototype.replaceTypeVariables=function(t,e){throw void 0===e&&(e=new Set),new i.ElaborationError(-1,"あんたバカ?")},Type.prototype.qualify=function(t,e){return this},Type.prototype.propagate=function(t){return void 0===t&&(t=new Map),this},Type.prototype.checkExhaustiveness=function(t,e,n,r){return r.length>1?[new i.Warning(r[1][0].position,"Some cases are unused in this match.")]:[]},Type.prototype.makeFree=function(){return this},Type.prototype.simplify=function(){return this},Type.prototype.isOpaque=function(){return!1},Type.prototype.getOpaqueName=function(){return"undefined"},Type.prototype.admitsEquality=function(t){return!1},Type.prototype.getDomain=function(t){return new s(void 0)},Type.prototype.flatten=function(t){return void 0===t&&(t=new Map),this},Type.prototype.replace=function(t,e){return t.equals(this)?e:this},Type.prototype.normalize=function(t,e){void 0===t&&(t=0),void 0===e&&(e={});for(var n=this.getOrderedTypeVariables(),i=this.getTypeVariables(!0),r=new Map,o=0,a=0,s=n;a<s.length;a++){var u=s[a];if(!r.has(u)){var p="",c=++o;if(i.has(u)&&(c=++t),c<=26)p=String.fromCharCode("a".charCodeAt(0)+c-1);else for(;c>0;){var h=--c%26;p=String.fromCharCode("a".charCodeAt(0)+h)+p,c=Math.floor(c/26)}var f="'";u.length>2&&"'"===u.charAt(1)&&(f+="'"),i.has(u)&&(f+="~"),f+=p,i.has(u)&&(f=f.toUpperCase()),r.set(u,f)}}var l=this.replaceTypeVariables(r);return!1!==e.strictMode&&(l=l.flatten(new Map)),[l,t]},Type}();exports.Type=u;var p=function(t){function AnyType(){return t.call(this)||this}return n(AnyType,t),AnyType.prototype.toString=function(){return"any"},AnyType.prototype.equals=function(t){return!0},AnyType.prototype.instantiate=function(t,e,n){return void 0===n&&(n=new Set),this},AnyType.prototype.merge=function(t,e,n){return[n,e]},AnyType.prototype.makeEqType=function(t,e){return[this,e]},AnyType.prototype.getTypeVariables=function(t){return void 0===t&&(t=!1),new Map},AnyType.prototype.getOrderedTypeVariables=function(){return[]},AnyType.prototype.replaceTypeVariables=function(t,e){return void 0===e&&(e=new Set),this},AnyType}(u);exports.AnyType=p;var c=function(t){function TypeVariableBind(e,n,i){void 0===i&&(i=[]);var r=t.call(this)||this;return r.name=e,r.type=n,r.domain=i,r.isFree=!1,r}return n(TypeVariableBind,t),TypeVariableBind.prototype.simplify=function(){var t=new TypeVariableBind(this.name,this.type.simplify(),this.domain);return t.isFree=this.isFree,t},TypeVariableBind.prototype.makeFree=function(){var t=new TypeVariableBind(this.name,this.type.makeFree(),this.domain);return t.isFree=!0,t},TypeVariableBind.prototype.flatten=function(t){if(this.domain.length>0)return t=t.set(this.name,this.domain[0]),this.type.flatten(t);var e=new TypeVariableBind(this.name,this.type.flatten(t),this.domain);return e.isFree=this.isFree,e},TypeVariableBind.prototype.qualify=function(t,e){var n=new TypeVariableBind(this.name,this.type.qualify(t,e),this.domain);return n.isFree=this.isFree,n},TypeVariableBind.prototype.propagate=function(t){void 0===t&&(t=new Map),this.domain.length>0&&(t=t.set(this.name,this.domain));var e=new TypeVariableBind(this.name,this.type.propagate(t),this.domain);return e.isFree=this.isFree,e},TypeVariableBind.prototype.isOpaque=function(){return this.type.isOpaque()},TypeVariableBind.prototype.getOpaqueName=function(){return this.type.getOpaqueName()},TypeVariableBind.prototype.instantiate=function(t,e){var n=new TypeVariableBind(this.name,this.type.instantiate(t,e),this.domain);return n.isFree=this.isFree,n},TypeVariableBind.prototype.toString=function(){for(var t=new Set,e=new Set,n=this;n instanceof TypeVariableBind;)n.isFree?t=t.add([n.name,n.domain]):e=e.add([n.name,n.domain]),n=n.type;var i="";return e.size>0&&(i+="∀",e.forEach(function(t){if(i+=" "+t[0],t[1].length>0){i+=" ∈ {";for(var e=0;e<t[1].length;++e)e>0&&(i+=", "),i+=t[1][e];i+="}"}}),i+=" . "),i+=n,t.size>0&&(i+=",",t.forEach(function(t){if(i+=" "+t[0],t[1].length>0){i+=" ∈ {";for(var e=0;e<t[1].length;++e)e>0&&(i+=", "),i+=t[1][e];i+="}"}}),i+=" free"),i},TypeVariableBind.prototype.getTypeVariables=function(t){var e=this;void 0===t&&(t=!1);var n=this.type.getTypeVariables(t),i=new Map;return n.forEach(function(n,r){r===e.name&&t!==e.isFree||(i=i.has(r)?i.set(r,h.mergeDomain(n,i.get(r))):i.set(r,n))}),t&&this.isFree&&!i.has(this.name)&&(i=i.set(this.name,this.domain)),i},TypeVariableBind.prototype.getOrderedTypeVariables=function(){return[this.name].concat(this.type.getOrderedTypeVariables())},TypeVariableBind.prototype.replaceTypeVariables=function(t,e){if(void 0===e&&(e=new Set),t.has(this.name)){var n=new TypeVariableBind(t.get(this.name),this.type.replaceTypeVariables(t,e),this.domain);return e.has(this.name)?n.isFree=!0:n.isFree=this.isFree,n}var n=new TypeVariableBind(this.name,this.type.replaceTypeVariables(t,e),this.domain);return n.isFree=this.isFree,n},TypeVariableBind.prototype.equals=function(t){return t instanceof TypeVariableBind&&t.name===this.name&&t.type.equals(this.type)},TypeVariableBind}(u);exports.TypeVariableBind=c;var h=function(t){function TypeVariable(e,n,i){void 0===n&&(n=0),void 0===i&&(i=[]);var r=t.call(this)||this;return r.name=e,r.position=n,r.domain=i,r.isFree=!1,r}return n(TypeVariable,t),TypeVariable.mergeDomain=function(t,e){if(0===t.length)return e;if(0===e.length)return t;for(var n=[],i=0,r=t;i<r.length;i++)for(var o=r[i],a=0,s=e;a<s.length;a++){var u=s[a];o.equals(u)&&n.push(o)}return n},TypeVariable.prototype.makeFree=function(){var t=new TypeVariable(this.name,this.position,this.domain);return t.isFree=!0,t},TypeVariable.prototype.flatten=function(t){return this.domain.length>0?(t=t.set(this.name,this.domain[0]),this.domain[0]):t.has(this.name)?t.get(this.name):this},TypeVariable.prototype.propagate=function(t){void 0===t&&(t=new Map);var e=[];t.has(this.name)&&(e=t.get(this.name));var n=new TypeVariable(this.name,this.position,e);return n.isFree=this.isFree,n},TypeVariable.prototype.toString=function(){return this.name},TypeVariable.prototype.instantiate=function(t,e,n){if(void 0===n&&(n=new Set),!e.has(this.name))return this;if(n.has(this.name))throw new i.ElaborationError(-1,'Type clash. An expression of type "'+this.normalize()[0]+'" cannot have type "'+e.get(this.name)[0].normalize()[0]+'" because of circularity.');var r=new Set;return n.forEach(function(t){r.add(t)}),r.add(this.name),e.get(this.name)[0].instantiate(t,e,r)},TypeVariable.prototype.merge=function(t,e,n){if(n instanceof p)return[this,e];var r=this.instantiate(t,e);if(r instanceof TypeVariable){var o=n.instantiate(t,e);if(o instanceof TypeVariable){if(r.name===o.name){var a=TypeVariable.mergeDomain(r.domain,o.domain);if(0===a.length&&r.domain.length+o.domain.length>0)throw['Cannot merge domains of "'+r.normalize(0,{strictMode:!1})[0]+'" and "'+n.normalize(0,{strictMode:!1})[0]+'" ({'+r.domain+"} and {"+o.domain+"})"];var s=new TypeVariable(r.name,r.position,a);return s.isFree=r.isFree&&o.isFree,[s,e]}var u=new Map,c=r;if(r.name<o.name?(r.domain=TypeVariable.mergeDomain(r.domain,o.domain),u.set(o.name,r.name)):(o.domain=TypeVariable.mergeDomain(r.domain,o.domain),u.set(r.name,o.name),c=o),0===c.domain.length&&r.domain.length+o.domain.length>0)throw['Cannot merge domains of "'+this.normalize(0,{strictMode:!1})[0]+'" and "'+n.normalize(0,{strictMode:!1})[0]+'". ({'+r.domain+"} and {"+o.domain+"})"];var h=new Map;e.forEach(function(t,e){h=h.set(e,[t[0].replaceTypeVariables(u),t[1]])}),c.isFree=r.isFree&&o.isFree,r.name<o.name?h.set(o.name,[r,c.isFree]):h.set(r.name,[o,c.isFree]);var f=c.domain;return h.has("$"+r.name)&&(f=TypeVariable.mergeDomain(f,h.get("$"+r.name)[0].domain)),h.has("$"+o.name)&&(f=TypeVariable.mergeDomain(f,h.get("$"+o.name)[0].domain)),h.set("$"+r.name,[new TypeVariable(r.name,-1,f),c.isFree]),h.set("$"+o.name,[new TypeVariable(o.name,-1,f),c.isFree]),[c,h]}if(o.getTypeVariables().has(r.name))throw new i.ElaborationError(-1,'Type clash. An expression of type "'+r.normalize()[0]+'" cannot have type "'+o.normalize()[0]+'" because of circularity.');if(r.isFree&&(o=o.makeFree()),r.admitsEquality(t)&&!o.admitsEquality(t)){var l=o.makeEqType(t,e);if(!l[0].admitsEquality(t))throw['Type "'+o.normalize()[0]+'" does not admit equality.',r,o];o=l[0],e=l[1]}if(r.domain.length>0&&0===TypeVariable.mergeDomain(r.domain,[o]).length)throw['Type "'+o.normalize(0,{strictMode:!1})[0]+'" is not part of the domain of "'+r.normalize(0,{strictMode:!1})[0]+'" ({'+r.domain+"})."];return[o,e.set(r.name,[o,r.isFree])]}return r.merge(t,e,n)},TypeVariable.prototype.makeEqType=function(t,e){if(this.admitsEquality(t))return[this,e];if(e.has(this.name)){var n=e.get(this.name)[0].makeEqType(t,e);e=n[1];var i=new TypeVariable("'"+this.name,this.position,this.domain);i.isFree=this.isFree,e=e.set(i.name,[n[0],i.isFree])}var r=new TypeVariable("'"+this.name,this.position,this.domain);return[r,e.set(this.name,[r,this.isFree])]},TypeVariable.prototype.getTypeVariables=function(t){void 0===t&&(t=!1);var e=new Map;return t&&!this.isFree||(e=e.set(this.name,this.domain)),e},TypeVariable.prototype.getOrderedTypeVariables=function(){return[this.name]},TypeVariable.prototype.replaceTypeVariables=function(t,e){if(void 0===e&&(e=new Set),t.has(this.name)){var n=new TypeVariable(t.get(this.name),0,this.domain);return e.has(this.name)?n.isFree=!0:n.isFree=this.isFree,n}return this},TypeVariable.prototype.admitsEquality=function(t){return"'"===this.name[1]},TypeVariable.prototype.equals=function(t){return t instanceof p||t instanceof TypeVariable&&this.name===t.name},TypeVariable}(u);exports.TypeVariable=h;var f=function(t){function RecordType(e,n,i){void 0===n&&(n=!0),void 0===i&&(i=0);var r=t.call(this)||this;return r.elements=e,r.complete=n,r.position=i,r}return n(RecordType,t),RecordType.prototype.getDomain=function(t){var e=new Map;return this.elements.forEach(function(n,i){e=e.set(i,n.getDomain(t))}),new s(e)},RecordType.prototype.checkExhaustiveness=function(t,e,n,r){var o=new Map,u=new Map;this.elements.forEach(function(e,n){u=u.set(n,e.getDomain(t))}),this.elements.forEach(function(t,e){o=o.set(e,u.get(e).isInfinite())});for(var p=[],c=this,h=0;h<r.length;++h){var f=function(h){var f=!1,l=new Map;if(r[h][0]instanceof a.Record){if(f=!0,c.elements.forEach(function(n,i){var a=r[h][0].getEntry(i).getMatchedValues(t,e);f=f&&void 0===a.entries,l=l.set(i,void 0===a.entries&&!0!==o.get(i)?u.get(i):a)}),f&&h===r.length-1)return{value:[]};if(f)return{value:[new i.Warning(n,"Some cases are unused in this match.\n")]};p.push(new s(l))}if((r[h][0]instanceof a.ValueIdentifier||r[h][0]instanceof a.Wildcard||r[h][0]instanceof a.LayeredPattern||r[h][0]instanceof a.TypedExpression)&&void 0===r[h][0].getMatchedValues(t,e).entries)return h!==r.length-1?{value:[new i.Warning(n,"Some cases are unused in this match.\n")]}:{value:[]}}(h);if("object"==typeof f)return f.value}return this.getDomain(t).match(n,p)},RecordType.prototype.makeFree=function(){var t=new Map;return this.elements.forEach(function(e,n){t.set(n,e.makeFree())}),new RecordType(t,this.complete,this.position)},RecordType.prototype.replace=function(t,e){if(t.equals(this))return e;var n=new Map;return this.elements.forEach(function(i,r){n.set(r,i.replace(t,e))}),new RecordType(n,this.complete,this.position)},RecordType.prototype.flatten=function(t){var e=new Map;return this.elements.forEach(function(n,i){e.set(i,n.flatten(t))}),new RecordType(e,this.complete,this.position)},RecordType.prototype.instantiate=function(t,e,n){void 0===n&&(n=new Set);var i=new Map;return this.elements.forEach(function(r,o){i.set(o,r.instantiate(t,e,n))}),new RecordType(i,this.complete,this.position)},RecordType.prototype.qualify=function(t,e){var n=new Map;return this.elements.forEach(function(i,r){n.set(r,i.qualify(t,e))}),new RecordType(n,this.complete,this.position)},RecordType.prototype.propagate=function(t){void 0===t&&(t=new Map);var e=new Map;return this.elements.forEach(function(n,i){e.set(i,n.propagate(t))}),new RecordType(e,this.complete,this.position)},RecordType.prototype.merge=function(t,e,n){var i=this;if(n instanceof h||n instanceof p)return n.merge(t,e,this);if((n=n.instantiate(t,e))instanceof RecordType){if(!this.complete&&n.complete)return n.merge(t,e,this);var r=new Map,o=e;return n.elements.forEach(function(e,a){if(i.complete&&!i.elements.has(a))throw["Records don't agree on members (\""+a+'" occurs only once.)',i.instantiate(t,o),n.instantiate(t,o)];if(i.elements.has(a)){var s=e.merge(t,o,i.elements.get(a));r=r.set(a,s[0]),o=s[1]}else r=r.set(a,e.instantiate(t,o))}),n.complete?this.elements.forEach(function(e,r){if(!n.elements.has(r))throw["Records don't agree on members (\""+r+'" occurs only once.)',i.instantiate(t,o),n.instantiate(t,o)]}):this.elements.forEach(function(e,n){r=r.set(n,e.instantiate(t,o))}),[new RecordType(r,this.complete||n.complete,this.position),o]}throw['Cannot merge "'+this.instantiate(t,e).normalize()[0]+'" and "'+n.instantiate(t,e).normalize()[0]+'".',this.constructor.name,n.constructor.name]},RecordType.prototype.makeEqType=function(t,e){var n=new Map;return this.elements.forEach(function(i,r){var o=i.makeEqType(t,e);n.set(r,o[0]),e=o[1]}),[new RecordType(n,this.complete,this.position),e]},RecordType.prototype.getTypeVariables=function(t){void 0===t&&(t=!1);var e=new Map;return this.elements.forEach(function(n){n.getTypeVariables(t).forEach(function(t,n){e=e.has(n)?e.set(n,h.mergeDomain(t,e.get(n))):e.set(n,t)})}),e},RecordType.prototype.getOrderedTypeVariables=function(){var t=[];return this.elements.forEach(function(e){t=t.concat(e.getOrderedTypeVariables())}),t},RecordType.prototype.replaceTypeVariables=function(t,e){void 0===e&&(e=new Set);var n=new Map;return this.elements.forEach(function(i,r){n=n.set(r,i.replaceTypeVariables(t,e))}),new RecordType(n,this.complete,0)},RecordType.prototype.getType=function(t){if(!this.elements.has(t))throw new i.ElaborationError(0,"Tried accessing non-existing record part.");return this.elements.get(t)},RecordType.prototype.hasType=function(t){return this.elements.has(t)},RecordType.prototype.admitsEquality=function(t){var e=!0;return this.elements.forEach(function(n,i){n.admitsEquality(t)||(e=!1)}),e},RecordType.prototype.toString=function(){for(var t=1!==this.elements.size,e=1;e<=this.elements.size;++e)this.elements.has(""+e)||(t=!1);if(t){if(0===this.elements.size)return"unit";for(var n="",e=1;e<=this.elements.size;++e){e>1&&(n+=" * ");var i=this.elements.get(""+e);i instanceof l||i instanceof RecordType&&0!==i.elements.size?n+="("+i+")":n+=i}return n+""}var r="{",o=!0;return this.elements.forEach(function(t,e){o?o=!1:r+=", ",r+=e+": "+t}),this.complete||(o||(r+=", "),r+="..."),r+"}"},RecordType.prototype.simplify=function(){var t=new Map;return this.elements.forEach(function(e,n){t.set(n,e.simplify())}),new RecordType(t,this.complete,this.position)},RecordType.prototype.equals=function(t){var e=this;if(t instanceof p)return!0;if(!(t instanceof RecordType)||this.complete!==t.complete)return!1;var n=!0;return this.elements.forEach(function(e,i){e.equals(t.elements.get(i))||(n=!1)}),t.elements.forEach(function(t,i){t.equals(e.elements.get(i))||(n=!1)}),n},RecordType}(u);exports.RecordType=f;var l=function(t){function FunctionType(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.parameterType=e,r.returnType=n,r.position=i,r}return n(FunctionType,t),FunctionType.prototype.makeFree=function(){return new FunctionType(this.parameterType.makeFree(),this.returnType.makeFree(),this.position)},FunctionType.prototype.flatten=function(t){return new FunctionType(this.parameterType.flatten(t),this.returnType.flatten(t),this.position)},FunctionType.prototype.replace=function(t,e){return this.equals(t)?e:new FunctionType(this.parameterType.replace(t,e),this.returnType.replace(t,e),this.position)},FunctionType.prototype.instantiate=function(t,e,n){return void 0===n&&(n=new Set),new FunctionType(this.parameterType.instantiate(t,e,n),this.returnType.instantiate(t,e,n),this.position)},FunctionType.prototype.qualify=function(t,e){return new FunctionType(this.parameterType.qualify(t,e),this.returnType.qualify(t,e),this.position)},FunctionType.prototype.propagate=function(t){return void 0===t&&(t=new Map),new FunctionType(this.parameterType.propagate(t),this.returnType.propagate(t),this.position)},FunctionType.prototype.merge=function(t,e,n){if(n instanceof h||n instanceof p)return n.merge(t,e,this);if(n instanceof FunctionType){var i=this.parameterType.merge(t,e,n.parameterType),r=this.returnType.merge(t,i[1],n.returnType);return[new FunctionType(i[0],r[0],this.position),r[1]]}throw['Cannot merge "'+this.instantiate(t,e).normalize()[0]+'" and "'+n.instantiate(t,e).normalize()[0]+'".',this.constructor.name,n.constructor.name]},FunctionType.prototype.makeEqType=function(t,e){return[this,e]},FunctionType.prototype.getTypeVariables=function(t){void 0===t&&(t=!1);var e=new Map;return this.parameterType.getTypeVariables(t).forEach(function(t,n){e=e.has(n)?e.set(n,h.mergeDomain(t,e.get(n))):e.set(n,t)}),this.returnType.getTypeVariables(t).forEach(function(t,n){e=e.has(n)?e.set(n,h.mergeDomain(t,e.get(n))):e.set(n,t)}),e},FunctionType.prototype.getOrderedTypeVariables=function(){var t=[];return t=t.concat(this.parameterType.getOrderedTypeVariables()),t=t.concat(this.returnType.getOrderedTypeVariables())},FunctionType.prototype.replaceTypeVariables=function(t,e){return void 0===e&&(e=new Set),new FunctionType(this.parameterType.replaceTypeVariables(t,e),this.returnType.replaceTypeVariables(t,e),0)},FunctionType.prototype.admitsEquality=function(t){return!1},FunctionType.prototype.toString=function(){return this.parameterType instanceof FunctionType?"("+this.parameterType+") → "+this.returnType:this.parameterType+" → "+this.returnType},FunctionType.prototype.simplify=function(){return new FunctionType(this.parameterType.simplify(),this.returnType.simplify(),this.position)},FunctionType.prototype.equals=function(t){return t instanceof p||t instanceof FunctionType&&this.parameterType.equals(t.parameterType)&&this.returnType.equals(t.returnType)},FunctionType}(u);exports.FunctionType=l;var d=function(t){function CustomType(e,n,i,r,o,a){void 0===n&&(n=[]),void 0===i&&(i=0),void 0===r&&(r=void 0),void 0===o&&(o=!1),void 0===a&&(a=0);var s=t.call(this)||this;return s.name=e,s.typeArguments=n,s.position=i,s.qualifiedName=r,s.opaque=o,s.id=a,s}return n(CustomType,t),CustomType.prototype.getDomain=function(t){var e=t.getStaticType(this.name);if(void 0!==this.qualifiedName){var n=t.getAndResolveStaticStructure(this.qualifiedName);e=void 0!==n?n.getType(this.name):void 0}if(void 0===e)throw new i.ElaborationError(this.position,"Mi…sa…Mi…sa…ka…MisakaMisakaMisakaMisaka");return new s(0===e.constructors.length?void 0:e.constructors)},CustomType.prototype.checkExhaustiveness=function(t,e,n,s){var u=this,p=t.getStaticType(this.name);if(void 0!==this.qualifiedName){var h=t.getAndResolveStaticStructure(this.qualifiedName);p=void 0!==h?h.getType(this.name):void 0}if(void 0===p)throw new i.ElaborationError(n,"Mi…sa…Mi…sa…ka…MisakaMisakaMisakaMisaka");for(var f=new Map,d=0;d<p.constructors.length;++d)f=f.set(p.constructors[d],!1);for(var y=0===p.constructors.length,v=!1,m=new Map,g=!1,d=0;d<s.length;++d){if(v)return[new i.Warning(s[d][0].position,"Some cases are unused in this match.")];if(s[d][0]instanceof a.FunctionApplication){var w=s[d][0].func.name.getText();s[d][0].func.name instanceof o.LongIdentifierToken&&(w=s[d][0].func.name.id.getText());var T=[];m.has(w)&&(T=m.get(w)),T.push([s[d][0].argument,s[d][1]]),m=m.set(w,T)}else{var E=s[d][0].getMatchedValues(t,e).entries;if(void 0!==E){if(E instanceof Map)throw new i.ElaborationError(n,"Anpan.");for(var S=0,x=E;S<x.length;S++){var I=x[S];f.has(I)&&(!0===f.get(I)&&(g=!0),f=f.set(I,!0))}}else v=!0}}var k=[];m.forEach(function(o,a){var s=t.getStaticValue(a),p=void 0;if(void 0!==u.qualifiedName&&(p=t.getAndResolveStaticStructure(u.qualifiedName),s=void 0!==p?p.getValue(a):void 0),void 0===s||0===s[1])throw new i.ElaborationError(n,"Unacceptable.");for(var h=s[0];h instanceof c;)h=h.type;if(void 0!==u.qualifiedName&&(h=h.qualify(new r.State(0,void 0,p,new r.DynamicBasis({},{},{},{},{}),[0,{}]),u.qualifiedName)),!(h instanceof l))throw new i.ElaborationError(n,"Unacceptable.");var d=h.returnType.merge(t,new Map,u);h=h.parameterType.instantiate(t,d[1]);for(var y=h.checkExhaustiveness(t,e,n,o),v=!1,m=0,w=y;m<w.length;m++){var T=w[m];T.message.includes("non-exhaustive")?v=!0:k.push(new i.Warning(T.position,'Constructor "'+a+'": '+T.message))}v||f.has(a)&&(!0===f.get(a)&&(g=!0),f=f.set(a,!0))});var V=!y||v,b=[];if(f.forEach(function(t,e){t||(b.push(e),V=!1)}),!V){for(var A="",d=0;d<b.length;++d)d>0&&(A+=", "),A+='"'+b[d]+'"';A=b.length>1?" (Rules for constructors "+A+" are non-exhaustive.)\n":b.length>0?" (Rules for constructor "+A+" are non-exhaustive.)\n":"\n",v||(k=k.concat([new i.Warning(n,"Pattern matching is non-exhaustive."+A)]))}return g&&k.push(new i.Warning(n,"Some cases are unused in this match.")),k},CustomType.prototype.isOpaque=function(){return this.opaque},CustomType.prototype.getOpaqueName=function(){return this.isOpaque?this.name:"undefined"},CustomType.prototype.makeFree=function(){for(var t=[],e=0;e<this.typeArguments.length;++e)t.push(this.typeArguments[e].makeFree());return new CustomType(this.name,t,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.replace=function(t,e){if(this.equals(t))return e;for(var n=[],i=0;i<this.typeArguments.length;++i)n.push(this.typeArguments[i].replace(t,e));return new CustomType(this.name,n,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.flatten=function(t){for(var e=[],n=0;n<this.typeArguments.length;++n)e.push(this.typeArguments[n].flatten(t));return new CustomType(this.name,e,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.qualify=function(t,e){for(var n=[],i=0;i<this.typeArguments.length;++i)n.push(this.typeArguments[i].qualify(t,e));var r=new CustomType(this.name,n,this.position,this.qualifiedName,this.opaque,this.id);return void 0!==t.getStaticType(this.name)&&(r.qualifiedName=e),r},CustomType.prototype.propagate=function(t){void 0===t&&(t=new Map);for(var e=[],n=0;n<this.typeArguments.length;++n)e.push(this.typeArguments[n].propagate(t));return new CustomType(this.name,e,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.instantiate=function(t,e,n){void 0===n&&(n=new Set);var r=t.getStaticType(this.name);if(void 0!==this.qualifiedName){var o=t.getAndResolveStaticStructure(this.qualifiedName);r=void 0!==o?o.getType(this.name):void 0}if(void 0!==r&&r.type instanceof l)try{var a=r.type.getTypeVariables(),s=1,u=new Map;a.forEach(function(t,e){u=u.set(e,"'*q"+s),++s});var p=r.type.replaceTypeVariables(u),c=this.merge(t,e,p.parameterType,!0),h=t.getNestedState(t.id);return h.setStaticType(this.name,p.returnType,[],-1),p.returnType.instantiate(h,c[1])}catch(t){if(!(t instanceof Array))throw t;throw new i.ElaborationError(-1,'Instantiating "'+this.normalize()[0]+'" failed: '+t[0])}else{if(void 0===r){if(this.id>0)throw new i.ElaborationError(-1,'Unbound type "'+this.name+"/"+this.id+'".');throw new i.ElaborationError(-1,'Unbound type "'+this.name+'".')}if(void 0!==r&&r.type.isOpaque())this.opaque=!0;else{if(!(void 0===r||r.type instanceof CustomType&&this.typeArguments.length===r.type.typeArguments.length))throw new i.ElaborationError(this.position,"Arity mismatch: "+this.normalize()[0]+" vs "+r.type.normalize()[0]+".");if(void 0!==r&&(!(r.type instanceof CustomType)||this.id>r.type.id)){if(this.id>0)throw new i.ElaborationError(-1,'Unbound type "'+this.name+"/"+this.id+'".');throw new i.ElaborationError(-1,'Unbound type "'+this.name+'".')}}}for(var f=[],d=0;d<this.typeArguments.length;++d)f.push(this.typeArguments[d].instantiate(t,e,n));return new CustomType(this.name,f,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.merge=function(t,e,n,i){if(void 0===i&&(i=!1),n instanceof h||n instanceof p)return n.merge(t,e,this);var r=this,o=n;if(!i){if(!((r=this.instantiate(t,e))instanceof CustomType))return r.merge(t,e,n);o=n.instantiate(t,e)}var a=r;if(o instanceof CustomType&&a.name===o.name&&a.id===o.id){for(var s=[],u=e,c=0;c<r.typeArguments.length;++c){var f=r.typeArguments[c].merge(t,u,o.typeArguments[c]);s.push(f[0]),u=f[1]}return[new CustomType(a.name,s,a.position,a.qualifiedName,a.opaque,a.id),u]}throw['Cannot merge "'+this.instantiate(t,e).normalize()[0]+'" and "'+n.instantiate(t,e).normalize()[0]+'".',this.constructor.name,n.constructor.name]},CustomType.prototype.makeEqType=function(t,e){for(var n=[],i=0;i<this.typeArguments.length;++i){var r=this.typeArguments[i].makeEqType(t,e);n.push(r[0]),e=r[1]}return[new CustomType(this.name,n,this.position,this.qualifiedName,this.opaque,this.id),e]},CustomType.prototype.getTypeVariables=function(t){void 0===t&&(t=!1);var e=new Map;if(this.typeArguments.length>0)for(var n=0;n<this.typeArguments.length;++n)this.typeArguments[n].getTypeVariables(t).forEach(function(t,n){e=e.has(n)?e.set(n,h.mergeDomain(t,e.get(n))):e.set(n,t)});return e},CustomType.prototype.getOrderedTypeVariables=function(){for(var t=[],e=0;e<this.typeArguments.length;++e)t=t.concat(this.typeArguments[e].getOrderedTypeVariables());return t},CustomType.prototype.replaceTypeVariables=function(t,e){for(var n=[],i=0;i<this.typeArguments.length;++i)n.push(this.typeArguments[i].replaceTypeVariables(t,e));return new CustomType(this.name,n,0,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.admitsEquality=function(t){for(var e=0;e<this.typeArguments.length;++e)if(!this.typeArguments[e].admitsEquality(t))return!1;var n=t.getStaticType(this.name);return void 0===n||n.allowsEquality},CustomType.prototype.toString=function(){var t="";(this.typeArguments.length>1||1===this.typeArguments.length&&(this.typeArguments[0]instanceof l||this.typeArguments[0]instanceof f&&"unit"!==this.typeArguments[0].toString()))&&(t+="(");for(var e=0;e<this.typeArguments.length;++e)e>0&&(t+=", "),t+=this.typeArguments[e];if((this.typeArguments.length>1||1===this.typeArguments.length&&(this.typeArguments[0]instanceof l||this.typeArguments[0]instanceof f&&"unit"!==this.typeArguments[0].toString()))&&(t+=")"),this.typeArguments.length>0&&(t+=" "),void 0!==this.qualifiedName)for(var e=0;e<this.qualifiedName.qualifiers.length;++e)t+=this.qualifiedName.qualifiers[e].getText()+".";return t+=this.name,this.id>0&&(t+="/"+this.id),t},CustomType.prototype.simplify=function(){for(var t=[],e=0;e<this.typeArguments.length;++e)t.push(this.typeArguments[e].simplify());return new CustomType(this.name,t,this.position,this.qualifiedName,this.opaque,this.id)},CustomType.prototype.equals=function(t){if(t instanceof p)return!0;if(!(t instanceof CustomType)||this.name!==t.name||this.id!==t.id)return!1;for(var e=0;e<this.typeArguments.length;++e)if(!this.typeArguments[e].equals(t.typeArguments[e]))return!1;return!0},CustomType}(u);exports.CustomType=d;var y=function(t){function TupleType(e,n){void 0===n&&(n=0);var i=t.call(this)||this;return i.elements=e,i.position=n,i}return n(TupleType,t),TupleType.prototype.toString=function(){for(var t="(",e=0;e<this.elements.length;++e)e>0&&(t+=" * "),t+=this.elements[e];return t+")"},TupleType.prototype.simplify=function(){for(var t=new Map,e=0;e<this.elements.length;++e)t.set(""+(e+1),this.elements[e].simplify());return new f(t,!0,this.position)},TupleType.prototype.equals=function(t){return this.simplify().equals(t)},TupleType}(u);exports.TupleType=y},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=e(6),r=e(1),o=e(4),a=e(2),s=e(0),u=e(3),p=function(){function Declaration(){}return Declaration.prototype.elaborate=function(t,e,n,i,r){throw void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=!1),void 0===r&&(r={}),new s.InternalInterpreterError(-1,"Not yet implemented.")},Declaration.prototype.evaluate=function(t,e){throw new s.InternalInterpreterError(-1,"Not yet implemented.")},Declaration.prototype.toString=function(){throw new s.InternalInterpreterError(-1,"Not yet implemented.")},Declaration.prototype.simplify=function(){throw new s.InternalInterpreterError(-1,"Not yet implemented.")},Declaration}();exports.Declaration=p;var c=function(t){function ValueDeclaration(e,n,i,r){void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.typeVariableSequence=n,o.valueBinding=i,o.id=r,o}return n(ValueDeclaration,t),ValueDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.valueBinding.length;++e)t.push(new k(this.valueBinding[e].position,this.valueBinding[e].isRecursive,this.valueBinding[e].pattern.simplify(),this.valueBinding[e].expression.simplify()));return new ValueDeclaration(this.position,this.typeVariableSequence,t,this.id)},ValueDeclaration.prototype.elaborate=function(t,e,n,r,u){for(var p=[],c=[],h=e,f=0;f<this.valueBinding.length;++f){if(this.valueBinding[f].isRecursive){!0;for(var l=f;l<this.valueBinding.length;++l){for(var d=this.valueBinding[l].pattern;d instanceof i.TypedExpression;)d=d.expression;var y=d.name.getText();p.push([y,new o.TypeVariableBind("'a",new o.TypeVariableBind("'b",new o.FunctionType(new o.TypeVariable("'a"),new o.TypeVariable("'b"))))])}break}var v=this.valueBinding[f].getType(this.typeVariableSequence,t,h,n,r);c=c.concat(v[1]),h=v[2],n=v[3],t.valueIdentifierId=v[4];for(var l=0;l<v[0].length;++l)p.push(v[0][l])}for(var l=0;l<p.length;++l)t.setStaticValue(p[l][0],p[l][1],a.IdentifierStatus.VALUE_VARIABLE);var m=c,g=new Map;h.forEach(function(t,e){g=g.set(e,t)});for(var w=n,T=t.valueIdentifierId,E=0;E<4;++E){c=m,h=new Map,g.forEach(function(t,e){h=h.set(e,t)}),n=w,t.valueIdentifierId=T;for(var l=f;l<this.valueBinding.length;++l){var v=this.valueBinding[l].getType(this.typeVariableSequence,t,h,n,r);c=c.concat(v[1]),h=v[2],n=v[3],t.valueIdentifierId=v[4];for(var S=0;S<v[0].length;++S){if(3===E){var x=t.getStaticValue(v[0][S][0]);if(void 0===x||!x[0].normalize()[0].equals(v[0][S][1].normalize()[0]))throw new s.ElaborationError(this.position,"My brain trembles; too much circularity.")}t.setStaticValue(v[0][S][0],v[0][S][1],a.IdentifierStatus.VALUE_VARIABLE)}}}return[t,c,h,n]},ValueDeclaration.prototype.evaluate=function(t,e){var n=t.state;void 0===t.step&&(t.result=[],t.recursives=[],t.isRec=!1,t.step=-1);var i=t.result,r=t.recursives,o=t.isRec,p=t.step;if(p>=0){var c=t.recResult;if(void 0===c)throw new s.InternalInterpreterError(-1,"How is this undefined? "+JSON.stringify(c));if(this.valueBinding[p].isRecursive&&(o=!0),c.hasThrown)return{newState:n,value:c.value,hasThrown:!0};var h=this.valueBinding[p].pattern.matches(n,c.value);if(void 0===h)return{newState:n,value:new u.ExceptionValue("Bind"),hasThrown:!0};for(var f=0;f<h.length;++f)o?r.push(h[f]):i.push(h[f])}if(++p<this.valueBinding.length)return t.step=p,t.isRec=o,e.push({next:this,params:t}),void e.push({next:this.valueBinding[p].expression,params:{state:n,modifiable:t.modifiable,recResult:void 0}});for(var f=0;f<i.length;++f)n.setDynamicValue(i[f][0],i[f][1],a.IdentifierStatus.VALUE_VARIABLE);for(var f=0;f<r.length;++f)r[f][1]instanceof u.FunctionValue?n.setDynamicValue(r[f][0],new u.FunctionValue(r[f][1].state,r,r[f][1].body),a.IdentifierStatus.VALUE_VARIABLE):n.setDynamicValue(r[f][0],r[f][1],a.IdentifierStatus.VALUE_VARIABLE);return{newState:n,value:void 0,hasThrown:!1}},ValueDeclaration.prototype.toString=function(){for(var t="val <stuff>",e=0;e<this.valueBinding.length;++e)e>0&&(t+=" and"),t+=" "+this.valueBinding[e];return t+=";"},ValueDeclaration}(p);exports.ValueDeclaration=c;var h=function(t){function TypeDeclaration(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.position=e,r.typeBinding=n,r.id=i,r}return n(TypeDeclaration,t),TypeDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.typeBinding.length;++e)t.push(new b(this.typeBinding[e].position,this.typeBinding[e].typeVariableSequence,this.typeBinding[e].name,this.typeBinding[e].type.simplify()));return new TypeDeclaration(this.position,t,this.id)},TypeDeclaration.prototype.elaborate=function(t,e,n,i,r){for(var a=0;a<this.typeBinding.length;++a){var u=t.getStaticType(this.typeBinding[a].name.getText());if(void 0!==u&&u.type instanceof o.CustomType)throw new s.ElaborationError(this.position,"Nnaaa~ Redefining types as aliases is not yet implemented.");t.setStaticType(this.typeBinding[a].name.getText(),new o.FunctionType(new o.CustomType(this.typeBinding[a].name.getText(),this.typeBinding[a].typeVariableSequence),this.typeBinding[a].type.instantiate(t,e)),[],this.typeBinding[a].typeVariableSequence.length)}return[t,[],e,n]},TypeDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=0;i<this.typeBinding.length;++i)n.setDynamicType(this.typeBinding[i].name.getText(),[]);return{newState:n,value:void 0,hasThrown:!1}},TypeDeclaration.prototype.toString=function(){for(var t="type",e=0;e<this.typeBinding.length;++e)e>0&&(t+=" and"),t+=" <stuff> "+this.typeBinding[e].name.getText(),t+=" = "+this.typeBinding[e].type;return t+";"},TypeDeclaration}(p);exports.TypeDeclaration=h;var f=function(t){function DatatypeDeclaration(e,n,i,r,o){void 0===r&&(r=0),void 0===o&&(o={});var a=t.call(this)||this;if(a.position=e,a.datatypeBinding=n,a.typeBinding=i,a.id=r,a.givenIds=o,void 0!==a.typeBinding)throw new s.FeatureDisabledError(a.position,'Who is "withtype"?');return a}return n(DatatypeDeclaration,t),DatatypeDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.datatypeBinding.length;++e){for(var n=[],i=0;i<this.datatypeBinding[e].type.length;++i)void 0!==this.datatypeBinding[e].type[i][1]?n.push([this.datatypeBinding[e].type[i][0],this.datatypeBinding[e].type[i][1].simplify()]):n.push(this.datatypeBinding[e].type[i]);t.push(new A(this.datatypeBinding[e].position,this.datatypeBinding[e].typeVariableSequence,this.datatypeBinding[e].name,n))}return new DatatypeDeclaration(this.position,t,void 0,this.id)},DatatypeDeclaration.prototype.elaborate=function(t,e,n,i,r){for(var o=0;o<this.datatypeBinding.length;++o){for(var u=this.datatypeBinding[o].getType(t,i),p=0;p<u[0].length;++p){if(!a.State.allowsRebind(u[0][p][0]))throw new s.ElaborationError(this.position,'You simply cannot rebind "'+u[0][p][0]+'".');t.setStaticValue(u[0][p][0],u[0][p][1],a.IdentifierStatus.VALUE_CONSTRUCTOR)}t.setStaticType(u[2][0],u[1],u[2][1],this.datatypeBinding[o].typeVariableSequence.length),t.incrementValueIdentifierId(u[2][0])}return[t,[],e,n]},DatatypeDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=t.modifiable,r=0;r<this.datatypeBinding.length;++r){for(var o=this.datatypeBinding[r].compute(n,i),u=0;u<o[0].length;++u){if(!a.State.allowsRebind(o[0][u][0]))throw new s.EvaluationError(this.position,'You simply cannot rebind "'+o[0][u][0]+'".');n.setDynamicValue(o[0][u][0],o[0][u][1],a.IdentifierStatus.VALUE_CONSTRUCTOR)}n.setDynamicType(o[1][0],o[1][1]),void 0===this.givenIds[o[1][0]]&&(i.incrementValueIdentifierId(o[1][0]),this.givenIds[o[1][0]]=n.getValueIdentifierId(o[1][0]))}return{newState:n,value:void 0,hasThrown:!1}},DatatypeDeclaration.prototype.toString=function(){for(var t="datatype",e=0;e<this.datatypeBinding.length;++e){e>0&&(t+=" and"),t+=" "+this.datatypeBinding[e].name.getText()+" =";for(var n=0;n<this.datatypeBinding[e].type.length;++n)n>0&&(t+=" |"),t+=" "+this.datatypeBinding[e].type[n][0].getText(),void 0!==this.datatypeBinding[e].type[n][1]&&(t+=" of "+this.datatypeBinding[e].type[n][1])}return t+";"},DatatypeDeclaration}(p);exports.DatatypeDeclaration=f;var l=function(t){function DatatypeReplication(e,n,i,r){void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.name=n,o.oldname=i,o.id=r,o}return n(DatatypeReplication,t),DatatypeReplication.prototype.simplify=function(){return this},DatatypeReplication.prototype.elaborate=function(t,e,n,i,a){var u=void 0;if(this.oldname instanceof r.LongIdentifierToken){var p=t.getAndResolveStaticStructure(this.oldname);void 0!==p&&(u=p.getType(this.oldname.id.getText()))}else u=t.getStaticType(this.oldname.getText());if(void 0===u)throw new s.ElaborationError(this.position,'The datatype "'+this.oldname.getText()+"\" doesn't exist.");var c=u.type.instantiate(t,e);return t.setStaticType(this.name.getText(),new o.FunctionType(new o.CustomType(this.name.getText(),c.typeArguments,0,this.oldname instanceof r.LongIdentifierToken?this.oldname:void 0),c),[],u.arity),[t,[],e,n]},DatatypeReplication.prototype.evaluate=function(t,e){var n=t.state,i=[];if(this.oldname instanceof r.LongIdentifierToken){var o=n.getAndResolveDynamicStructure(this.oldname);void 0!==o&&(i=o.getType(this.oldname.id.getText()))}else i=n.getDynamicType(this.oldname.getText());if(void 0===i)throw new s.EvaluationError(this.position,'The datatype "'+this.oldname.getText()+'" does not exist.');return n.setDynamicType(this.name.getText(),i),{newState:n,value:void 0,hasThrown:!1}},DatatypeReplication.prototype.toString=function(){return"datatype "+this.name.getText()+" = datatype "+this.oldname.getText()+";"},DatatypeReplication}(p);exports.DatatypeReplication=l;var d=function(t){function ExceptionDeclaration(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.position=e,r.bindings=n,r.id=i,r}return n(ExceptionDeclaration,t),ExceptionDeclaration.prototype.simplify=function(){return this},ExceptionDeclaration.prototype.toString=function(){return"exception <stuff>;"},ExceptionDeclaration.prototype.elaborate=function(t,e,n,i,r){for(var o=0;o<this.bindings.length;++o)t=this.bindings[o].elaborate(t,i,r);return[t,[],e,n]},ExceptionDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=0;i<this.bindings.length;++i)this.bindings[i].evaluate(n);return{newState:n,value:void 0,hasThrown:!1}},ExceptionDeclaration}(p);exports.ExceptionDeclaration=d;var y=function(t){function LocalDeclaration(e,n,i,r){void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.declaration=n,o.body=i,o.id=r,o}return n(LocalDeclaration,t),LocalDeclaration.prototype.simplify=function(){return new LocalDeclaration(this.position,this.declaration.simplify(),this.body.simplify(),this.id)},LocalDeclaration.prototype.elaborate=function(t,e,n,i,r){var o=[t.getNestedState(0).getNestedState(t.id),[],e,n],a=this.declaration.elaborate(o[0],e,n,!1,r);t.valueIdentifierId=a[0].getIdChanges(0);var s=a[0].getNestedState(t.id);return o=this.body.elaborate(s,a[2],a[3],i,r),s.parent=t,[o[0],a[1].concat(o[1]),o[2],o[3]]},LocalDeclaration.prototype.evaluate=function(t,e){var n=t.state,i=t.modifiable;void 0===t.step&&(t.step=-1);var r=t.step;if(-1===r){var o=n.getNestedState(0),a=o.getNestedState(n.id);return o.insideLocalDeclBody||(o.localDeclStart=!0),t.nstate=a,t.step=r+1,e.push({next:this,params:t}),void e.push({next:this.declaration,params:{state:a,modifiable:i,recResult:void 0}})}if(0===r){var u=t.recResult;if(void 0===u||void 0===u.newState)throw new s.InternalInterpreterError(-1,"How is this undefined?");var p=u.newState;if(u.hasThrown)return{newState:n,value:u.value,hasThrown:!0};var a=p.getNestedState(n.id);return a.insideLocalDeclBody=!0,t.nstate=a,t.res=u,t.step=r+1,e.push({next:this,params:t}),void e.push({next:this.body,params:{state:a,modifiable:i,recResult:void 0}})}var c=t.recResult,a=t.nstate,u=t.res;if(void 0===c||void 0===u)throw new s.InternalInterpreterError(-1,"How is this undefined?");return a.parent=n,void 0!==c.newState&&(c.newState.insideLocalDeclBody=n.insideLocalDeclBody),c},LocalDeclaration.prototype.toString=function(){var t="local "+this.declaration;return t+=" in "+this.body,t+=" end;"},LocalDeclaration}(p);exports.LocalDeclaration=y;var v=function(t){function OpenDeclaration(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.position=e,r.names=n,r.id=i,r}return n(OpenDeclaration,t),OpenDeclaration.prototype.simplify=function(){return this},OpenDeclaration.prototype.elaborate=function(t,e,n,i,o){for(var a=0;a<this.names.length;++a){var u=void 0;if(this.names[a]instanceof r.LongIdentifierToken?void 0!==(u=t.getAndResolveStaticStructure(this.names[a]))&&(u=u.getStructure(this.names[a].id.getText())):u=t.getStaticStructure(this.names[a].getText()),void 0===u)throw new s.EvaluationError(this.position,'Undefined module "'+this.names[a].getText()+'".');t.staticBasis.extend(u)}return[t,[],e,n]},OpenDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=0;i<this.names.length;++i){var o=void 0;if(this.names[i]instanceof r.LongIdentifierToken?void 0!==(o=n.getAndResolveDynamicStructure(this.names[i]))&&(o=o.getStructure(this.names[i].id.getText())):o=n.getDynamicStructure(this.names[i].getText()),void 0===o)throw new s.EvaluationError(this.position,'Undefined module "'+this.names[i].getText()+'".');n.dynamicBasis.extend(o)}return{newState:n,value:void 0,hasThrown:!1}},OpenDeclaration.prototype.toString=function(){for(var t="open",e=0;e<this.names.length;++e)t+=" "+this.names[e].getText();return t+";"},OpenDeclaration}(p);exports.OpenDeclaration=v;var m=function(t){function EmptyDeclaration(e){void 0===e&&(e=0);var n=t.call(this)||this;return n.id=e,n}return n(EmptyDeclaration,t),EmptyDeclaration.prototype.simplify=function(){return this},EmptyDeclaration.prototype.elaborate=function(t,e,n,i,r){return[t,[],e,n]},EmptyDeclaration.prototype.evaluate=function(t,e){return{newState:t.state,value:void 0,hasThrown:!1}},EmptyDeclaration.prototype.toString=function(){return" ;"},EmptyDeclaration}(p);exports.EmptyDeclaration=m;var g=function(t){function SequentialDeclaration(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.position=e,r.declarations=n,r.id=i,r}return n(SequentialDeclaration,t),SequentialDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.declarations.length;++e)t.push(this.declarations[e].simplify());return new SequentialDeclaration(this.position,t,this.id)},SequentialDeclaration.prototype.elaborate=function(t,e,n,i,r){for(var o=this,a=[],u=e,p=n,c=this,h=0;h<this.declarations.length;++h)!function(n){i&&(u=new Map,t.getTypeVariableBinds()[1].forEach(function(t,e){u=u.set(e,t)}));var h=c.declarations[n].elaborate(t.getNestedState(c.declarations[n].id),u,p,i,r);t=h[0],a=a.concat(h[1]),u=h[2];var f=new Map;if(i&&(f=e),h[2].forEach(function(e,n){if(e[1]&&"~"===n[1]){var u=e[0].instantiate(t,h[2]).normalize(t.freeTypeVariables[0],r);t.parent.getTypeVariableBinds()[1].has(n)||a.push(new s.Warning(o.position,'The free type variable "'+n+'" has been instantiated to "'+u[0]+'".\n')),f=f.set(n,[u[0],!0])}else i||(f=f.set(n,[e[0].instantiate(t,h[2]),!1]))}),u=f,i){t.freeTypeVariables[1]=f;for(var l in t.staticBasis.valueEnvironment)if(t.staticBasis.valueEnvironment.hasOwnProperty(l)){var d=t.staticBasis.valueEnvironment[l],y=d[0].normalize(t.freeTypeVariables[0],r);t.freeTypeVariables[0]=y[1],t.setStaticValue(l,y[0],d[1])}}p=h[3]}(h);return[t,a,u,p]},SequentialDeclaration.prototype.evaluate=function(t,e){var n=t.state;void 0===t.step&&(t.step=-1);var i=t.step;if(i>=0){var r=t.recResult;if(void 0===r||void 0===r.newState)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(r.hasThrown)return{newState:r.newState,value:r.value,hasThrown:!0};n=r.newState}if(++i<this.declarations.length){var o=n.getNestedState(this.declarations[i].id);return t.step=i,t.state=n,e.push({next:this,params:t}),void e.push({next:this.declarations[i],params:{state:o,modifiable:t.modifiable,recResult:void 0}})}return{newState:n,value:void 0,hasThrown:!1}},SequentialDeclaration.prototype.toString=function(){for(var t="",e=0;e<this.declarations.length;++e)e>0&&(t+=" "),t+=this.declarations[e];return t},SequentialDeclaration}(p);exports.SequentialDeclaration=g;var w=function(t){function FunctionDeclaration(e,n,i,r){void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.typeVariableSequence=n,o.functionValueBinding=i,o.id=r,o}return n(FunctionDeclaration,t),FunctionDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.functionValueBinding.length;++e)t.push(this.functionValueBinding[e].simplify());return new c(this.position,this.typeVariableSequence,t,this.id)},FunctionDeclaration}(p);exports.FunctionDeclaration=w;var T=function(t){function Evaluation(e,n){var i=t.call(this)||this;return i.position=e,i.expression=n,i}return n(Evaluation,t),Evaluation.prototype.simplify=function(){return new c(this.position,[],[new k(this.position,!1,new i.Tuple(-1,[]),this.expression)]).simplify()},Evaluation}(p);exports.Evaluation=T;var E=function(t){function AbstypeDeclaration(e,n,i,r,o){void 0===o&&(o=0);var a=t.call(this)||this;if(a.position=e,a.datatypeBinding=n,a.typeBinding=i,a.declaration=r,a.id=o,void 0!==a.typeBinding)throw new s.FeatureDisabledError(a.position,'Who is "withtype"?');return a}return n(AbstypeDeclaration,t),AbstypeDeclaration.prototype.simplify=function(){for(var t=new f(this.position,this.datatypeBinding,void 0,this.id),e=[],n=0;n<this.datatypeBinding.length;++n)e.push(new b(this.datatypeBinding[n].position,this.datatypeBinding[n].typeVariableSequence,this.datatypeBinding[n].name,new o.CustomType(this.datatypeBinding[n].name.getText(),this.datatypeBinding[n].typeVariableSequence)));var i=new h(this.position,e,this.id);return new y(this.position,t,new g(this.position,[i,this.declaration],this.id),this.id).simplify()},AbstypeDeclaration}(p);exports.AbstypeDeclaration=E;var S=function(t){function InfixDeclaration(e,n,i,r){void 0===i&&(i=0),void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.operators=n,o.precedence=i,o.id=r,o}return n(InfixDeclaration,t),InfixDeclaration.prototype.simplify=function(){return this},InfixDeclaration.prototype.elaborate=function(t,e,n){return[t,[],e,n]},InfixDeclaration.prototype.setInfixStatus=function(t){for(var e=0;e<this.operators.length;++e)t.setInfixStatus(this.operators[e],this.precedence,!1,!0)},InfixDeclaration.prototype.evaluate=function(t,e){var n=t.state;return this.setInfixStatus(n),{newState:n,value:void 0,hasThrown:!1}},InfixDeclaration.prototype.toString=function(){var t="infix";t+=" "+this.precedence;for(var e=0;e<this.operators.length;++e)t+=" "+this.operators[e].getText();return t+";"},InfixDeclaration}(p);exports.InfixDeclaration=S;var x=function(t){function InfixRDeclaration(e,n,i,r){void 0===i&&(i=0),void 0===r&&(r=0);var o=t.call(this)||this;return o.position=e,o.operators=n,o.precedence=i,o.id=r,o}return n(InfixRDeclaration,t),InfixRDeclaration.prototype.simplify=function(){return this},InfixRDeclaration.prototype.elaborate=function(t,e,n){return[t,[],e,n]},InfixRDeclaration.prototype.setInfixStatus=function(t){for(var e=0;e<this.operators.length;++e)t.setInfixStatus(this.operators[e],this.precedence,!0,!0)},InfixRDeclaration.prototype.evaluate=function(t,e){var n=t.state;return this.setInfixStatus(n),{newState:n,value:void 0,hasThrown:!1}},InfixRDeclaration.prototype.toString=function(){var t="infixr";t+=" "+this.precedence;for(var e=0;e<this.operators.length;++e)t+=" "+this.operators[e].getText();return t+";"},InfixRDeclaration}(p);exports.InfixRDeclaration=x;var I=function(t){function NonfixDeclaration(e,n,i){void 0===i&&(i=0);var r=t.call(this)||this;return r.position=e,r.operators=n,r.id=i,r}return n(NonfixDeclaration,t),NonfixDeclaration.prototype.simplify=function(){return this},NonfixDeclaration.prototype.elaborate=function(t,e,n){return[t,[],e,n]},NonfixDeclaration.prototype.setInfixStatus=function(t){for(var e=0;e<this.operators.length;++e)t.setInfixStatus(this.operators[e],0,!1,!1)},NonfixDeclaration.prototype.evaluate=function(t,e){var n=t.state;return this.setInfixStatus(n),{newState:n,value:void 0,hasThrown:!1}},NonfixDeclaration.prototype.toString=function(){for(var t="nonfix",e=0;e<this.operators.length;++e)t+=" "+this.operators[e].getText();return t+";"},NonfixDeclaration}(p);exports.NonfixDeclaration=I;var k=function(){function ValueBinding(t,e,n,i){this.position=t,this.isRecursive=e,this.pattern=n,this.expression=i}return ValueBinding.prototype.toString=function(){var t="";return this.isRecursive&&(t+="rec "),t+=this.pattern,(t+=" = ")+this.expression},ValueBinding.prototype.getType=function(t,e,n,i,r){var a=this,u=e.getNestedState(e.id),p=this.expression.getType(u,n,i),c=this.pattern.matchType(u,p[4],p[0]),h=new Set;if(c[2].forEach(function(t,e){h.add(e),t[0].getTypeVariables().forEach(function(t,e){h.add(e)})}),void 0===c)throw new s.ElaborationError(this.position,'Type clash. An expression of type "'+p[0]+'" cannot be assigned to "'+c[1]+'".');for(var f=[],l=0;l<t.length;++l){var d=t[l].instantiate(e,c[2]);if(!(d instanceof o.TypeVariable)||d.domain.length>0||t[l].admitsEquality(e)!==d.admitsEquality(e))throw new s.ElaborationError(this.position,'Type clash. An expression of explicit type "'+t[l]+'" cannot have type "'+d.normalize()[0]+'".');f.push(d)}this.expression.getExplicitTypeVariables().forEach(function(t){var n=t.instantiate(e,c[2]);if(!(n instanceof o.TypeVariable)||n.domain.length>0||t.admitsEquality(e)!==n.admitsEquality(e))throw new s.ElaborationError(a.position,'Type clash. An expression of explicit type "'+t+'" cannot have type "'+n.normalize()[0]+'".')});for(var y=!this.isRecursive&&!this.expression.isSafe(e),v=!1,l=0;l<c[0].length;++l)!function(t){c[0][t][1]=c[0][t][1].instantiate(e,c[2]),r||(c[2]=c[2].set("'**"+c[0][t][0],[c[0][t][1],!1]));for(var n=c[0][t][1].getTypeVariables(),i=c[0][t][1].getTypeVariables(!0),a=new Set,s=f.length-1;s>=0;--s)if(n.has(f[s].name)){var u=n.get(f[s].name);c[2].has("$"+f[s].name)&&(u=o.TypeVariable.mergeDomain(u,c[2].get("$"+f[s].name)[0].domain)),c[0][t][1]=new o.TypeVariableBind(f[s].name,c[0][t][1],u),c[0][t][1].isFree=y||i.has(f[s].name),v=v||y||i.has(f[s].name),a.add(f[s].name)}f=[],c[0][t][1].getTypeVariables().forEach(function(t,e){if((r||!h.has(e))&&!a.has(e)){var n=t;c[2].has("$"+e)&&(n=o.TypeVariable.mergeDomain(n,c[2].get("$"+e)[0].domain)),f.push(new o.TypeVariable(e,0,n))}});for(var s=f.length-1;s>=0;--s)c[0][t][1]=new o.TypeVariableBind(f[s].name,c[0][t][1],f[s].domain),c[0][t][1].isFree=y||i.has(f[s].name),v=v||y||i.has(f[s].name)}(l);return v&&r&&p[1].push(new s.Warning(this.position,"Free type variables at top level.\n")),[c[0],p[1],c[2],p[2],p[5]]},ValueBinding}();exports.ValueBinding=k;var V=function(){function FunctionValueBinding(t,e,n){this.position=t,this.parameters=e,this.name=n}return FunctionValueBinding.prototype.simplify=function(){if(void 0===this.name)throw new s.InternalInterpreterError(this.position,"This function isn't ready to be simplified yet.");for(var t=[],e=[],n=0;n<this.parameters[0][0].length;++n)t.push(new i.ValueIdentifier(-1,new r.IdentifierToken("__arg"+n,-1)));for(var n=0;n<this.parameters.length;++n){var o=void 0;o=1===this.parameters[n][0].length?this.parameters[n][0][0]:new i.Tuple(-1,this.parameters[n][0]),void 0===this.parameters[n][1]?e.push([o,this.parameters[n][2]]):e.push([o,new i.TypedExpression(-1,this.parameters[n][2],this.parameters[n][1])])}var a;a=1!==t.length?new i.Tuple(-1,t).simplify():t[0];var u,p=new i.Match(-1,e);u=new i.CaseAnalysis(-1,a,p);for(var n=this.parameters[0][0].length-1;n>=0;--n)u=new i.Lambda(-1,new i.Match(-1,[[new i.ValueIdentifier(-1,new r.IdentifierToken("__arg"+n,-1)),u]]));return new k(this.position,!0,this.name,u.simplify())},FunctionValueBinding.prototype.toString=function(){for(var t="",e=0;e<this.parameters.length;++e){e>0&&(t+=" | "),t+=this.name.name.getText();for(var n=0;n<this.parameters[e][0].length;++n)t+=" "+this.parameters[e][0][n];void 0!==this.parameters[e][1]&&(t+=": "+this.parameters[e][1]),t+=" = "+this.parameters[e][2]}return t},FunctionValueBinding}();exports.FunctionValueBinding=V;var b=function(){function TypeBinding(t,e,n,i){this.position=t,this.typeVariableSequence=e,this.name=n,this.type=i}return TypeBinding}();exports.TypeBinding=b;var A=function(){function DatatypeBinding(t,e,n,i,r){void 0===r&&(r={}),this.position=t,this.typeVariableSequence=e,this.name=n,this.type=i,this.givenIds=r}return DatatypeBinding.prototype.getType=function(t,e){var n=[],i=[],r=t.getNestedState(t.id),a=t.getValueIdentifierId(this.name.getText());r.incrementValueIdentifierId(this.name.getText());var u=new o.CustomType(this.name.getText(),this.typeVariableSequence,-1,void 0,!1,a);r.setStaticType(this.name.getText(),u,[],this.typeVariableSequence.length);for(var p=this,c=0;c<this.type.length;++c)!function(t){var e=u;void 0!==p.type[t][1]&&(1,e=new o.FunctionType(p.type[t][1].instantiate(r,new Map),e));for(var a=new Set,c=0;c<p.typeVariableSequence.length;++c)a=a.add(p.typeVariableSequence[c].name);var h=[];if(e.getTypeVariables().forEach(function(t,n){a.has(n)?e=new o.TypeVariableBind(n,e,t):h.push(n)}),h.length>0)throw s.ElaborationError.getUnguarded(p.position,h);i.push([p.type[t][0].getText(),e]),n.push(p.type[t][0].getText())}(c);return[i,u,[this.name.getText(),n]]},DatatypeBinding.prototype.compute=function(t,e){for(var n=[],i=[],r=0;r<this.type.length;++r){var o=0;void 0!==this.type[r][1]&&(o=1);var a=-1;void 0===this.givenIds[this.type[r][0].getText()]?(a=e.getValueIdentifierId(this.type[r][0].getText()),e.incrementValueIdentifierId(this.type[r][0].getText()),this.givenIds[this.type[r][0].getText()]=a):a=this.givenIds[this.type[r][0].getText()],i.push([this.type[r][0].getText(),new u.ValueConstructor(this.type[r][0].getText(),o,a)]),n.push(this.type[r][0].getText())}return[i,[this.name.getText(),n]]},DatatypeBinding}();exports.DatatypeBinding=A;var L=function(){function DirectExceptionBinding(t,e,n){this.position=t,this.name=e,this.type=n}return DirectExceptionBinding.prototype.elaborate=function(t,e,n){if(void 0!==this.type){var i=this.type.simplify().instantiate(t,new Map),r=[];if(i.getTypeVariables().forEach(function(t,e){r.push(e)}),e&&r.length>0)throw s.ElaborationError.getUnguarded(this.position,r);t.setStaticValue(this.name.getText(),new o.FunctionType(i,new o.CustomType("exn")).normalize()[0],a.IdentifierStatus.EXCEPTION_CONSTRUCTOR)}else t.setStaticValue(this.name.getText(),new o.CustomType("exn").normalize()[0],a.IdentifierStatus.EXCEPTION_CONSTRUCTOR);return t},DirectExceptionBinding.prototype.evaluate=function(t){var e=0;void 0!==this.type&&(e=1);var n=t.getValueIdentifierId(this.name.getText());if(t.incrementValueIdentifierId(this.name.getText()),!a.State.allowsRebind(this.name.getText()))throw new s.EvaluationError(this.position,'You simply cannot rebind "'+this.name.getText()+'".');t.setDynamicValue(this.name.getText(),new u.ExceptionConstructor(this.name.getText(),e,n),a.IdentifierStatus.EXCEPTION_CONSTRUCTOR)},DirectExceptionBinding}();exports.DirectExceptionBinding=L;var R=function(){function ExceptionAlias(t,e,n){this.position=t,this.name=e,this.oldname=n}return ExceptionAlias.prototype.elaborate=function(t,e,n){var i=void 0;if(this.oldname instanceof r.LongIdentifierToken){var o=t.getAndResolveStaticStructure(this.oldname);void 0!==o&&(i=o.getValue(this.oldname.id.getText()))}else i=t.getStaticValue(this.oldname.getText());if(void 0===i)throw new s.ElaborationError(this.position,'Unbound value identifier "'+this.oldname.getText()+'".');if(i[1]!==a.IdentifierStatus.EXCEPTION_CONSTRUCTOR)throw new s.ElaborationError(this.position,'You cannot transform "'+i[0]+'" into an exception.');return t.setStaticValue(this.name.getText(),i[0].normalize()[0],a.IdentifierStatus.EXCEPTION_CONSTRUCTOR),t},ExceptionAlias.prototype.evaluate=function(t){var e=void 0;if(this.oldname instanceof r.LongIdentifierToken){var n=t.getAndResolveDynamicStructure(this.oldname);void 0!==n&&(e=n.getValue(this.oldname.id.getText()))}else e=t.getDynamicValue(this.oldname.getText());if(void 0===e)throw new s.EvaluationError(this.position,'Unbound value identifier "'+this.oldname.getText()+'".');if(e[1]!==a.IdentifierStatus.EXCEPTION_CONSTRUCTOR)throw new s.EvaluationError(this.position,'You cannot transform "'+e[0].toString(t,40)+'" into an exception.');t.setDynamicValue(this.name.getText(),e[0],a.IdentifierStatus.EXCEPTION_CONSTRUCTOR)},ExceptionAlias}();exports.ExceptionAlias=R},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=e(4),r=e(5),o=e(1),a=e(2),s=e(0),u=e(3),p=function(){function Expression(){}return Expression.prototype.getType=function(t,e,n,i,r){throw void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1),new s.InternalInterpreterError(this.position,'Called "getType" on a derived form.')},Expression.prototype.compute=function(t,e){throw new s.InternalInterpreterError(this.position,'Called "getValue" on a derived form.')},Expression.prototype.isSafe=function(t){return!0},Expression.prototype.getExplicitTypeVariables=function(){return new Set},Expression.prototype.toString=function(){throw new s.InternalInterpreterError(this.position,"You humans can't seem to write bug-free code. What an inferior species.")},Expression}();exports.Expression=p;var c=function(t){function Constant(e,n){var i=t.call(this)||this;return i.position=e,i.token=n,i}return n(Constant,t),Constant.prototype.getMatchedValues=function(t,e){return new i.Domain([])},Constant.prototype.matchType=function(t,e,n){return[[],this.getType(t,e)[0],e]},Constant.prototype.matches=function(t,e){var n=this.compute({state:t,modifiable:t,recResult:void 0},[]);if(void 0===n||void 0===n.value)throw new s.InternalInterpreterError(this.token.position,"How is this undefined?");return n.value.equals(e)?[]:void 0},Constant.prototype.getType=function(t,e,n,r,a){if(void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===a&&(a=!1),this.token instanceof o.IntegerConstantToken||this.token instanceof o.NumericToken)return[new i.CustomType("int"),[],n,r,e,t.valueIdentifierId];if(this.token instanceof o.RealConstantToken)return[new i.CustomType("real"),[],n,r,e,t.valueIdentifierId];if(this.token instanceof o.WordConstantToken)return[new i.CustomType("word"),[],n,r,e,t.valueIdentifierId];if(this.token instanceof o.CharacterConstantToken)return[new i.CustomType("char"),[],n,r,e,t.valueIdentifierId];if(this.token instanceof o.StringConstantToken)return[new i.CustomType("string"),[],n,r,e,t.valueIdentifierId];throw new s.InternalInterpreterError(this.token.position,'"'+this+'" does not seem to be a valid constant.')},Constant.prototype.simplify=function(){return this},Constant.prototype.toString=function(){return this.token.getText()},Constant.prototype.compute=function(t,e){var n=void 0;if(this.token instanceof o.IntegerConstantToken||this.token instanceof o.NumericToken?n=new u.Integer(this.token.value):this.token instanceof o.RealConstantToken?n=new u.Real(this.token.value):this.token instanceof o.WordConstantToken?n=new u.Word(this.token.value):this.token instanceof o.CharacterConstantToken?n=new u.CharValue(this.token.value):this.token instanceof o.StringConstantToken&&(n=new u.StringValue(this.token.value)),void 0===n)throw new s.EvaluationError(this.token.position,"You sure that this is a constant?");return{newState:void 0,value:n,hasThrown:!1}},Constant}(p);exports.Constant=c;var h=function(t){function ValueIdentifier(e,n){var i=t.call(this)||this;return i.position=e,i.name=n,i}return n(ValueIdentifier,t),ValueIdentifier.prototype.getMatchedValues=function(t,e){var n=t.getStaticValue(this.name.getText());if(this.name instanceof o.LongIdentifierToken){var r=t.getAndResolveStaticStructure(this.name);n=void 0!==r?r.getValue(this.name.id.getText()):void 0}if(void 0!==n&&n[1]===a.IdentifierStatus.VALUE_VARIABLE)return new i.Domain(void 0);if(void 0===n&&e.has("'**"+this.name.getText()))return new i.Domain(void 0);if(void 0===n)throw new s.ElaborationError(this.position,"RAINBOW!");return this.name instanceof o.LongIdentifierToken?new i.Domain([this.name.id.getText()]):new i.Domain([this.name.getText()])},ValueIdentifier.prototype.getType=function(t,e,n,r,u){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===u&&(u=!1);var p=void 0;if(this.name instanceof o.LongIdentifierToken){var c=t.getAndResolveStaticStructure(this.name);if(void 0!==c&&void 0!==(p=c.getValue(this.name.id.getText()))){var h=new a.State(0,void 0,c,t.dynamicBasis,[0,{}]);p=[p[0].qualify(h,this.name),p[1]]}}else p=t.getStaticValue(this.name.getText());var f=e,l=!1;if(void 0===p||p[1]===a.IdentifierStatus.VALUE_VARIABLE){var d=new i.TypeVariable("'**"+this.name.getText());if(u)p=[new i.TypeVariableBind("'**"+this.name.getText(),d),0],l=!0;else{if(e.has(d.name)){return[e.get(d.name)[0].instantiate(t,f),[],n,r,f,t.valueIdentifierId]}if(void 0===p)throw new s.ElaborationError(this.position,'Unbound value identifier "'+this.name.getText()+'".')}}for(var y=new Set,v=new Set,m=new Map;p[0]instanceof i.TypeVariableBind;)p[0].isFree?(v=v.add(p[0].name),m.set(p[0].name,p[0].name)):y=y.add(p[0].name),p[0]=p[0].type;y=y.add("*");var g=[];y.forEach(function(i){for(var o=+n.substring(3)+1,a="";;++o)if(n="'"+n[1]+n[2]+o,!y.has(n)&&!r.has(n)&&!e.has(n)&&void 0===t.getStaticValue(n)){a="'"===i[1]?"'"+n:n,g.push(a),m=m.set(i,a);break}});for(var w=0;w<g.length;++w)r=r.add(g[w]);var T=p[0].replaceTypeVariables(m,v).instantiate(t,f);return l&&(f=f.set("'**"+this.name.getText(),[T,!1])),[T,[],n,r,f,t.valueIdentifierId]},ValueIdentifier.prototype.matchType=function(t,e,n){if(this.name instanceof o.LongIdentifierToken)throw new s.ElaborationError(this.position,"Variable names in patterns cannot be qualified.");var r=t.getStaticValue(this.name.getText());if(void 0===r||r[1]===a.IdentifierStatus.VALUE_VARIABLE)return[[[this.name.getText(),n.instantiate(t,e)]],n.instantiate(t,e),e];var u=this.getType(t,e,"'*g0");u[3].forEach(function(t){var e="'*p"+t.substring(3);"'"===t[1]&&(e="''*p"+t.substring(4)),u[4]=u[4].set(t,[new i.TypeVariable(e),!1])}),r[0]=u[0],e=u[4];try{var p=n.merge(t,e,r[0]);return[[],p[0],p[1]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,'Type clash: "'+n.normalize()[0]+'" vs. "'+r[0].normalize()[0]+'": '+t[0])}},ValueIdentifier.prototype.matches=function(t,e){if(this.name instanceof o.LongIdentifierToken)throw new s.EvaluationError(this.position,"Variable names in patterns cannot be qualified.");var n=t.getDynamicValue(this.name.getText());return void 0===n||n[1]===a.IdentifierStatus.VALUE_VARIABLE?[[this.name.getText(),e]]:e.equals(n[0])?[]:void 0},ValueIdentifier.prototype.simplify=function(){return this},ValueIdentifier.prototype.toString=function(){return this.name.getText()},ValueIdentifier.prototype.compute=function(t,e){var n=t.state,i=void 0;if(this.name instanceof o.LongIdentifierToken){var r=n.getAndResolveDynamicStructure(this.name);void 0!==r&&(i=r.getValue(this.name.id.getText()))}else i=n.getDynamicValue(this.name.getText());if(void 0===i)throw new s.EvaluationError(this.position,'Unbound value identifier "'+this.name.getText()+'".');return i[1]===a.IdentifierStatus.VALUE_CONSTRUCTOR&&0===i[0].numArgs?{newState:void 0,value:i[0].construct(),hasThrown:!1}:i[1]===a.IdentifierStatus.EXCEPTION_CONSTRUCTOR&&0===i[0].numArgs?{newState:void 0,value:i[0].construct(),hasThrown:!1}:{newState:void 0,value:i[0],hasThrown:!1}},ValueIdentifier}(p);exports.ValueIdentifier=h;var f=function(t){function Record(e,n,i){var r=t.call(this)||this;r.position=e,r.complete=n,r.entries=i,r.entries.sort();for(var o=1;o<r.entries.length;++o)if(r.entries[o][0]===r.entries[o-1][0])throw new s.ElaborationError(r.position,'Label "'+r.entries[o][0]+'" occurs more than once in the same record.');return r}return n(Record,t),Record.prototype.getExplicitTypeVariables=function(){for(var t=new Set,e=0;e<this.entries.length;++e)this.entries[e][1].getExplicitTypeVariables().forEach(function(e){t=t.add(e)});return t},Record.prototype.getMatchedValues=function(t,e){for(var n=new Map,r=!1,o=0,a=this.entries;o<a.length;o++){var s=a[o];n=n.set(s[0],s[1].getMatchedValues(t,e)),r=r||void 0!==n.get(s[0]).entries}return r?new i.Domain(n):new i.Domain(void 0)},Record.prototype.getEntry=function(t){for(var e=0;e<this.entries.length;++e)if(this.entries[e][0]===t)return this.entries[e][1];throw new s.InternalInterpreterError(this.position,'Yeah, "'+t+'" would be nice to have.')},Record.prototype.isSafe=function(t){for(var e=0;e<this.entries.length;++e)if(!this.entries[e][1].isSafe(t))return!1;return!0},Record.prototype.matchType=function(t,e,n){if(n instanceof i.RecordType||(n=n.instantiate(t,e)),n instanceof i.TypeVariable){for(var r=new Map,o=0;o<this.entries.length;++o){var a=new i.TypeVariable(n.name+"*"+o);a.isFree=n.isFree,r=r.set(this.entries[o][0],a)}var u=new i.RecordType(r,this.complete);e=e.set(n.name,[u,n.isFree]),n=u}if(!(n instanceof i.RecordType))throw new s.ElaborationError(this.position,'Expected pattern of a record type, got "'+n.constructor.name+'".');if(this.complete&&this.entries.length!==n.elements.size)throw new s.ElaborationError(this.position,"Expected a record type with "+this.entries.length+" entries, but the given one has "+n.elements.size+".");for(var p=[],c=new Map,h=e,o=0;o<this.entries.length;++o){if(!n.hasType(this.entries[o][0]))throw new s.ElaborationError(this.position,"I am mad scientist. Sunovabitch!");var f=this.entries[o][1].matchType(t,h,n.getType(this.entries[o][0]));p=p.concat(f[0]),c=c.set(this.entries[o][0],f[1]),h=f[2]}return[p,new i.RecordType(c),h]},Record.prototype.matches=function(t,e){if(e instanceof u.RecordValue&&(!this.complete||this.entries.length===e.entries.size)){for(var n=[],i=0;i<this.entries.length;++i){if(!e.hasValue(this.entries[i][0]))return;var r=this.entries[i][1].matches(t,e.getValue(this.entries[i][0]));if(void 0===r)return r;for(var o=0;o<r.length;++o)n.push(r[o])}return n}},Record.prototype.getType=function(t,e,n,r,o){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1);for(var u=new Map,p=[],c=e,f=0;f<this.entries.length;++f){var l=this.entries[f][0],d=this.entries[f][1];if(u.has(l))throw new s.ElaborationError(this.position,'Label "'+l+'" occurs more than once in the same record.');if(d instanceof h&&o){var y=t.getStaticValue(d.name.getText());if(void 0!==y&&y[1]!==a.IdentifierStatus.VALUE_VARIABLE&&y[0]instanceof i.FunctionType)throw new s.ElaborationError(d.position,"Unary constructor in the pattern needs an argument.")}var v=d.getType(t,c,n,r,o);p=p.concat(v[1]),n=v[2],r=v[3],v[4].forEach(function(t,e){c=c.set(e,t)}),t.valueIdentifierId=v[5],u=u.set(l,v[0])}return[new i.RecordType(u,this.complete),p,n,r,c,t.valueIdentifierId]},Record.prototype.simplify=function(){for(var t=[],e=0;e<this.entries.length;++e){var n=this.entries[e];t.push([n[0],n[1].simplify()])}return new Record(this.position,this.complete,t)},Record.prototype.toString=function(){for(var t="{",e=!0,n=0;n<this.entries.length;++n)e||(t+=", "),e=!1,t+=this.entries[n][0]+" = "+this.entries[n][1];return this.complete||(e||(t+=", "),t+="..."),t+"}"},Record.prototype.compute=function(t,e){var n=t.state;void 0===t.step&&(t.step=-1,t.nentr=new Map);var i=t.nentr,r=t.step;if(r>=0){var o=t.recResult;if(void 0===o)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(o.hasThrown)return{newState:void 0,value:o.value,hasThrown:!0};i=i.set(this.entries[r][0],o.value)}return++r,r<this.entries.length?(t.step=r,t.nentr=i,e.push({next:this,params:t}),void e.push({next:this.entries[r][1],params:{state:n,modifiable:t.modifiable,recResult:void 0}})):{newState:void 0,value:new u.RecordValue(i),hasThrown:!1}},Record}(p);exports.Record=f;var l=function(t){function LocalDeclarationExpression(e,n,i){var r=t.call(this)||this;return r.position=e,r.declaration=n,r.expression=i,r}return n(LocalDeclarationExpression,t),LocalDeclarationExpression.prototype.simplify=function(){return new LocalDeclarationExpression(this.position,this.declaration.simplify(),this.expression.simplify())},LocalDeclarationExpression.prototype.toString=function(){var t="let "+this.declaration;return t+=" in "+this.expression+" end"},LocalDeclarationExpression.prototype.isSafe=function(t){return this.expression.isSafe(t)},LocalDeclarationExpression.prototype.getType=function(t,e,n,i,r){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1);var o=t.getNestedState(t.id);e.forEach(function(n,i){"*"===i[1]&&"*"===i[2]&&o.setStaticValue(i.substring(3),n[0].instantiate(t,e),a.IdentifierStatus.VALUE_VARIABLE)});var s=new Map;e.forEach(function(t,e){s=s.set(e,t)});var u=this.declaration.elaborate(o,s,n),p=this.expression.getType(u[0],u[2],u[3],i,r);return[p[0],u[1].concat(p[1]),p[2],p[3],p[4],p[5]]},LocalDeclarationExpression.prototype.compute=function(t,e){var n=t.state;void 0===t.step&&(t.step=-1);var i=t.step;if(-1===i){var r=n.getNestedState(0).getNestedState(n.id);return t.step=i+1,t.state=n,e.push({next:this,params:t}),void e.push({next:this.declaration,params:{state:r,modifiable:t.modifiable,recResult:void 0}})}if(0===i){var o=t.recResult;if(void 0===o||void 0===o.newState)throw new s.InternalInterpreterError(-1,"How is this undefined?");var r=o.newState;return o.hasThrown?{newState:void 0,value:o.value,hasThrown:!0}:void e.push({next:this.expression,params:{state:r,modifiable:t.modifiable,recResult:void 0}})}var a=t.recResult;if(void 0===a)throw new s.InternalInterpreterError(-1,"How is this undefined?");return{newState:void 0,value:a.value,hasThrown:a.hasThrown}},LocalDeclarationExpression}(p);exports.LocalDeclarationExpression=l;var d=function(t){function TypedExpression(e,n,i){var r=t.call(this)||this;return r.position=e,r.expression=n,r.typeAnnotation=i,r}return n(TypedExpression,t),TypedExpression.prototype.getExplicitTypeVariables=function(){var t=new Set;return this.typeAnnotation.getTypeVariables().forEach(function(e,n){t=t.add(new i.TypeVariable(n,0,e))}),t},TypedExpression.prototype.getMatchedValues=function(t,e){return this.expression.getMatchedValues(t,e)},TypedExpression.prototype.isSafe=function(t){return this.expression.isSafe(t)},TypedExpression.prototype.matchType=function(t,e,n){var i=this.expression.matchType(t,e,n);try{for(var r=i[1].merge(t,i[2],this.typeAnnotation.instantiate(t,i[2])),o=0;o<i[0].length;++o)i[0][o][1]=i[0][o][1].instantiate(t,r[1]);return[i[0],r[0],r[1]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,'The annotated type "'+this.typeAnnotation+'" does not match the expression\'s type "'+i[1].normalize()[0]+'": '+t[0])}},TypedExpression.prototype.matches=function(t,e){return this.expression.matches(t,e)},TypedExpression.prototype.getType=function(t,e,n,i,r){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1);var o=this.expression.getType(t,e,n,i,r);try{var a=this.typeAnnotation.instantiate(t,o[4]),u=o[0].merge(t,o[4],a);return[u[0],o[1],o[2],o[3],u[1],o[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,'The specified type "'+this.typeAnnotation+'" does not match the annotated expression\'s type "'+o[0].normalize()[0]+'": '+t[0])}},TypedExpression.prototype.simplify=function(){return new TypedExpression(this.position,this.expression.simplify(),this.typeAnnotation.simplify())},TypedExpression.prototype.toString=function(){var t="( "+this.expression;return(t+=": "+this.typeAnnotation)+" )"},TypedExpression.prototype.compute=function(t,e){return this.expression.compute(t,e)},TypedExpression}(p);exports.TypedExpression=d;var y=function(t){function FunctionApplication(e,n,i){var r=t.call(this)||this;return r.position=e,r.func=n,r.argument=i,r}return n(FunctionApplication,t),FunctionApplication.prototype.getExplicitTypeVariables=function(){var t=new Set;return this.func.getExplicitTypeVariables().forEach(function(e){t=t.add(e)}),this.argument.getExplicitTypeVariables().forEach(function(e){t=t.add(e)}),t},FunctionApplication.prototype.getMatchedValues=function(t,e){if(!(this.func instanceof h))throw new s.InternalInterpreterError(this.position,"Beep. Beep-Beep-Beep. Beep-Beep.");return this.argument.getMatchedValues(t,e).entries,new i.Domain([this.func.name.getText()])},FunctionApplication.prototype.isSafe=function(t){if(!(this.func instanceof h))return!1;var e=t.getStaticValue(this.func.name.getText());return void 0!==e&&e[1]!==a.IdentifierStatus.VALUE_VARIABLE},FunctionApplication.prototype.matchType=function(t,e,n){if(!(this.func instanceof h))throw new s.ElaborationError(this.position,"Non-identifier applied to a pattern.");var r=t.getStaticValue(this.func.name.getText());if(void 0===r||r[1]===a.IdentifierStatus.VALUE_VARIABLE)throw new s.ElaborationError(this.position,'Expected a constructor, "'+this.func.name.getText()+"\" isn't.");var o=this.func.getType(t,e,"'g0");if(o[3].forEach(function(t){var e="'p"+t.substring(2);"'"===t[1]&&(e="''p"+t.substring(3)),o[4]=o[4].set(t,[new i.TypeVariable(e),!1])}),r[0]=o[0],e=o[4],!(r[0]instanceof i.FunctionType))throw new s.ElaborationError(this.position,"This is truly more...slothful.");try{var u=r[0],p=u.returnType.merge(t,e,n),c=this.argument.matchType(t,p[1],u.parameterType.instantiate(t,p[1]));return[c[0],p[0],c[2]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Merge failed: "+t[0])}},FunctionApplication.prototype.matches=function(t,e){if(e instanceof u.FunctionValue)throw new s.EvaluationError(this.position,"You simply cannot match function values.");if(e instanceof u.ConstructedValue){if(this.func instanceof h&&this.func.name.getText()===e.constructorName&&"ref"!==this.func.name.getText())return void 0!==e.argument?this.argument.matches(t,e.argument):[]}else if(e instanceof u.ExceptionValue){if(this.func instanceof h&&this.func.name.getText()===e.constructorName&&t.getValueIdentifierId(e.constructorName)===e.id+1)return void 0!==e.argument?this.argument.matches(t,e.argument):[]}else{if(e instanceof u.PredefinedFunction)throw new s.EvaluationError(this.position,"You simply cannot match predefined functions.");if(!(e instanceof u.ReferenceValue))throw new s.EvaluationError(this.position,"Help me, I'm broken. ("+e.constructor.name+").");if(this.func instanceof h&&"ref"===this.func.name.getText())return this.argument.matches(t,t.getCell(e.address))}},FunctionApplication.prototype.getType=function(t,e,n,r,o){if(void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1),o&&this.func instanceof h){var u=t.getStaticValue(this.func.name.getText());if(void 0===u||u[1]===a.IdentifierStatus.VALUE_VARIABLE)throw new s.ElaborationError(this.position,'"'+this.func.name.getText()+'" is not a constructor.')}var p=this.func.getType(t,e,n,r,o);t.valueIdentifierId=p[5];var c=new Map;p[4].forEach(function(t,e){c=c.set(e,t)});var f=this.argument.getType(t,c,p[2],p[3],o);if(f[4].forEach(function(t,e){p[4]=p[4].set(e,t)}),p[0]=p[0].instantiate(t,p[4]),p[0]instanceof i.TypeVariable){var l=new i.TypeVariable(p[0].name+"*a"),d=new i.TypeVariable(p[0].name+"*b");l.isFree=p[0].isFree,d.isFree=p[0].isFree;var y=new i.FunctionType(l,d);p[4]=p[4].set(p[0].name,[y,p[0].isFree]),p[0]=y}if(p[0]instanceof i.AnyType&&(p[0]=new i.FunctionType(new i.AnyType,new i.AnyType)),!(p[0]instanceof i.FunctionType))throw new s.ElaborationError(this.func.position,'"'+this.func+'" of type "'+p[0].normalize()[0]+'" is not a function.');try{var v=p[0].parameterType.merge(t,p[4],f[0]),m=p[0].returnType;return p[0].parameterType instanceof i.RecordType&&!p[0].parameterType.complete&&(m=m.replace(p[0].parameterType,v[0])),[m.instantiate(t,v[1]),p[1].concat(f[1]),f[2],f[3],v[1],f[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,'Type clash. Functions of type "'+p[0].normalize()[0]+'" cannot take an argument of type "'+f[0].normalize()[0]+'": '+t[0])}},FunctionApplication.prototype.simplify=function(){return new FunctionApplication(this.position,this.func.simplify(),this.argument.simplify())},FunctionApplication.prototype.toString=function(){var t="( "+this.func;return(t+=" "+this.argument)+" )"},FunctionApplication.prototype.compute=function(t,e){var n=t.state,i=t.modifiable;void 0===t.step&&(t.step=-1);var r=t.step;if(this.func instanceof h&&("ref"===this.func.name.getText()||":="===this.func.name.getText()||"!"===this.func.name.getText())){if(-1===r)return t.step=r+1,t.state=n,e.push({next:this,params:t}),void e.push({next:this.argument,params:{state:n,modifiable:i,recResult:void 0}});var o=t.recResult;if(void 0===o||void 0===o.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(o.hasThrown)return{newState:void 0,value:o.value,hasThrown:!0};var a=o.value;if("ref"===this.func.name.getText()){var p=i.setNewCell(a);return{newState:void 0,value:p,hasThrown:!1}}if(":="===this.func.name.getText()){if(!(a instanceof u.RecordValue&&a.getValue("1")instanceof u.ReferenceValue))throw new s.EvaluationError(this.position,'That\'s not how ":=" works.');return i.setCell(a.getValue("1").address,a.getValue("2")),{newState:void 0,value:new u.RecordValue,hasThrown:!1}}if("!"===this.func.name.getText()){if(!(a instanceof u.ReferenceValue))throw new s.EvaluationError(this.position,'You cannot dereference "'+this.argument+'".');return{newState:void 0,value:i.getCell(a.address),hasThrown:!1}}}if(-1===r)return t.step=r+1,t.state=n,e.push({next:this,params:t}),void e.push({next:this.func,params:{state:n,modifiable:i,recResult:void 0}});if(0===r){var c=t.recResult;if(void 0===c)throw new s.InternalInterpreterError(-1,"How is this undefined?");return c.hasThrown?c:(t.step=r+1,t.state=n,t.funcVal=c,e.push({next:this,params:t}),void e.push({next:this.argument,params:{state:n,modifiable:i,recResult:void 0}}))}if(1===r){var c=t.funcVal,f=t.recResult;if(void 0===c||void 0===c.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(void 0===f||void 0===f.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(f.hasThrown)return{newState:void 0,value:f.value,hasThrown:!0};if(c.value instanceof u.FunctionValue)return void c.value.compute(e,f.value,i);if(c.value instanceof u.ValueConstructor)return{newState:void 0,value:c.value.construct(f.value),hasThrown:!1};if(c.value instanceof u.ExceptionConstructor)return{newState:void 0,value:c.value.construct(f.value),hasThrown:!1};if(c.value instanceof u.PredefinedFunction){for(var p=c.value.apply(f.value),l=0,d=p[2];l<d.length;l++){var y=d[l];i.addWarning(y)}return{newState:void 0,value:p[0],hasThrown:p[1]}}throw new s.EvaluationError(this.position,'Cannot evaluate the function "'+this.func+'" ('+c[0].constructor.name+").")}var p=t.recResult;if(void 0===p)throw new s.InternalInterpreterError(-1,"How is this undefined?");return{newState:void 0,value:p.value,hasThrown:p.hasThrown}},FunctionApplication}(p);exports.FunctionApplication=y;var v=function(t){function HandleException(e,n,i){var r=t.call(this)||this;return r.position=e,r.expression=n,r.match=i,r}return n(HandleException,t),HandleException.prototype.getExplicitTypeVariables=function(){return this.expression.getExplicitTypeVariables()},HandleException.prototype.isSafe=function(t){return this.expression.isSafe(t)},HandleException.prototype.simplify=function(){return new HandleException(this.position,this.expression.simplify(),this.match.simplify())},HandleException.prototype.toString=function(){var t="( "+this.expression+" )";return t+=" handle "+this.match},HandleException.prototype.getType=function(t,e,n,r,o){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1);var a=this.match.getType(t,e,n,r,o,!1);if(!(a[0]instanceof i.FunctionType))throw new s.ElaborationError(this.match.position,'You can only handle things of type "exn" and not "'+a[0].parameterType.normalize()[0]+'".');try{a[0].parameterType.merge(t,a[4],new i.CustomType("exn"))}catch(t){throw new s.ElaborationError(this.match.position,'You can only handle things of type "exn" and not "'+a[0].parameterType.normalize()[0]+'".')}var u=a[0].returnType;t.valueIdentifierId=a[5];var p=this.expression.getType(t,a[4],a[2],a[3],o);try{var c=u.merge(t,p[4],p[0]);return[c[0],a[1].concat(p[1]),p[2],p[3],c[1],p[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.expression.position,'The "handle" cannot change the type of the expression from "'+p[0].normalize()[0]+'" to "'+u.normalize()[0]+'": '+t[0])}},HandleException.prototype.compute=function(t,e){var n=t.state;if(void 0===t.recResult)return e.push({next:this,params:t}),void e.push({next:this.expression,params:{state:n,modifiable:t.modifiable,recResult:void 0}});var i=t.recResult;if(void 0===i||void 0===i.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(void 0===t.exprResult)return i.hasThrown?(t.exprResult=i,e.push({next:this,params:t}),void e.push({next:this.match,params:{state:n,modifiable:t.modifiable,recResult:void 0,value:i.value}})):i;i=t.exprResult;var r=t.recResult;if(void 0===i||void 0===i.value||void 0===r||void 0===r.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");return r.hasThrown&&r.value.equals(new u.ExceptionValue("Match",void 0,0))?{newState:void 0,value:i.value,hasThrown:i.hasThrown}:{newState:void 0,value:r.value,hasThrown:r.hasThrown}},HandleException}(p);exports.HandleException=v;var m=function(t){function RaiseException(e,n){var i=t.call(this)||this;return i.position=e,i.expression=n,i}return n(RaiseException,t),RaiseException.prototype.getExplicitTypeVariables=function(){return this.expression.getExplicitTypeVariables()},RaiseException.prototype.simplify=function(){return new RaiseException(this.position,this.expression.simplify())},RaiseException.prototype.isSafe=function(t){return this.expression.isSafe(t)},RaiseException.prototype.toString=function(){return"raise "+this.expression},RaiseException.prototype.getType=function(t,e,n,r,o){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1);var a=this.expression.getType(t,e,n,r,o);try{var u=a[0].merge(t,e,new i.CustomType("exn"));return[new i.TypeVariable(a[2]),a[1],a[2]+"0",a[3],u[1],a[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.expression.position,"Raising anything but exceptions will only raise exceptions: "+t[0])}},RaiseException.prototype.compute=function(t,e){var n=t.state;if(void 0===t.recResult)return e.push({next:this,params:t}),void e.push({next:this.expression,params:{state:n,modifiable:t.modifiable,recResult:void 0}});var i=t.recResult;if(void 0===i||void 0===i.value)throw new s.InternalInterpreterError(-1,"How is this undefined?");if(!(i.value instanceof u.ExceptionValue))throw new s.EvaluationError(this.position,'Cannot "raise" value of type "'+i.value.constructor.name+'" (type must be "exn").');return{newState:n,value:i.value,hasThrown:!0}},RaiseException}(p);exports.RaiseException=m;var g=function(t){function Lambda(e,n){var i=t.call(this)||this;return i.position=e,i.match=n,i}return n(Lambda,t),Lambda.prototype.getExplicitTypeVariables=function(){return this.match.getExplicitTypeVariables()},Lambda.prototype.simplify=function(){return new Lambda(this.position,this.match.simplify())},Lambda.prototype.toString=function(){return"( fn "+this.match+" )"},Lambda.prototype.getType=function(t,e,n,i,r){return void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1),this.match.getType(t,e,n,i,r)},Lambda.prototype.compute=function(t,e){var n=t.state,i=n.getNestedState(n.id);return i.insideLocalDeclBody&&(i.dynamicBasis=n.getDynamicLocalDeclChanges(-1),i.insideLocalDeclBody=!1),{newState:void 0,value:new u.FunctionValue(i,[],this.match),hasThrown:!1}},Lambda}(p);exports.Lambda=g;var w=function(){function Match(t,e){this.position=t,this.matches=e}return Match.prototype.getExplicitTypeVariables=function(){for(var t=new Set,e=0;e<this.matches.length;++e)this.matches[e][0].getExplicitTypeVariables().forEach(function(e){t=t.add(e)}),this.matches[e][1].getExplicitTypeVariables().forEach(function(e){t=t.add(e)});return t},Match.prototype.toString=function(){for(var t="",e=0;e<this.matches.length;++e)e>0&&(t+=" | "),t+=this.matches[e][0],t+=" => "+this.matches[e][1];return t},Match.prototype.compute=function(t,e){var n=t.state,i=t.value;if(void 0===i)throw new s.InternalInterpreterError(-1,"How is this undefined?");for(var r=0;r<this.matches.length;++r){var o=n.getNestedState(n.id),p=this.matches[r][0].matches(o,i);if(void 0!==p){for(var c=0;c<p.length;++c)o.setDynamicValue(p[c][0],p[c][1],a.IdentifierStatus.VALUE_VARIABLE);return void e.push({next:this.matches[r][1],params:{state:o,modifiable:t.modifiable,recResult:void 0}})}}return{newState:void 0,value:new u.ExceptionValue("Match",void 0,0),hasThrown:!0}},Match.prototype.getType=function(t,e,n,r,o,u){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1),void 0===u&&(u=!0);for(var p=new i.FunctionType(new i.AnyType,new i.AnyType),c=[],f=e,l=new Map,d=this,y=0;y<this.matches.length;++y)!function(e){if(d.matches[e][0]instanceof h){var u=t.getStaticValue(d.matches[e][0].name.getText());if(void 0!==u&&u[1]!==a.IdentifierStatus.VALUE_VARIABLE&&u[0]instanceof i.FunctionType)throw new s.ElaborationError(d.matches[e][0].position,"Unary constructor in the pattern needs an argument.")}var y=new Map;f.forEach(function(t,e){y=y.set(e,t)});var v=d.matches[e][0].getType(t,f,n,r,!0);t.valueIdentifierId=v[5],c=c.concat(v[1]);var m=d.matches[e][1].getType(t,v[4],v[2],v[3],o);c=c.concat(m[1]),t.valueIdentifierId=m[5],n=m[2],r=m[3];var g=new i.FunctionType(v[0],m[0]);try{w=p.merge(t,m[4],g),p=w[0],f=w[1],p=p.instantiate(t,f)}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(d.position,"Match rules disagree on type: "+t[0])}p=p.instantiate(t,f),f.forEach(function(e,n){"*"!==n[1]||"*"!==n[2]?y=y.set(n,[e[0].instantiate(t,f),e[1]]):l=l.set(n,e)}),f=y;var w}(y);var v=new Map;if(f.forEach(function(t,e){v=v.set(e,t)}),l.forEach(function(t,e){v=v.set(e,t)}),u)try{c=c.concat(p.parameterType.checkExhaustiveness(t,v,this.position,this.matches))}catch(t){c.push(new s.Warning(this.position,"Couldn't check exhaustiveness: "+t.message+"\n"))}return[p,c,n,r,f,t.valueIdentifierId]},Match.prototype.simplify=function(){for(var t=[],e=0;e<this.matches.length;++e){var n=this.matches[e];t.push([n[0].simplify(),n[1].simplify()])}return new Match(this.position,t)},Match}();exports.Match=w;var T=function(t){function Wildcard(e){var n=t.call(this)||this;return n.position=e,n}return n(Wildcard,t),Wildcard.prototype.getMatchedValues=function(t,e){return new i.Domain(void 0)},Wildcard.prototype.getType=function(t,e,n,r,o){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===r&&(r=new Set),void 0===o&&(o=!1);for(var a=+n.substring(3)+1,s="";;++a)if(n="'"+n[1]+n[2]+a,!r.has(n)&&!e.has(n)&&void 0===t.getStaticValue(n))return s=n,[new i.TypeVariable(s),[],s,r.add(s),e,t.valueIdentifierId]},Wildcard.prototype.compute=function(t,e){throw new s.InternalInterpreterError(this.position,"Wildcards are far too wild to have a value.")},Wildcard.prototype.matchType=function(t,e,n){return[[],n,e]},Wildcard.prototype.matches=function(t,e){return[]},Wildcard.prototype.simplify=function(){return this},Wildcard.prototype.toString=function(){return"_"},Wildcard}(p);exports.Wildcard=T;var E=function(t){function LayeredPattern(e,n,i,r){var o=t.call(this)||this;return o.position=e,o.identifier=n,o.typeAnnotation=i,o.pattern=r,o}return n(LayeredPattern,t),LayeredPattern.prototype.getMatchedValues=function(t,e){return this.pattern.getMatchedValues(t,e)},LayeredPattern.prototype.getType=function(t,e,n,i,r){if(void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1),!r)throw new s.InternalInterpreterError(this.position,"Layered patterns are far too layered to have a type.");var o=new h(-1,this.identifier),a=o.getType(t,e,n,i,!0),u=a[0];if(void 0!==this.typeAnnotation)try{var p=u.merge(t,a[4],this.typeAnnotation);e=p[1],u=p[0]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Wrong type annotation: "+t[0])}var c=this.pattern.getType(t,e,a[2],a[3],!0);try{var p=u.merge(t,c[4],c[0]);e=p[1],u=p[0]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Wrong type annotation: "+t[0])}return[u,a[1].concat(c[1]),c[2],c[3],e,t.valueIdentifierId]},LayeredPattern.prototype.compute=function(t,e){throw new s.InternalInterpreterError(this.position,"Layered patterns are far too layered to have a value.")},LayeredPattern.prototype.matchType=function(t,e,n){var i=n;if(void 0!==this.typeAnnotation)try{var r=n.merge(t,e,this.typeAnnotation);e=r[1],i=r[0]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Wrong type annotation: "+t[0])}var o=this.pattern.matchType(t,e,i);return[[[this.identifier.getText(),i]].concat(o[0]),n,o[2]]},LayeredPattern.prototype.matches=function(t,e){var n=this.pattern.matches(t,e);return void 0===n?n:[[this.identifier.getText(),e]].concat(n)},LayeredPattern.prototype.simplify=function(){return this.typeAnnotation?new LayeredPattern(this.position,this.identifier,this.typeAnnotation.simplify(),this.pattern.simplify()):new LayeredPattern(this.position,this.identifier,void 0,this.pattern.simplify())},LayeredPattern.prototype.toString=function(){return this.identifier.getText()+" as "+this.pattern},LayeredPattern}(p);exports.LayeredPattern=E;var S=function(t){function ConjunctivePattern(e,n,i){var r=t.call(this)||this;return r.position=e,r.left=n,r.right=i,r}return n(ConjunctivePattern,t),ConjunctivePattern.prototype.getType=function(t,e,n,i,r){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1);var o=this.left.getType(t,e,n,i,r),a=this.right.getType(t,o[4],o[2],o[3],r);try{var u=o[0].merge(t,a[4],a[0]);return[u[0],o[1].concat(a[1]),a[2],a[3],u[1],a[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Both patterns of a conjunctive pattern must have the same type.")}},ConjunctivePattern.prototype.getMatchedValues=function(t,e){return new i.Domain([])},ConjunctivePattern.prototype.simplify=function(){return new ConjunctivePattern(this.position,this.left.simplify(),this.right.simplify())},ConjunctivePattern.prototype.matchType=function(t,e,n){throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},ConjunctivePattern.prototype.matches=function(t,e){var n=this.left.matches(t,e);if(void 0!==n){for(var i=t.getNestedState(t.id),r=0,o=n;r<o.length;r++){var s=o[r];i.setDynamicValue(s[0],s[1],a.IdentifierStatus.VALUE_VARIABLE)}var u=this.right.matches(i,e);if(void 0!==u)return n.concat(u)}},ConjunctivePattern}(p);exports.ConjunctivePattern=S;var x=function(t){function DisjunctivePattern(e,n,i){var r=t.call(this)||this;return r.position=e,r.left=n,r.right=i,r}return n(DisjunctivePattern,t),DisjunctivePattern.prototype.getType=function(t,e,n,i,r){void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1);var o=this.left.getType(t,e,n,i,r),a=this.right.getType(t,o[4],o[2],o[3],r);try{var u=o[0].merge(t,a[4],a[0]);return[u[0],o[1].concat(a[1]),a[2],a[3],u[1],a[5]]}catch(t){if(!(t instanceof Array))throw t;throw new s.ElaborationError(this.position,"Both patterns of a disjunctive pattern must have the same type.")}},DisjunctivePattern.prototype.getMatchedValues=function(t,e){return new i.Domain([])},DisjunctivePattern.prototype.simplify=function(){return new DisjunctivePattern(this.position,this.left.simplify(),this.right.simplify())},DisjunctivePattern.prototype.matchType=function(t,e,n){throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},DisjunctivePattern.prototype.matches=function(t,e){var n=this.left.matches(t,e);return void 0!==n?n:this.right.matches(t,e)},DisjunctivePattern}(p);exports.DisjunctivePattern=x;var I=function(t){function NestedMatch(e,n,i,r){var o=t.call(this)||this;return o.position=e,o.pattern=n,o.nested=i,o.expression=r,o}return n(NestedMatch,t),NestedMatch.prototype.getType=function(t,e,n,i,r){throw void 0===e&&(e=new Map),void 0===n&&(n="'*t0"),void 0===i&&(i=new Set),void 0===r&&(r=!1),new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},NestedMatch.prototype.getMatchedValues=function(t,e){return new i.Domain([])},NestedMatch.prototype.simplify=function(){return new NestedMatch(this.position,this.pattern.simplify(),this.nested.simplify(),this.expression.simplify())},NestedMatch.prototype.matchType=function(t,e,n){throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},NestedMatch.prototype.matches=function(t,e){if(void 0!==this.pattern.matches(t,e))throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},NestedMatch}(p);exports.NestedMatch=I;var k=function(t){function InfixExpression(e,n){var i=t.call(this)||this;return i.expressions=e,i.operators=n,i}return n(InfixExpression,t),InfixExpression.prototype.getMatchedValues=function(t,e){throw new s.InternalInterpreterError(this.position,"This call is trash.")},InfixExpression.prototype.matchType=function(t,e,n){return this.reParse(t).matchType(t,e,n)},InfixExpression.prototype.matches=function(t,e){return this.reParse(t).matches(t,e)},InfixExpression.prototype.simplify=function(){throw new s.InternalInterpreterError(this.position,"Ouch, I'm not fully parsed.")},InfixExpression.prototype.reParse=function(t){for(var e=this.operators,n=this.expressions,i=[],r=0;r<n.length;++r)i.push([r]);e.sort(function(e,n){var i=e[0],r=e[1],o=n[0],a=n[1],s=t.getInfixStatus(i),u=t.getInfixStatus(o);if(s.precedence>u.precedence)return-1;if(s.precedence<u.precedence)return 1;if(s.rightAssociative){if(r>a)return-1;if(r<a)return 1}else{if(r>a)return 1;if(r<a)return-1}return 0});for(var r=0;r<e.length;++r){if(r>0){var o=t.getInfixStatus(e[r][0]),a=t.getInfixStatus(e[r-1][0]);if(o.precedence===a.precedence&&o.rightAssociative!==a.rightAssociative&&(i[e[r-1][1]+1]===i[e[r][1]]||i[e[r-1][1]]===i[e[r][1]+1]))throw new s.ParserError("Could you ever imagine left associatives and right associatives living together in peace?",e[r][0].position)}for(var u=n[e[r][1]],p=n[e[r][1]+1],c=new y(e[r][0].position,new h(e[r][0].position,e[r][0]),new B(e[r][0].position,[u,p])),f=i[e[r][1]],l=0,d=i[e[r][1]+1];l<d.length;l++){var v=d[l];f.push(v)}for(var m=0,g=f;m<g.length;m++){var v=g[m];i[v]=f,n[v]=c}}return n[0]},InfixExpression}(p);exports.InfixExpression=k;var V=new h(0,new o.IdentifierToken("false",0)),b=new h(0,new o.IdentifierToken("true",0)),A=new h(0,new o.IdentifierToken("nil",0)),L=new h(0,new o.IdentifierToken("::",0)),R=function(t){function Conjunction(e,n,i){var r=t.call(this)||this;return r.position=e,r.leftOperand=n,r.rightOperand=i,r}return n(Conjunction,t),Conjunction.prototype.simplify=function(){return new F(this.position,this.leftOperand,this.rightOperand,V).simplify()},Conjunction.prototype.toString=function(){return"( "+this.leftOperand+" andalso "+this.rightOperand+" )"},Conjunction}(p);exports.Conjunction=R;var C=function(t){function Disjunction(e,n,i){var r=t.call(this)||this;return r.position=e,r.leftOperand=n,r.rightOperand=i,r}return n(Disjunction,t),Disjunction.prototype.simplify=function(){return new F(this.position,this.leftOperand,b,this.rightOperand).simplify()},Disjunction.prototype.toString=function(){return"( "+this.leftOperand+" orelse "+this.rightOperand+" )"},Disjunction}(p);exports.Disjunction=C;var B=function(t){function Tuple(e,n){var i=t.call(this)||this;return i.position=e,i.expressions=n,i}return n(Tuple,t),Tuple.prototype.getMatchedValues=function(t,e){throw new s.InternalInterpreterError(this.position,"What a wonderful explosion. I'm going to faint now, though…")},Tuple.prototype.matchType=function(t,e,n){return this.simplify().matchType(t,e,n)},Tuple.prototype.matches=function(t,e){return this.simplify().matches(t,e)},Tuple.prototype.simplify=function(){for(var t=[],e=0;e<this.expressions.length;++e)t.push([""+(e+1),this.expressions[e].simplify()]);return new f(this.position,!0,t)},Tuple.prototype.toString=function(){for(var t="( ",e=0;e<this.expressions.length;++e)e>0&&(t+=", "),t+=this.expressions[e];return t+" )"},Tuple}(p);exports.Tuple=B;var D=function(t){function List(e,n){var i=t.call(this)||this;return i.position=e,i.expressions=n,i}return n(List,t),List.prototype.getMatchedValues=function(t,e){throw new s.InternalInterpreterError(this.position,"You did nothing wrong.")},List.prototype.matchType=function(t,e,n){return this.simplify().matchType(t,e,n)},List.prototype.matches=function(t,e){return this.simplify().matches(t,e)},List.prototype.simplify=function(){for(var t=A,e=this.expressions.length-1;e>=0;--e){var n=new B(-1,[this.expressions[e],t]).simplify();t=new y(-1,L,n)}return t},List.prototype.toString=function(){for(var t="[ ",e=0;e<this.expressions.length;++e)e>0&&(t+=", "),t+=this.expressions[e];return t+" ]"},List}(p);exports.List=D;var O=function(t){function Sequence(e,n){var i=t.call(this)||this;return i.position=e,i.expressions=n,i}return n(Sequence,t),Sequence.prototype.simplify=function(){for(var t=this.expressions.length-1,e=new w(-1,[[new T(0),this.expressions[t]]]),n=new P(-1,this.expressions[t-1],e),i=t-2;i>=0;--i)e=new w(-1,[[new T(0),n]]),n=new P(-1,this.expressions[i],e);return n.simplify()},Sequence.prototype.toString=function(){for(var t="( ",e=0;e<this.expressions.length;++e)e>0&&(t+="; "),t+=this.expressions[e];return t+" )"},Sequence}(p);exports.Sequence=O;var _=function(t){function RecordSelector(e,n){var i=t.call(this)||this;return i.position=e,i.label=n,i}return n(RecordSelector,t),RecordSelector.prototype.simplify=function(){return new g(this.position,new w(-1,[[new f(-1,!1,[[this.label.text,new h(-1,new o.IdentifierToken("__rs",-1))]]),new h(-1,new o.IdentifierToken("__rs",-1))]]))},RecordSelector.prototype.toString=function(){return"#"+this.label.getText()},RecordSelector}(p);exports.RecordSelector=_;var P=function(t){function CaseAnalysis(e,n,i){var r=t.call(this)||this;return r.position=e,r.expression=n,r.match=i,r}return n(CaseAnalysis,t),CaseAnalysis.prototype.simplify=function(){return new y(this.position,new g(this.position,this.match.simplify()),this.expression.simplify())},CaseAnalysis.prototype.toString=function(){return"case "+this.expression+" of "+this.match},CaseAnalysis}(p);exports.CaseAnalysis=P;var F=function(t){function Conditional(e,n,i,r){var o=t.call(this)||this;return o.position=e,o.condition=n,o.consequence=i,o.alternative=r,o}return n(Conditional,t),Conditional.prototype.simplify=function(){var t=new w(this.position,[[b,this.consequence],[V,this.alternative]]);return new P(this.position,this.condition,t).simplify()},Conditional.prototype.toString=function(){return"if "+this.condition+" then "+this.consequence+" else "+this.alternative},Conditional}(p);exports.Conditional=F;var q=function(t){function While(e,n,i){var r=t.call(this)||this;return r.position=e,r.condition=n,r.body=i,r}return n(While,t),While.prototype.simplify=function(){var t=new h(this.position,new o.IdentifierToken("__whl",this.position)),e=new y(this.position,t,new B(this.position,[])),n=new F(this.position,this.condition,new O(this.position,[this.body,e]),new B(this.position,[])),i=new r.ValueBinding(this.position,!0,t,new g(this.position,new w(this.position,[[new B(this.position,[]),n]]))),a=new r.ValueDeclaration(this.position,[],[i]);return new l(this.position,a,e).simplify()},While.prototype.toString=function(){return"( while "+this.condition+" do "+this.body+" )"},While}(p);exports.While=q;var N=function(t){function PatternGuard(e,n,i){var r=t.call(this)||this;return r.position=e,r.pattern=n,r.condition=i,r}return n(PatternGuard,t),PatternGuard.prototype.getMatchedValues=function(t,e){return new i.Domain([])},PatternGuard.prototype.simplify=function(){return new I(this.position,this.pattern.simplify(),b,this.condition.simplify())},PatternGuard.prototype.matchType=function(t,e,n){throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},PatternGuard.prototype.matches=function(t,e){throw new s.InternalInterpreterError(this.position,"「ニャ－、ニャ－」")},PatternGuard}(p);exports.PatternGuard=N},function(t,exports,e){"use strict";function functionType(t){return new i.FunctionType(new i.TupleType([t,t]),t).simplify()}function bfunctionType(t){return new i.FunctionType(new i.TupleType([t,t]),s).simplify()}function intWordBind(t){return new i.TypeVariableBind("'iw",t,[new i.CustomType("int"),new i.CustomType("word")]).propagate()}function intRealBind(t){return new i.TypeVariableBind("'ir",t,[new i.CustomType("int"),a]).propagate()}function intWordRealBind(t){return new i.TypeVariableBind("'iwr",t,[new i.CustomType("int"),new i.CustomType("word"),a]).propagate()}function anyBind(t){return new i.TypeVariableBind("'any",t,[new i.CustomType("int"),new i.CustomType("word"),a,new i.CustomType("string"),new i.CustomType("char")]).propagate()}function getInitialState(){return v.getNestedState()}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(2),i=e(4),r=e(3),o=e(0),a=new i.CustomType("real"),s=new i.CustomType("bool"),u=new i.CustomType("string"),p=new i.CustomType("char"),c=new i.TypeVariable("'a"),h=new i.TypeVariable("''b"),f=new i.TypeVariable("'iw"),l=new i.TypeVariable("'ir"),d=new i.TypeVariable("'iwr"),y=new i.TypeVariable("'any"),v=new n.State(0,void 0,new n.StaticBasis({unit:new n.TypeInformation(new i.FunctionType(new i.CustomType("unit"),new i.TupleType([])).simplify(),[],0,!0),bool:new n.TypeInformation(new i.CustomType("bool"),["true","false"],0,!0),int:new n.TypeInformation(new i.CustomType("int"),[],0,!0),word:new n.TypeInformation(new i.CustomType("word"),[],0,!0),real:new n.TypeInformation(a,[],0,!1),string:new n.TypeInformation(new i.CustomType("string"),[],0,!0),char:new n.TypeInformation(new i.CustomType("char"),[],0,!0),list:new n.TypeInformation(new i.CustomType("list",[c]),["nil","::"],1,!0),array:new n.TypeInformation(new i.CustomType("array",[c]),[],1,!0),ref:new n.TypeInformation(new i.CustomType("ref",[c]),["ref"],1,!0),exn:new n.TypeInformation(new i.CustomType("exn"),[],0,!1)},{div:[intWordBind(functionType(f)),n.IdentifierStatus.VALUE_VARIABLE],mod:[intWordBind(functionType(f)),n.IdentifierStatus.VALUE_VARIABLE],"*":[intWordRealBind(functionType(d)),n.IdentifierStatus.VALUE_VARIABLE],"/":[functionType(a),n.IdentifierStatus.VALUE_VARIABLE],"+":[intWordRealBind(functionType(d)),n.IdentifierStatus.VALUE_VARIABLE],"-":[intWordRealBind(functionType(d)),n.IdentifierStatus.VALUE_VARIABLE],"<":[anyBind(bfunctionType(y)),n.IdentifierStatus.VALUE_VARIABLE],"<=":[anyBind(bfunctionType(y)),n.IdentifierStatus.VALUE_VARIABLE],">":[anyBind(bfunctionType(y)),n.IdentifierStatus.VALUE_VARIABLE],">=":[anyBind(bfunctionType(y)),n.IdentifierStatus.VALUE_VARIABLE],"=":[new i.TypeVariableBind("''b",new i.FunctionType(new i.TupleType([h,h]),s)).simplify(),n.IdentifierStatus.VALUE_VARIABLE],"<>":[new i.TypeVariableBind("''b",new i.FunctionType(new i.TupleType([h,h]),s)).simplify(),n.IdentifierStatus.VALUE_VARIABLE],true:[new i.CustomType("bool"),n.IdentifierStatus.VALUE_CONSTRUCTOR],false:[new i.CustomType("bool"),n.IdentifierStatus.VALUE_CONSTRUCTOR],nil:[new i.TypeVariableBind("'a",new i.CustomType("list",[c])),n.IdentifierStatus.VALUE_CONSTRUCTOR],"::":[new i.TypeVariableBind("'a",new i.FunctionType(new i.TupleType([c,new i.CustomType("list",[c])]),new i.CustomType("list",[c]))).simplify(),n.IdentifierStatus.VALUE_CONSTRUCTOR],Match:[new i.CustomType("exn"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Bind:[new i.CustomType("exn"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Div:[new i.CustomType("exn"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Overflow:[new i.CustomType("exn"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],"^":[functionType(u),n.IdentifierStatus.VALUE_VARIABLE],explode:[new i.FunctionType(u,new i.CustomType("list",[p])).simplify(),n.IdentifierStatus.VALUE_VARIABLE],implode:[new i.FunctionType(new i.CustomType("list",[p]),u).simplify(),n.IdentifierStatus.VALUE_VARIABLE],"~":[intRealBind(new i.FunctionType(l,l)),n.IdentifierStatus.VALUE_VARIABLE],abs:[intRealBind(new i.FunctionType(l,l)),n.IdentifierStatus.VALUE_VARIABLE],print:[new i.TypeVariableBind("'a",new i.FunctionType(c,new i.TupleType([]))).simplify(),n.IdentifierStatus.VALUE_VARIABLE],printLn:[new i.TypeVariableBind("'a",new i.FunctionType(c,new i.TupleType([]))).simplify(),n.IdentifierStatus.VALUE_VARIABLE],":=":[new i.TypeVariableBind("'a",new i.FunctionType(new i.TupleType([new i.CustomType("ref",[c]),c]),new i.TupleType([]))).simplify(),n.IdentifierStatus.VALUE_VARIABLE],ref:[new i.TypeVariableBind("'a",new i.FunctionType(c,new i.CustomType("ref",[c]))),n.IdentifierStatus.VALUE_CONSTRUCTOR],"!":[new i.TypeVariableBind("'a",new i.FunctionType(new i.CustomType("ref",[c]),c)),n.IdentifierStatus.VALUE_VARIABLE]},{},{},{}),new n.DynamicBasis({unit:[],bool:["true","false"],int:[],word:[],real:[],string:[],char:[],list:["nil","::"],array:[],ref:["ref"],exn:[]},{div:[new r.PredefinedFunction("div",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return 0===n.value?[new r.ExceptionConstructor("Div").construct(),!0,[]]:[e.divide(n),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return 0===n.value?[new r.ExceptionConstructor("Div").construct(),!0,[]]:[e.divide(n),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "div" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],mod:[new r.PredefinedFunction("mod",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return 0===n.value?[new r.ExceptionConstructor("Div").construct(),!0,[]]:[e.modulo(n),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return 0===n.value?[new r.ExceptionConstructor("Div").construct(),!0,[]]:[e.modulo(n),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "mod" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"*":[new r.PredefinedFunction("*",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer){var i=e.multiply(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Word&&n instanceof r.Word){var i=e.multiply(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Real&&n instanceof r.Real){var i=e.multiply(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}}throw new o.InternalInterpreterError(-1,'Called "*" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"/":[new r.PredefinedFunction("/",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Real&&n instanceof r.Real)return 0===n.value?[new r.ExceptionConstructor("Div").construct(),!0,[]]:[e.divide(n),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "/" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"+":[new r.PredefinedFunction("+",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer){var i=e.add(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Word&&n instanceof r.Word){var i=e.add(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Real&&n instanceof r.Real){var i=e.add(n);return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}}throw new o.InternalInterpreterError(-1,'Called "+" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"-":[new r.PredefinedFunction("-",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer){var i=e.add(n.negate());return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Word&&n instanceof r.Word){var i=e.add(n.negate());return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}if(e instanceof r.Real&&n instanceof r.Real){var i=e.add(n.negate());return i.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[i,!1,[]]}}throw new o.InternalInterpreterError(-1,'Called "-" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"<":[new r.PredefinedFunction("<",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return[new r.BoolValue(e.compareTo(n)<0),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return[new r.BoolValue(e.compareTo(n)<0),!1,[]];if(e instanceof r.Real&&n instanceof r.Real)return[new r.BoolValue(e.compareTo(n)<0),!1,[]];if(e instanceof r.StringValue&&n instanceof r.StringValue)return[new r.BoolValue(e.compareTo(n)<0),!1,[]];if(e instanceof r.CharValue&&n instanceof r.CharValue)return[new r.BoolValue(e.compareTo(n)<0),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "<" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],">":[new r.PredefinedFunction("<",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return[new r.BoolValue(e.compareTo(n)>0),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return[new r.BoolValue(e.compareTo(n)>0),!1,[]];if(e instanceof r.Real&&n instanceof r.Real)return[new r.BoolValue(e.compareTo(n)>0),!1,[]];if(e instanceof r.StringValue&&n instanceof r.StringValue)return[new r.BoolValue(e.compareTo(n)>0),!1,[]];if(e instanceof r.CharValue&&n instanceof r.CharValue)return[new r.BoolValue(e.compareTo(n)>0),!1,[]]}throw new o.InternalInterpreterError(-1,'Called ">" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"<=":[new r.PredefinedFunction("<",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return[new r.BoolValue(e.compareTo(n)<=0),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return[new r.BoolValue(e.compareTo(n)<=0),!1,[]];if(e instanceof r.Real&&n instanceof r.Real)return[new r.BoolValue(e.compareTo(n)<=0),!1,[]];if(e instanceof r.StringValue&&n instanceof r.StringValue)return[new r.BoolValue(e.compareTo(n)<=0),!1,[]];if(e instanceof r.CharValue&&n instanceof r.CharValue)return[new r.BoolValue(e.compareTo(n)<=0),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "<=" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],">=":[new r.PredefinedFunction("<",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Integer&&n instanceof r.Integer)return[new r.BoolValue(e.compareTo(n)>=0),!1,[]];if(e instanceof r.Word&&n instanceof r.Word)return[new r.BoolValue(e.compareTo(n)>=0),!1,[]];if(e instanceof r.Real&&n instanceof r.Real)return[new r.BoolValue(e.compareTo(n)>=0),!1,[]];if(e instanceof r.StringValue&&n instanceof r.StringValue)return[new r.BoolValue(e.compareTo(n)>=0),!1,[]];if(e instanceof r.CharValue&&n instanceof r.CharValue)return[new r.BoolValue(e.compareTo(n)>=0),!1,[]]}throw new o.InternalInterpreterError(-1,'Called ">=" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"=":[new r.PredefinedFunction("=",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");return[new r.BoolValue(e.equals(n)),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "=" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"<>":[new r.PredefinedFunction("=",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");return[new r.BoolValue(!e.equals(n)),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "<>" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],true:[new r.BoolValue(!0),n.IdentifierStatus.VALUE_CONSTRUCTOR],false:[new r.BoolValue(!1),n.IdentifierStatus.VALUE_CONSTRUCTOR],nil:[new r.ValueConstructor("nil"),n.IdentifierStatus.VALUE_CONSTRUCTOR],"::":[new r.ValueConstructor("::",1),n.IdentifierStatus.VALUE_CONSTRUCTOR],Match:[new r.ExceptionConstructor("Match"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Bind:[new r.ExceptionConstructor("Bind"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Div:[new r.ExceptionConstructor("Div"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],Overflow:[new r.ExceptionConstructor("Overflow"),n.IdentifierStatus.EXCEPTION_CONSTRUCTOR],"^":[new r.PredefinedFunction("^",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.StringValue&&n instanceof r.StringValue)return[e.concat(n),!1,[]]}throw new o.InternalInterpreterError(-1,'Called "^" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],explode:[new r.PredefinedFunction("explode",function(t){if(t instanceof r.StringValue)return[t.explode(),!1,[]];throw new o.InternalInterpreterError(-1,'Called "explode" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],implode:[new r.PredefinedFunction("implode",function(t){if(t instanceof r.ConstructedValue)return[r.StringValue.implode(t),!1,[]];throw new o.InternalInterpreterError(-1,'Called "implode" on value of the wrong type ('+t.constructor.name+").")}),n.IdentifierStatus.VALUE_VARIABLE],"~":[new r.PredefinedFunction("~",function(t){if(t instanceof r.Integer){var e=t.negate();return e.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[e,!1,[]]}if(t instanceof r.Real){var e=t.negate();return e.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[e,!1,[]]}throw new o.InternalInterpreterError(-1,'Called "~" on something weird.')}),n.IdentifierStatus.VALUE_VARIABLE],abs:[new r.PredefinedFunction("~",function(t){if(t instanceof r.Integer){if(t.value>=0)return[t,!1,[]];var e=t.negate();return e.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[e,!1,[]]}if(t instanceof r.Real){if(t.value>=0)return[t,!1,[]];var e=t.negate();return e.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[e,!1,[]]}throw new o.InternalInterpreterError(-1,'Called "~" on something weird.')}),n.IdentifierStatus.VALUE_VARIABLE],print:[new r.PredefinedFunction("print",function(t){var e=[];return t instanceof r.StringValue?e.push(new o.Warning(-2,t.value)):e.push(new o.Warning(-2,t.toString(void 0,1e18))),[new r.RecordValue,!1,e]}),n.IdentifierStatus.VALUE_VARIABLE],printLn:[new r.PredefinedFunction("printLn",function(t){var e=[];return t instanceof r.StringValue?e.push(new o.Warning(-2,t.value+"\n")):e.push(new o.Warning(-2,t.toString(void 0,1e18)+"\n")),[new r.RecordValue,!1,e]}),n.IdentifierStatus.VALUE_VARIABLE]},{},{},{}),[0,{}],[0,new Map],{div:new n.InfixStatus(!0,7,!1),mod:new n.InfixStatus(!0,7,!1),"*":new n.InfixStatus(!0,7,!1),"/":new n.InfixStatus(!0,7,!1),"+":new n.InfixStatus(!0,6,!1),"-":new n.InfixStatus(!0,6,!1),"<":new n.InfixStatus(!0,4,!1),">":new n.InfixStatus(!0,4,!1),"<=":new n.InfixStatus(!0,4,!1),">=":new n.InfixStatus(!0,4,!1),"::":new n.InfixStatus(!0,5,!0),"=":new n.InfixStatus(!0,4,!1),"<>":new n.InfixStatus(!0,4,!1),":=":new n.InfixStatus(!0,3,!1),"^":new n.InfixStatus(!0,6,!1)},{Match:1,Bind:1,Div:1,Overflow:1,int:1,real:1,string:1,char:1,unit:1,word:1,list:1,bool:1});exports.getInitialState=getInitialState},function(t,exports,e){"use strict";function interpret(t,e,i){void 0===e&&(e=n.getInitialState()),void 0===i&&(i={allowUnicodeInStrings:!1,allowSuccessorML:!1,disableElaboration:!1,strictMode:!0});var u=e.getNestedState(),p=o.lex(t,i),c=a.parse(p,u,i);if(u=e.getNestedState(),c=c.simplify(),!0===i.disableElaboration){var h=s.evaluate(e.getNestedState(),c);if(void 0===h)throw new r.InternalInterpreterError(-1,"How is this undefined?");return{state:h.newState,evaluationErrored:h.hasThrown,error:h.value,warnings:h.newState.getWarnings()}}var f=c.elaborate(u,new Map,"'*t0",!0,i);u=f[0];var l=s.evaluate(e.getNestedState(),c);if(void 0===l)throw new r.InternalInterpreterError(-1,"How is this undefined?");for(var d=0;d<f[1].length;++d)l.newState.addWarning(f[1][d]);if(l.hasThrown)return{state:l.newState,evaluationErrored:!0,error:l.value,warnings:l.newState.getWarnings()};for(var y=l.newState;y.id>e.id;){if(void 0!==y.dynamicBasis){y.freeTypeVariables=u.getTypeVariableBinds(y.id);for(var d in y.dynamicBasis.valueEnvironment)if(Object.prototype.hasOwnProperty.call(y.dynamicBasis.valueEnvironment,d)){var v=u.getStaticValue(d,y.id);void 0!==v&&y.setStaticValue(d,v[0],v[1])}for(var d in y.dynamicBasis.typeEnvironment)if(Object.prototype.hasOwnProperty.call(y.dynamicBasis.typeEnvironment,d)){var v=u.getStaticType(d,y.id);void 0!==v&&y.setStaticType(d,v.type,v.constructors,v.arity)}for(var d in y.dynamicBasis.structureEnvironment)if(Object.prototype.hasOwnProperty.call(y.dynamicBasis.structureEnvironment,d)){var v=u.getStaticStructure(d,y.id);void 0!==v&&y.setStaticStructure(d,v)}for(var d in y.dynamicBasis.signatureEnvironment)if(Object.prototype.hasOwnProperty.call(y.dynamicBasis.signatureEnvironment,d)){var v=u.getStaticSignature(d,y.id);void 0!==v&&y.setStaticSignature(d,v)}for(var d in y.dynamicBasis.functorEnvironment)if(Object.prototype.hasOwnProperty.call(y.dynamicBasis.functorEnvironment,d)){var v=u.getStaticFunctor(d,y.id);void 0!==v&&y.setStaticFunctor(d,v)}}if(void 0===u.parent)break;for(y=y.parent;u.id>y.id&&void 0!==u.parent;)u=u.parent}return{state:l.newState,evaluationErrored:!1,error:l.value,warnings:l.newState.getWarnings()}}function getAvailableModules(){var t=[];for(var e in i.STDLIB)Object.prototype.hasOwnProperty.call(i.STDLIB,e)&&"_"!==e[0]&&t.push(e);return t}function getFirstState(t,e){void 0===t&&(t=getAvailableModules()),void 0===e&&(e={});for(var r=i.loadModule(n.getInitialState(),"__Base",e),o=0,a=t;o<a.length;o++){var s=a[o];r=i.loadModule(r,s,e)}return r}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(7),i=e(12),r=e(0),o=e(10),a=e(11),s=e(9);exports.interpret=interpret,exports.getAvailableModules=getAvailableModules,exports.getFirstState=getFirstState},function(t,exports,e){"use strict";function evaluate(t,e){var r=t.getNestedState(),o=[];o.push({next:e,params:{state:t,modifiable:r,recResult:void 0}});for(var a=void 0;o.length>0;){var s=o.pop();if(void 0===s)throw new i.InternalInterpreterError(-1,"How is this undefined?");var u=s.next,p=s.params;p.recResult=a,a=u instanceof n.Declaration?u.evaluate(p,o):u.compute(p,o)}if(void 0!==a){var c=a.newState;if(void 0!==c){c.setWarnings(r.getWarnings());for(var h=0,f=r.getMemoryChanges(t.id);h<f.length;h++){var l=f[h];c.setCell(l[0],l[1])}var d=r.getIdChanges(t.id);for(var y in d)d.hasOwnProperty(y)&&c.setValueIdentifierId(y,d[y])}}return a}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(5),i=e(0);exports.evaluate=evaluate},function(t,exports,e){"use strict";function lex(t,e){for(var n=new s(t,e),i=[];!n.finished();)i.push(n.nextToken());return i}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(0),i=e(1),r=e(3),o=new Set(["abstype","and","andalso","as","case","datatype","do","else","end","exception","fn","fun","handle","if","in","infix","infixr","let","local","nonfix","of","op","open","orelse","raise","rec","then","type","val","with","withtype","while","(",")","[","]","{","}",",",":",";","...","_","|","=","=>","->","#","eqtype","functor","signature","struct","include","sharing","structure","where","sig",":>"]),a=new Set(["!","%","&","$","#","+","-","/",":","<","=",">","?","@","\\","~","`","^","|","*"]),s=function(){function Lexer(t,e){this.input=t,this.options=e,this.position=0,this.skipWhitespaceAndComments()}return Lexer.isAlphanumeric=function(t){return t>="a"&&t<="z"||t>="A"&&t<="Z"||t>="0"&&t<="9"||"'"===t||"_"===t},Lexer.isSymbolic=function(t){return a.has(t)},Lexer.isWhitespace=function(t){return" "===t||"\t"===t||"\n"===t||"\f"===t},Lexer.isNumber=function(t,e){return t>="0"&&t<="9"||e&&(t>="a"&&t<="f"||t>="A"&&t<="F")},Lexer.prototype.consumeChar=function(t,e){if(void 0===t&&(t=""),void 0===e&&(e=this.input.length-1),this.position>=this.input.length)throw""===t?new n.IncompleteError(e):new n.IncompleteError(e,t);return++this.position,this.input.charAt(this.position-1)},Lexer.prototype.getChar=function(t){return void 0===t&&(t=0),this.position+t>=this.input.length?"":this.input.charAt(this.position+t)},Lexer.prototype.skipWhitespace=function(){for(;Lexer.isWhitespace(this.getChar());)++this.position},Lexer.prototype.skipWhitespaceAndComments=function(){var t;do{for(t=this.position,this.skipWhitespace();this.position+1<this.input.length&&"(*"===this.input.substr(this.position,2);){var e=this.position;this.position+=2;for(var i=1;i>0;){if(this.position>this.input.length-2)throw new n.IncompleteError(e,"unclosed comment");var r=this.input.substr(this.position,2);"(*"===r?(++i,++this.position):"*)"===r&&(--i,++this.position),++this.position}}}while(this.position!==t);this.tokenStart=this.position},Lexer.prototype.readNumeric=function(t,e){void 0===e&&(e=-1);for(var n="";Lexer.isNumber(this.getChar(),t)&&n.length!==e;)n+=this.consumeChar();return n},Lexer.prototype.makeNumberToken=function(t,e,o,a){if(void 0===e&&(e=!1),void 0===o&&(o=!1),void 0===a&&(a=!1),e&&o)throw new n.InternalInterpreterError(this.position);var s=this.input.substring(this.tokenStart,this.position);if(e)return new i.RealConstantToken(s,this.tokenStart,parseFloat(t));var u=parseInt(t,a?16:10);if(u>r.MAXINT)throw new n.LexerError(this.position,'"'+u+'", whoa, it\'s over "'+r.MAXINT+'".');if(u<r.MININT)throw new n.LexerError(this.position,'"'+u+'", whoa, it\'s ounder "'+r.MININT+'".');if(o)return new i.WordConstantToken(s,this.tokenStart,u);var p=s.charAt(0);return Lexer.isNumber(p,!1)&&"0"!==p?new i.NumericToken(s,this.tokenStart,u):new i.IntegerConstantToken(s,this.tokenStart,u)},Lexer.prototype.lexNumber=function(){var t="",e=!1,n=!1,i=!1,r=!1;if("~"===this.getChar()&&(++this.position,r=!0,t+="-"),"0"===this.getChar()&&("w"===this.getChar(1)||"x"===this.getChar(1))){++this.position,"w"===this.getChar()&&(n=!0),"x"===this.getChar(n?1:0)&&(e=!0);var o=n&&e?2:1;if(r&&n||!Lexer.isNumber(this.getChar(o),e))return t+="0",this.makeNumberToken(t,!1,!1,!1);this.position+=o}if(t+=this.readNumeric(e),e||n)return this.makeNumberToken(t,!1,n,e);if("."===this.getChar()){if(!Lexer.isNumber(this.getChar(1),!1))return this.makeNumberToken(t);t+=this.consumeChar(),t+=this.readNumeric(!1),i=!0}if("e"===this.getChar()||"E"===this.getChar()){if(Lexer.isNumber(this.getChar(1),!1))t+="e",++this.position,t+=this.readNumeric(!1);else{if("~"!==this.getChar(1)||!Lexer.isNumber(this.getChar(2),!1))return this.makeNumberToken(t,i);t+="e-",this.position+=2,t+=this.readNumeric(!1)}i=!0}return this.makeNumberToken(t,i)},Lexer.prototype.lexString=function(){var t=this.position;if('"'!==this.consumeChar())throw new n.InternalInterpreterError(this.position);for(var e="";'"'!==this.getChar();)if("\\"===this.getChar())if(++this.position,Lexer.isWhitespace(this.getChar())){if(this.skipWhitespace(),"\\"!==this.consumeChar("unterminated whitespace escape sequence"))throw new n.LexerError(this.position-1,"Found non-whitespace character in whitespace escape sequence.")}else{var r=this.consumeChar();switch(r){case"a":e+="";break;case"b":e+="\b";break;case"t":e+="\t";break;case"n":e+="\n";break;case"v":e+="\v";break;case"f":e+="\f";break;case"r":e+="\r";break;case'"':e+='"';break;case"\\":e+="\\";break;case"^":var o=this.consumeChar().charCodeAt(0);if(o<64||o>95)throw new n.LexerError(this.position-1,'"'+String.fromCharCode(o)+'" does not represent a valid control character.');e+=String.fromCharCode(o-64);break;case"u":var a=this.readNumeric(!0,4);if(4!==a.length)throw new n.LexerError(this.position-a.length-1,"A Unicode escape sequence must consist of four digits.");var s=parseInt(a,16);if(s>=256&&!this.options.allowUnicodeInStrings)throw new n.LexerError(this.position-a.length-1,'The character code "'+a+'" is too large, only values between 00 and ff are allowed.');e+=String.fromCharCode(s);break;default:if(!Lexer.isNumber(r,!1))throw new n.LexerError(this.position-1,"Invalid escape sequence.");--this.position;var a=this.readNumeric(!1,3);if(3!==a.length)throw new n.LexerError(this.position-a.length-1,"A numeric escape sequence must consist of three digits.");var s=parseInt(a,10);if(s>=256&&!this.options.allowUnicodeInStrings)throw new n.LexerError(this.position-a.length-1,'The character code "'+a+'" is too large, only values between 000 and 255 are allowed.');e+=String.fromCharCode(s)}}else{var r=this.consumeChar("unterminated string",this.tokenStart).charCodeAt(0);if((r<33||r>126)&&32!==r&&r<128){var u="";throw 9===r&&(u=" (tab)"),10===r&&(u=" (newline)"),13===r&&(u=" (carriage return)"),new n.LexerError(this.position-1,"A string may not contain the character <"+r+">"+u+".")}e+=String.fromCharCode(r)}if('"'!==this.consumeChar())throw new n.InternalInterpreterError(this.position);return new i.StringConstantToken(this.input.substring(t,this.position),this.tokenStart,e)},Lexer.prototype.lexCharacter=function(){if("#"!==this.consumeChar())throw new n.InternalInterpreterError(this.position);var t=this.lexString();if(1!==t.value.length)throw new n.LexerError(this.tokenStart,"A character constant must have length 1, not "+t.value.length+".");return new i.CharacterConstantToken("#"+t.text,this.tokenStart,t.value)},Lexer.prototype.lexIdentifierOrKeyword=function(){var t,e="",r=this.getChar();if(Lexer.isSymbolic(r))t=Lexer.isSymbolic;else{if(!Lexer.isAlphanumeric(r)||Lexer.isNumber(r,!1)||"_"===r){if(o.has(r))return new i.KeywordToken(this.consumeChar(),this.tokenStart);if("."===r&&"."===this.getChar(1)&&"."===this.getChar(2))return this.position+=3,new i.KeywordToken("...",this.tokenStart);throw r.charCodeAt(0)<32?new n.LexerError(this.position,"Invalid character <"+r.charCodeAt(0)+">."):new n.LexerError(this.position,'Invalid token "'+r+'".')}t=Lexer.isAlphanumeric}do{e+=this.consumeChar()}while(t(this.getChar()));return"*"===e?new i.StarToken(this.tokenStart):"="===e?new i.EqualsToken(this.tokenStart):o.has(e)?new i.KeywordToken(e,this.tokenStart):"'"===r?"'"===e.charAt(1)?new i.EqualityTypeVariableToken(e,this.tokenStart):new i.TypeVariableToken(e,this.tokenStart):Lexer.isAlphanumeric(r)?new i.AlphanumericIdentifierToken(e,this.tokenStart):new i.IdentifierToken(e,this.tokenStart)},Lexer.prototype.lexLongIdentifierOrKeyword=function(){var t=this.tokenStart,e=this.lexIdentifierOrKeyword();if("."!==this.getChar())return e;var r=[];do{if(this.consumeChar(),!(e instanceof i.AlphanumericIdentifierToken))throw new n.LexerError(e.position,'Expected structure name before ".".');r.push(e),this.tokenStart=this.position,e=this.lexIdentifierOrKeyword()}while("."===this.getChar());if(!(e instanceof i.IdentifierToken||e instanceof i.StarToken)||e instanceof i.TypeVariableToken)throw new n.LexerError(e.position,'"'+e.text+'" is not allowed in a long identifier.');return new i.LongIdentifierToken(this.input.substring(t,this.position),t,r,e)},Lexer.prototype.nextToken=function(){var t;return this.tokenStart=this.position,t=Lexer.isNumber(this.getChar(),!1)||"~"===this.getChar()&&Lexer.isNumber(this.getChar(1),!1)?this.lexNumber():'"'===this.getChar()?this.lexString():"#"===this.getChar()&&'"'===this.getChar(1)?this.lexCharacter():this.lexLongIdentifierOrKeyword(),this.skipWhitespaceAndComments(),t},Lexer.prototype.finished=function(){return this.position>=this.input.length},Lexer}();exports.lex=lex},function(t,exports,e){"use strict";function parse(t,e,n){void 0===n&&(n={});var i=new u(t,e,e.id,n),r=i.parseDeclaration(!0,!0);return i.assertFinished(),r}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(6),i=e(4),r=e(0),o=e(1),a=e(5),s=e(13),u=function(){function Parser(t,e,n,i){if(this.tokens=t,this.state=e,this.currentId=n,this.options=i,this.position=0,void 0===this.state)throw new r.InternalInterpreterError(-1,"What are you, stupid? Hurry up and give me a state already!")}return Parser.prototype.assertFinished=function(){if(this.position<=this.tokens.length-1)throw new r.ParserError('Junk after declaration: "'+this.currentToken().getText()+'".',this.position)},Parser.prototype.assertKeywordToken=function(t,e){if(void 0===e&&(e=void 0),!(t instanceof o.KeywordToken))throw new r.ParserError('Expected a reserved word, got "'+t.getText()+'" ('+t.constructor.name+").",t.position);if(void 0!==e&&t.text!==e)throw new r.ParserError('Expected "'+e+'" but got "'+t.text+'".',t.position)},Parser.prototype.assertVidToken=function(t){if(!t.isVid())throw new r.ParserError('Expected an identifier, got "'+t.getText()+'" ('+t.constructor.name+").",t.position)},Parser.prototype.assertIdentifierToken=function(t){if(!(t instanceof o.IdentifierToken))throw new r.ParserError('Expected an identifier, got "'+t.getText()+'" ('+t.constructor.name+").",t.position)},Parser.prototype.assertVidOrLongToken=function(t){if(!(t.isVid()||t instanceof o.LongIdentifierToken))throw new r.ParserError('Expected an identifier, got "'+t.getText()+'" ('+t.constructor.name+").",t.position)},Parser.prototype.assertIdentifierOrLongToken=function(t){if(!(t instanceof o.IdentifierToken||t instanceof o.LongIdentifierToken))throw new r.ParserError('Expected an identifier, got "'+t.getText()+'" ('+t.constructor.name+").",t.position)},Parser.prototype.assertRecordLabelToken=function(t){if(!t.isValidRecordLabel())throw new r.ParserError('Expected a record label "'+t.getText()+'" ('+t.constructor.name+").",t.position)},Parser.prototype.checkVidOrLongToken=function(t){return t.isVid()||t instanceof o.LongIdentifierToken},Parser.prototype.checkIdentifierOrLongToken=function(t){return t instanceof o.IdentifierToken||t instanceof o.LongIdentifierToken},Parser.prototype.checkKeywordToken=function(t,e){return void 0===e&&(e=void 0),t instanceof o.KeywordToken&&(void 0===e||t.text===e)},Parser.prototype.parseOpIdentifierToken=function(t){void 0===t&&(t=!1);var e=this.currentToken(),n=this.checkKeywordToken(e,"op");n&&++this.position,t?this.assertIdentifierOrLongToken(this.currentToken()):this.assertIdentifierToken(this.currentToken());var i=this.currentToken();return i.opPrefixed=n,++this.position,i},Parser.prototype.parseAtomicExpression=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"op")){++this.position;var e=this.currentToken();return this.assertVidOrLongToken(e),e.opPrefixed=!0,++this.position,new n.ValueIdentifier(t.position,e)}if(this.checkKeywordToken(t,"{"))return++this.position,this.parseExpressionRow();if(this.checkKeywordToken(t,"(")){if(++this.position,this.checkKeywordToken(this.currentToken(),")"))return++this.position,new n.Tuple(t.position,[]);for(var i=[this.parseExpression()],a=!1,s=!1;;){var e=this.currentToken();if(!this.checkKeywordToken(e,",")||a){if(this.checkKeywordToken(e,";")&&!s){if(++this.position,a=!0,!this.options.allowSuccessorML||!this.checkKeywordToken(this.currentToken(),")")){i.push(this.parseExpression());continue}e=this.currentToken()}if(!this.checkKeywordToken(e,")"))throw new r.IncompleteError(e.position,'Expected ",", ";" or ")" but got "'+e.getText()+'".');if(++this.position,1===i.length)return i[0];if(s)return new n.Tuple(t.position,i);if(a)return new n.Sequence(t.position,i);i.push(this.parseExpression())}else++this.position,s=!0,i.push(this.parseExpression())}}if(this.checkKeywordToken(t,"[")){if(++this.position,this.checkKeywordToken(this.currentToken(),"]"))return++this.position,new n.List(t.position,[]);for(var i=[this.parseExpression()];;){var e=this.currentToken();if(!this.checkKeywordToken(e,",")){if(this.checkKeywordToken(e,"]"))return++this.position,new n.List(t.position,i);throw new r.ParserError('Expected "," or "]" but found "'+e.getText()+'".',e.position)}++this.position,i.push(this.parseExpression())}}if(this.checkKeywordToken(t,"#")){++this.position;var u=this.currentToken();return this.assertRecordLabelToken(u),++this.position,new n.RecordSelector(t.position,u)}if(this.checkKeywordToken(t,"let")){++this.position;var p=this.state;this.state=this.state.getNestedState(this.state.id);var c=this.parseDeclaration();this.assertKeywordToken(this.currentToken(),"in"),++this.position;for(var h=[this.parseExpression()],f=this.currentToken(),l=f.position;this.checkKeywordToken(f,";");){if(++this.position,this.options.allowSuccessorML&&this.checkKeywordToken(this.currentToken(),"end")){f=this.currentToken();break}h.push(this.parseExpression()),f=this.currentToken()}return this.assertKeywordToken(f,"end"),++this.position,this.state=p,h.length>=2?new n.LocalDeclarationExpression(t.position,c,new n.Sequence(l,h)):new n.LocalDeclarationExpression(t.position,c,h[0])}if(t instanceof o.ConstantToken)return++this.position,new n.Constant(t.position,t);if(t.isVid()||t instanceof o.LongIdentifierToken){if(++this.position,void 0!==this.state.getInfixStatus(t)&&this.state.getInfixStatus(t).infix)throw new r.ParserError('Infix operator "'+t.getText()+'" appeared in non-infix context without "op".',t.position);return new n.ValueIdentifier(t.position,t)}throw new r.ParserError('Expected atomic expression, "'+t.getText()+'" found.',t.position)},Parser.prototype.parseExpressionRow=function(){for(var t=this.currentToken(),e=[],i=!0;;){var o=this.currentToken();if(this.checkKeywordToken(o,"}"))return++this.position,new n.Record(t.position,!0,e);if(i||!this.checkKeywordToken(o,",")){if(i=!1,!o.isValidRecordLabel())throw new r.ParserError('Expected "}", or identifier, got "'+o.getText()+'".',o.position);++this.position;var a=this.currentToken();this.assertKeywordToken(a,"="),++this.position,e.push([o.getText(),this.parseExpression()])}else++this.position}},Parser.prototype.parseApplicationExpression=function(){for(var t=this.currentToken(),e=this.parseAtomicExpression();;){var i=this.position,r=this.currentToken();if(this.checkVidOrLongToken(r)&&void 0!==this.state.getInfixStatus(r)&&this.state.getInfixStatus(r).infix)break;try{var o=this.parseAtomicExpression();e=new n.FunctionApplication(t.position,e,o)}catch(t){this.position=i;break}}return e},Parser.prototype.parseInfixExpression=function(){for(var t=[],e=[],i=0;;){t.push(this.parseApplicationExpression());var r=this.currentToken();if(!this.checkVidOrLongToken(r)||void 0===this.state.getInfixStatus(r)||!this.state.getInfixStatus(r).infix)break;++this.position,e.push([r,i++])}return 0===i?t[0]:new n.InfixExpression(t,e).reParse(this.state)},Parser.prototype.parseAppendedExpression=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"raise"))return++this.position,new n.RaiseException(t.position,this.parseExpression());if(this.checkKeywordToken(t,"if")){++this.position;var e=this.parseExpression();this.assertKeywordToken(this.currentToken(),"then"),++this.position;var i=this.parseExpression();return this.options.allowSuccessorML&&!this.checkKeywordToken(this.currentToken(),"else")?new n.Conditional(t.position,e,i,new n.Tuple(-1,[])):(this.assertKeywordToken(this.currentToken(),"else"),++this.position,new n.Conditional(t.position,e,i,this.parseExpression()))}if(this.checkKeywordToken(t,"case")){++this.position;var e=this.parseExpression();return this.assertKeywordToken(this.currentToken(),"of"),++this.position,new n.CaseAnalysis(t.position,e,this.parseMatch())}if(this.checkKeywordToken(t,"while")){++this.position;var e=this.parseExpression();return this.assertKeywordToken(this.currentToken(),"do"),++this.position,new n.While(t.position,e,this.parseExpression())}if(this.checkKeywordToken(t,"fn"))return++this.position,new n.Lambda(t.position,this.parseMatch());for(var r=this.parseInfixExpression(),o=this.currentToken();this.checkKeywordToken(o,":");)++this.position,r=new n.TypedExpression(t.position,r,this.parseType()),o=this.currentToken();return r},Parser.prototype.parseExpression=function(){var t=this.parseAppendedExpression(),e=this.currentToken(),i=e;if(this.checkKeywordToken(e,"andalso")||this.checkKeywordToken(e,"orelse")){for(var r=[[t,[0]]],o=[],a=0;;){if(this.checkKeywordToken(e,"orelse"))o.push([1,a++]),++this.position;else{if(!this.checkKeywordToken(e,"andalso"))break;o.push([0,a++]),++this.position}r.push([this.parseAppendedExpression(),[a]]),e=this.currentToken()}o.sort();for(var s=0;s<o.length;++s){var u=r[o[s][1]][0],p=r[o[s][1]+1][0],c=void 0;c=0===o[s][0]?new n.Conjunction(u.position,u,p):new n.Disjunction(u.position,u,p);for(var h=r[o[s][1]][1],f=0,l=r[o[s][1]+1][1];f<l.length;f++){var d=l[f];h.push(d)}for(var y=0,v=h;y<v.length;y++){var d=v[y];r[d]=[c,h]}}t=r[0][0]}for(e=this.currentToken();this.checkKeywordToken(e,"handle");)++this.position,t=new n.HandleException(i.position,t,this.parseMatch()),e=this.currentToken();return t},Parser.prototype.parseSimpleStructureExpression=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"struct")){++this.position;var e=this.parseDeclaration(!1,!0);return this.assertKeywordToken(this.currentToken(),"end"),++this.position,new s.StructureExpression(t.position,e)}if(this.checkKeywordToken(t,"let")){++this.position;var e=this.parseDeclaration(!1,!0);this.assertKeywordToken(this.currentToken(),"in"),++this.position;var n=this.parseStructureExpression();return this.assertKeywordToken(this.currentToken(),"end"),++this.position,new s.LocalDeclarationStructureExpression(t.position,e,n)}if(t instanceof o.IdentifierToken)if(++this.position,this.checkKeywordToken(this.currentToken(),"(")){++this.position;var i=this.position;try{var n=this.parseStructureExpression();return this.assertKeywordToken(this.currentToken(),")"),++this.position,new s.FunctorApplication(t.position,t,n)}catch(n){this.position=i;var e=this.parseDeclaration(!1,!0);return this.assertKeywordToken(this.currentToken(),")"),++this.position,new s.FunctorApplication(t.position,t,new s.StructureExpression(t.position,e))}}else--this.position;if(this.checkIdentifierOrLongToken(t))return++this.position,new s.StructureIdentifier(t.position,t);throw new r.ParserError("Expected a simple structure expression.",t.position)},Parser.prototype.parseStructureExpression=function(){for(var t=this.currentToken(),e=this.parseSimpleStructureExpression();;)if(this.checkKeywordToken(this.currentToken(),":"))++this.position,e=new s.TransparentConstraint(t.position,e,this.parseSignatureExpression());else{if(!this.checkKeywordToken(this.currentToken(),":>"))break;++this.position,e=new s.OpaqueConstraint(t.position,e,this.parseSignatureExpression())}return e},Parser.prototype.parseSimpleSignatureExpression=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"sig")){++this.position;var e=this.parseSpecification();return this.assertKeywordToken(this.currentToken(),"end"),++this.position,new s.SignatureExpression(t.position,e)}if(t instanceof o.IdentifierToken)return++this.position,new s.SignatureIdentifier(t.position,t);throw new r.ParserError("Expected a simple signature expression.",t.position)},Parser.prototype.parseSignatureExpression=function(){for(var t=this.currentToken(),e=this.parseSimpleSignatureExpression(),n=!0;this.checkKeywordToken(this.currentToken(),"where")||!n&&this.checkKeywordToken(this.currentToken(),"and");){n=!1,++this.position,this.assertKeywordToken(this.currentToken(),"type"),++this.position;var i=this.parseTypeVarSequence();this.assertIdentifierOrLongToken(this.currentToken());var r=this.currentToken();++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,e=new s.TypeRealisation(t.position,e,i,r,this.parseType())}return e},Parser.prototype.parseSimpleSpecification=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"val")){++this.position;for(var e=[];;){this.assertIdentifierOrLongToken(this.currentToken());var n=this.currentToken();if(++this.position,this.assertKeywordToken(this.currentToken(),":"),++this.position,e.push([n,this.parseType()]),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.ValueSpecification(t.position,e)}if(this.checkKeywordToken(t,"type")){++this.position;for(var e=[],i=this.position;;){var r=this.parseTypeVarSequence();if(this.assertIdentifierToken(this.currentToken()),e.push([r,this.currentToken()]),++this.position,this.checkKeywordToken(this.currentToken(),"=")){var o=[];for(this.position=i;;){r=this.parseTypeVarSequence(),this.assertIdentifierToken(this.currentToken());var n=this.currentToken();if(++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,o.push([r,n,this.parseType()]),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.TypeAliasSpecification(t.position,o)}if(!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.TypeSpecification(t.position,e)}if(this.checkKeywordToken(t,"eqtype")){++this.position;for(var e=[];;){var r=this.parseTypeVarSequence();if(this.assertIdentifierToken(this.currentToken()),e.push([r,this.currentToken()]),++this.position,!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.EqualityTypeSpecification(t.position,e)}if(this.checkKeywordToken(t,"datatype")){if(++this.position+2<this.tokens.length&&this.checkKeywordToken(this.tokens[this.position+2],"datatype")){this.assertIdentifierToken(this.currentToken());var a=this.currentToken();++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,this.assertKeywordToken(this.currentToken(),"datatype"),++this.position,this.assertIdentifierOrLongToken(this.currentToken());var u=this.currentToken();return++this.position,new s.DatatypeReplicationSpecification(t.position,a,u)}for(var e=[];;){var r=this.parseTypeVarSequence();this.assertIdentifierToken(this.currentToken());var a=this.currentToken();++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,!0===this.options.allowSuccessorML&&this.checkKeywordToken(this.currentToken(),"|")&&++this.position;for(var p=[];;){this.assertIdentifierToken(this.currentToken());var c=this.currentToken();++this.position;var h=void 0;if(this.checkKeywordToken(this.currentToken(),"of")&&(++this.position,h=this.parseType()),p.push([c,h]),!this.checkKeywordToken(this.currentToken(),"|"))break;++this.position}if(e.push([r,a,p]),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.DatatypeSpecification(t.position,e)}if(this.checkKeywordToken(t,"exception")){++this.position;for(var e=[];;){this.assertIdentifierToken(this.currentToken());var a=this.currentToken();++this.position;var h=void 0;if(this.checkKeywordToken(this.currentToken(),"of")&&(++this.position,h=this.parseType()),e.push([a,h]),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.ExceptionSpecification(t.position,e)}if(this.checkKeywordToken(t,"structure")){++this.position;for(var e=[];;){this.assertIdentifierToken(this.currentToken());var a=this.currentToken();if(++this.position,this.assertKeywordToken(this.currentToken(),":"),++this.position,e.push([a,this.parseSignatureExpression()]),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new s.StructureSpecification(t.position,e)}if(this.checkKeywordToken(t,"include")){++this.position;var f=[],l=this.position;try{for(;;)f.push(this.parseSignatureExpression()),l=this.position}catch(t){this.position=l}return new s.IncludeSpecification(t.position,f)}return new s.EmptySpecification(t.position)},Parser.prototype.parseSequentialSpecification=function(){for(var t=this.currentToken(),e=[];;){var n=this.parseSimpleSpecification();if(n instanceof s.EmptySpecification)break;e.push(n),this.checkKeywordToken(this.currentToken(),";")&&++this.position}return new s.SequentialSpecification(t.position,e)},Parser.prototype.parseSpecification=function(){for(var t=this.currentToken(),e=this.parseSequentialSpecification();this.checkKeywordToken(this.currentToken(),"sharing");){++this.position,this.assertKeywordToken(this.currentToken(),"type"),++this.position,this.assertIdentifierOrLongToken(this.currentToken());var n=[this.currentToken()];for(++this.position;this.checkKeywordToken(this.currentToken(),"=");)++this.position,this.assertIdentifierOrLongToken(this.currentToken()),n.push(this.currentToken()),++this.position;if(n.length<2)throw new r.ParserError('A "sharing" expression requires at least 2 type names.',t.position);e=new s.SharingSpecification(t.position,e,n)}return e},Parser.prototype.parseMatch=function(){var t=this.currentToken();this.options.allowSuccessorML&&this.checkKeywordToken(this.currentToken(),"|")&&++this.position;for(var e=[];;){var i=this.parsePattern();this.assertKeywordToken(this.currentToken(),"=>"),++this.position;var r=this.parseExpression();if(e.push([i,r]),!this.checkKeywordToken(this.currentToken(),"|"))break;++this.position}return new n.Match(t.position,e)},Parser.prototype.parsePatternRow=function(){for(var t=this.currentToken(),e=[],i=!0,a=!0;;){var s=this.currentToken();if(this.checkKeywordToken(s,"}"))return++this.position,new n.Record(t.position,a,e);if(!a)throw new r.ParserError("Record wildcard must appear as last element of the record.",s.position);if(i||!this.checkKeywordToken(s,","))if(i=!1,this.checkKeywordToken(s,"..."))a=!1,++this.position;else{if(!s.isValidRecordLabel())throw new r.ParserError('Expected "}", "...", or identifier.',s.position);++this.position;var u=this.currentToken();if(!(u instanceof o.KeywordToken))throw new r.ParserError('Expected ":", "as", ",", or "=", got '+u.getText()+'".',u.position);if("="===u.text){++this.position,e.push([s.getText(),this.parsePattern()]);continue}var p=void 0;if(s instanceof o.NumericToken)throw new r.ParserError('You cannot assign to "'+s.getText()+'".',s.position);var c=new n.ValueIdentifier(s.position,s);":"===u.text&&(++this.position,p=this.parseType(),u=this.currentToken()),"as"!==u.text||this.options.allowSuccessorML?void 0!==p&&(c=new n.TypedExpression(c.position,c,p)):(++this.position,c=new n.LayeredPattern(c.position,c.name,p,this.parsePattern()),u=this.currentToken()),e.push([s.getText(),c])}else++this.position}},Parser.prototype.parseAtomicPattern=function(){if(this.position>=this.tokens.length)throw new r.ParserError("Unexpected end of token stream",-1);var t=this.currentToken();if(this.checkKeywordToken(t,"op")){++this.position;var e=this.currentToken();this.assertIdentifierOrLongToken(e),e.opPrefixed=!0,++this.position;var i=this.position;try{if(!(e instanceof o.LongIdentifierToken)){var a=this.currentToken(),s=void 0;return this.checkKeywordToken(a,":")&&(++this.position,s=this.parseType(),a=this.currentToken()),this.assertKeywordToken(a,"as"),++this.position,new n.LayeredPattern(t.position,e,s,this.parsePattern())}}catch(t){this.position=i}return new n.ValueIdentifier(t.position,e)}if(this.checkKeywordToken(t,"_"))return++this.position,new n.Wildcard(t.position);if(this.checkKeywordToken(t,"{")){++this.position;return this.parsePatternRow()}if(this.checkKeywordToken(t,"(")){if(++this.position,this.checkKeywordToken(this.currentToken(),")"))return++this.position,new n.Tuple(t.position,[]);for(var u=[this.parsePattern()];;){var e=this.currentToken();if(!this.checkKeywordToken(e,",")){if(this.checkKeywordToken(e,")"))return++this.position,1===u.length?u[0]:new n.Tuple(t.position,u);throw new r.ParserError('Expected "," or ")", but got "'+e.getText()+'".',e.position)}++this.position,u.push(this.parsePattern())}}if(this.checkKeywordToken(t,"[")){if(++this.position,this.checkKeywordToken(this.currentToken(),"]"))return++this.position,new n.List(t.position,[]);for(var u=[this.parsePattern()];;){var e=this.currentToken();if(!this.checkKeywordToken(e,",")){if(this.checkKeywordToken(e,"]"))return++this.position,new n.List(t.position,u);throw new r.ParserError('Expected "," or "]" but found "'+e.getText()+'".',e.position)}++this.position,u.push(this.parsePattern())}}else{if(t instanceof o.ConstantToken)return++this.position,new n.Constant(t.position,t);if(t instanceof o.IdentifierToken||t instanceof o.LongIdentifierToken){++this.position;var i=this.position;try{if(!(t instanceof o.LongIdentifierToken)){var a=this.currentToken(),s=void 0;return this.checkKeywordToken(a,":")&&(++this.position,s=this.parseType(),a=this.currentToken()),this.assertKeywordToken(a,"as"),++this.position,new n.LayeredPattern(t.position,t,s,this.parsePattern())}}catch(t){this.position=i}return new n.ValueIdentifier(t.position,t)}}throw new r.ParserError('Expected atomic pattern but got "'+t.getText()+'".',t.position)},Parser.prototype.parseApplicationPattern=function(){var t=this.position,e=this.currentToken(),i=this.parseAtomicPattern();if(i instanceof n.ValueIdentifier&&void 0!==this.state.getInfixStatus(i.name)&&this.state.getInfixStatus(i.name).infix){if(!(t>0&&this.checkKeywordToken(this.tokens[t-1],"op")||this.checkKeywordToken(e,"op")))throw new r.ParserError('Even Tunafishman can\'t save you from the "company" if you forget an "op".',e.position)}for(;;){var o=this.position,a=this.currentToken();if(this.checkVidOrLongToken(a)&&void 0!==this.state.getInfixStatus(a)&&this.state.getInfixStatus(a).infix)break;var s=!1;try{var u=this.parseAtomicPattern();if(i instanceof n.Wildcard)throw s=!0,new r.ParserError("You cannot apply a pattern to a wildcard.",e.position);i=new n.FunctionApplication(e.position,i,u)}catch(t){if(s)throw t;this.position=o;break}}return i},Parser.prototype.parseInfixPattern=function(){for(var t=[],e=[],i=0;;){t.push(this.parseApplicationPattern());var r=this.currentToken();if(!this.checkIdentifierOrLongToken(r)||void 0===this.state.getInfixStatus(r)||!this.state.getInfixStatus(r).infix)break;++this.position,e.push([r,i++])}return 0===i?t[0]:new n.InfixExpression(t,e).reParse(this.state)},Parser.prototype.parsePattern=function(){for(var t=this.currentToken(),e=this.parseInfixPattern();;){if(!this.checkKeywordToken(this.currentToken(),":")){if(!0===this.options.allowSuccessorML){if(this.checkKeywordToken(this.currentToken(),"as")){++this.position,e=new n.ConjunctivePattern(t.position,e,this.parsePattern());continue}if(this.checkKeywordToken(this.currentToken(),"|")){++this.position,e=new n.DisjunctivePattern(t.position,e,this.parseInfixPattern());continue}if(this.checkKeywordToken(this.currentToken(),"with")){++this.position;var i=this.parsePattern();this.assertKeywordToken(this.currentToken(),"="),++this.position,e=new n.NestedMatch(t.position,e,i,this.parseExpression());continue}if(this.checkKeywordToken(this.currentToken(),"if")){++this.position,e=new n.PatternGuard(t.position,e,this.parseExpression());continue}}break}++this.position,e=new n.TypedExpression(t.position,e,this.parseType())}return e},Parser.prototype.parseTypeRow=function(){for(var t=this.currentToken(),e=new Map,n=!0;;){var a=this.currentToken();if(this.checkKeywordToken(a,"}"))return++this.position,new i.RecordType(e,!0,t.position);{if(n||!this.checkKeywordToken(a,",")){if(n=!1,a.isValidRecordLabel()){++this.position;var s=this.currentToken();if(!(s instanceof o.KeywordToken))throw new r.ParserError('Expected ":".',s.position);if(":"===s.text){if(++this.position,e.has(a.getText()))throw new r.ParserError('Duplicate record label "'+a.getText()+'".',a.position);e.set(a.getText(),this.parseType());continue}throw new r.ParserError('Expected ":".',s.position)}throw new r.ParserError('Expected "}", or an identifier, got "'+a.getText()+'".',a.position)}++this.position}}},Parser.prototype.parseSimpleType=function(){var t=this.currentToken();if(t instanceof o.TypeVariableToken)return++this.position,new i.TypeVariable(t.getText(),t.position);if(this.checkIdentifierOrLongToken(t))return++this.position,t instanceof o.LongIdentifierToken?new i.CustomType(t.id.getText(),[],t.position,t):new i.CustomType(t.getText(),[],t.position);if(this.checkKeywordToken(t,"{"))return++this.position,this.parseTypeRow();if(this.checkKeywordToken(t,"(")){if(++this.position,this.checkKeywordToken(this.currentToken(),")"))throw new r.ParserError('Use "{}" or "unit" to denote the unit type.',this.currentToken().position);for(var e=[this.parseType()];;){var n=this.currentToken();{if(!this.checkKeywordToken(n,",")){if(this.checkKeywordToken(n,")")){if(++this.position,1===e.length)return e[0];this.assertIdentifierOrLongToken(this.currentToken());var a=this.currentToken();return++this.position,new i.CustomType(a.getText(),e,t.position)}throw new r.ParserError('Expected "," or ")", got "'+n.getText()+'".',n.position)}++this.position,e.push(this.parseType())}}}throw new r.ParserError('Expected either "(" or "{" got "'+t.getText()+'".',t.position)},Parser.prototype.parseType=function(){var t=this.parseTupleType(),e=this.currentToken();if(!this.checkKeywordToken(e,"->"))return t;++this.position;var n=this.parseType();return new i.FunctionType(t,n,e.position)},Parser.prototype.parseTupleType=function(){for(var t=[this.parseCustomType()],e=this.currentToken(),n=e.position;this.checkKeywordToken(this.currentToken(),"*");)++this.position,t.push(this.parseCustomType());return 1===t.length?t[0]:new i.TupleType(t,n)},Parser.prototype.parseCustomType=function(){for(var t=this.currentToken(),e=this.parseSimpleType();this.position<this.tokens.length;){var n=this.currentToken();if(!this.checkIdentifierOrLongToken(n))return e;++this.position,e=n instanceof o.LongIdentifierToken?new i.CustomType(n.id.getText(),[e],t.position,n):new i.CustomType(n.getText(),[e],t.position)}return e},Parser.prototype.parseValueBinding=function(){var t=this.currentToken();if(this.checkKeywordToken(t,"rec")){++this.position;var e=this.parseValueBinding();return e.position=t.position,e.isRecursive=!0,e}var n=this.parsePattern();return this.assertKeywordToken(this.currentToken(),"="),++this.position,new a.ValueBinding(t.position,!1,n,this.parseExpression())},Parser.prototype.parseFunctionValueBinding=function(){var t=this.currentToken(),e=[],i=-1,o=void 0;for(!0===this.options.allowSuccessorML&&this.checkKeywordToken(this.currentToken(),"|")&&++this.position;;){var s=[],u=void 0,p=void 0;if(this.checkKeywordToken(this.currentToken(),"(")){var c=this.parsePattern(),h=!1,f=[];for(c instanceof n.FunctionApplication||(h=!0);!h&&c instanceof n.FunctionApplication;)f.push(c.argument),c=c.func;if(c instanceof n.ValueIdentifier||(h=!0),h)throw new r.ParserError("／人◕ ‿‿ ◕人＼",c.position);p=c;for(var l=f.length-1;l>=0;--l)s.push(f[l])}else{var d=this.position,y=!1,v=!1;try{var m=this.parseOpIdentifierToken();if(p=new n.ValueIdentifier(m.position,m),void 0!==this.state.getInfixStatus(p.name)&&this.state.getInfixStatus(p.name).infix&&!p.name.opPrefixed)throw y=!0,new r.ParserError('Missing "op".',p.name.position);for(;;){if(this.checkKeywordToken(this.currentToken(),"=")||this.checkKeywordToken(this.currentToken(),":"))break;var c=this.parseAtomicPattern();if(c instanceof n.ValueIdentifier&&void 0!==this.state.getInfixStatus(c.name)&&this.state.getInfixStatus(c.name).infix)throw v=!0,new r.ParserError('Cute little infix identifiers such as "'+c+'" sure should play somewhere else.',c.position);s.push(c)}}catch(t){if(y)throw t;y=!1;try{this.position=d;var g=this.parseAtomicPattern();if(this.assertIdentifierOrLongToken(this.currentToken()),p=new n.ValueIdentifier(this.currentToken().position,this.currentToken()),void 0===this.state.getInfixStatus(this.currentToken())||!this.state.getInfixStatus(this.currentToken()).infix){if(v)throw y=!0,t;throw new r.ParserError('"'+this.currentToken().getText()+'" does not have infix status.',this.currentToken().position)}++this.position;var w=this.parseAtomicPattern();s.push(new n.Tuple(-1,[g,w]))}catch(e){throw t}}}if(this.checkKeywordToken(this.currentToken(),":")&&(++this.position,u=this.parseType()),this.assertKeywordToken(this.currentToken(),"="),++this.position,-1===i)i=s.length;else if(2!==i&&3!==i&&i!==s.length)throw new r.ParserError("Different number of arguments.",t.position);if(0===i)throw new r.ParserError('Functions need arguments to survive. Rely on "val" instead.',t.position);if(void 0===o)o=p;else if(p.name.getText()!==o.name.getText())throw new r.ParserError('Different function names in different cases ("'+p.name.getText()+'" vs. "'+o.name.getText()+'")',t.position);if(e.push([s,u,this.parseExpression()]),!this.checkKeywordToken(this.currentToken(),"|"))break;++this.position}return new a.FunctionValueBinding(t.position,e,o)},Parser.prototype.parseTypeBinding=function(){var t=this.currentToken(),e=this.parseTypeVarSequence();this.assertIdentifierToken(this.currentToken());var n=this.currentToken();return++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,new a.TypeBinding(t.position,e,n,this.parseType())},Parser.prototype.parseTypeBindingSeq=function(){for(var t=[];;){if(t.push(this.parseTypeBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return t},Parser.prototype.parseExceptionBinding=function(){var t=this.currentToken(),e=this.parseOpIdentifierToken();if(this.checkKeywordToken(this.currentToken(),"of")){++this.position;var n=this.parseType();return new a.DirectExceptionBinding(t.position,e,n)}if(this.checkKeywordToken(this.currentToken(),"=")){++this.position;var i=this.parseOpIdentifierToken(!0);return new a.ExceptionAlias(t.position,e,i)}return new a.DirectExceptionBinding(t.position,e,void 0)},Parser.prototype.parseDatatypeBinding=function(){var t=this.currentToken(),e=this.parseTypeVarSequence();this.assertIdentifierToken(this.currentToken());var n=this.currentToken();++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position;var i=[];for(!0===this.options.allowSuccessorML&&this.checkKeywordToken(this.currentToken(),"|")&&++this.position;;){var r=this.parseOpIdentifierToken();if(this.checkKeywordToken(this.currentToken(),"of")){++this.position;var o=this.parseType();i.push([r,o])}else i.push([r,void 0]);if(!this.checkKeywordToken(this.currentToken(),"|"))break;++this.position}return new a.DatatypeBinding(t.position,e,n,i)},Parser.prototype.parseDatatypeBindingSeq=function(){for(var t=[];;){if(t.push(this.parseDatatypeBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return t},Parser.prototype.parseStructureBinding=function(){var t=this.currentToken();this.assertIdentifierToken(this.currentToken());var e=this.currentToken();if(++this.position,this.checkKeywordToken(this.currentToken(),":")){++this.position;var n=this.parseSignatureExpression();this.assertKeywordToken(this.currentToken(),"="),++this.position;var i=this.parseStructureExpression();return new s.StructureBinding(t.position,e,new s.TransparentConstraint(t.position,i,n))}if(this.checkKeywordToken(this.currentToken(),":>")){++this.position;var n=this.parseSignatureExpression();this.assertKeywordToken(this.currentToken(),"="),++this.position;var i=this.parseStructureExpression();return new s.StructureBinding(t.position,e,new s.OpaqueConstraint(t.position,i,n))}return this.assertKeywordToken(this.currentToken(),"="),++this.position,new s.StructureBinding(t.position,e,this.parseStructureExpression())},Parser.prototype.parseStructureBindingSeq=function(){for(var t=[];;){if(t.push(this.parseStructureBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return t},Parser.prototype.parseSignatureBinding=function(){var t=this.currentToken();this.assertIdentifierToken(this.currentToken());var e=this.currentToken();return++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,new s.SignatureBinding(t.position,e,this.parseSignatureExpression())},Parser.prototype.parseSignatureBindingSeq=function(){for(var t=[];;){if(t.push(this.parseSignatureBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return t},Parser.prototype.parseFunctorBinding=function(){var t=this.currentToken();this.assertIdentifierToken(this.currentToken());var e=this.currentToken();if(++this.position,this.assertKeywordToken(this.currentToken(),"("),++this.position,this.currentToken()instanceof o.IdentifierToken){var n=this.currentToken();++this.position,this.assertKeywordToken(this.currentToken(),":"),++this.position;var i=this.parseSignatureExpression();if(this.assertKeywordToken(this.currentToken(),")"),++this.position,this.checkKeywordToken(this.currentToken(),":")){++this.position;var r=this.parseSignatureExpression();return this.assertKeywordToken(this.currentToken(),"="),++this.position,new s.FunctorBinding(t.position,e,n,i,new s.TransparentConstraint(t.position,this.parseStructureExpression(),r))}if(this.checkKeywordToken(this.currentToken(),":>")){++this.position;var r=this.parseSignatureExpression();return this.assertKeywordToken(this.currentToken(),"="),++this.position,new s.FunctorBinding(t.position,e,n,i,new s.OpaqueConstraint(t.position,this.parseStructureExpression(),r))}return this.assertKeywordToken(this.currentToken(),"="),++this.position,new s.FunctorBinding(t.position,e,n,i,this.parseStructureExpression())}var u=this.parseSpecification(),p=new s.SignatureExpression(-1,u);this.assertKeywordToken(this.currentToken(),")"),++this.position;var c=!1,h=void 0;this.checkKeywordToken(this.currentToken(),":")?(++this.position,h=this.parseSignatureExpression()):this.checkKeywordToken(this.currentToken(),":>")&&(c=!0,++this.position,h=this.parseSignatureExpression()),this.assertKeywordToken(this.currentToken(),"="),++this.position;var f=this.parseStructureExpression(),l=new o.AlphanumericIdentifierToken("__farg",-1);return void 0!==h&&(f=c?new s.OpaqueConstraint(-1,f,h):new s.TransparentConstraint(-1,f,h)),f=new s.LocalDeclarationStructureExpression(-1,new a.OpenDeclaration(-1,[l]),f),new s.FunctorBinding(t.position,e,l,p,f)},Parser.prototype.parseFunctorBindingSeq=function(){for(var t=[];;){if(t.push(this.parseFunctorBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return t},Parser.prototype.parseTypeVarSequence=function(t){void 0===t&&(t=!1);var e=this.currentToken(),n=[];if(e instanceof o.TypeVariableToken)return n.push(new i.TypeVariable(e.text,e.position)),++this.position,n;if(this.checkKeywordToken(e,"("))for(++this.position;;){if(!((e=this.currentToken())instanceof o.TypeVariableToken)){if(t)return;throw new r.ParserError("Expected a type varible.",e.position)}if(n.push(new i.TypeVariable(e.text,e.position)),++this.position,e=this.currentToken(),!this.checkKeywordToken(e,",")){if(this.checkKeywordToken(e,")")){++this.position;break}throw new r.ParserError('Expected "," or ")" but got "'+e.getText()+'".',e.position)}++this.position}return n},Parser.prototype.parseDeclaration=function(t,e){void 0===t&&(t=!1),void 0===e&&(e=!1);for(var n=[],i=this.currentToken(),r=this.currentId++;this.position<this.tokens.length;){var o=this.parseSimpleDeclaration(t,e);if(o instanceof a.EmptyDeclaration){if(this.position>=this.tokens.length||this.checkKeywordToken(this.currentToken(),"in")||this.checkKeywordToken(this.currentToken(),"end")||this.checkKeywordToken(this.currentToken(),")"))break}else n.push(o),this.checkKeywordToken(this.currentToken(),";")&&++this.position}return new a.SequentialDeclaration(i.position,n,r)},Parser.prototype.parseSimpleDeclaration=function(t,e){void 0===t&&(t=!1),void 0===e&&(e=!1);var i=this.currentToken(),u=this.currentId++;if(this.checkKeywordToken(i,"val")){++this.position;var p=this.parseTypeVarSequence(!0);void 0===p&&(--this.position,p=[]);for(var c=[],h=!1;;){var f=this.parseValueBinding();if(f.isRecursive){h=!0;for(var l=f.pattern;l instanceof n.TypedExpression;)l=l.expression;if(!(f.expression instanceof n.Lambda))throw new r.ParserError('Using "rec" requires binding a lambda.',f.position);if(!(l instanceof n.ValueIdentifier||l instanceof n.Wildcard))throw new r.ParserError('Using "rec" requires binding to a single identifier and not "'+l.toString(0,!0)+'".',f.position)}if(f.isRecursive=h,c.push(f),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new a.ValueDeclaration(i.position,p,c,u)}if(this.checkKeywordToken(i,"fun")){++this.position;var p=this.parseTypeVarSequence(!0);void 0===p&&(--this.position,p=[]);for(var d=[];;){if(d.push(this.parseFunctionValueBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new a.FunctionDeclaration(i.position,p,d,u)}if(this.checkKeywordToken(i,"type"))return++this.position,new a.TypeDeclaration(i.position,this.parseTypeBindingSeq(),u);if(this.checkKeywordToken(i,"datatype")){if(this.position+3<this.tokens.length&&this.checkKeywordToken(this.tokens[this.position+3],"datatype")){++this.position;var y=this.currentToken();this.assertIdentifierToken(y),++this.position,this.assertKeywordToken(this.currentToken(),"="),++this.position,this.assertKeywordToken(this.currentToken(),"datatype"),++this.position;var v=this.currentToken();return this.assertIdentifierOrLongToken(v),++this.position,new a.DatatypeReplication(i.position,y,v,u)}++this.position;var m=this.parseDatatypeBindingSeq();if(this.checkKeywordToken(this.currentToken(),"withtype")){++this.position;var g=this.parseTypeBindingSeq();return new a.DatatypeDeclaration(i.position,m,g,u)}return new a.DatatypeDeclaration(i.position,m,void 0,u)}if(this.checkKeywordToken(i,"abstype")){++this.position;var w=this.state;this.state=this.state.getNestedState(this.state.id);var m=this.parseDatatypeBindingSeq(),T=void 0;this.checkKeywordToken(this.currentToken(),"withtype")&&(++this.position,T=this.parseTypeBindingSeq()),this.assertKeywordToken(this.currentToken(),"with"),++this.position;var E=this.parseDeclaration();return this.assertKeywordToken(this.currentToken(),"end"),++this.position,this.state=w,new a.AbstypeDeclaration(i.position,m,T,E,u)}if(this.checkKeywordToken(i,"exception")){++this.position;for(var S=[];;){if(S.push(this.parseExceptionBinding()),!this.checkKeywordToken(this.currentToken(),"and"))break;++this.position}return new a.ExceptionDeclaration(i.position,S,u)}if(this.checkKeywordToken(i,"local")){++this.position;var w=this.state;this.state=this.state.getNestedState(this.state.id);var E=this.parseDeclaration(!1,e);this.assertKeywordToken(this.currentToken(),"in"),++this.position;var x=this.parseDeclaration(!1,e);return this.assertKeywordToken(this.currentToken(),"end"),++this.position,this.state=w,new a.LocalDeclaration(i.position,E,x,u)}if(this.checkKeywordToken(i,"open")){++this.position;for(var I=[];this.checkIdentifierOrLongToken(this.currentToken());)I.push(this.currentToken()),++this.position;if(0===I.length)throw new r.ParserError('Empty "open" declaration.',this.currentToken().position);return new a.OpenDeclaration(i.position,I,u)}if(this.checkKeywordToken(i,"infix")){++this.position;var k=0;if(this.currentToken()instanceof o.IntegerConstantToken){if(1!==this.currentToken().text.length)throw new r.ParserError("Precedences may only be single digits.",this.currentToken().position);k=this.currentToken().value,++this.position}for(var I=[];this.currentToken().isVid();)I.push(this.currentToken()),++this.position;if(0===I.length)throw new r.ParserError('Empty "infix" declaration.',this.currentToken().position);var V=new a.InfixDeclaration(i.position,I,k,u);return V.setInfixStatus(this.state),V}if(this.checkKeywordToken(i,"infixr")){++this.position;var k=0;if(this.currentToken()instanceof o.IntegerConstantToken){if(1!==this.currentToken().text.length)throw new r.ParserError("Precedences may only be single digits.",this.currentToken().position);k=this.currentToken().value,++this.position}for(var I=[];this.currentToken().isVid();)I.push(this.currentToken()),++this.position;if(0===I.length)throw new r.ParserError('Empty "infixr" declaration.',this.currentToken().position);var V=new a.InfixRDeclaration(i.position,I,k,u);return V.setInfixStatus(this.state),V}if(this.checkKeywordToken(i,"nonfix")){++this.position;for(var I=[];this.currentToken().isVid();)I.push(this.currentToken()),++this.position;if(0===I.length)throw new r.ParserError('Empty "nonfix" declaration.',this.currentToken().position);var V=new a.NonfixDeclaration(i.position,I,u);return V.setInfixStatus(this.state),V}if(this.options.allowSuccessorML&&this.checkKeywordToken(i,"do"))return++this.position,new a.Evaluation(i.position,this.parseExpression());if((!0===this.options.allowStructuresAnywhere||e)&&this.checkKeywordToken(i,"structure"))return++this.position,new s.StructureDeclaration(i.position,this.parseStructureBindingSeq());if((!0===this.options.allowSignaturesAnywhere||t)&&this.checkKeywordToken(i,"signature"))return++this.position,new s.SignatureDeclaration(i.position,this.parseSignatureBindingSeq());if((!0===this.options.allowFunctorsAnywhere||t)&&this.checkKeywordToken(i,"functor"))return++this.position,new s.FunctorDeclaration(i.position,this.parseFunctorBindingSeq());if(this.checkKeywordToken(i,";"))return++this.position,new a.EmptyDeclaration(u);if(this.checkKeywordToken(i,"in")||this.checkKeywordToken(i,"end")||this.checkKeywordToken(i,")"))return new a.EmptyDeclaration(u);if(t){if(this.position>0&&!this.checkKeywordToken(this.tokens[this.position-1],";"))throw new r.ParserError('A single top-level expression must be separated from preceeding declarations by a ";".',this.position);var b=this.parseExpression(),A=new a.ValueBinding(i.position,!1,new n.ValueIdentifier(-1,new o.AlphanumericIdentifierToken("it",-1)),b);return this.assertKeywordToken(this.currentToken(),";"),new a.ValueDeclaration(i.position,[],[A],u)}throw new r.ParserError('Expected a declaration, found "'+i.getText()+'".',i.position)},Parser.prototype.currentToken=function(){if(this.position>=this.tokens.length)throw new r.IncompleteError(-1,"More input, I'm starving. ~nyan.");return this.tokens[this.position]},Parser}();exports.Parser=u,exports.parse=parse},function(t,exports,e){"use strict";function addMathLib(t){var e=new n.DynamicBasis({},{},{},{},{}),a=new n.StaticBasis({},{},{},{},{});return e.setValue("sqrt",new r.PredefinedFunction("sqrt",function(t){if(t instanceof r.Real){var e=t.value;return e<0?[new r.ExceptionConstructor("Domain").construct(),!0,[]]:[new r.Real(Math.sqrt(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("sqrt",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("sin",new r.PredefinedFunction("sin",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.sin(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("sin",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("cos",new r.PredefinedFunction("cos",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.cos(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("cos",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("tan",new r.PredefinedFunction("tan",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.tan(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("tan",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("asin",new r.PredefinedFunction("asin",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.asin(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("asin",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("acos",new r.PredefinedFunction("acos",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.acos(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("acos",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("atan",new r.PredefinedFunction("atan",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.atan(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("atan",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("atan2",new r.PredefinedFunction("atan2",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Real&&n instanceof r.Real){var i=e.value,a=n.value;return[new r.Real(Math.atan2(i,a)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("atan2",new i.FunctionType(new i.TupleType([p,p]),p).simplify(),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("exp",new r.PredefinedFunction("exp",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.exp(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("exp",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("pow",new r.PredefinedFunction("pow",function(t){if(t instanceof r.RecordValue){var e=t.getValue("1"),n=t.getValue("2");if(e instanceof r.Real&&n instanceof r.Real){var i=e.value,a=n.value;return[new r.Real(Math.pow(i,a)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("pow",new i.FunctionType(new i.TupleType([p,p]),p).simplify(),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("ln",new r.PredefinedFunction("ln",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.log(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("ln",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("log10",new r.PredefinedFunction("log10",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.log10(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("log10",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("sinh",new r.PredefinedFunction("sinh",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.sinh(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("sinh",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("cosh",new r.PredefinedFunction("cosh",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.cosh(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("cosh",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("tanh",new r.PredefinedFunction("tanh",function(t){if(t instanceof r.Real){var e=t.value;return[new r.Real(Math.tanh(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("tanh",new i.FunctionType(p,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("pi",new r.Real(3.14159265359),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("pi",p,n.IdentifierStatus.VALUE_VARIABLE),e.setValue("e",new r.Real(2.71828182846),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("e",p,n.IdentifierStatus.VALUE_VARIABLE),t.setDynamicStructure("Math",e),t.setStaticStructure("Math",a),t}function addCharLib(t){return t.setDynamicValue("ord",new r.PredefinedFunction("ord",function(t){if(t instanceof r.CharValue){var e=t.value;return[new r.Integer(e.charCodeAt(0)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),t.setStaticValue("ord",new i.FunctionType(h,u),n.IdentifierStatus.VALUE_VARIABLE),t.setDynamicValue("chr",new r.PredefinedFunction("chr",function(t){if(t instanceof r.Integer){var e=t.value;return e<0||e>255?[new r.ExceptionConstructor("Chr").construct(),!0,[]]:[new r.CharValue(String.fromCharCode(e)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),t.setStaticValue("chr",new i.FunctionType(u,h),n.IdentifierStatus.VALUE_VARIABLE),t}function addRealLib(t){var e=new n.DynamicBasis({},{},{},{},{}),a=new n.StaticBasis({},{},{},{},{});return e.setValue("fromInt",new r.PredefinedFunction("fromInt",function(t){if(t instanceof r.Integer){var e=t.value;return[new r.Real(e),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("fromInt",new i.FunctionType(u,p),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("round",new r.PredefinedFunction("round",function(t){if(t instanceof r.Real){var e=t.value,n=new r.Integer(Math.round(e));return n.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[n,!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("round",new i.FunctionType(p,u),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("floor",new r.PredefinedFunction("floor",function(t){if(t instanceof r.Real){var e=t.value,n=new r.Integer(Math.floor(e));return n.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[n,!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("floor",new i.FunctionType(p,u),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("ceil",new r.PredefinedFunction("ceil",function(t){if(t instanceof r.Real){var e=t.value,n=new r.Integer(Math.ceil(e));return n.hasOverflow()?[new r.ExceptionConstructor("Overflow").construct(),!0,[]]:[n,!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("ceil",new i.FunctionType(p,u),n.IdentifierStatus.VALUE_VARIABLE),e.setValue("toString",new r.PredefinedFunction("toString",function(t){if(t instanceof r.Real){return[new r.StringValue(t.toString(void 0)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("toString",new i.FunctionType(p,c),n.IdentifierStatus.VALUE_VARIABLE),t.setDynamicStructure("Real",e),t.setStaticStructure("Real",a),t}function addIntLib(t){var e=new n.DynamicBasis({},{},{},{},{}),a=new n.StaticBasis({},{},{},{},{});return e.setValue("toString",new r.PredefinedFunction("toString",function(t){if(t instanceof r.Integer){return[new r.StringValue(t.toString(void 0)),!1,[]]}throw new o.InternalInterpreterError(-1,"std type mismatch")}),n.IdentifierStatus.VALUE_VARIABLE),a.setValue("toString",new i.FunctionType(u,c),n.IdentifierStatus.VALUE_VARIABLE),t.setDynamicStructure("Int",e),t.setStaticStructure("Int",a),t}function addListLib(t){var e=new n.DynamicBasis({},{},{},{},{}),o=new n.StaticBasis({},{},{},{},{});return o.setType("list",new i.CustomType("list",[new i.TypeVariable("'a")]),["nil","::"],1,!0),o.setValue("nil",new i.TypeVariableBind("'a",new i.CustomType("list",[new i.TypeVariable("'a")])),n.IdentifierStatus.VALUE_CONSTRUCTOR),o.setValue("::",new i.TypeVariableBind("'a",new i.FunctionType(new i.TupleType([new i.TypeVariable("'a"),new i.CustomType("list",[new i.TypeVariable("'a")])]),new i.CustomType("list",[new i.TypeVariable("'a")]))).simplify(),n.IdentifierStatus.VALUE_CONSTRUCTOR),e.setType("list",["nil","::"]),e.setValue("nil",new r.ValueConstructor("nil"),n.IdentifierStatus.VALUE_CONSTRUCTOR),e.setValue("::",new r.ValueConstructor("::",1),n.IdentifierStatus.VALUE_CONSTRUCTOR),t.setDynamicStructure("List",e),t.setStaticStructure("List",o),t}function addStringLib(t){var e=new n.DynamicBasis({},{},{},{},{}),r=new n.StaticBasis({},{},{},{},{});return r.setType("string",new i.CustomType("string",[]),[],0,!0),e.setType("string",[]),r.setType("char",new i.CustomType("char",[]),[],0,!0),e.setType("char",[]),t.setDynamicStructure("String",e),t.setStaticStructure("String",r),t}function loadModule(t,e,n){if(!exports.STDLIB.hasOwnProperty(e))throw new o.InternalInterpreterError(-1,'The module "'+e+'" does not exist. Auuuu~');if(t.hasModule(e))return t;var i=exports.STDLIB[e];if(void 0!==i.requires)for(var r=0,s=i.requires;r<s.length;r++){var u=s[r];t.hasModule(u)||(t=loadModule(t,u,n))}return void 0!==i.native&&(t=i.native(t)),void 0!==i.code&&(t=a.interpret(i.code,t,n).state),t.registerModule(e),t}Object.defineProperty(exports,"__esModule",{value:!0});var n=e(2),i=e(4),r=e(3),o=e(0),a=e(8),s=e(14),u=new i.CustomType("int"),p=new i.CustomType("real"),c=new i.CustomType("string"),h=new i.CustomType("char");exports.STDLIB={__Base:{native:void 0,code:"fun o (f,g) x = f (g x);\n            infix 3 o;\n            datatype order = LESS | EQUAL | GREATER;\n\n            exception Domain;\n            exception Size;\n            exception Chr;\n            exception Subscript;\n\n            fun not true = false | not false = true;\n\n            fun ! (a : 'A ref): 'A = ! a;\n            fun op := ((a, b) : ('A ref * 'A)): unit = a := b;\n            fun ref (a : 'A): 'A ref = ref a;",requires:void 0},Char:{native:addCharLib,code:'structure Char = struct\n                fun isLower c  = #"a" <= c andalso c <= #"z"\n                fun isUpper c  = #"A" <= c andalso c <= #"Z"\n                fun isDigit c  = #"0" <= c andalso c <= #"9"\n                fun isAlpha c  = isLower c orelse isUpper c\n                fun isHexDigit c = #"0" <= c andalso c <= #"9"\n                               orelse #"a" <= c andalso c <= #"f"\n                               orelse #"A" <= c andalso c <= #"F"\n                fun isAlphaNum c = isAlpha c orelse isDigit c\n                fun isPrint c  = c >= #" " andalso c < #"\\127"\n                fun isSpace c  = c = #" " orelse #"\\009" <= c andalso c <= #"\\013"\n                fun isGraph c  = isPrint c andalso not (isSpace c)\n                fun isPunct c  = isGraph c andalso not (isAlphaNum c)\n                fun isAscii c  = c <= #"\\127"\n                fun isCntrl c  = c < #" " orelse c >= #"\\127"\n\n                fun toLower c =\n                    if #"A" <= c andalso c <= #"Z" then chr (ord c + 32)\n                    else c;\n                fun toUpper c =\n                    if #"a" <= c andalso c <= #"z" then chr (ord c - 32)\n                    else c;\n\n                fun compare (a, b) = Int.compare(ord a, ord b);\n                fun op< (a, b) = Int.compare(ord a, ord b) = LESS;\n                fun op> (a, b) = Int.compare(ord a, ord b) = GREATER;\n                fun op<= (a, b) = Int.compare(ord a, ord b) <> GREATER;\n                fun op>= (a, b) = Int.compare(ord a, ord b) <> LESS;\n\n                val ord = ord;\n                val chr = chr;\n            end;',requires:["Int"]},Int:{native:addIntLib,code:"structure Int = struct\n                open Int;\n                fun compare (x, y: int) = if x < y then LESS else if x > y then GREATER else EQUAL;\n\n                val minInt = SOME ~"+-r.MININT+";\n                val maxInt = SOME "+r.MAXINT+";\n                fun max (x, y) = if x < y then y else x : int;\n                fun min (x, y) = if x > y then y else x : int;\n            end;",requires:["Option"]},List:{native:addListLib,code:"structure List : sig\n                datatype 'a list = nil | :: of 'a * 'a list;\n                val rev: 'a list -> 'a list;\n            end  = struct\n                open List;\n                fun rev' nil ys     = ys\n                  | rev' (x::xs) ys = rev' xs (x::ys)\n                fun rev xs = rev' xs nil;\n            end;\n\n            structure List = struct\n                exception Empty;\n                open List;\n\n                fun hd nil = raise Empty\n                  | hd (x::xr) = x;\n\n                fun tl nil = raise Empty\n                  | tl (x::xr) = xr;\n\n                fun null nil = true\n                  | null (x::xr) = false;\n\n                fun map f nil = nil\n                  | map f (x::xr) = (f x) :: (map f xr);\n\n                infixr 5 @;\n                fun [] @ ys = ys\n                  | (x::xr) @ ys = x :: (xr @ ys);\n\n                fun length nil = 0\n                  | length (x::xr) = 1 + length xr;\n\n                fun foldr f e []      = e\n                  | foldr f e (x::xr) = f(x, foldr f e xr);\n\n                fun foldl f e []      = e\n                  | foldl f e (x::xr) = foldl f (f(x, e)) xr;\n            end;\n            open List;\n            infixr 5 @;\n\n            structure List = struct\n                open List;\n\n                fun concat nil = nil\n                  | concat (x::xr) = x @ concat xr;\n\n                fun tabulate (n, f) = let\n                    fun h i = if i < n then f i :: h (i + 1) else []\n                in\n                    if n < 0 then raise Size else h 0\n                end;\n\n                fun exists p []      = false\n                  | exists p (x::xr) = p x orelse exists p xr;\n\n                fun all p []      = true\n                  | all p (x::xr) = p x andalso all p xr;\n\n                fun filter p []      = []\n                  | filter p (x::xr) = if p x then x :: filter p xr else filter p xr;\n\n                fun collate (compare : 'a * 'a -> order) p = case p of\n                    (nil, _::_)     => LESS\n                  | (nil, nil)      => EQUAL\n                  | (_::_, nil)     => GREATER\n                  | (x::xr, y::yr)  => case compare (x, y) of\n                         EQUAL  => collate compare (xr, yr)\n                       | s      => s;\n\n                fun nth ([], _)    = raise Subscript\n                  | nth (x::xs, 0) = x\n                  | nth (x::xs, n) = nth (xs, n - 1);\n\n                fun last [x] = x\n                  | last (x::xs) = last xs\n                  | last [] = raise Empty;\n\n                fun getItem [] = NONE\n                  | getItem x = SOME (hd x, tl x);\n\n                fun take (x, 0) = []\n                  | take ([], _) = raise Subscript\n                  | take (x::xs, n) = x :: take (xs, n - 1);\n\n                fun drop (x, 0) = x\n                  | drop ([], _) = raise Subscript\n                  | drop (x::xs, n) = drop (xs, n - 1);\n\n                fun revAppend (l1, l2) = (rev l1) @ l2;\n\n                fun app f [] = ()\n                  | app f (x::xs) = (f x; app f xs);\n\n                fun mapPartial f l\n                    = ((map valOf) o (filter isSome) o (map f)) l;\n\n                fun find f [] = NONE\n                  | find f (x::xs) = if f x then SOME x else find f xs;\n\n                fun partition f [] = ([], [])\n                  | partition f (x::xs) = let\n                    val tmp = partition f xs\n                in\n                    if f x then (x :: #1 tmp, #2 tmp)\n                    else (#1 tmp, x :: #2 tmp)\n                end;\n            end;",requires:["Option"]},Listsort:{native:void 0,code:"signature LISTSORT = sig\n                val sort: ('a * 'a -> order) -> 'a list -> 'a list;\n                val sorted: ('a * 'a -> order) -> 'a list -> bool;\n                val mergeUniq: ('a * 'a -> order) -> 'a list * 'a list -> 'a list;\n                val merge: ('a * 'a -> order) -> 'a list * 'a list -> 'a list;\n                val eqclasses: ('a * 'a -> order) -> 'a list -> 'a list list;\n            end;\n\n            structure Listsort :> LISTSORT = struct\n              fun take ordr x1 xr []       = x1 :: xr\n                | take ordr x1 xr (y1::yr) = (case ordr(x1, y1) of\n                    LESS    => x1 :: take ordr y1 yr xr\n                  | _       => y1 :: take ordr x1 xr yr);\n\n              fun takeUniq ordr x1 xr []       = x1 :: xr\n                | takeUniq ordr x1 xr (y1::yr) = (case ordr(x1, y1) of\n                    LESS    => x1 :: takeUniq ordr y1 yr xr\n                  | GREATER => y1 :: takeUniq ordr x1 xr yr\n                  | EQUAL   => takeUniq ordr x1 xr yr);\n\n              fun merge ordr ([],     ys) = ys\n                | merge ordr (x1::xr, ys) = take ordr x1 xr ys;\n\n              fun mergeUniq ordr ([],     ys) = ys\n                | mergeUniq ordr (x1::xr, ys) = takeUniq ordr x1 xr ys;\n\n              fun mergepairs ordr l1  [] k              = [l1]\n                | mergepairs ordr l1 (ls as (l2::lr)) k =\n                  if k mod 2 = 1 then l1::ls\n                  else mergepairs ordr (merge ordr (l1, l2)) lr (k div 2);\n\n              fun nextrun ordr run []      = (run, [])\n                | nextrun ordr run (xs as (x::xr)) =\n                  if ordr(x, List.hd run) = LESS then (run, xs)\n                  else nextrun ordr (x::run) xr;\n\n              fun sorting ordr []      ls r = List.hd(mergepairs ordr [] ls 0)\n                | sorting ordr (x::xs) ls r = let\n                    val (revrun, tail) = nextrun ordr [x] xs\n                  in\n                    sorting ordr tail (mergepairs ordr (List.rev revrun) ls (r+1)) (r+1)\n                  end;\n\n              fun group ordr last rest cs1 css = case rest of\n                  []     => cs1 :: css\n                | r1::rr => if ordr(r1, last) = EQUAL then group ordr r1 rr (r1 :: cs1) css\n                            else group ordr r1 rr [r1] (cs1 :: css);\n\n              fun sort ordr []               = []\n                | sort ordr (xs as [_])      = xs\n                | sort ordr (xs as [x1, x2]) = (case ordr(x1, x2) of\n                    GREATER => [x2, x1]\n                  | _       => xs)\n                | sort ordr xs = sorting ordr xs [] 0;\n\n              fun sorted ordr []           = true\n                | sorted ordr [x]          = true\n                | sorted ordr (x1::x2::xr) =\n                  ordr(x1, x2) <> GREATER andalso sorted ordr (x2::xr);\n\n\n              fun eqclasses ordr xs = let\n                  val xs = List.rev (sort ordr xs)\n                in\n                  case xs of\n                      []     => []\n                    | x1::xr => group ordr x1 xr [x1] []\n                  end;\n            end;\n            structure List = struct\n                open List;\n                open Listsort;\n            end;",requires:["List"]},Math:{native:addMathLib,code:void 0,requires:void 0},Option:{native:void 0,code:"structure Option = struct\n                exception Option;\n\n                datatype 'a option = NONE | SOME of 'a;\n\n                fun getOpt (NONE, a) = a\n                  | getOpt (SOME x, a) = x;\n\n                fun isSome NONE = false\n                  | isSome (SOME _) = true;\n\n                fun valOf (SOME x) = x\n                  | valOf NONE = raise Option;\n\n                fun filter f x = if f x then SOME x else NONE;\n\n                fun join NONE = NONE\n                  | join (SOME (SOME x)) = SOME x;\n\n                fun app f (SOME v) = f v\n                  | app f NONE = ();\n\n                fun map f NONE = NONE\n                  | map f (SOME v) = SOME(f v);\n\n                fun mapPartial f NONE = NONE\n                  | mapPartial f (SOME v) = f v;\n\n                fun compose (f, g) a = case g a of\n                      NONE => NONE\n                    | SOME v => SOME (f v);\n\n                fun compose (f, g) a = case g a of\n                      NONE => NONE\n                    | SOME v => (f v);\n            end;\n            open Option;",requires:void 0},Real:{native:addRealLib,code:"structure Real = struct\n                open Real;\n                fun compare (x, y: real) = if x < y then LESS else if x > y then GREATER else EQUAL;\n            end;",requires:void 0},String:{native:addStringLib,code:'structure String : sig\n                eqtype string\n                eqtype char\n                val size : string -> int\n                val sub : string * int -> char\n                val extract   : string * int * int option -> string\n                val substring : string * int * int -> string\n                val ^ : string * string -> string\n                val concat : string list -> string\n                val concatWith : string -> string list -> string\n                val str : char -> string\n                val implode : char list -> string\n                val explode : string -> char list\n                val map : (char -> char) -> string -> string\n                val translate : (char -> string) -> string -> string\n                val tokens : (char -> bool) -> string -> string list\n                val fields : (char -> bool) -> string -> string list\n                val isPrefix    : string -> string -> bool\n                val isSubstring : string -> string -> bool\n                val isSuffix    : string -> string -> bool\n                val compare : string * string -> order\n                val collate : (char * char -> order)\n                                -> string * string -> order\n                val <  : string * string -> bool\n                val <= : string * string -> bool\n                val >  : string * string -> bool\n                val >= : string * string -> bool\n            end = struct\n                open String;\n\n                fun size s = List.length (explode s);\n                fun sub (s,i) = List.nth (explode s, i);\n                fun extract (s, i, NONE) = implode (List.drop (explode s, i))\n                  | extract (s, i, SOME j) = implode (List.take (List.drop (explode s, i), j));\n                fun substring (s, i, j) = extract (s, i, SOME j);\n                val op^ = op^;\n\n                fun cc2 b ([], y) = y\n                  | cc2 b (x::xs, y) = cc2 b (xs, y^b^x);\n                fun concat a = cc2 "" (a, "");\n                fun concatWith b [] = ""\n                  | concatWith b (a::c) = a ^ (cc2 b (c, ""));\n\n                fun str c = implode [c];\n                val implode = implode;\n                val explode = explode;\n                fun map f s = implode(List.map f (explode s));\n                fun translate f s = concat(List.map f (explode s));\n\n\n                fun cmp f ([], []) = EQUAL\n                  | cmp f ([], _) = LESS\n                  | cmp f (_, []) = GREATER\n                  | cmp f (x::xs, y::ys) = let\n                        val tmp = f (x, y);\n                    in\n                        if tmp <> EQUAL then tmp else cmp f (xs, ys)\n                    end;\n\n                fun matchPrefix ([], _) = true\n                  | matchPrefix (_, []) = false\n                  | matchPrefix (x::xs, y::ys) = if x <> y then false else matchPrefix (xs, ys);\n\n                fun matchSubstring ([], _) = true\n                  | matchSubstring (_, []) = false\n                  | matchSubstring (x, y as _::ys) = if matchPrefix (x, y) then true\n                    else matchSubstring (x, ys);\n\n                fun getFields (f, [], tmp, x) = (implode tmp) :: x\n                  | getFields (f, (r::rs), tmp, x) = if f r then\n                        getFields (f, rs, [], (implode tmp)::x)\n                    else\n                        getFields (f, rs, r::tmp, x);\n\n                fun tokens f s = List.filter (fn t => t <> "") (getFields (f, rev (explode s), [], []));\n                fun fields f s = getFields (f, rev (explode s), [], []);\n\n                fun isPrefix a b = matchPrefix (explode a, explode b);\n                fun isSubstring a b = matchSubstring (explode a, explode b);\n                fun isSuffix a b = matchPrefix (rev (explode a), rev (explode b));\n\n                fun compare (a, b) = cmp Char.compare (explode a, explode b);\n                fun collate f (a, b) = cmp f (explode a, explode b);\n\n                fun op< (a, b) = compare (a, b) = LESS;\n                fun op> (a, b) = compare (a, b) = GREATER;\n                fun op<= (a, b) = compare (a, b) <> GREATER;\n                fun op>= (a, b) = compare (a, b) <> LESS;\n            end;',requires:["Char","List"]},Version:{native:void 0,code:'structure Version = struct\n            val branch      = "'+s.BRANCH_NAME+'";\n            val commit      = "'+s.COMMIT_HASH+'";\n            val buildDate   = "'+s.BUILD_DATE+'";\n            val message     = "'+s.COMMIT_MESSAGE+'";\n        end;',requires:void 0}},exports.loadModule=loadModule},function(t,exports,e){"use strict";var n=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function __(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(__.prototype=n.prototype,new __)}}();Object.defineProperty(exports,"__esModule",{value:!0});var i=e(6),r=e(5),o=e(1),a=e(4),s=e(2),u=e(0),p=e(3),c=e(7),h=function(t){function StructureExpression(e,n){var i=t.call(this)||this;return i.position=e,i.structureDeclaration=n,i}return n(StructureExpression,t),StructureExpression.prototype.simplify=function(){return new StructureExpression(this.position,this.structureDeclaration.simplify())},StructureExpression.prototype.elaborate=function(t,e,n){var i=t.getNestedState(0).getNestedState(t.id),r=this.structureDeclaration.elaborate(i,e,n,!0);return t.valueIdentifierId=r[0].valueIdentifierId,[r[0].getStaticChanges(0),r[1],r[2],r[3]]},StructureExpression.prototype.computeStructure=function(t,e,n){if(void 0===t.recResult){var i=t.state,r=i.getNestedState(0).getNestedState(i.id);return e.push({next:n,params:t}),void e.push({next:this.structureDeclaration,params:{state:r,modifiable:t.modifiable,recResult:void 0}})}var o=t.recResult;if(void 0===o||void 0===o.newState)throw new u.InternalInterpreterError(-1,"How is this undefined?");var r=o.newState;return o.hasThrown?o.value:r.getDynamicChanges(0)},StructureExpression.prototype.toString=function(){return"struct "+this.structureDeclaration+" end"},StructureExpression}(i.Expression);exports.StructureExpression=h;var f=function(t){function StructureIdentifier(e,n){var i=t.call(this)||this;return i.position=e,i.identifier=n,i}return n(StructureIdentifier,t),StructureIdentifier.prototype.simplify=function(){return this},StructureIdentifier.prototype.elaborate=function(t,e,n){var i=void 0;if(this.identifier instanceof o.LongIdentifierToken){var r=t.getAndResolveStaticStructure(this.identifier);void 0!==r&&(i=r.getStructure(this.identifier.id.getText()))}else i=t.getStaticStructure(this.identifier.getText());if(void 0===i)throw new u.ElaborationError(this.position,'Undefined module "'+this.identifier.getText()+'".');return[i,[],e,n]},StructureIdentifier.prototype.computeStructure=function(t,e,n){var i=t.state,r=void 0;if(this.identifier instanceof o.LongIdentifierToken){var a=i.getAndResolveDynamicStructure(this.identifier);void 0!==a&&(r=a.getStructure(this.identifier.id.getText()))}else r=i.getDynamicStructure(this.identifier.getText());if(void 0===r)throw new u.EvaluationError(this.position,'Undefined module "'+this.identifier.getText()+'".');return r},StructureIdentifier.prototype.toString=function(){return this.identifier.getText()},StructureIdentifier}(i.Expression);exports.StructureIdentifier=f;var l=function(t){function TransparentConstraint(e,n,i){var r=t.call(this)||this;return r.position=e,r.structureExpression=n,r.signatureExpression=i,r}return n(TransparentConstraint,t),TransparentConstraint.restrict=function(t,e,n,i,r,o){var p=new s.StaticBasis({},{},{},{},{}),c=n.getNestedState(n.id);c.staticBasis=e;var h=n.getNestedState(n.id);h.staticBasis=t;for(var f in t.typeEnvironment)if(t.typeEnvironment.hasOwnProperty(f)){if(!e.typeEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Signature mismatch: Unimplemented type "'+f+'".');var l=t.typeEnvironment[f],d=e.typeEnvironment[f];if(l.arity!==d.arity)throw new u.ElaborationError(o,'Signature mismatch: Implementation of type "'+f+'" has the wrong arity.');try{var y=l.type,v=d.type;d.type instanceof a.FunctionType&&(v=d.type.parameterType);var m=y.merge(c,i,v);p.setType(f,d.type.instantiate(h,m[1]),l.constructors,l.arity,l.allowsEquality),i=m[1]}catch(t){if(!(t instanceof Array))throw t;throw new u.ElaborationError(o,'Signature mismatch: Wrong implementation of type "'+f+'": '+t[0])}}for(var f in t.valueEnvironment)if(t.valueEnvironment.hasOwnProperty(f)){if(!e.valueEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Signature mismatch: Unimplemented value "'+f+'".');for(var l=t.valueEnvironment[f],d=e.valueEnvironment[f],g=new Map,w=l[0].getTypeVariables(),T=d[0].getTypeVariables();d[0]instanceof a.TypeVariableBind;){for(;;){var E=+r.substring(3),S="'"+r[1]+r[2]+(E+1);if(r=S,!i.has(S)&&!w.has(S)&&!T.has(S)){"'"===d[0].name[1]&&(S="'"+S),g=g.set(d[0].name,S);break}}d[0]=d[0].type}d[0]=d[0].replaceTypeVariables(g);for(var x=l[0];x instanceof a.TypeVariableBind;){for(;;){var E=+r.substring(3),S="'"+r[1]+r[2]+(E+1);if(r=S,!i.has(S)&&!w.has(S)&&!T.has(S)){"'"===x.name[1]&&(S="'"+S),g=g.set(x.name,S);break}}x=x.type}x=x.replaceTypeVariables(g);try{var I=x.merge(c,i,d[0]);p.setValue(f,l[0].instantiate(c,I[1]),l[1])}catch(t){if(!(t instanceof Array))throw t;throw new u.ElaborationError(o,'Signature mismatch: Wrong implementation of type "'+f+'": '+t[0])}}for(var f in t.structureEnvironment)if(t.structureEnvironment.hasOwnProperty(f)){if(!e.structureEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Unimplemented structure "'+f+'".');try{var k=TransparentConstraint.restrict(t.getStructure(f),e.getStructure(f),c,i,r,o);p.setStructure(f,k[0]),i=k[2],r=k[3]}catch(t){throw new u.ElaborationError(o,'Signature Mismatch: Wrong implementation of structure "'+f+'": '+t.message)}}return[p,[],i,r]},TransparentConstraint.prototype.simplify=function(){return new TransparentConstraint(this.position,this.structureExpression.simplify(),this.signatureExpression.simplify())},TransparentConstraint.prototype.elaborate=function(t,e,n){var i=this.structureExpression.elaborate(t,e,n),r=this.signatureExpression.elaborate(t,i[2],i[3]);return TransparentConstraint.restrict(r[0],i[0],t,r[2],r[3],this.position)},TransparentConstraint.prototype.computeStructure=function(t,e,n){var i=this.structureExpression.computeStructure(t,e,n);if(void 0!==i){if(i instanceof p.Value)return i;var r=this.signatureExpression.computeInterface(t.state);return i.restrict(r)}},TransparentConstraint.prototype.toString=function(){return this.structureExpression+" : "+this.signatureExpression},TransparentConstraint}(i.Expression);exports.TransparentConstraint=l;var d=function(t){function OpaqueConstraint(e,n,i){var r=t.call(this)||this;return r.position=e,r.structureExpression=n,r.signatureExpression=i,r}return n(OpaqueConstraint,t),OpaqueConstraint.restrict=function(t,e,n,i,r,o){var p=new s.StaticBasis({},{},{},{},{}),c=n.getNestedState(n.id);c.staticBasis=e;var h=n.getNestedState(n.id);h.staticBasis=t,h=h.getNestedState(n.id);for(var f in t.typeEnvironment)if(t.typeEnvironment.hasOwnProperty(f)){if(!e.typeEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Signature mismatch: Unimplemented type "'+f+'".');var l=t.typeEnvironment[f],d=e.typeEnvironment[f];if(l.arity!==d.arity)throw new u.ElaborationError(o,'Signature mismatch: Implementation of type "'+f+'" has the wrong arity.');try{var y=l.type,v=d.type;d.type instanceof a.FunctionType&&(v=d.type.parameterType);var m=y.merge(c,i,v);y=new a.CustomType(y.name,y.typeArguments,y.position,y.qualifiedName,!0),p.setType(f,y,[],l.arity,l.allowsEquality),h.staticBasis.setType(f,y,l.constructors,l.arity,l.allowsEquality),i=m[1]}catch(t){if(!(t instanceof Array))throw t;throw new u.ElaborationError(o,'Signature mismatch: Wrong implementation of type "'+f+'": '+t[0])}}for(var f in t.valueEnvironment)if(t.valueEnvironment.hasOwnProperty(f)){if(!e.valueEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Signature mismatch: Unimplemented value "'+f+'".');for(var l=t.valueEnvironment[f],d=e.valueEnvironment[f],g=new Map,w=l[0].getTypeVariables(),T=d[0].getTypeVariables(),E=d[0];E instanceof a.TypeVariableBind;){for(;;){var S=+r.substring(3),x="'"+r[1]+r[2]+(S+1);if(r=x,!i.has(x)&&!w.has(x)&&!T.has(x)){"'"===E.name[1]&&(x="'"+x),g=g.set(E.name,x);break}}E=E.type}E=E.replaceTypeVariables(g);for(var I=l[0];I instanceof a.TypeVariableBind;){for(;;){var S=+r.substring(3),x="'"+r[1]+r[2]+(S+1);if(r=x,!i.has(x)&&!w.has(x)&&!T.has(x)){"'"===I.name[1]&&(x="'"+x),g=g.set(I.name,x);break}}I=I.type}I=I.replaceTypeVariables(g);try{I.merge(c,i,E),p.setValue(f,l[0].instantiate(h,i),l[1])}catch(t){if(!(t instanceof Array))throw t;throw new u.ElaborationError(o,'Signature mismatch: Wrong implementation of type "'+f+'": '+t[0])}}for(var f in t.structureEnvironment)if(t.structureEnvironment.hasOwnProperty(f)){if(!e.structureEnvironment.hasOwnProperty(f))throw new u.ElaborationError(o,'Unimplemented structure "'+f+'".');try{var k=OpaqueConstraint.restrict(t.getStructure(f),e.getStructure(f),c,i,r,o);p.setStructure(f,k[0]),i=k[2],r=k[3]}catch(t){throw new u.ElaborationError(o,'Signature Mismatch: Wrong implementation of structure "'+f+'": '+t.message)}}return[p,[],i,r]},OpaqueConstraint.prototype.simplify=function(){return new OpaqueConstraint(this.position,this.structureExpression.simplify(),this.signatureExpression.simplify())},OpaqueConstraint.prototype.elaborate=function(t,e,n){var i=this.structureExpression.elaborate(t,e,n),r=this.signatureExpression.elaborate(t,i[2],i[3]);return OpaqueConstraint.restrict(r[0],i[0],t,r[2],r[3],this.position)},OpaqueConstraint.prototype.computeStructure=function(t,e,n){var i=this.structureExpression.computeStructure(t,e,n);if(void 0!==i){if(i instanceof p.Value)return i;var r=this.signatureExpression.computeInterface(t.state);return i.restrict(r)}},OpaqueConstraint.prototype.toString=function(){return this.structureExpression+" :> "+this.signatureExpression},OpaqueConstraint}(i.Expression);exports.OpaqueConstraint=d;var y=function(t){function FunctorApplication(e,n,i){var r=t.call(this)||this;return r.position=e,r.functorId=n,r.structureExpression=i,r}return n(FunctorApplication,t),FunctorApplication.prototype.simplify=function(){return new FunctorApplication(this.position,this.functorId,this.structureExpression.simplify())},FunctorApplication.prototype.elaborate=function(t,e,n){var i=this.structureExpression.elaborate(t,e,n),r=t.getStaticFunctor(this.functorId.getText());if(void 0===r)throw new u.EvaluationError(this.position,'Undefined functor "'+this.functorId.getText()+'".');return d.restrict(r[0],i[0],t,e,n,this.position),[r[1],i[1],i[2],i[3]]},FunctorApplication.prototype.computeStructure=function(t,e,n){var i=t.state,r=i.getDynamicFunctor(this.functorId.getText());if(void 0===r)throw new u.EvaluationError(this.position,'Undefined functor "'+this.functorId.getText()+'".');if(void 0===t.funappres){var o=this.structureExpression.computeStructure(t,e,n);if(void 0===o)return;if(o instanceof p.Value)return o;t.funappres=o}var o=t.funappres;if(void 0===t.nstate){var a=r.state.getNestedState(r.state.id);a.setDynamicStructure(r.paramName.getText(),o.restrict(r.param)),t.nstate=a}t.state=t.nstate;var s=r.body.computeStructure(t,e,n);return t.state=i,s},FunctorApplication.prototype.toString=function(){return this.functorId.getText()+"( "+this.structureExpression+" )"},FunctorApplication}(i.Expression);exports.FunctorApplication=y;var v=function(t){function LocalDeclarationStructureExpression(e,n,i){var r=t.call(this)||this;return r.position=e,r.declaration=n,r.expression=i,r}return n(LocalDeclarationStructureExpression,t),LocalDeclarationStructureExpression.prototype.simplify=function(){return new LocalDeclarationStructureExpression(this.position,this.declaration.simplify(),this.expression.simplify())},LocalDeclarationStructureExpression.prototype.elaborate=function(t,e,n){var i=t.getNestedState(t.id);e.forEach(function(n,r){"*"===r[1]&&"*"===r[2]&&i.setStaticValue(r.substring(3),n[0].instantiate(t,e),s.IdentifierStatus.VALUE_VARIABLE)});var r=this.declaration.elaborate(i,e,n);n=r[3];var o=new Map;e.forEach(function(t,e){o=o.set(e,[t[0].instantiate(r[0],r[2]),t[1]])});var a=this.expression.elaborate(r[0],r[2],n);return[a[0],r[1].concat(a[1]),a[2],a[3]]},LocalDeclarationStructureExpression.prototype.toString=function(){return"let "+this.declaration+" in "+this.expression+" end"},LocalDeclarationStructureExpression.prototype.computeStructure=function(t,e,n){var i=t.state;if(void 0===t.ldseRes){if(void 0===t.recResult){var r=i.getNestedState(0).getNestedState(i.id);return e.push({next:n,params:t}),void e.push({next:this.declaration,params:{state:r,modifiable:t.modifiable,recResult:void 0}})}t.ldseRes=t.recResult,t.recResult=void 0}var o=t.ldseRes;if(void 0===o||void 0===o.newState)throw new u.InternalInterpreterError(-1,"How is this undefined?");var r=o.newState;if(o.hasThrown)return o.value;t.state=r;var a=this.expression.computeStructure(t,e,n);return t.state=i,a},LocalDeclarationStructureExpression}(i.Expression);exports.LocalDeclarationStructureExpression=v;var m=function(t){function SignatureExpression(e,n){var i=t.call(this)||this;return i.position=e,i.specification=n,i}return n(SignatureExpression,t),SignatureExpression.prototype.simplify=function(){return new SignatureExpression(this.position,this.specification.simplify())},SignatureExpression.prototype.elaborate=function(t,e,n){return this.specification.elaborate(t,e,n)},SignatureExpression.prototype.computeInterface=function(t){return this.specification.computeInterface(t)},SignatureExpression.prototype.toString=function(){return"sig "+this.specification+" end"},SignatureExpression}(i.Expression);exports.SignatureExpression=m;var g=function(t){function SignatureIdentifier(e,n){var i=t.call(this)||this;return i.position=e,i.identifier=n,i}return n(SignatureIdentifier,t),SignatureIdentifier.prototype.simplify=function(){return this},SignatureIdentifier.prototype.elaborate=function(t,e,n){var i=void 0;if(this.identifier instanceof o.LongIdentifierToken){var r=t.getAndResolveStaticStructure(this.identifier);void 0!==r&&(i=r.getSignature(this.identifier.id.getText()))}else i=t.getStaticSignature(this.identifier.getText());if(void 0===i)throw new u.EvaluationError(this.position,'Undefined signature "'+this.identifier.getText()+'".');return[i,[],e,n]},SignatureIdentifier.prototype.computeInterface=function(t){var e=void 0;if(this.identifier instanceof o.LongIdentifierToken){var n=t.getAndResolveDynamicStructure(this.identifier);void 0!==n&&(e=n.getSignature(this.identifier.id.getText()))}else e=t.getDynamicSignature(this.identifier.getText());if(void 0===e)throw new u.EvaluationError(this.position,'Undefined signature "'+this.identifier.getText()+'".');return e},SignatureIdentifier.prototype.toString=function(){return this.identifier.getText()},SignatureIdentifier}(i.Expression);exports.SignatureIdentifier=g;var w=function(t){function TypeRealisation(e,n,i,r,o){var a=t.call(this)||this;return a.position=e,a.signatureExpression=n,a.tyvarseq=i,a.name=r,a.type=o,a}return n(TypeRealisation,t),TypeRealisation.prototype.simplify=function(){return new TypeRealisation(this.position,this.signatureExpression.simplify(),this.tyvarseq,this.name,this.type.simplify())},TypeRealisation.prototype.elaborate=function(t,e,n){throw new Error("ニャ－")},TypeRealisation.prototype.computeInterface=function(t){return this.signatureExpression.computeInterface(t)},TypeRealisation.prototype.toString=function(){return this.signatureExpression+" where type <stuff> "+this.name.getText()+" = "+this.type},TypeRealisation}(i.Expression);exports.TypeRealisation=w;var T=function(t){function StructureDeclaration(e,n){var i=t.call(this)||this;return i.position=e,i.structureBinding=n,i}return n(StructureDeclaration,t),StructureDeclaration.prototype.elaborate=function(t,e,n,i){for(var r=[],o=0;o<this.structureBinding.length;++o){var a=this.structureBinding[o].elaborate(t,e,n);t=a[0],r=r.concat(a[1]),e=a[2],n=a[3]}return[t,r,e,n]},StructureDeclaration.prototype.evaluate=function(t,e){void 0===t.whichBind&&(t.whichBind=0);var n=t.whichBind,i=this.structureBinding[n].evaluate(t,e,this);if(void 0!==i){if(i.hasThrown)return i;if(t.state=i.newState,t.whichBind=t.whichBind+1,t.recResult=void 0,t.whichBind===this.structureBinding.length)return{newState:t.state,value:void 0,hasThrown:!1};e.push({next:this,params:t})}},StructureDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.structureBinding.length;++e)t.push(this.structureBinding[e].simplify());return new StructureDeclaration(this.position,t)},StructureDeclaration.prototype.toString=function(){for(var t="structure",e=0;e<this.structureBinding.length;++e)t+=" "+this.structureBinding[e];return t+";"},StructureDeclaration}(r.Declaration);exports.StructureDeclaration=T;var E=function(t){function SignatureDeclaration(e,n){var i=t.call(this)||this;return i.position=e,i.signatureBinding=n,i}return n(SignatureDeclaration,t),SignatureDeclaration.prototype.elaborate=function(t,e,n){void 0===e&&(e=new Map),void 0===n&&(n="'*t0");for(var i=[],r=0;r<this.signatureBinding.length;++r){var o=this.signatureBinding[r].elaborate(t,e,n);t=o[0],i=i.concat(o[1]),e=o[2],n=o[3]}return[t,i,e,n]},SignatureDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=0;i<this.signatureBinding.length;++i)n=this.signatureBinding[i].evaluate(n);return{newState:n,value:void 0,hasThrown:!1}},SignatureDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.signatureBinding.length;++e)t.push(this.signatureBinding[e].simplify());return new SignatureDeclaration(this.position,t)},SignatureDeclaration.prototype.toString=function(){for(var t="structure",e=0;e<this.signatureBinding.length;++e)t+=" "+this.signatureBinding[e];return t+";"},SignatureDeclaration}(r.Declaration);exports.SignatureDeclaration=E;var S=function(t){function FunctorDeclaration(e,n){var i=t.call(this)||this;return i.position=e,i.functorBinding=n,i}return n(FunctorDeclaration,t),FunctorDeclaration.prototype.elaborate=function(t,e,n){void 0===e&&(e=new Map),void 0===n&&(n="'*t0");for(var i=[],r=0;r<this.functorBinding.length;++r){var o=[];a=this.functorBinding[r].elaborate(t,e,n),t=a[0],o=a[1],e=a[2],n=a[3],i=i.concat(o)}return[t,i,e,n];var a},FunctorDeclaration.prototype.evaluate=function(t,e){for(var n=t.state,i=0;i<this.functorBinding.length;++i)n=this.functorBinding[i].evaluate(n);return{newState:n,value:void 0,hasThrown:!1}},FunctorDeclaration.prototype.simplify=function(){for(var t=[],e=0;e<this.functorBinding.length;++e)t.push(this.functorBinding[e].simplify());return new FunctorDeclaration(this.position,t)},FunctorDeclaration.prototype.toString=function(){for(var t="functor",e=0;e<this.functorBinding.length;++e)t+=" "+this.functorBinding[e];return t+";"},FunctorDeclaration}(r.Declaration);exports.FunctorDeclaration=S;var x=function(){function StructureBinding(t,e,n){this.position=t,this.name=e,this.binding=n}return StructureBinding.prototype.simplify=function(){return new StructureBinding(this.position,this.name,this.binding.simplify())},StructureBinding.prototype.elaborate=function(t,e,n){var i=this.binding.elaborate(t,e,n);return t.setStaticStructure(this.name.getText(),i[0]),[t,i[1],i[2],i[3]]},StructureBinding.prototype.evaluate=function(t,e,n){var i=this.binding.computeStructure(t,e,n);if(void 0!==i){var r=t.state;return i instanceof p.Value?{newState:r,value:i,hasThrown:!0}:(r.setDynamicStructure(this.name.getText(),i),{newState:r,value:void 0,hasThrown:!1})}},StructureBinding.prototype.toString=function(){return this.name.getText()+" = "+this.binding},StructureBinding}();exports.StructureBinding=x;var I=function(){function SignatureBinding(t,e,n){this.position=t,this.name=e,this.binding=n}return SignatureBinding.prototype.simplify=function(){return new SignatureBinding(this.position,this.name,this.binding.simplify())},SignatureBinding.prototype.elaborate=function(t,e,n){var i=this.binding.elaborate(t,e,n);return t.setStaticSignature(this.name.getText(),i[0]),[t,i[1],i[2],i[3]]},SignatureBinding.prototype.evaluate=function(t){return t.setDynamicSignature(this.name.getText(),this.binding.computeInterface(t)),t},SignatureBinding.prototype.toString=function(){return this.name.getText()+" = "+this.binding},SignatureBinding}();exports.SignatureBinding=I;var k=function(){function FunctorBinding(t,e,n,i,r){this.position=t,this.name=e,this.signatureName=n,this.signatureBinding=i,this.binding=r}return FunctorBinding.prototype.simplify=function(){return new FunctorBinding(this.position,this.name,this.signatureName,this.signatureBinding.simplify(),this.binding.simplify())},FunctorBinding.prototype.elaborate=function(t,e,n){void 0===e&&(e=new Map),void 0===n&&(n="'*t0");var i=this.signatureBinding.elaborate(t,e,n),r=t.getNestedState(t.id);r.setStaticStructure(this.signatureName.getText(),i[0]);var o=this.binding.elaborate(r,i[2],i[3]);return t.setStaticFunctor(this.name.getText(),[i[0],o[0]]),[t,i[1].concat(o[1]),o[2],o[3]]},FunctorBinding.prototype.evaluate=function(t){var e=this.signatureBinding.computeInterface(t),n=c.getInitialState().getNestedState(t.id);return n.dynamicBasis=t.getDynamicChanges(-1),t.setDynamicFunctor(this.name.getText(),new s.DynamicFunctorInformation(this.signatureName,e,this.binding,n)),t},FunctorBinding.prototype.toString=function(){return this.name.getText()+"( "+this.signatureName+" : "+this.signatureBinding+" ) = "+this.binding},FunctorBinding}();exports.FunctorBinding=k;var V=function(){function Specification(){}return Specification.prototype.simplify=function(){return this},Specification}();exports.Specification=V;var b=function(t){function ValueSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.valueDescription=n,i}return n(ValueSpecification,t),ValueSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=this,o=0;o<this.valueDescription.length;++o)!function(n){var o=r.valueDescription[n][1].simplify().instantiate(t,e);o.getTypeVariables().forEach(function(t,e){o=new a.TypeVariableBind(e,o,t)}),i.setValue(r.valueDescription[n][0].getText(),o,s.IdentifierStatus.VALUE_VARIABLE)}(o);return[i,[],e,n]},ValueSpecification.prototype.computeInterface=function(t){for(var e={},n=0;n<this.valueDescription.length;++n)e[this.valueDescription[n][0].getText()]=s.IdentifierStatus.VALUE_VARIABLE;return new s.DynamicInterface({},e,{})},ValueSpecification}(V);exports.ValueSpecification=b;var A=function(t){function TypeSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.typeDescription=n,i}return n(TypeSpecification,t),TypeSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=0;r<this.typeDescription.length;++r)i.setType(this.typeDescription[r][1].getText(),new a.CustomType(this.typeDescription[r][1].getText(),this.typeDescription[r][0]),[],this.typeDescription[r][0].length);return[i,[],e,n]},TypeSpecification.prototype.computeInterface=function(t){for(var e={},n=0;n<this.typeDescription.length;++n)e[this.typeDescription[n][1].getText()]=[];return new s.DynamicInterface(e,{},{})},TypeSpecification}(V);exports.TypeSpecification=A;var L=function(t){function EqualityTypeSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.typeDescription=n,i}return n(EqualityTypeSpecification,t),EqualityTypeSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=0;r<this.typeDescription.length;++r)i.setType(this.typeDescription[r][1].getText(),new a.CustomType(this.typeDescription[r][1].getText(),this.typeDescription[r][0]),[],this.typeDescription[r][0].length,!0);return[i,[],e,n]},EqualityTypeSpecification.prototype.computeInterface=function(t){for(var e={},n=0;n<this.typeDescription.length;++n)e[this.typeDescription[n][1].getText()]=[];return new s.DynamicInterface(e,{},{})},EqualityTypeSpecification}(V);exports.EqualityTypeSpecification=L;var R=function(t){function DatatypeSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.datatypeDescription=n,i}return n(DatatypeSpecification,t),DatatypeSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=0;r<this.datatypeDescription.length;++r){for(var o=[],u=new a.CustomType(this.datatypeDescription[r][1].getText(),this.datatypeDescription[r][0]),p=this,c=0;c<this.datatypeDescription[r][2].length;++c)!function(t){if(o.push(p.datatypeDescription[r][2][t][0].getText()),void 0===p.datatypeDescription[r][2][t][1]){var e=u;e.getTypeVariables().forEach(function(t,n){e=new a.TypeVariableBind(n,e,t)}),i.setValue(p.datatypeDescription[r][2][t][0].getText(),e,s.IdentifierStatus.VALUE_CONSTRUCTOR)}else{var n=new a.FunctionType(p.datatypeDescription[r][2][t][1],u);n.getTypeVariables().forEach(function(t,e){n=new a.TypeVariableBind(e,n,t)}),i.setValue(p.datatypeDescription[r][2][t][0].getText(),n,s.IdentifierStatus.VALUE_CONSTRUCTOR)}}(c);i.setType(this.datatypeDescription[r][1].getText(),u,o,this.datatypeDescription[r][0].length,!0)}return[i,[],e,n]},DatatypeSpecification.prototype.computeInterface=function(t){for(var e={},n={},i=0;i<this.datatypeDescription.length;++i){for(var r=[],o=0;o<this.datatypeDescription[i][2].length;++o)e[this.datatypeDescription[i][2][o][0].getText()]=s.IdentifierStatus.VALUE_CONSTRUCTOR,r.push(this.datatypeDescription[i][2][o][0].getText());n[this.datatypeDescription[i][1].getText()]=r}return new s.DynamicInterface(n,e,{})},DatatypeSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.datatypeDescription.length;++e){for(var n=[],i=0;i<this.datatypeDescription[e][2].length;++i)void 0===this.datatypeDescription[e][2][i][1]?n.push(this.datatypeDescription[e][2][i]):n.push([this.datatypeDescription[e][2][i][0],this.datatypeDescription[e][2][i][1].simplify()]);t.push([this.datatypeDescription[e][0],this.datatypeDescription[e][1],n])}return new DatatypeSpecification(this.position,t)},DatatypeSpecification}(V);exports.DatatypeSpecification=R;var C=function(t){function DatatypeReplicationSpecification(e,n,i){var r=t.call(this)||this;return r.position=e,r.name=n,r.oldname=i,r}return n(DatatypeReplicationSpecification,t),DatatypeReplicationSpecification.prototype.elaborate=function(t,e,n){var i=void 0;if(this.oldname instanceof o.LongIdentifierToken){var r=t.getAndResolveStaticStructure(this.oldname);void 0!==r&&(i=r.getType(this.oldname.id.getText()))}else i=t.getStaticType(this.oldname.getText());if(void 0===i)throw new u.ElaborationError(this.position,'The datatype "'+this.oldname.getText()+"\" doesn't exist.");var p=i.type.instantiate(t,e),c=new s.StaticBasis({},{},{},{},{});return c.setType(this.name.getText(),new a.FunctionType(new a.CustomType(this.name.getText(),p.typeArguments,0,this.oldname instanceof o.LongIdentifierToken?this.oldname:void 0),p),[],i.arity),[c,[],e,n]},DatatypeReplicationSpecification.prototype.computeInterface=function(t){var e=void 0;if(this.oldname instanceof o.LongIdentifierToken){var n=t.getAndResolveDynamicStructure(this.oldname);void 0!==n&&(e=n.getType(this.oldname.id.getText()))}else e=t.getDynamicType(this.oldname.getText());if(void 0===e)throw new u.EvaluationError(this.position,'The datatype "'+this.oldname.getText()+'" does not exist.');for(var i={},r=0;r<e.length;++r)i[e[r]]=s.IdentifierStatus.VALUE_CONSTRUCTOR;var a={};return a[this.name.getText()]=e,new s.DynamicInterface(a,i,{})},DatatypeReplicationSpecification}(V);exports.DatatypeReplicationSpecification=C;var B=function(t){function ExceptionSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.exceptionDescription=n,i}return n(ExceptionSpecification,t),ExceptionSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=this,o=0;o<this.exceptionDescription.length;++o)!function(e){if(void 0!==r.exceptionDescription[e][1]){var n=r.exceptionDescription[e][1].simplify().instantiate(t,new Map),o=[];if(n.getTypeVariables().forEach(function(t,e){o.push(e)}),o.length>0)throw u.ElaborationError.getUnguarded(r.position,o);i.setValue(r.exceptionDescription[e][0].getText(),new a.FunctionType(n,new a.CustomType("exn")).normalize()[0],s.IdentifierStatus.EXCEPTION_CONSTRUCTOR)}else i.setValue(r.exceptionDescription[e][0].getText(),new a.CustomType("exn").normalize()[0],s.IdentifierStatus.EXCEPTION_CONSTRUCTOR)}(o);return[i,[],e,n]},ExceptionSpecification.prototype.computeInterface=function(t){for(var e={},n=0;n<this.exceptionDescription.length;++n)e[this.exceptionDescription[n][0].getText()]=s.IdentifierStatus.EXCEPTION_CONSTRUCTOR;return new s.DynamicInterface({},e,{})},ExceptionSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.exceptionDescription.length;++e)void 0===this.exceptionDescription[e][1]?t.push(this.exceptionDescription[e]):t.push([this.exceptionDescription[e][0],this.exceptionDescription[e][1].simplify()]);return new ExceptionSpecification(this.position,t)},ExceptionSpecification}(V);exports.ExceptionSpecification=B;var D=function(t){function StructureSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.structureDescription=n,i}return n(StructureSpecification,t),StructureSpecification.prototype.elaborate=function(t,e,n){throw new Error("ニャ－")},StructureSpecification.prototype.computeInterface=function(t){for(var e={},n=0;n<this.structureDescription.length;++n)e[this.structureDescription[n][0].getText()]=this.structureDescription[n][1].computeInterface(t);return new s.DynamicInterface({},{},e)},StructureSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.structureDescription.length;++e)t.push([this.structureDescription[e][0],this.structureDescription[e][1].simplify()]);return new StructureSpecification(this.position,t)},StructureSpecification}(V);exports.StructureSpecification=D;var O=function(t){function IncludeSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.expression=n,i}return n(IncludeSpecification,t),IncludeSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=[],o=0;o<this.expression.length;++o){var a=this.expression[o].elaborate(t,e,n);i=i.extend(a[0]),r=r.concat(a[1]),e=a[2],n=a[3]}return[i,r,e,n]},IncludeSpecification.prototype.computeInterface=function(t){for(var e=new s.DynamicInterface({},{},{}),n=0;n<this.expression.length;++n)e=e.extend(this.expression[n].computeInterface(t));return e},IncludeSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.expression.length;++e)t.push(this.expression[e].simplify());return new IncludeSpecification(this.position,t)},IncludeSpecification}(V);exports.IncludeSpecification=O;var _=function(t){function EmptySpecification(e){var n=t.call(this)||this;return n.position=e,n}return n(EmptySpecification,t),EmptySpecification.prototype.elaborate=function(t,e,n){return[new s.StaticBasis({},{},{},{},{}),[],e,n]},EmptySpecification.prototype.computeInterface=function(t){return new s.DynamicInterface({},{},{})},EmptySpecification}(V);exports.EmptySpecification=_;var P=function(t){function SequentialSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.specifications=n,i}return n(SequentialSpecification,t),SequentialSpecification.prototype.elaborate=function(t,e,n){for(var i=new s.StaticBasis({},{},{},{},{}),r=[],o=t,a=0;a<this.specifications.length;++a){var u=this.specifications[a].elaborate(o,e,n);i=i.extend(u[0]),r=r.concat(u[1]),e=u[2],n=u[3],o=o.getNestedState(o.id),o.staticBasis=u[0]}return[i,r,e,n]},SequentialSpecification.prototype.computeInterface=function(t){for(var e=new s.DynamicInterface({},{},{}),n=0;n<this.specifications.length;++n)e=e.extend(this.specifications[n].computeInterface(t));return e},SequentialSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.specifications.length;++e)t.push(this.specifications[e].simplify());return new SequentialSpecification(this.position,t)},SequentialSpecification}(V);exports.SequentialSpecification=P;var F=function(t){function SharingSpecification(e,n,i){var r=t.call(this)||this;return r.position=e,r.specification=n,r.typeNames=i,r}return n(SharingSpecification,t),SharingSpecification.prototype.elaborate=function(t,e,n){throw new Error("ニャ－")},SharingSpecification.prototype.computeInterface=function(t){return this.specification.computeInterface(t)},SharingSpecification}(V);exports.SharingSpecification=F;var q=function(t){function TypeAliasSpecification(e,n){var i=t.call(this)||this;return i.position=e,i.alias=n,i}return n(TypeAliasSpecification,t),TypeAliasSpecification.prototype.elaborate=function(t,e,n){throw new u.InternalInterpreterError(this.position,"And you don't seem to understand…")},TypeAliasSpecification.prototype.computeInterface=function(t){throw new u.InternalInterpreterError(this.position,"Being an interpreter is suffering.")},TypeAliasSpecification.prototype.simplify=function(){for(var t=[],e=0;e<this.alias.length;++e)t.push([this.alias[e][0],this.alias[e][1]]);for(var n=new m(-1,new A(-1,t)),e=0;e<this.alias.length;++e)n=new w(-1,n,this.alias[e][0],this.alias[e][1],this.alias[e][2]);return new O(-1,[n]).simplify()},TypeAliasSpecification}(V);exports.TypeAliasSpecification=q},function(t,exports,e){"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.BRANCH_NAME="dev",exports.COMMIT_HASH="c4c1df9",exports.BUILD_DATE="Tue Dec 19 00:18:28 UTC 2017",exports.COMMIT_MESSAGE="fix Exception ids"}]);
+var Interpreter =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+// A general compiler error. Different translation phases may derive their own, more specialized error classes.
+var InterpreterError = (function (_super) {
+    __extends(InterpreterError, _super);
+    function InterpreterError(position, message) {
+        var _this = _super.call(this, message) || this;
+        _this.position = position;
+        Object.setPrototypeOf(_this, InterpreterError.prototype);
+        return _this;
+    }
+    return InterpreterError;
+}(Error));
+exports.InterpreterError = InterpreterError;
+// Used for errors that Never Happen™. Any InternalInterpreterError occurring is a bug in the interpreter, regardless
+// of how absurd the input is.
+var InternalInterpreterError = (function (_super) {
+    __extends(InternalInterpreterError, _super);
+    function InternalInterpreterError(position, message) {
+        if (message === void 0) { message = 'internal compiler error'; }
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, InternalInterpreterError.prototype);
+        return _this;
+    }
+    return InternalInterpreterError;
+}(InterpreterError));
+exports.InternalInterpreterError = InternalInterpreterError;
+// Used if the code may be valid SML, but uses a feature that this interpreter does not implement, e.g. references.
+var FeatureNotImplementedError = (function (_super) {
+    __extends(FeatureNotImplementedError, _super);
+    function FeatureNotImplementedError(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, FeatureNotImplementedError.prototype);
+        return _this;
+    }
+    return FeatureNotImplementedError;
+}(InterpreterError));
+exports.FeatureNotImplementedError = FeatureNotImplementedError;
+// Used if the code may be valid SML, but uses a feature that is currently disabled in the interpreter settings.
+var FeatureDisabledError = (function (_super) {
+    __extends(FeatureDisabledError, _super);
+    function FeatureDisabledError(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, FeatureDisabledError.prototype);
+        return _this;
+    }
+    return FeatureDisabledError;
+}(InterpreterError));
+exports.FeatureDisabledError = FeatureDisabledError;
+// Used if the input is incomplete, but may be a prefix of valid SML code.
+var IncompleteError = (function (_super) {
+    __extends(IncompleteError, _super);
+    function IncompleteError(position, message) {
+        if (message === void 0) { message = 'unexpected end of input'; }
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, IncompleteError.prototype);
+        return _this;
+    }
+    return IncompleteError;
+}(InterpreterError));
+exports.IncompleteError = IncompleteError;
+var LexerError = (function (_super) {
+    __extends(LexerError, _super);
+    function LexerError(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, LexerError.prototype);
+        return _this;
+    }
+    return LexerError;
+}(InterpreterError));
+exports.LexerError = LexerError;
+var ParserError = (function (_super) {
+    __extends(ParserError, _super);
+    function ParserError(message, position) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, ParserError.prototype);
+        return _this;
+    }
+    return ParserError;
+}(InterpreterError));
+exports.ParserError = ParserError;
+var ElaborationError = (function (_super) {
+    __extends(ElaborationError, _super);
+    function ElaborationError(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, ElaborationError.prototype);
+        return _this;
+    }
+    ElaborationError.getUnguarded = function (position, tyvars) {
+        var res = '';
+        if (tyvars.length > 1) {
+            res += 's';
+        }
+        res += ' ';
+        for (var i = 0; i < tyvars.length; ++i) {
+            if (i > 0) {
+                res += ', ';
+            }
+            res += '"' + tyvars[i] + '"';
+        }
+        return new ElaborationError(position, 'Unguarded type variable' + res + '.');
+    };
+    return ElaborationError;
+}(InterpreterError));
+exports.ElaborationError = ElaborationError;
+var EvaluationError = (function (_super) {
+    __extends(EvaluationError, _super);
+    function EvaluationError(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, EvaluationError.prototype);
+        return _this;
+    }
+    return EvaluationError;
+}(InterpreterError));
+exports.EvaluationError = EvaluationError;
+var Warning = (function (_super) {
+    __extends(Warning, _super);
+    function Warning(position, message) {
+        var _this = _super.call(this, position, message) || this;
+        Object.setPrototypeOf(_this, Warning.prototype);
+        return _this;
+    }
+    return Warning;
+}(InterpreterError));
+exports.Warning = Warning;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var KeywordToken = (function () {
+    function KeywordToken(text, position) {
+        this.text = text;
+        this.position = position;
+    }
+    KeywordToken.prototype.getText = function () {
+        return this.text;
+    };
+    KeywordToken.prototype.isValidRecordLabel = function () { return false; };
+    KeywordToken.prototype.isVid = function () { return false; };
+    return KeywordToken;
+}());
+exports.KeywordToken = KeywordToken;
+var ConstantToken = (function () {
+    function ConstantToken() {
+    }
+    ConstantToken.prototype.isVid = function () { return false; };
+    return ConstantToken;
+}());
+exports.ConstantToken = ConstantToken;
+var IntegerConstantToken = (function (_super) {
+    __extends(IntegerConstantToken, _super);
+    function IntegerConstantToken(text, position, value) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        _this.position = position;
+        _this.value = value;
+        return _this;
+    }
+    IntegerConstantToken.prototype.getText = function () {
+        return '' + this.value;
+    };
+    IntegerConstantToken.prototype.isValidRecordLabel = function () { return false; };
+    return IntegerConstantToken;
+}(ConstantToken));
+exports.IntegerConstantToken = IntegerConstantToken;
+var RealConstantToken = (function (_super) {
+    __extends(RealConstantToken, _super);
+    function RealConstantToken(text, position, value) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        _this.position = position;
+        _this.value = value;
+        return _this;
+    }
+    RealConstantToken.prototype.getText = function () {
+        return '' + this.value;
+    };
+    RealConstantToken.prototype.isValidRecordLabel = function () { return false; };
+    return RealConstantToken;
+}(ConstantToken));
+exports.RealConstantToken = RealConstantToken;
+var WordConstantToken = (function (_super) {
+    __extends(WordConstantToken, _super);
+    function WordConstantToken(text, position, value) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        _this.position = position;
+        _this.value = value;
+        return _this;
+    }
+    WordConstantToken.prototype.getText = function () {
+        return '' + this.value;
+    };
+    WordConstantToken.prototype.isValidRecordLabel = function () { return false; };
+    return WordConstantToken;
+}(ConstantToken));
+exports.WordConstantToken = WordConstantToken;
+var CharacterConstantToken = (function (_super) {
+    __extends(CharacterConstantToken, _super);
+    function CharacterConstantToken(text, position, value) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        _this.position = position;
+        _this.value = value;
+        return _this;
+    }
+    CharacterConstantToken.prototype.getText = function () {
+        return '' + this.text;
+    };
+    CharacterConstantToken.prototype.isValidRecordLabel = function () { return false; };
+    return CharacterConstantToken;
+}(ConstantToken));
+exports.CharacterConstantToken = CharacterConstantToken;
+var StringConstantToken = (function (_super) {
+    __extends(StringConstantToken, _super);
+    function StringConstantToken(text, position, value) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        _this.position = position;
+        _this.value = value;
+        return _this;
+    }
+    StringConstantToken.prototype.getText = function () {
+        return '' + this.text;
+    };
+    StringConstantToken.prototype.isValidRecordLabel = function () { return false; };
+    return StringConstantToken;
+}(ConstantToken));
+exports.StringConstantToken = StringConstantToken;
+// Any identifier not starting with a prime (')
+// May represent value identifiers, type constructors and record labels
+var IdentifierToken = (function () {
+    function IdentifierToken(text, position) {
+        this.text = text;
+        this.position = position;
+        this.opPrefixed = false;
+    }
+    IdentifierToken.prototype.getText = function () {
+        return this.text;
+    };
+    IdentifierToken.prototype.isValidRecordLabel = function () { return true; };
+    IdentifierToken.prototype.isVid = function () { return true; };
+    return IdentifierToken;
+}());
+exports.IdentifierToken = IdentifierToken;
+// Alphanumeric identifiers not starting with a prime may represent structure identifiers, signature identifiers
+// and functor identifiers
+var AlphanumericIdentifierToken = (function (_super) {
+    __extends(AlphanumericIdentifierToken, _super);
+    function AlphanumericIdentifierToken(text, position) {
+        return _super.call(this, text, position) || this;
+    }
+    AlphanumericIdentifierToken.prototype.getText = function () {
+        return this.text;
+    };
+    AlphanumericIdentifierToken.prototype.isValidRecordLabel = function () { return true; };
+    return AlphanumericIdentifierToken;
+}(IdentifierToken));
+exports.AlphanumericIdentifierToken = AlphanumericIdentifierToken;
+// An alphanumeric identifier that starts with a prime
+var TypeVariableToken = (function () {
+    function TypeVariableToken(text, position) {
+        this.text = text;
+        this.position = position;
+    }
+    TypeVariableToken.prototype.getText = function () {
+        return this.text;
+    };
+    TypeVariableToken.prototype.isValidRecordLabel = function () { return false; };
+    TypeVariableToken.prototype.isVid = function () { return false; };
+    return TypeVariableToken;
+}());
+exports.TypeVariableToken = TypeVariableToken;
+// An alphanumeric identifier that starts with two primes
+var EqualityTypeVariableToken = (function (_super) {
+    __extends(EqualityTypeVariableToken, _super);
+    function EqualityTypeVariableToken(text, position) {
+        return _super.call(this, text, position) || this;
+    }
+    EqualityTypeVariableToken.prototype.getText = function () {
+        return this.text;
+    };
+    EqualityTypeVariableToken.prototype.isValidRecordLabel = function () { return false; };
+    EqualityTypeVariableToken.prototype.isVid = function () { return false; };
+    return EqualityTypeVariableToken;
+}(TypeVariableToken));
+exports.EqualityTypeVariableToken = EqualityTypeVariableToken;
+// A star (*) can be used as value identifier or record label, but not as a type constructor and thus must be separated.
+// See SML definition, chapter 2.4 Identifiers
+var StarToken = (function (_super) {
+    __extends(StarToken, _super);
+    function StarToken(position) {
+        var _this = _super.call(this, '*', position) || this;
+        _this.position = position;
+        _this.opPrefixed = false;
+        return _this;
+    }
+    StarToken.prototype.getText = function () {
+        return this.text;
+    };
+    StarToken.prototype.isValidRecordLabel = function () { return true; };
+    StarToken.prototype.isVid = function () { return true; };
+    return StarToken;
+}(KeywordToken));
+exports.StarToken = StarToken;
+// Reserved words are generally not allowed as identifiers. "The only exception to this rule is that the symbol = ,
+// which is a reserved word, is also allowed as an identifier to stand for the equality predicate.
+// The identifier = may not be re-bound; this precludes any syntactic ambiguity." (Definition of SML, page 5)
+var EqualsToken = (function (_super) {
+    __extends(EqualsToken, _super);
+    function EqualsToken(position) {
+        var _this = _super.call(this, '=', position) || this;
+        _this.position = position;
+        return _this;
+    }
+    EqualsToken.prototype.getText = function () {
+        return this.text;
+    };
+    EqualsToken.prototype.isValidRecordLabel = function () { return false; };
+    EqualsToken.prototype.isVid = function () { return true; };
+    return EqualsToken;
+}(KeywordToken));
+exports.EqualsToken = EqualsToken;
+// A numeric token (a positive, decimal integer not starting with '0') can be used either as an integer constant or as
+// a record label.
+var NumericToken = (function (_super) {
+    __extends(NumericToken, _super);
+    function NumericToken(text, position, value) {
+        return _super.call(this, text, position, value) || this;
+    }
+    NumericToken.prototype.getText = function () {
+        return this.text;
+    };
+    NumericToken.prototype.isValidRecordLabel = function () { return true; };
+    NumericToken.prototype.isVid = function () { return false; };
+    return NumericToken;
+}(IntegerConstantToken));
+exports.NumericToken = NumericToken;
+// A long identifier is a sequence str_1.str_2. … .str_n.id of n > 0 structure identifiers and one Identifier
+// separated by '.'s. The identifier may a value identifier, type constructor or structure identifier
+var LongIdentifierToken = (function () {
+    function LongIdentifierToken(text, position, qualifiers, id) {
+        this.text = text;
+        this.position = position;
+        this.qualifiers = qualifiers;
+        this.id = id;
+        this.opPrefixed = false;
+    }
+    LongIdentifierToken.prototype.getText = function () {
+        var res = '';
+        for (var i = 0; i < this.qualifiers.length; ++i) {
+            if (i > 0) {
+                res += '.';
+            }
+            res += this.qualifiers[i].getText();
+        }
+        return res + '.' + this.id.getText();
+    };
+    LongIdentifierToken.prototype.isValidRecordLabel = function () { return false; };
+    LongIdentifierToken.prototype.isVid = function () { return false; };
+    return LongIdentifierToken;
+}());
+exports.LongIdentifierToken = LongIdentifierToken;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var values_1 = __webpack_require__(3);
+var tokens_1 = __webpack_require__(1);
+var errors_1 = __webpack_require__(0);
+var IdentifierStatus;
+(function (IdentifierStatus) {
+    IdentifierStatus[IdentifierStatus["VALUE_VARIABLE"] = 0] = "VALUE_VARIABLE";
+    IdentifierStatus[IdentifierStatus["VALUE_CONSTRUCTOR"] = 1] = "VALUE_CONSTRUCTOR";
+    IdentifierStatus[IdentifierStatus["EXCEPTION_CONSTRUCTOR"] = 2] = "EXCEPTION_CONSTRUCTOR";
+})(IdentifierStatus = exports.IdentifierStatus || (exports.IdentifierStatus = {}));
+var TypeInformation = (function () {
+    // Every constructor also appears in the value environment,
+    // thus it suffices to record their names here.
+    function TypeInformation(type, constructors, arity, allowsEquality) {
+        if (allowsEquality === void 0) { allowsEquality = true; }
+        this.type = type;
+        this.constructors = constructors;
+        this.arity = arity;
+        this.allowsEquality = allowsEquality;
+    }
+    return TypeInformation;
+}());
+exports.TypeInformation = TypeInformation;
+var DynamicFunctorInformation = (function () {
+    function DynamicFunctorInformation(paramName, param, body, state) {
+        this.paramName = paramName;
+        this.param = param;
+        this.body = body;
+        this.state = state;
+    }
+    return DynamicFunctorInformation;
+}());
+exports.DynamicFunctorInformation = DynamicFunctorInformation;
+var DynamicInterface = (function () {
+    function DynamicInterface(typeInterface, valueInterface, structureInterface) {
+        this.typeInterface = typeInterface;
+        this.valueInterface = valueInterface;
+        this.structureInterface = structureInterface;
+    }
+    DynamicInterface.prototype.extend = function (other) {
+        for (var i in other.typeInterface) {
+            if (other.typeInterface.hasOwnProperty(i)) {
+                this.typeInterface[i] = other.typeInterface[i];
+            }
+        }
+        for (var i in other.valueInterface) {
+            if (other.valueInterface.hasOwnProperty(i)) {
+                this.valueInterface[i] = other.valueInterface[i];
+            }
+        }
+        for (var i in other.structureInterface) {
+            if (other.structureInterface.hasOwnProperty(i)) {
+                this.structureInterface[i] = other.structureInterface[i];
+            }
+        }
+        return this;
+    };
+    return DynamicInterface;
+}());
+exports.DynamicInterface = DynamicInterface;
+var InfixStatus = (function () {
+    function InfixStatus(infix, precedence, rightAssociative) {
+        if (precedence === void 0) { precedence = 0; }
+        if (rightAssociative === void 0) { rightAssociative = false; }
+        this.infix = infix;
+        this.precedence = precedence;
+        this.rightAssociative = rightAssociative;
+    }
+    return InfixStatus;
+}());
+exports.InfixStatus = InfixStatus;
+var DynamicBasis = (function () {
+    function DynamicBasis(typeEnvironment, valueEnvironment, structureEnvironment, signatureEnvironment, functorEnvironment) {
+        this.typeEnvironment = typeEnvironment;
+        this.valueEnvironment = valueEnvironment;
+        this.structureEnvironment = structureEnvironment;
+        this.signatureEnvironment = signatureEnvironment;
+        this.functorEnvironment = functorEnvironment;
+    }
+    DynamicBasis.prototype.getValue = function (name) {
+        if (this.valueEnvironment.hasOwnProperty(name)) {
+            return this.valueEnvironment[name];
+        }
+        return undefined;
+    };
+    DynamicBasis.prototype.getType = function (name) {
+        if (this.typeEnvironment.hasOwnProperty(name)) {
+            return this.typeEnvironment[name];
+        }
+        return undefined;
+    };
+    DynamicBasis.prototype.getStructure = function (name) {
+        if (this.structureEnvironment.hasOwnProperty(name)) {
+            return this.structureEnvironment[name];
+        }
+        return undefined;
+    };
+    DynamicBasis.prototype.getSignature = function (name) {
+        if (this.signatureEnvironment.hasOwnProperty(name)) {
+            return this.signatureEnvironment[name];
+        }
+        return undefined;
+    };
+    DynamicBasis.prototype.getFunctor = function (name) {
+        if (this.functorEnvironment.hasOwnProperty(name)) {
+            return this.functorEnvironment[name];
+        }
+        return undefined;
+    };
+    DynamicBasis.prototype.setValue = function (name, value, is) {
+        this.valueEnvironment[name] = [value, is];
+    };
+    DynamicBasis.prototype.setType = function (name, type) {
+        this.typeEnvironment[name] = type;
+    };
+    DynamicBasis.prototype.setStructure = function (name, structure) {
+        this.structureEnvironment[name] = structure;
+    };
+    DynamicBasis.prototype.setSignature = function (name, signature) {
+        this.signatureEnvironment[name] = signature;
+    };
+    DynamicBasis.prototype.setFunctor = function (name, functor) {
+        this.functorEnvironment[name] = functor;
+    };
+    DynamicBasis.prototype.extend = function (other) {
+        for (var i in other.typeEnvironment) {
+            if (other.typeEnvironment.hasOwnProperty(i)) {
+                this.typeEnvironment[i] = other.typeEnvironment[i];
+            }
+        }
+        for (var i in other.valueEnvironment) {
+            if (other.valueEnvironment.hasOwnProperty(i)) {
+                this.valueEnvironment[i] = other.valueEnvironment[i];
+            }
+        }
+        for (var i in other.structureEnvironment) {
+            if (other.structureEnvironment.hasOwnProperty(i)) {
+                this.structureEnvironment[i] = other.structureEnvironment[i];
+            }
+        }
+        for (var i in other.signatureEnvironment) {
+            if (other.signatureEnvironment.hasOwnProperty(i)) {
+                this.signatureEnvironment[i] = other.signatureEnvironment[i];
+            }
+        }
+        for (var i in other.functorEnvironment) {
+            if (other.functorEnvironment.hasOwnProperty(i)) {
+                this.functorEnvironment[i] = other.functorEnvironment[i];
+            }
+        }
+        return this;
+    };
+    DynamicBasis.prototype.restrict = function (sig) {
+        var res = new DynamicBasis({}, {}, {}, this.signatureEnvironment, this.functorEnvironment);
+        for (var i in sig.typeInterface) {
+            if (sig.typeInterface.hasOwnProperty(i)
+                && this.typeEnvironment.hasOwnProperty(i)) {
+                var tmp = new Set();
+                var ntp = [];
+                for (var j = 0; j < this.typeEnvironment[i].length; ++j) {
+                    tmp = tmp.add(this.typeEnvironment[i][j]);
+                }
+                for (var j = 0; j < sig.typeInterface[i].length; ++j) {
+                    if (tmp.has(sig.typeInterface[i][j])) {
+                        ntp.push(sig.typeInterface[i][j]);
+                    }
+                }
+                res.typeEnvironment[i] = ntp;
+            }
+        }
+        for (var i in sig.valueInterface) {
+            if (sig.valueInterface.hasOwnProperty(i)
+                && this.valueEnvironment.hasOwnProperty(i)) {
+                res.valueEnvironment[i] = [this.valueEnvironment[i][0], sig.valueInterface[i]];
+            }
+        }
+        for (var i in sig.structureInterface) {
+            if (sig.structureInterface.hasOwnProperty(i)
+                && this.structureEnvironment.hasOwnProperty(i)) {
+                res.structureEnvironment[i]
+                    = this.structureEnvironment[i].restrict(sig.structureInterface[i]);
+            }
+        }
+        return res;
+    };
+    return DynamicBasis;
+}());
+exports.DynamicBasis = DynamicBasis;
+var StaticBasis = (function () {
+    function StaticBasis(typeEnvironment, valueEnvironment, structureEnvironment, signatureEnvironment, functorEnvironment) {
+        this.typeEnvironment = typeEnvironment;
+        this.valueEnvironment = valueEnvironment;
+        this.structureEnvironment = structureEnvironment;
+        this.signatureEnvironment = signatureEnvironment;
+        this.functorEnvironment = functorEnvironment;
+    }
+    StaticBasis.prototype.getValue = function (name) {
+        if (this.valueEnvironment.hasOwnProperty(name)) {
+            return this.valueEnvironment[name];
+        }
+        return undefined;
+    };
+    StaticBasis.prototype.getType = function (name) {
+        if (this.typeEnvironment.hasOwnProperty(name)) {
+            return this.typeEnvironment[name];
+        }
+        return undefined;
+    };
+    StaticBasis.prototype.getStructure = function (name) {
+        if (this.structureEnvironment.hasOwnProperty(name)) {
+            return this.structureEnvironment[name];
+        }
+        return undefined;
+    };
+    StaticBasis.prototype.getSignature = function (name) {
+        if (this.signatureEnvironment.hasOwnProperty(name)) {
+            return this.signatureEnvironment[name];
+        }
+        return undefined;
+    };
+    StaticBasis.prototype.getFunctor = function (name) {
+        if (this.functorEnvironment.hasOwnProperty(name)) {
+            return this.functorEnvironment[name];
+        }
+        return undefined;
+    };
+    StaticBasis.prototype.setValue = function (name, value, is) {
+        this.valueEnvironment[name] = [value, is];
+    };
+    StaticBasis.prototype.deleteValue = function (name) {
+        this.valueEnvironment[name] = undefined;
+    };
+    StaticBasis.prototype.setType = function (name, type, constructors, arity, admitsEquality) {
+        if (admitsEquality === void 0) { admitsEquality = true; }
+        this.typeEnvironment[name] = new TypeInformation(type, constructors, arity, admitsEquality);
+    };
+    StaticBasis.prototype.setStructure = function (name, structure) {
+        this.structureEnvironment[name] = structure;
+    };
+    StaticBasis.prototype.setSignature = function (name, signature) {
+        this.signatureEnvironment[name] = signature;
+    };
+    StaticBasis.prototype.setFunctor = function (name, functor) {
+        this.functorEnvironment[name] = functor;
+    };
+    StaticBasis.prototype.extend = function (other) {
+        for (var i in other.typeEnvironment) {
+            if (other.typeEnvironment.hasOwnProperty(i)) {
+                this.typeEnvironment[i] = other.typeEnvironment[i];
+            }
+        }
+        for (var i in other.valueEnvironment) {
+            if (other.valueEnvironment.hasOwnProperty(i)) {
+                this.valueEnvironment[i] = other.valueEnvironment[i];
+            }
+        }
+        for (var i in other.structureEnvironment) {
+            if (other.structureEnvironment.hasOwnProperty(i)) {
+                this.structureEnvironment[i] = other.structureEnvironment[i];
+            }
+        }
+        for (var i in other.signatureEnvironment) {
+            if (other.signatureEnvironment.hasOwnProperty(i)) {
+                this.signatureEnvironment[i] = other.signatureEnvironment[i];
+            }
+        }
+        for (var i in other.functorEnvironment) {
+            if (other.functorEnvironment.hasOwnProperty(i)) {
+                this.functorEnvironment[i] = other.functorEnvironment[i];
+            }
+        }
+        return this;
+    };
+    return StaticBasis;
+}());
+exports.StaticBasis = StaticBasis;
+var State = (function () {
+    // The states' ids are non-decreasing; a single declaration uses the same ids
+    function State(id, parent, staticBasis, dynamicBasis, memory, freeTypeVariables, infixEnvironment, valueIdentifierId, warns, insideLocalDeclBody, localDeclStart, loadedModules) {
+        if (freeTypeVariables === void 0) { freeTypeVariables = [0, new Map()]; }
+        if (infixEnvironment === void 0) { infixEnvironment = {}; }
+        if (valueIdentifierId === void 0) { valueIdentifierId = {}; }
+        if (warns === void 0) { warns = []; }
+        if (insideLocalDeclBody === void 0) { insideLocalDeclBody = false; }
+        if (localDeclStart === void 0) { localDeclStart = false; }
+        if (loadedModules === void 0) { loadedModules = []; }
+        this.id = id;
+        this.parent = parent;
+        this.staticBasis = staticBasis;
+        this.dynamicBasis = dynamicBasis;
+        this.memory = memory;
+        this.freeTypeVariables = freeTypeVariables;
+        this.infixEnvironment = infixEnvironment;
+        this.valueIdentifierId = valueIdentifierId;
+        this.warns = warns;
+        this.insideLocalDeclBody = insideLocalDeclBody;
+        this.localDeclStart = localDeclStart;
+        this.loadedModules = loadedModules;
+    }
+    State.allowsRebind = function (name) {
+        return {
+            'true': false,
+            'false': false,
+            'nil': false,
+            '::': false,
+            '=': false,
+            'ref': false,
+            ':=': false,
+            '!': false
+        }[name] === undefined;
+    };
+    State.prototype.getNestedState = function (newId) {
+        if (newId === void 0) { newId = undefined; }
+        if (newId === undefined) {
+            newId = this.id + 1;
+        }
+        var res = new State(newId, this, new StaticBasis({}, {}, {}, {}, {}), new DynamicBasis({}, {}, {}, {}, {}), [this.memory[0], {}], [this.freeTypeVariables[0], new Map()]);
+        res.insideLocalDeclBody = this.insideLocalDeclBody;
+        for (var _i = 0, _a = this.loadedModules; _i < _a.length; _i++) {
+            var i = _a[_i];
+            res.loadedModules.push(i);
+        }
+        return res;
+    };
+    State.prototype.hasModule = function (name) {
+        for (var _i = 0, _a = this.loadedModules; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (i === name) {
+                return true;
+            }
+        }
+        return false;
+    };
+    State.prototype.registerModule = function (name) {
+        this.loadedModules.push(name);
+    };
+    State.prototype.getIdChanges = function (stopId) {
+        if (this.id <= stopId) {
+            return {};
+        }
+        var res = {};
+        if (this.parent !== undefined) {
+            res = this.parent.getIdChanges(stopId);
+        }
+        for (var i in this.valueIdentifierId) {
+            if (this.valueIdentifierId.hasOwnProperty(i)) {
+                res[i] = this.valueIdentifierId[i];
+            }
+        }
+        return res;
+    };
+    State.prototype.getMemoryChanges = function (stopId) {
+        if (this.id <= stopId) {
+            return [];
+        }
+        var res = [];
+        if (this.parent !== undefined) {
+            res = this.parent.getMemoryChanges(stopId);
+        }
+        for (var i in this.memory[1]) {
+            if (this.memory[1].hasOwnProperty(i)) {
+                res.push([+i, this.memory[1][i]]);
+            }
+        }
+        return res;
+    };
+    State.prototype.getDynamicChanges = function (stopId) {
+        if (this.id <= stopId) {
+            return new DynamicBasis({}, {}, {}, {}, {});
+        }
+        var res = new DynamicBasis({}, {}, {}, {}, {});
+        if (this.parent !== undefined) {
+            res = this.parent.getDynamicChanges(stopId);
+        }
+        res = res.extend(this.dynamicBasis);
+        return res;
+    };
+    State.prototype.getDynamicLocalDeclChanges = function (stopId) {
+        if (this.id <= stopId || this.localDeclStart) {
+            return new DynamicBasis({}, {}, {}, {}, {});
+        }
+        var res = new DynamicBasis({}, {}, {}, {}, {});
+        if (this.parent !== undefined) {
+            res = this.parent.getDynamicLocalDeclChanges(stopId);
+        }
+        res = res.extend(this.dynamicBasis);
+        return res;
+    };
+    State.prototype.getStaticChanges = function (stopId) {
+        if (this.id <= stopId) {
+            return new StaticBasis({}, {}, {}, {}, {});
+        }
+        var res = new StaticBasis({}, {}, {}, {}, {});
+        if (this.parent !== undefined) {
+            res = this.parent.getStaticChanges(stopId);
+        }
+        res = res.extend(this.staticBasis);
+        return res;
+    };
+    State.prototype.getCell = function (address) {
+        if (this.memory[1][address] !== undefined) {
+            return this.memory[1][address];
+        }
+        else if (this.parent === undefined) {
+            return undefined;
+        }
+        else {
+            return this.parent.getCell(address);
+        }
+    };
+    State.prototype.getTypeVariableBinds = function (idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.freeTypeVariables;
+        if (this.parent === undefined || this.parent.id < idLimit) {
+            var ret_1 = new Map();
+            result[1].forEach(function (val, key) {
+                ret_1.set(key, val);
+            });
+            return [result[0], ret_1];
+        }
+        else {
+            var tmp_1 = this.parent.getTypeVariableBinds(idLimit);
+            result[1].forEach(function (val, key) {
+                tmp_1[1].set(key, val);
+            });
+            return [Math.max(result[0], tmp_1[0]), tmp_1[1]];
+        }
+    };
+    // Gets an identifier's type. The value  intermediate  determines whether to return intermediate results
+    State.prototype.getStaticValue = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.staticBasis.getValue(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            if (result !== undefined) {
+                return [result[0], result[1]];
+            }
+            return result;
+        }
+        else {
+            return this.parent.getStaticValue(name, idLimit);
+        }
+    };
+    State.prototype.getStaticType = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.staticBasis.getType(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getStaticType(name, idLimit);
+        }
+    };
+    State.prototype.getStaticStructure = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.staticBasis.getStructure(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getStaticStructure(name, idLimit);
+        }
+    };
+    State.prototype.getAndResolveStaticStructure = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var res = undefined;
+        if (name.qualifiers.length === 0) {
+            throw new errors_1.EvaluationError(name.position, 'Unqualified LongIdentifierToken are too unqualified to be useful here.');
+        }
+        else {
+            res = this.getStaticStructure(name.qualifiers[0].getText(), idLimit);
+        }
+        for (var i = 1; i < name.qualifiers.length; ++i) {
+            if (res === undefined) {
+                return res;
+            }
+            res = res.getStructure(name.qualifiers[i].getText());
+        }
+        return res;
+    };
+    State.prototype.getStaticSignature = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.staticBasis.getSignature(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getStaticSignature(name, idLimit);
+        }
+    };
+    State.prototype.getStaticFunctor = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.staticBasis.getFunctor(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getStaticFunctor(name, idLimit);
+        }
+    };
+    State.prototype.getDynamicValue = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.dynamicBasis.getValue(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            if (result !== undefined) {
+                return [result[0], result[1]];
+            }
+            return result;
+        }
+        else {
+            return this.parent.getDynamicValue(name, idLimit);
+        }
+    };
+    State.prototype.getDynamicType = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.dynamicBasis.getType(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            if (result !== undefined) {
+                return [result[0], result[1]];
+            }
+            return result;
+        }
+        else {
+            return this.parent.getDynamicType(name, idLimit);
+        }
+    };
+    State.prototype.getDynamicStructure = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.dynamicBasis.getStructure(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getDynamicStructure(name, idLimit);
+        }
+    };
+    State.prototype.getAndResolveDynamicStructure = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var res = undefined;
+        if (name.qualifiers.length === 0) {
+            throw new errors_1.EvaluationError(name.position, 'Unqualified LongIdentifierToken are too unqualified to be useful here.');
+        }
+        else {
+            res = this.getDynamicStructure(name.qualifiers[0].getText(), idLimit);
+        }
+        for (var i = 1; i < name.qualifiers.length; ++i) {
+            if (res === undefined) {
+                return res;
+            }
+            res = res.getStructure(name.qualifiers[i].getText());
+        }
+        return res;
+    };
+    State.prototype.getDynamicSignature = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.dynamicBasis.getSignature(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getDynamicSignature(name, idLimit);
+        }
+    };
+    State.prototype.getDynamicFunctor = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        var result = this.dynamicBasis.getFunctor(name);
+        if (result !== undefined || this.parent === undefined || this.parent.id < idLimit) {
+            return result;
+        }
+        else {
+            return this.parent.getDynamicFunctor(name, idLimit);
+        }
+    };
+    State.prototype.getInfixStatus = function (id, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        if (id.isVid() || id instanceof tokens_1.LongIdentifierToken) {
+            if (this.infixEnvironment.hasOwnProperty(id.getText()) || !this.parent
+                || this.parent.id < idLimit) {
+                return this.infixEnvironment[id.getText()];
+            }
+            else {
+                return this.parent.getInfixStatus(id, idLimit);
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(id.position, 'You gave me some "' + id.getText() + '" (' + id.constructor.name
+                + ') but I only want (Long)IdentifierToken.');
+        }
+    };
+    State.prototype.getValueIdentifierId = function (name, idLimit) {
+        if (idLimit === void 0) { idLimit = 0; }
+        if (this.valueIdentifierId.hasOwnProperty(name)) {
+            return this.valueIdentifierId[name];
+        }
+        else if (!this.parent || this.parent.id < idLimit) {
+            return 0;
+        }
+        else {
+            return this.parent.getValueIdentifierId(name, idLimit);
+        }
+    };
+    State.prototype.getWarnings = function () {
+        return this.warns;
+    };
+    State.prototype.incrementValueIdentifierId = function (name, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || this.id === atId) {
+            this.valueIdentifierId[name] = this.getValueIdentifierId(name, atId) + 1;
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.incrementValueIdentifierId(name, atId);
+        }
+    };
+    State.prototype.setCell = function (address, value) {
+        if (address >= this.memory[0]) {
+            this.memory[0] = address + 1;
+        }
+        this.memory[1][address] = value;
+    };
+    State.prototype.setNewCell = function (value) {
+        this.memory[1][this.memory[0]] = value;
+        return new values_1.ReferenceValue(this.memory[0]++);
+    };
+    State.prototype.deleteStaticValue = function (name) {
+        this.staticBasis.deleteValue(name);
+        if (this.parent !== undefined) {
+            this.parent.deleteStaticValue(name);
+        }
+    };
+    State.prototype.setStaticValue = function (name, type, is, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.staticBasis.setValue(name, type, is);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setStaticValue(name, type, is, atId);
+        }
+    };
+    State.prototype.setStaticType = function (name, type, constructors, arity, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.staticBasis.setType(name, type, constructors, arity);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setStaticType(name, type, constructors, arity, atId);
+        }
+    };
+    State.prototype.setStaticStructure = function (name, structure, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.staticBasis.setStructure(name, structure);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setStaticStructure(name, structure, atId);
+        }
+    };
+    State.prototype.setStaticSignature = function (name, signature, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.staticBasis.setSignature(name, signature);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setStaticSignature(name, signature, atId);
+        }
+    };
+    State.prototype.setStaticFunctor = function (name, functor, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.staticBasis.setFunctor(name, functor);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setStaticFunctor(name, functor, atId);
+        }
+    };
+    State.prototype.setDynamicValue = function (name, value, is, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.dynamicBasis.setValue(name, value, is);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setDynamicValue(name, value, is, atId);
+        }
+    };
+    State.prototype.setDynamicType = function (name, constructors, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.dynamicBasis.setType(name, constructors);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setDynamicType(name, constructors, atId);
+        }
+    };
+    State.prototype.setDynamicStructure = function (name, structure, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.dynamicBasis.setStructure(name, structure);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setDynamicStructure(name, structure, atId);
+        }
+    };
+    State.prototype.setDynamicSignature = function (name, signature, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.dynamicBasis.setSignature(name, signature);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setDynamicSignature(name, signature, atId);
+        }
+    };
+    State.prototype.setDynamicFunctor = function (name, functor, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.dynamicBasis.setFunctor(name, functor);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setDynamicFunctor(name, functor, atId);
+        }
+    };
+    State.prototype.setInfixStatus = function (id, precedence, rightAssociative, infix, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            if (id.isVid() || id instanceof tokens_1.LongIdentifierToken) {
+                this.infixEnvironment[id.getText()]
+                    = new InfixStatus(infix, precedence, rightAssociative);
+            }
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setInfixStatus(id, precedence, rightAssociative, infix, atId);
+        }
+    };
+    State.prototype.setValueIdentifierId = function (name, setTo, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.valueIdentifierId[name] = setTo;
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setValueIdentifierId(name, setTo, atId);
+        }
+    };
+    State.prototype.addWarning = function (warn, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.warns.push(warn);
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.addWarning(warn, atId);
+        }
+    };
+    State.prototype.setWarnings = function (warns, atId) {
+        if (atId === void 0) { atId = undefined; }
+        if (atId === undefined || atId === this.id) {
+            this.warns = warns;
+        }
+        else if (atId > this.id || this.parent === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'State with id "' + atId + '" does not exist.');
+        }
+        else {
+            this.parent.setWarnings(warns, atId);
+        }
+    };
+    return State;
+}());
+exports.State = State;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+ * Contains classes to represent SML values, e.g. int, string, functions, …
+ */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var state_1 = __webpack_require__(2);
+var errors_1 = __webpack_require__(0);
+var tokens_1 = __webpack_require__(1);
+exports.MAXINT = 1073741823;
+exports.MININT = -1073741824;
+var PrintCounter = (function () {
+    function PrintCounter(charactersLeft) {
+        this.charactersLeft = charactersLeft;
+    }
+    return PrintCounter;
+}());
+exports.PrintCounter = PrintCounter;
+var Value = (function () {
+    function Value() {
+    }
+    Value.prototype.toString = function (state, length) {
+        if (length === void 0) { length = 120; }
+        return this.pcToString(state, new PrintCounter(length));
+    };
+    Value.prototype.equals = function (other) {
+        throw new errors_1.InternalInterpreterError(-1, 'Tried comparing incomparable things.');
+    };
+    return Value;
+}());
+exports.Value = Value;
+var ReferenceValue = (function (_super) {
+    __extends(ReferenceValue, _super);
+    function ReferenceValue(address) {
+        var _this = _super.call(this) || this;
+        _this.address = address;
+        return _this;
+    }
+    ReferenceValue.prototype.equals = function (other) {
+        return this.address === other.address;
+    };
+    ReferenceValue.prototype.pcToString = function (state, pc) {
+        if (state === undefined) {
+            var ret = '$' + this.address;
+            pc.charactersLeft -= ret.length;
+            return ret;
+        }
+        else {
+            if (state.getCell(this.address) !== undefined) {
+                pc.charactersLeft -= 4;
+                return 'ref ' + state.getCell(this.address).pcToString(state, pc);
+            }
+            else {
+                throw new errors_1.EvaluationError(-1, 'Ouch, you may not de-reference "$'
+                    + this.address + '".');
+            }
+        }
+    };
+    return ReferenceValue;
+}(Value));
+exports.ReferenceValue = ReferenceValue;
+var VectorValue = (function (_super) {
+    __extends(VectorValue, _super);
+    function VectorValue(entries) {
+        if (entries === void 0) { entries = []; }
+        var _this = _super.call(this) || this;
+        _this.entries = entries;
+        return _this;
+    }
+    VectorValue.prototype.equals = function (other) {
+        if (this.entries.length !== other.entries.length) {
+            return false;
+        }
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (!this.entries[i].equals(other.entries[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    VectorValue.prototype.pcToString = function (state, pc) {
+        var res = '#[';
+        pc.charactersLeft -= 3;
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (i > 0) {
+                res += ', ';
+                pc.charactersLeft -= 2;
+            }
+            if (pc.charactersLeft > 0) {
+                var reserve = 0;
+                if (i < this.entries.length) {
+                    reserve = Math.floor(pc.charactersLeft / 2);
+                }
+                pc.charactersLeft -= reserve;
+                res += this.entries[i].pcToString(state, pc);
+                pc.charactersLeft += reserve;
+            }
+            else {
+                res += '…';
+                break;
+            }
+        }
+        return res += ']';
+    };
+    return VectorValue;
+}(Value));
+exports.VectorValue = VectorValue;
+var ArrayValue = (function (_super) {
+    __extends(ArrayValue, _super);
+    // Array : Collection of memory cells
+    function ArrayValue(address, length) {
+        var _this = _super.call(this) || this;
+        _this.address = address;
+        _this.length = length;
+        return _this;
+    }
+    ArrayValue.prototype.equals = function (other) {
+        return this.address === other.address;
+    };
+    ArrayValue.prototype.pcToString = function (state, pc) {
+        if (state === undefined) {
+            var ret = '[|$' + this.address + '...$' + (this.address + this.length - 1) + '|]';
+            pc.charactersLeft -= ret.length;
+            return ret;
+        }
+        else {
+            var res = '[|';
+            pc.charactersLeft -= 4;
+            for (var i = 0; i < this.length; ++i) {
+                if (i > 0) {
+                    res += ', ';
+                    pc.charactersLeft -= 2;
+                }
+                if (pc.charactersLeft > 0) {
+                    if (state.getCell(this.address + i) !== undefined) {
+                        var reserve = 0;
+                        if (i < this.length) {
+                            reserve = Math.floor(pc.charactersLeft / 2);
+                        }
+                        pc.charactersLeft -= reserve;
+                        res += state.getCell(this.address + i).pcToString(state, pc);
+                        pc.charactersLeft += reserve;
+                    }
+                    else {
+                        throw new errors_1.EvaluationError(-1, 'Ouch, you may not de-reference "$'
+                            + (this.address + i) + '".');
+                    }
+                }
+                else {
+                    res += '…';
+                    break;
+                }
+            }
+            return res += '|]';
+        }
+    };
+    return ArrayValue;
+}(Value));
+exports.ArrayValue = ArrayValue;
+var BoolValue = (function (_super) {
+    __extends(BoolValue, _super);
+    function BoolValue(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    BoolValue.prototype.equals = function (other) {
+        return this.value === other.value;
+    };
+    BoolValue.prototype.pcToString = function (state, pc) {
+        if (this.value) {
+            pc.charactersLeft -= 4;
+            return 'true';
+        }
+        else {
+            pc.charactersLeft -= 5;
+            return 'false';
+        }
+    };
+    return BoolValue;
+}(Value));
+exports.BoolValue = BoolValue;
+var CharValue = (function (_super) {
+    __extends(CharValue, _super);
+    function CharValue(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    CharValue.prototype.pcToString = function (state, pc) {
+        pc.charactersLeft -= 1;
+        var ret = '#' + new StringValue(this.value).pcToString(state, pc);
+        return ret;
+    };
+    CharValue.prototype.compareTo = function (other) {
+        if (this.value < other.value) {
+            return -1;
+        }
+        else if (this.value > other.value) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+    CharValue.prototype.equals = function (other) {
+        return this.value === other.value;
+    };
+    return CharValue;
+}(Value));
+exports.CharValue = CharValue;
+var StringValue = (function (_super) {
+    __extends(StringValue, _super);
+    function StringValue(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    // at the beginning because of linter…
+    StringValue.implode = function (list) {
+        var str = '';
+        while (list.constructorName !== 'nil') {
+            if (list.constructorName !== '::') {
+                throw new errors_1.InternalInterpreterError(-1, 'Is this a char list? I can\'t implode "' + list.constructorName + '".');
+            }
+            var arg = list.argument;
+            if (arg instanceof RecordValue) {
+                var a1 = arg.getValue('1');
+                var a2 = arg.getValue('2');
+                if (a1 instanceof CharValue && a2 instanceof ConstructedValue) {
+                    str += a1.value;
+                    list = a2;
+                }
+                else {
+                    throw new errors_1.InternalInterpreterError(-1, 'Is this a char list? I can\'t implode "' + list.constructorName + '".');
+                }
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'Is this a char list? I can\'t implode "' + list.constructorName + '".');
+            }
+        }
+        return new StringValue(str);
+    };
+    StringValue.prototype.pcToString = function (state, pc) {
+        var pretty = '';
+        pc.charactersLeft -= 2;
+        for (var _i = 0, _a = this.value; _i < _a.length; _i++) {
+            var chr = _a[_i];
+            if (pc.charactersLeft < 0) {
+                pretty += '…';
+                break;
+            }
+            pc.charactersLeft -= 1;
+            switch (chr) {
+                case '\n':
+                    pretty += '\\n';
+                    break;
+                case '\t':
+                    pretty += '\\t';
+                    break;
+                case '\r':
+                    pretty += '\\r';
+                    break;
+                case '\x07':
+                    pretty += '\\a';
+                    break;
+                case '\b':
+                    pretty += '\\b';
+                    break;
+                case '\v':
+                    pretty += '\\v';
+                    break;
+                case '\f':
+                    pretty += '\\f';
+                    break;
+                case '\x7F':
+                    pretty += '\\127';
+                    break;
+                case '\xFF':
+                    pretty += '\\255';
+                    break;
+                default:
+                    if (chr.charCodeAt(0) < 32) {
+                        var ch = '\\^' + String.fromCharCode(chr.charCodeAt(0) + 64);
+                        pretty += ch;
+                        pc.charactersLeft -= ch.length - 1;
+                    }
+                    else {
+                        pretty += chr;
+                    }
+                    break;
+            }
+        }
+        return '"' + pretty + '"';
+    };
+    StringValue.prototype.equals = function (other) {
+        return this.value === other.value;
+    };
+    StringValue.prototype.compareTo = function (other) {
+        if (this.value < other.value) {
+            return -1;
+        }
+        else if (this.value > other.value) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+    StringValue.prototype.concat = function (other) {
+        return new StringValue(this.value + other.value);
+    };
+    StringValue.prototype.explode = function () {
+        var ret = new ConstructedValue('nil');
+        for (var i = this.value.length - 1; i >= 0; --i) {
+            ret = new ConstructedValue('::', new RecordValue(new Map([
+                ['1', new CharValue(this.value[i])],
+                ['2', ret]
+            ])));
+        }
+        return ret;
+    };
+    return StringValue;
+}(Value));
+exports.StringValue = StringValue;
+var Word = (function (_super) {
+    __extends(Word, _super);
+    function Word(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    Word.prototype.pcToString = function (state, pc) {
+        var ret = '' + this.value;
+        pc.charactersLeft -= ret.length;
+        return ret;
+    };
+    Word.prototype.compareTo = function (val) {
+        if (val instanceof Word) {
+            var other = val.value;
+            if (this.value < other) {
+                return -1;
+            }
+            else if (this.value > other) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        return 2;
+    };
+    Word.prototype.negate = function () { return new Word(-this.value); };
+    Word.prototype.equals = function (value) { return this.compareTo(value) === 0; };
+    Word.prototype.add = function (other) { return new Word(this.value + other.value); };
+    Word.prototype.multiply = function (other) { return new Word(this.value * other.value); };
+    Word.prototype.divide = function (other) { return new Word(Math.floor(this.value / other.value)); };
+    Word.prototype.modulo = function (other) { return new Word(this.value % other.value); };
+    Word.prototype.toReal = function () { return new Real(this.value); };
+    Word.prototype.hasOverflow = function () { return this.value > exports.MAXINT || this.value < exports.MININT; };
+    return Word;
+}(Value));
+exports.Word = Word;
+var Integer = (function (_super) {
+    __extends(Integer, _super);
+    function Integer(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    Integer.prototype.pcToString = function (state, pc) {
+        var str = '' + this.value;
+        pc.charactersLeft -= str.length;
+        return str.replace(/-/, '~');
+    };
+    Integer.prototype.compareTo = function (val) {
+        if (val instanceof Integer) {
+            var other = val.value;
+            if (this.value < other) {
+                return -1;
+            }
+            else if (this.value > other) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        return false;
+    };
+    Integer.prototype.equals = function (value) {
+        return this.compareTo(value) === 0;
+    };
+    Integer.prototype.negate = function () { return new Integer(-this.value); };
+    Integer.prototype.add = function (other) { return new Integer(this.value + other.value); };
+    Integer.prototype.multiply = function (other) { return new Integer(this.value * other.value); };
+    Integer.prototype.divide = function (other) { return new Integer(Math.floor(this.value / other.value)); };
+    Integer.prototype.modulo = function (other) {
+        return new Integer(this.value - (Math.floor(this.value / other.value)) * other.value);
+    };
+    Integer.prototype.toReal = function () { return new Real(this.value); };
+    Integer.prototype.hasOverflow = function () { return this.value > exports.MAXINT || this.value < exports.MININT; };
+    return Integer;
+}(Value));
+exports.Integer = Integer;
+var Real = (function (_super) {
+    __extends(Real, _super);
+    function Real(value) {
+        var _this = _super.call(this) || this;
+        _this.value = value;
+        return _this;
+    }
+    Real.prototype.pcToString = function (state, pc) {
+        var str = '' + this.value;
+        if (str.search(/\./) === -1) {
+            str += '.0';
+        }
+        pc.charactersLeft -= str.length;
+        return str.replace(/-/, '~');
+    };
+    Real.prototype.compareTo = function (val) {
+        if (val instanceof Real) {
+            var other = val.value;
+            if (this.value < other) {
+                return -1;
+            }
+            else if (this.value > other) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        return false;
+    };
+    Real.prototype.equals = function (value) {
+        return this.compareTo(value) === 0;
+    };
+    Real.prototype.negate = function () {
+        return new Real(-this.value);
+    };
+    Real.prototype.add = function (other) {
+        return new Real(this.value + other.value);
+    };
+    Real.prototype.multiply = function (other) {
+        return new Real(this.value * other.value);
+    };
+    Real.prototype.divide = function (other) {
+        return new Real(this.value / other.value);
+    };
+    Real.prototype.toInteger = function () {
+        return new Integer(Math.floor(this.value));
+    };
+    Real.prototype.hasOverflow = function () {
+        // TODO how do we implement Overflow for reals?
+        return false;
+    };
+    return Real;
+}(Value));
+exports.Real = Real;
+var RecordValue = (function (_super) {
+    __extends(RecordValue, _super);
+    function RecordValue(entries) {
+        if (entries === void 0) { entries = new Map(); }
+        var _this = _super.call(this) || this;
+        _this.entries = entries;
+        return _this;
+    }
+    RecordValue.prototype.pcToString = function (state, pc) {
+        var _this = this;
+        var isTuple = this.entries.size !== 1;
+        for (var i = 1; i <= this.entries.size; ++i) {
+            if (!this.entries.has('' + i)) {
+                isTuple = false;
+            }
+        }
+        if (isTuple) {
+            var res = '(';
+            pc.charactersLeft -= 2;
+            for (var i = 1; i <= this.entries.size; ++i) {
+                if (i > 1) {
+                    res += ', ';
+                    pc.charactersLeft -= 2;
+                }
+                var sub = this.entries.get('' + i);
+                if (sub !== undefined) {
+                    if (pc.charactersLeft > 0) {
+                        var reserve = 0;
+                        if (i < this.entries.size) {
+                            reserve = Math.floor(pc.charactersLeft / 2);
+                        }
+                        pc.charactersLeft -= reserve;
+                        res += sub.pcToString(state, pc);
+                        pc.charactersLeft += reserve;
+                    }
+                    else {
+                        res += '…';
+                        break;
+                    }
+                }
+                else {
+                    throw new errors_1.InternalInterpreterError(-1, 'How did we loose this value? It was there before. I promise…');
+                }
+            }
+            return res + ')';
+        }
+        var result = '{';
+        pc.charactersLeft -= 2;
+        var first = true;
+        var skip = false;
+        var j = 0;
+        this.entries.forEach(function (value, key) {
+            if (skip) {
+                return;
+            }
+            if (!first) {
+                result += ', ';
+                pc.charactersLeft -= 2;
+            }
+            else {
+                first = false;
+            }
+            if (pc.charactersLeft > 0) {
+                var reserve = 0;
+                if (j < _this.entries.size) {
+                    reserve = Math.floor(pc.charactersLeft / 2);
+                }
+                pc.charactersLeft -= reserve;
+                result += key + ' = ' + value.pcToString(state, pc);
+                pc.charactersLeft += reserve;
+            }
+            else {
+                result += '…';
+                skip = true;
+            }
+            ++j;
+        });
+        return result + '}';
+    };
+    RecordValue.prototype.getValue = function (name) {
+        if (!this.entries.has(name)) {
+            throw new errors_1.EvaluationError(0, 'Tried accessing non-existing record part.');
+        }
+        return this.entries.get(name);
+    };
+    RecordValue.prototype.hasValue = function (name) {
+        return this.entries.has(name);
+    };
+    RecordValue.prototype.equals = function (other) {
+        var _this = this;
+        if (!(other instanceof RecordValue)) {
+            return false;
+        }
+        var fail = false;
+        this.entries.forEach(function (j, i) {
+            if (!other.entries.has(i)) {
+                fail = true;
+            }
+            if (!j.equals(other.entries.get(i))) {
+                fail = true;
+            }
+        });
+        if (fail) {
+            return false;
+        }
+        other.entries.forEach(function (j, i) {
+            if (!_this.entries.has(i)) {
+                fail = true;
+            }
+            if (!j.equals(other.entries.get(i))) {
+                fail = true;
+            }
+        });
+        if (fail) {
+            return false;
+        }
+        return true;
+    };
+    return RecordValue;
+}(Value));
+exports.RecordValue = RecordValue;
+var FunctionValue = (function (_super) {
+    __extends(FunctionValue, _super);
+    function FunctionValue(state, recursives, body) {
+        var _this = _super.call(this) || this;
+        _this.state = state;
+        _this.recursives = recursives;
+        _this.body = body;
+        return _this;
+    }
+    FunctionValue.prototype.pcToString = function (state, pc) {
+        pc.charactersLeft -= 2;
+        return 'fn';
+    };
+    // Computes the function on the given argument,
+    // returns [result, is thrown]
+    FunctionValue.prototype.compute = function (callStack, argument, modifiable) {
+        // adjoin the bindings in this.state into the state
+        var nstate = this.state.getNestedState(this.state.id);
+        for (var i = 0; i < this.recursives.length; ++i) {
+            if (this.recursives[i][1] instanceof FunctionValue) {
+                nstate.setDynamicValue(this.recursives[i][0], new FunctionValue(this.state, this.recursives, this.recursives[i][1].body), state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+            else {
+                nstate.setDynamicValue(this.recursives[i][0], this.recursives[i][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+        }
+        callStack.push({
+            'next': this.body,
+            'params': { 'state': nstate, 'recResult': undefined, 'modifiable': modifiable, 'value': argument }
+        });
+        return;
+    };
+    FunctionValue.prototype.equals = function (other) {
+        throw new errors_1.InternalInterpreterError(-1, 'You simply cannot compare "'
+            + this.pcToString(undefined, new PrintCounter(20))
+            + '" and "' + other.pcToString(undefined, new PrintCounter(20)) + '".');
+    };
+    return FunctionValue;
+}(Value));
+exports.FunctionValue = FunctionValue;
+// Values that were constructed from type constructors
+var ConstructedValue = (function (_super) {
+    __extends(ConstructedValue, _super);
+    function ConstructedValue(constructorName, argument, id) {
+        if (argument === void 0) { argument = undefined; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.constructorName = constructorName;
+        _this.argument = argument;
+        _this.id = id;
+        return _this;
+    }
+    ConstructedValue.prototype.pcToString = function (state, pc) {
+        if (this.constructorName === '::') {
+            var res = '[';
+            pc.charactersLeft -= 2;
+            var list = this;
+            while (list.constructorName !== 'nil') {
+                if (list.constructorName !== '::') {
+                    throw new errors_1.InternalInterpreterError(-1, 'Is this even a list? 1 "' + list.constructorName + '".');
+                }
+                var arg = list.argument;
+                if (arg instanceof RecordValue && arg.entries.size === 2) {
+                    var a1 = arg.getValue('1');
+                    var a2 = arg.getValue('2');
+                    if (a1 instanceof Value && a2 instanceof ConstructedValue) {
+                        if (list !== this) {
+                            res += ', ';
+                            pc.charactersLeft -= 2;
+                        }
+                        if (pc.charactersLeft > 0) {
+                            var reserve = 0;
+                            if (a2.constructorName !== 'nil') {
+                                reserve = Math.floor(pc.charactersLeft / 2);
+                            }
+                            pc.charactersLeft -= reserve;
+                            res += a1.pcToString(state, pc);
+                            pc.charactersLeft += reserve;
+                        }
+                        else {
+                            res += '…';
+                            break;
+                        }
+                        list = a2;
+                    }
+                    else {
+                        throw new errors_1.InternalInterpreterError(-1, 'Is this even a list? 2 "' + list.constructorName + '".');
+                    }
+                }
+                else {
+                    throw new errors_1.InternalInterpreterError(-1, 'Is this even a list? 3 "' + list.constructorName + '".');
+                }
+            }
+            return res + ']';
+        }
+        else if (this.constructorName === 'nil') {
+            pc.charactersLeft -= 2;
+            return '[]';
+        }
+        if (state !== undefined) {
+            var infix = state.getInfixStatus(new tokens_1.IdentifierToken(this.constructorName, -1));
+            if (infix !== undefined
+                && infix.infix
+                && this.argument instanceof RecordValue && this.argument.entries.size === 2) {
+                var left = this.argument.getValue('1');
+                var right = this.argument.getValue('2');
+                if (left instanceof Value && right instanceof Value) {
+                    pc.charactersLeft -= 4 + this.constructorName.length;
+                    var reserve = Math.floor(pc.charactersLeft / 2);
+                    pc.charactersLeft -= reserve;
+                    var res = '(';
+                    if (pc.charactersLeft > 0) {
+                        res += left.pcToString(state, pc);
+                    }
+                    else {
+                        res += '…';
+                    }
+                    pc.charactersLeft += reserve;
+                    res += ' ' + this.constructorName;
+                    if (this.id > 0) {
+                        var idtext = '/' + this.id;
+                        res += idtext;
+                        pc.charactersLeft -= idtext.length;
+                    }
+                    if (pc.charactersLeft > 0) {
+                        res += ' ' + right.pcToString(state, pc);
+                    }
+                    else {
+                        res += ' …';
+                    }
+                    return res + ')';
+                }
+            }
+        }
+        var result = '';
+        result += this.constructorName;
+        pc.charactersLeft -= this.constructorName.length + 1;
+        if (this.id > 0) {
+            var idtext = '/' + this.id;
+            result += idtext;
+            pc.charactersLeft -= idtext.length;
+        }
+        if (this.argument) {
+            if (pc.charactersLeft > 0) {
+                result += ' ';
+                if (this.argument instanceof ConstructedValue
+                    && this.argument.argument) {
+                    result += '(';
+                }
+                else if (this.argument instanceof ExceptionValue
+                    && this.argument.argument) {
+                    result += '(';
+                }
+                result += this.argument.pcToString(state, pc);
+                if (this.argument instanceof ConstructedValue
+                    && this.argument.argument) {
+                    result += ')';
+                }
+                else if (this.argument instanceof ExceptionValue
+                    && this.argument.argument) {
+                    result += ')';
+                }
+            }
+            else {
+                result += ' …';
+            }
+        }
+        return result;
+    };
+    ConstructedValue.prototype.equals = function (other) {
+        if (other instanceof ValueConstructor) {
+            other = other.construct();
+        }
+        if (!(other instanceof ConstructedValue)) {
+            return false;
+        }
+        if (this.constructorName !== other.constructorName
+            || this.id !== other.id) {
+            return false;
+        }
+        if (this.argument !== undefined) {
+            if (other.argument === undefined) {
+                return true;
+            }
+            else {
+                return this.argument.equals(other.argument);
+            }
+        }
+        else {
+            return other.argument === undefined;
+        }
+    };
+    return ConstructedValue;
+}(Value));
+exports.ConstructedValue = ConstructedValue;
+var ExceptionValue = (function (_super) {
+    __extends(ExceptionValue, _super);
+    function ExceptionValue(constructorName, argument, id) {
+        if (argument === void 0) { argument = undefined; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.constructorName = constructorName;
+        _this.argument = argument;
+        _this.id = id;
+        return _this;
+    }
+    ExceptionValue.prototype.pcToString = function (state, pc) {
+        var result = this.constructorName;
+        pc.charactersLeft -= this.constructorName.length + 1;
+        if (this.id > 0) {
+            var idtext = '/' + this.id;
+            result += idtext;
+            pc.charactersLeft -= idtext.length;
+        }
+        if (this.argument) {
+            if (pc.charactersLeft > 0) {
+                result += ' ' + this.argument.pcToString(state, pc);
+            }
+            else {
+                result += ' …';
+            }
+        }
+        return result;
+    };
+    ExceptionValue.prototype.equals = function (other) {
+        if (other instanceof ExceptionConstructor) {
+            other = other.construct();
+        }
+        if (!(other instanceof ExceptionValue)) {
+            return false;
+        }
+        if (this.constructorName !== other.constructorName
+            || this.id !== other.id) {
+            return false;
+        }
+        if (this.argument !== undefined) {
+            if (other.argument === undefined) {
+                return true;
+            }
+            else {
+                return this.argument.equals(other.argument);
+            }
+        }
+        else {
+            return other.argument === undefined;
+        }
+    };
+    return ExceptionValue;
+}(Value));
+exports.ExceptionValue = ExceptionValue;
+var PredefinedFunction = (function (_super) {
+    __extends(PredefinedFunction, _super);
+    function PredefinedFunction(name, apply) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        _this.apply = apply;
+        return _this;
+    }
+    PredefinedFunction.prototype.pcToString = function (state, pc) {
+        pc.charactersLeft -= 2;
+        return 'fn';
+    };
+    PredefinedFunction.prototype.equals = function (other) {
+        if (!(other instanceof PredefinedFunction)) {
+            return false;
+        }
+        return this.name === other.name;
+    };
+    return PredefinedFunction;
+}(Value));
+exports.PredefinedFunction = PredefinedFunction;
+var ValueConstructor = (function (_super) {
+    __extends(ValueConstructor, _super);
+    function ValueConstructor(constructorName, numArgs, id) {
+        if (numArgs === void 0) { numArgs = 0; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.constructorName = constructorName;
+        _this.numArgs = numArgs;
+        _this.id = id;
+        return _this;
+    }
+    ValueConstructor.prototype.equals = function (other) {
+        if (!(other instanceof ValueConstructor)) {
+            return false;
+        }
+        return this.constructorName === other.constructorName
+            && this.id === other.id;
+    };
+    ValueConstructor.prototype.construct = function (parameter) {
+        if (parameter === void 0) { parameter = undefined; }
+        return new ConstructedValue(this.constructorName, parameter, this.id);
+    };
+    ValueConstructor.prototype.pcToString = function (state, pc) {
+        var result = this.constructorName;
+        pc.charactersLeft -= this.constructorName.length;
+        if (this.id > 0) {
+            var idtext = '/' + this.id;
+            result += idtext;
+            pc.charactersLeft -= idtext.length;
+        }
+        return result;
+    };
+    return ValueConstructor;
+}(Value));
+exports.ValueConstructor = ValueConstructor;
+var ExceptionConstructor = (function (_super) {
+    __extends(ExceptionConstructor, _super);
+    function ExceptionConstructor(exceptionName, numArgs, id) {
+        if (numArgs === void 0) { numArgs = 0; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.exceptionName = exceptionName;
+        _this.numArgs = numArgs;
+        _this.id = id;
+        return _this;
+    }
+    ExceptionConstructor.prototype.equals = function (other) {
+        if (!(other instanceof ExceptionConstructor)) {
+            return false;
+        }
+        return this.exceptionName === other.exceptionName
+            && this.id === other.id;
+    };
+    ExceptionConstructor.prototype.construct = function (parameter) {
+        if (parameter === void 0) { parameter = undefined; }
+        return new ExceptionValue(this.exceptionName, parameter, this.id);
+    };
+    ExceptionConstructor.prototype.pcToString = function (state, pc) {
+        var result = this.exceptionName;
+        pc.charactersLeft -= this.exceptionName.length;
+        if (this.id > 0) {
+            var idtext = '/' + this.id;
+            result += idtext;
+            pc.charactersLeft -= idtext.length;
+        }
+        return result;
+    };
+    return ExceptionConstructor;
+}(Value));
+exports.ExceptionConstructor = ExceptionConstructor;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var errors_1 = __webpack_require__(0);
+var state_1 = __webpack_require__(2);
+var tokens_1 = __webpack_require__(1);
+var expressions_1 = __webpack_require__(6);
+var Domain = (function () {
+    function Domain(entries) {
+        this.entries = entries;
+    }
+    Domain.prototype.getSize = function () {
+        if (this.entries instanceof Array) {
+            return this.entries.length;
+        }
+        if (this.entries === undefined) {
+            return 1;
+        }
+        var res = 1;
+        this.entries.forEach(function (val) {
+            res *= val.getSize();
+        });
+        return res;
+    };
+    Domain.prototype.isInfinite = function () {
+        if (this.entries === undefined) {
+            return true;
+        }
+        if (this.entries instanceof Map) {
+            var good_1 = false;
+            this.entries.forEach(function (val, key) {
+                good_1 = good_1 || val.isInfinite();
+            });
+            return good_1;
+        }
+        return false;
+    };
+    Domain.prototype.getValues = function () {
+        if (this.entries instanceof Array) {
+            return this.entries;
+        }
+        if (this.entries instanceof Map) {
+            // This stuff here is rather fragile; it may break if you look at it . . .
+            var res_1 = [];
+            this.entries.forEach(function (val, key) {
+                if (!val.isInfinite()) {
+                    var cur = val.getValues();
+                    var nres = [];
+                    if (res_1.length === 0) {
+                        res_1 = cur;
+                    }
+                    else {
+                        for (var _i = 0, res_2 = res_1; _i < res_2.length; _i++) {
+                            var i = res_2[_i];
+                            for (var _a = 0, cur_1 = cur; _a < cur_1.length; _a++) {
+                                var j = cur_1[_a];
+                                nres.push(i + ' * ' + j);
+                            }
+                        }
+                        res_1 = nres;
+                    }
+                }
+            });
+            return res_1;
+        }
+        throw new errors_1.ElaborationError(-1, 'Irredeemable.');
+    };
+    Domain.prototype.finitize = function (other) {
+        if (this.entries instanceof Array) {
+            return new Domain(this.entries);
+        }
+        if (this.entries === undefined) {
+            return new Domain(other.entries);
+        }
+        var res = new Map();
+        this.entries.forEach(function (val, key) {
+            res = res.set(key, val.finitize(other.entries.get(key)));
+        });
+        return new Domain(res);
+    };
+    Domain.prototype.match = function (position, other) {
+        var res = [];
+        var nonex = false;
+        var redun = false;
+        // let nondis = false;
+        if (this.entries === undefined) {
+            nonex = true;
+            for (var _i = 0, other_1 = other; _i < other_1.length; _i++) {
+                var i = other_1[_i];
+                if (i.entries === undefined) {
+                    if (!nonex) {
+                        redun = true;
+                    }
+                    nonex = false;
+                }
+            }
+        }
+        else if (this.entries instanceof Map) {
+            var fnd = new Set();
+            var _loop_1 = function (i) {
+                if (other[i].entries === undefined) {
+                    nonex = false;
+                    redun = (i < other.length - 1);
+                    return "break";
+                }
+                if (other[i].entries instanceof Array) {
+                    throw new errors_1.ElaborationError(position, 'Pizza…');
+                }
+                if (other[i].entries instanceof Map) {
+                    var cur_2 = [];
+                    var add_1 = true;
+                    this_1.entries.forEach(function (val, key) {
+                        // Check that all infin-dom have val undef in other;
+                        // Otherwise that match rule does not change the exhaust
+                        if (val.isInfinite()) {
+                            if (!other[i].entries.get(key).isInfinite()) {
+                                add_1 = false;
+                            }
+                        }
+                        else {
+                            var ncur = [];
+                            for (var _i = 0, _a = other[i].entries.get(key).finitize(val).getValues(); _i < _a.length; _i++) {
+                                var j = _a[_i];
+                                if (cur_2.length === 0) {
+                                    var nk = {};
+                                    nk[key] = j;
+                                    ncur.push(nk);
+                                }
+                                else {
+                                    for (var _b = 0, cur_3 = cur_2; _b < cur_3.length; _b++) {
+                                        var k = cur_3[_b];
+                                        var nk = {};
+                                        for (var w in k) {
+                                            if (k.hasOwnProperty(w)) {
+                                                nk[w] = k[w];
+                                            }
+                                        }
+                                        nk[key] = j;
+                                        ncur.push(nk);
+                                    }
+                                }
+                            }
+                            cur_2 = ncur;
+                        }
+                    });
+                    var good = false;
+                    for (var _i = 0, cur_4 = cur_2; _i < cur_4.length; _i++) {
+                        var j = cur_4[_i];
+                        if (!fnd.has(JSON.stringify(j))) {
+                            good = true;
+                        }
+                        // else {
+                        //    nondis = true;
+                        // }
+                        if (add_1) {
+                            fnd = fnd.add(JSON.stringify(j));
+                        }
+                    }
+                    if (cur_2.length > 0) {
+                        redun = redun || !good;
+                    }
+                }
+            };
+            var this_1 = this;
+            for (var i = 0; i < other.length; ++i) {
+                var state_2 = _loop_1(i);
+                if (state_2 === "break")
+                    break;
+            }
+            nonex = fnd.size !== this.getSize();
+        }
+        else {
+            var fnd = new Map();
+            for (var _a = 0, _b = this.entries; _a < _b.length; _a++) {
+                var i = _b[_a];
+                fnd = fnd.set(i, false);
+            }
+            nonex = true;
+            for (var i = 0; i < other.length; ++i) {
+                if (other[i].entries === undefined) {
+                    nonex = false;
+                    redun = (i < other.length - 1);
+                    break;
+                }
+                if (other[i].entries instanceof Array) {
+                    for (var _c = 0, _d = other[i].entries; _c < _d.length; _c++) {
+                        var j = _d[_c];
+                        fnd = fnd.set(j, true);
+                    }
+                }
+                throw new errors_1.ElaborationError(position, 'I\'m not interested in ordinary people\'s bugs. But, if any of you are aliens, '
+                    + 'time-travelers, or espers, please come see me. That is all!');
+            }
+            if (!nonex) {
+                var missing_1 = [];
+                fnd.forEach(function (val, key) {
+                    if (!val) {
+                        missing_1.push(key);
+                    }
+                });
+                if (missing_1.length > 0) {
+                    var rs = '';
+                    for (var i = 0; i < missing_1.length; ++i) {
+                        if (i > 0) {
+                            rs += ', ';
+                        }
+                        rs += '"' + missing_1[i] + '"';
+                    }
+                    if (missing_1.length > 1) {
+                        rs = ' (Rules for constructors ' + res + ' are non-exhaustive.)\n';
+                    }
+                    else if (missing_1.length > 0) {
+                        rs = ' (Rules for constructor ' + res + ' are non-exhaustive.)\n';
+                    }
+                    else {
+                        rs = '\n';
+                    }
+                    nonex = false;
+                    res.push(new errors_1.Warning(position, 'Pattern matching is non-exhaustive.' + res));
+                }
+            }
+        }
+        if (nonex) {
+            res.push(new errors_1.Warning(position, 'Pattern matching is non-exhaustive.\n'));
+        }
+        // if (nondis) {
+        // res.push(new Warning(position, 'Some rules are not disjoint.\n'));
+        // }
+        if (redun) {
+            res.push(new errors_1.Warning(position, 'Some cases are unused in this match.\n'));
+        }
+        return res;
+    };
+    return Domain;
+}());
+exports.Domain = Domain;
+var Type = (function () {
+    function Type() {
+    }
+    // Constructs types with type variables instantiated as much as possible
+    Type.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        throw new errors_1.ElaborationError(-1, 'I mustn\'t run away. I mustn\'t run away. I mustn\'t run away.');
+    };
+    // Merge this type with the other type. This operation is commutative
+    Type.prototype.merge = function (state, tyVarBnd, other) {
+        throw new errors_1.ElaborationError(-1, 'I don\'t know anything. But you know everything.');
+    };
+    Type.prototype.makeEqType = function (state, tyVarBnd) {
+        throw new errors_1.ElaborationError(-1, 'I don\'t know everything. I just know what I know.');
+    };
+    // Return all (free) type variables
+    Type.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        throw new errors_1.ElaborationError(-1, 'This is wrong.\nI said with a posed look.');
+    };
+    // Get all type variables in order (they may appear more than once)
+    Type.prototype.getOrderedTypeVariables = function () {
+        throw new errors_1.ElaborationError(-1, 'You seem well today.\nDid something nice happen?');
+    };
+    Type.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        throw new errors_1.ElaborationError(-1, 'あんたバカ?');
+    };
+    Type.prototype.qualify = function (state, qualifiers) {
+        return this;
+    };
+    Type.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        return this;
+    };
+    Type.prototype.checkExhaustiveness = function (state, tyVarBnd, position, match) {
+        if (match.length > 1) {
+            return [new errors_1.Warning(match[1][0].position, 'Some cases are unused in this match.')];
+        }
+        return [];
+    };
+    // Mark all type variables as free
+    Type.prototype.makeFree = function () {
+        return this;
+    };
+    Type.prototype.simplify = function () {
+        return this;
+    };
+    Type.prototype.isOpaque = function () {
+        return false;
+    };
+    Type.prototype.getOpaqueName = function () {
+        return 'undefined';
+    };
+    Type.prototype.admitsEquality = function (state) {
+        return false;
+    };
+    Type.prototype.getDomain = function (state) {
+        return new Domain(undefined);
+    };
+    Type.prototype.flatten = function (repl) {
+        if (repl === void 0) { repl = new Map(); }
+        return this;
+    };
+    Type.prototype.replace = function (sc, tg) {
+        if (sc.equals(this)) {
+            return tg;
+        }
+        return this;
+    };
+    // Normalizes a type. Free type variables need to get new names **across** different decls.
+    // removes all positions in types
+    Type.prototype.normalize = function (nextFree, options) {
+        if (nextFree === void 0) { nextFree = 0; }
+        if (options === void 0) { options = {}; }
+        var orderedVars = this.getOrderedTypeVariables();
+        var freeVars = this.getTypeVariables(true);
+        var replacements = new Map();
+        var rcnt = 0;
+        for (var _i = 0, orderedVars_1 = orderedVars; _i < orderedVars_1.length; _i++) {
+            var v = orderedVars_1[_i];
+            if (replacements.has(v)) {
+                continue;
+            }
+            var nextVar = '';
+            var cnt = ++rcnt;
+            if (freeVars.has(v)) {
+                cnt = ++nextFree;
+            }
+            if (cnt <= 26) {
+                nextVar = String.fromCharCode('a'.charCodeAt(0) + cnt - 1);
+            }
+            else {
+                while (cnt > 0) {
+                    var nextChar = (--cnt) % 26;
+                    nextVar = String.fromCharCode('a'.charCodeAt(0) + nextChar) + nextVar;
+                    cnt = Math.floor(cnt / 26);
+                }
+            }
+            var newVar = '\'';
+            if (v.length > 2 && v.charAt(1) === '\'') {
+                newVar += '\'';
+            }
+            if (freeVars.has(v)) {
+                newVar += '~';
+            }
+            newVar += nextVar;
+            if (freeVars.has(v)) {
+                newVar = newVar.toUpperCase();
+            }
+            replacements.set(v, newVar);
+        }
+        var restp = this.replaceTypeVariables(replacements);
+        if (options.strictMode !== false) {
+            // Do this also if strictMode is undefined
+            restp = restp.flatten(new Map());
+        }
+        return [restp, nextFree];
+    };
+    return Type;
+}());
+exports.Type = Type;
+// A type representing any type
+var AnyType = (function (_super) {
+    __extends(AnyType, _super);
+    function AnyType() {
+        return _super.call(this) || this;
+    }
+    AnyType.prototype.toString = function () {
+        return 'any';
+    };
+    AnyType.prototype.equals = function (other) {
+        return true;
+    };
+    AnyType.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        return this;
+    };
+    AnyType.prototype.merge = function (state, tyVarBnd, other) {
+        return [other, tyVarBnd];
+    };
+    AnyType.prototype.makeEqType = function (state, tyVarBnd) {
+        return [this, tyVarBnd];
+    };
+    AnyType.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        return new Map();
+    };
+    AnyType.prototype.getOrderedTypeVariables = function () {
+        return [];
+    };
+    AnyType.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        return this;
+    };
+    return AnyType;
+}(Type));
+exports.AnyType = AnyType;
+var TypeVariableBind = (function (_super) {
+    __extends(TypeVariableBind, _super);
+    function TypeVariableBind(name, type, domain) {
+        if (domain === void 0) { domain = []; }
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        _this.type = type;
+        _this.domain = domain;
+        _this.isFree = false;
+        return _this;
+    }
+    TypeVariableBind.prototype.simplify = function () {
+        var res = new TypeVariableBind(this.name, this.type.simplify(), this.domain);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariableBind.prototype.makeFree = function () {
+        var res = new TypeVariableBind(this.name, this.type.makeFree(), this.domain);
+        res.isFree = true;
+        return res;
+    };
+    TypeVariableBind.prototype.flatten = function (repl) {
+        if (this.domain.length > 0) {
+            repl = repl.set(this.name, this.domain[0]);
+            return this.type.flatten(repl);
+        }
+        var res = new TypeVariableBind(this.name, this.type.flatten(repl), this.domain);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariableBind.prototype.qualify = function (state, qualifiers) {
+        var res = new TypeVariableBind(this.name, this.type.qualify(state, qualifiers), this.domain);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariableBind.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        if (this.domain.length > 0) {
+            domains = domains.set(this.name, this.domain);
+        }
+        var res = new TypeVariableBind(this.name, this.type.propagate(domains), this.domain);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariableBind.prototype.isOpaque = function () {
+        return this.type.isOpaque();
+    };
+    TypeVariableBind.prototype.getOpaqueName = function () {
+        return this.type.getOpaqueName();
+    };
+    TypeVariableBind.prototype.instantiate = function (state, tyVarBnd) {
+        var res = new TypeVariableBind(this.name, this.type.instantiate(state, tyVarBnd), this.domain);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariableBind.prototype.toString = function () {
+        var frees = new Set();
+        var bound = new Set();
+        var ct = this;
+        while (ct instanceof TypeVariableBind) {
+            if (ct.isFree) {
+                frees = frees.add([ct.name, ct.domain]);
+            }
+            else {
+                bound = bound.add([ct.name, ct.domain]);
+            }
+            ct = ct.type;
+        }
+        var res = '';
+        if (bound.size > 0) {
+            res += '∀';
+            bound.forEach(function (val) {
+                res += ' ' + val[0];
+                if (val[1].length > 0) {
+                    res += ' ∈ {';
+                    for (var i = 0; i < val[1].length; ++i) {
+                        if (i > 0) {
+                            res += ', ';
+                        }
+                        res += val[1][i];
+                    }
+                    res += '}';
+                }
+            });
+            res += ' . ';
+        }
+        res += ct;
+        if (frees.size > 0) {
+            res += ',';
+            frees.forEach(function (val) {
+                res += ' ' + val[0];
+                if (val[1].length > 0) {
+                    res += ' ∈ {';
+                    for (var i = 0; i < val[1].length; ++i) {
+                        if (i > 0) {
+                            res += ', ';
+                        }
+                        res += val[1][i];
+                    }
+                    res += '}';
+                }
+            });
+            res += ' free';
+        }
+        return res;
+    };
+    TypeVariableBind.prototype.getTypeVariables = function (free) {
+        var _this = this;
+        if (free === void 0) { free = false; }
+        var rec = this.type.getTypeVariables(free);
+        var res = new Map();
+        rec.forEach(function (dom, id) {
+            if (id !== _this.name || free === _this.isFree) {
+                if (res.has(id)) {
+                    res = res.set(id, TypeVariable.mergeDomain(dom, res.get(id)));
+                }
+                else {
+                    res = res.set(id, dom);
+                }
+            }
+        });
+        if (free && this.isFree && !res.has(this.name)) {
+            res = res.set(this.name, this.domain);
+        }
+        return res;
+    };
+    TypeVariableBind.prototype.getOrderedTypeVariables = function () {
+        return [this.name].concat(this.type.getOrderedTypeVariables());
+    };
+    TypeVariableBind.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        if (replacements.has(this.name)) {
+            var res = new TypeVariableBind(replacements.get(this.name), this.type.replaceTypeVariables(replacements, free), this.domain);
+            if (free.has(this.name)) {
+                res.isFree = true;
+            }
+            else {
+                res.isFree = this.isFree;
+            }
+            return res;
+        }
+        else {
+            var res = new TypeVariableBind(this.name, this.type.replaceTypeVariables(replacements, free), this.domain);
+            res.isFree = this.isFree;
+            return res;
+        }
+    };
+    TypeVariableBind.prototype.equals = function (other) {
+        if (!(other instanceof TypeVariableBind)
+            || other.name !== this.name) {
+            return false;
+        }
+        return other.type.equals(this.type);
+    };
+    return TypeVariableBind;
+}(Type));
+exports.TypeVariableBind = TypeVariableBind;
+var TypeVariable = (function (_super) {
+    __extends(TypeVariable, _super);
+    function TypeVariable(name, position, domain) {
+        if (position === void 0) { position = 0; }
+        if (domain === void 0) { domain = []; }
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        _this.position = position;
+        _this.domain = domain;
+        _this.isFree = false;
+        return _this;
+    }
+    TypeVariable.mergeDomain = function (domain, other) {
+        if (domain.length === 0) {
+            return other;
+        }
+        if (other.length === 0) {
+            return domain;
+        }
+        var res = [];
+        for (var _i = 0, domain_1 = domain; _i < domain_1.length; _i++) {
+            var i = domain_1[_i];
+            for (var _a = 0, other_2 = other; _a < other_2.length; _a++) {
+                var j = other_2[_a];
+                if (i.equals(j)) {
+                    res.push(i);
+                }
+            }
+        }
+        return res;
+    };
+    TypeVariable.prototype.makeFree = function () {
+        var res = new TypeVariable(this.name, this.position, this.domain);
+        res.isFree = true;
+        return res;
+    };
+    TypeVariable.prototype.flatten = function (repl) {
+        if (this.domain.length > 0) {
+            repl = repl.set(this.name, this.domain[0]);
+            return this.domain[0];
+        }
+        if (repl.has(this.name)) {
+            return repl.get(this.name);
+        }
+        return this;
+    };
+    TypeVariable.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        var dom = [];
+        if (domains.has(this.name)) {
+            dom = domains.get(this.name);
+        }
+        var res = new TypeVariable(this.name, this.position, dom);
+        res.isFree = this.isFree;
+        return res;
+    };
+    TypeVariable.prototype.toString = function () {
+        return this.name;
+    };
+    TypeVariable.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        if (!tyVarBnd.has(this.name)) {
+            return this;
+        }
+        if (seen.has(this.name)) {
+            throw new errors_1.ElaborationError(-1, 'Type clash. An expression of type "' + this.normalize()[0]
+                + '" cannot have type "' + tyVarBnd.get(this.name)[0].normalize()[0]
+                + '" because of circularity.');
+        }
+        var nsen = new Set();
+        seen.forEach(function (val) {
+            nsen.add(val);
+        });
+        nsen.add(this.name);
+        return tyVarBnd.get(this.name)[0].instantiate(state, tyVarBnd, nsen);
+    };
+    TypeVariable.prototype.merge = function (state, tyVarBnd, other) {
+        if (other instanceof AnyType) {
+            return [this, tyVarBnd];
+        }
+        var ths = this.instantiate(state, tyVarBnd);
+        if (ths instanceof TypeVariable) {
+            var oth = other.instantiate(state, tyVarBnd);
+            if (oth instanceof TypeVariable) {
+                if (ths.name === oth.name) {
+                    var ndomain = TypeVariable.mergeDomain(ths.domain, oth.domain);
+                    if (ndomain.length === 0 && ths.domain.length + oth.domain.length > 0) {
+                        throw ['Cannot merge domains of "' + ths.normalize(0, { 'strictMode': false })[0]
+                                + '" and "' + other.normalize(0, { 'strictMode': false })[0]
+                                + '" ({' + ths.domain + '} and {' + oth.domain + '})'];
+                    }
+                    var res = new TypeVariable(ths.name, ths.position, ndomain);
+                    res.isFree = ths.isFree && oth.isFree;
+                    return [res, tyVarBnd];
+                }
+                else {
+                    var repl_1 = new Map();
+                    var rs = ths;
+                    if (ths.name < oth.name) {
+                        ths.domain = TypeVariable.mergeDomain(ths.domain, oth.domain);
+                        repl_1.set(oth.name, ths.name);
+                    }
+                    else {
+                        oth.domain = TypeVariable.mergeDomain(ths.domain, oth.domain);
+                        repl_1.set(ths.name, oth.name);
+                        rs = oth;
+                    }
+                    if (rs.domain.length === 0 && ths.domain.length + oth.domain.length > 0) {
+                        throw ['Cannot merge domains of "' + this.normalize(0, { 'strictMode': false })[0]
+                                + '" and "' + other.normalize(0, { 'strictMode': false })[0]
+                                + '". ({' + ths.domain + '} and {' + oth.domain + '})'];
+                    }
+                    var nvb_1 = new Map();
+                    tyVarBnd.forEach(function (val, key) {
+                        nvb_1 = nvb_1.set(key, [val[0].replaceTypeVariables(repl_1), val[1]]);
+                    });
+                    rs.isFree = ths.isFree && oth.isFree;
+                    if (ths.name < oth.name) {
+                        nvb_1.set(oth.name, [ths, rs.isFree]);
+                    }
+                    else {
+                        nvb_1.set(ths.name, [oth, rs.isFree]);
+                    }
+                    var dm = rs.domain;
+                    if (nvb_1.has('$' + ths.name)) {
+                        dm = TypeVariable.mergeDomain(dm, nvb_1.get('$' + ths.name)[0].domain);
+                    }
+                    if (nvb_1.has('$' + oth.name)) {
+                        dm = TypeVariable.mergeDomain(dm, nvb_1.get('$' + oth.name)[0].domain);
+                    }
+                    nvb_1.set('$' + ths.name, [new TypeVariable(ths.name, -1, dm), rs.isFree]);
+                    nvb_1.set('$' + oth.name, [new TypeVariable(oth.name, -1, dm), rs.isFree]);
+                    return [rs, nvb_1];
+                }
+            }
+            else {
+                var otv = oth.getTypeVariables();
+                if (otv.has(ths.name)) {
+                    // console.log(otv);
+                    // console.log(ths);
+                    throw new errors_1.ElaborationError(-1, 'Type clash. An expression of type "' + ths.normalize()[0]
+                        + '" cannot have type "' + oth.normalize()[0] + '" because of circularity.');
+                }
+                if (ths.isFree) {
+                    oth = oth.makeFree();
+                }
+                if (ths.admitsEquality(state) && !oth.admitsEquality(state)) {
+                    var nt = oth.makeEqType(state, tyVarBnd);
+                    if (!nt[0].admitsEquality(state)) {
+                        throw ['Type "' + oth.normalize()[0] + '" does not admit equality.', ths, oth];
+                    }
+                    else {
+                        oth = nt[0];
+                        tyVarBnd = nt[1];
+                    }
+                }
+                if (ths.domain.length > 0 && TypeVariable.mergeDomain(ths.domain, [oth]).length === 0) {
+                    throw ['Type "' + oth.normalize(0, { 'strictMode': false })[0]
+                            + '" is not part of the domain of "'
+                            + ths.normalize(0, { 'strictMode': false })[0] + '" ({'
+                            + ths.domain + '}).'];
+                }
+                return [oth, tyVarBnd.set(ths.name, [oth, ths.isFree])];
+            }
+        }
+        else {
+            return ths.merge(state, tyVarBnd, other);
+        }
+    };
+    TypeVariable.prototype.makeEqType = function (state, tyVarBnd) {
+        if (this.admitsEquality(state)) {
+            return [this, tyVarBnd];
+        }
+        if (tyVarBnd.has(this.name)) {
+            var tmp = tyVarBnd.get(this.name)[0].makeEqType(state, tyVarBnd);
+            tyVarBnd = tmp[1];
+            var n = new TypeVariable('\'' + this.name, this.position, this.domain);
+            n.isFree = this.isFree;
+            tyVarBnd = tyVarBnd.set(n.name, [tmp[0], n.isFree]);
+        }
+        var nt = new TypeVariable('\'' + this.name, this.position, this.domain);
+        return [nt, tyVarBnd.set(this.name, [nt, this.isFree])];
+    };
+    TypeVariable.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        var res = new Map();
+        if (!free || this.isFree) {
+            res = res.set(this.name, this.domain);
+        }
+        return res;
+    };
+    TypeVariable.prototype.getOrderedTypeVariables = function () {
+        return [this.name];
+    };
+    TypeVariable.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        if (replacements.has(this.name)) {
+            var res = new TypeVariable(replacements.get(this.name), 0, this.domain);
+            if (free.has(this.name)) {
+                res.isFree = true;
+            }
+            else {
+                res.isFree = this.isFree;
+            }
+            return res;
+        }
+        return this;
+    };
+    TypeVariable.prototype.admitsEquality = function (state) {
+        return this.name[1] === '\'';
+    };
+    TypeVariable.prototype.equals = function (other) {
+        if (other instanceof AnyType) {
+            return true;
+        }
+        if (!(other instanceof TypeVariable && this.name === other.name)) {
+            return false;
+        }
+        return true;
+    };
+    return TypeVariable;
+}(Type));
+exports.TypeVariable = TypeVariable;
+var RecordType = (function (_super) {
+    __extends(RecordType, _super);
+    function RecordType(elements, complete, position) {
+        if (complete === void 0) { complete = true; }
+        if (position === void 0) { position = 0; }
+        var _this = _super.call(this) || this;
+        _this.elements = elements;
+        _this.complete = complete;
+        _this.position = position;
+        return _this;
+    }
+    RecordType.prototype.getDomain = function (state) {
+        var res = new Map();
+        this.elements.forEach(function (val, key) {
+            res = res.set(key, val.getDomain(state));
+        });
+        return new Domain(res);
+    };
+    RecordType.prototype.checkExhaustiveness = function (state, tyVarBnd, position, match) {
+        var needsCatchAll = new Map();
+        var domains = new Map();
+        this.elements.forEach(function (val, key) {
+            domains = domains.set(key, val.getDomain(state));
+        });
+        this.elements.forEach(function (val, key) {
+            needsCatchAll = needsCatchAll.set(key, domains.get(key).isInfinite());
+        });
+        var found = [];
+        var _loop_2 = function (i) {
+            var fnsh = false;
+            var cur = new Map();
+            if (match[i][0] instanceof expressions_1.Record) {
+                fnsh = true;
+                this_2.elements.forEach(function (val, key) {
+                    var tmp = match[i][0].getEntry(key).getMatchedValues(state, tyVarBnd);
+                    fnsh = fnsh && (tmp.entries === undefined);
+                    cur = cur.set(key, (tmp.entries === undefined && needsCatchAll.get(key) !== true) ?
+                        domains.get(key) : tmp);
+                });
+                if (fnsh && i === match.length - 1) {
+                    return { value: [] };
+                }
+                else if (fnsh) {
+                    return { value: [new errors_1.Warning(position, 'Some cases are unused in this match.\n')] };
+                }
+                found.push(new Domain(cur));
+            }
+            if (((match[i][0] instanceof expressions_1.ValueIdentifier || match[i][0] instanceof expressions_1.Wildcard
+                || match[i][0] instanceof expressions_1.LayeredPattern || match[i][0] instanceof expressions_1.TypedExpression)
+                && match[i][0].getMatchedValues(state, tyVarBnd).entries === undefined)) {
+                if (i !== match.length - 1) {
+                    return { value: [new errors_1.Warning(position, 'Some cases are unused in this match.\n')] };
+                }
+                return { value: [] };
+            }
+        };
+        var this_2 = this;
+        for (var i = 0; i < match.length; ++i) {
+            var state_3 = _loop_2(i);
+            if (typeof state_3 === "object")
+                return state_3.value;
+        }
+        return this.getDomain(state).match(position, found);
+    };
+    RecordType.prototype.makeFree = function () {
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.makeFree());
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.replace = function (sc, tg) {
+        if (sc.equals(this)) {
+            return tg;
+        }
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.replace(sc, tg));
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.flatten = function (repl) {
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.flatten(repl));
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.instantiate(state, tyVarBnd, seen));
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.qualify = function (state, qualifiers) {
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.qualify(state, qualifiers));
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.propagate(domains));
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.merge = function (state, tyVarBnd, other) {
+        var _this = this;
+        if (other instanceof TypeVariable || other instanceof AnyType) {
+            return other.merge(state, tyVarBnd, this);
+        }
+        other = other.instantiate(state, tyVarBnd);
+        if (other instanceof RecordType) {
+            if (!this.complete && other.complete) {
+                return other.merge(state, tyVarBnd, this);
+            }
+            var rt_1 = new Map();
+            var tybnd_1 = tyVarBnd;
+            other.elements.forEach(function (val, key) {
+                if (_this.complete && !_this.elements.has(key)) {
+                    throw ['Records don\'t agree on members ("' + key
+                            + '" occurs only once.)', _this.instantiate(state, tybnd_1),
+                        other.instantiate(state, tybnd_1)];
+                }
+                if (!_this.elements.has(key)) {
+                    rt_1 = rt_1.set(key, val.instantiate(state, tybnd_1));
+                }
+                else {
+                    var mg = val.merge(state, tybnd_1, _this.elements.get(key));
+                    rt_1 = rt_1.set(key, mg[0]);
+                    tybnd_1 = mg[1];
+                }
+            });
+            if (other.complete) {
+                this.elements.forEach(function (val, key) {
+                    if (!other.elements.has(key)) {
+                        throw ['Records don\'t agree on members ("' + key
+                                + '" occurs only once.)', _this.instantiate(state, tybnd_1),
+                            other.instantiate(state, tybnd_1)];
+                    }
+                });
+            }
+            else {
+                this.elements.forEach(function (val, key) {
+                    rt_1 = rt_1.set(key, val.instantiate(state, tybnd_1));
+                });
+            }
+            return [new RecordType(rt_1, this.complete || other.complete, this.position), tybnd_1];
+        }
+        // Merging didn't work
+        throw ['Cannot merge "' + this.instantiate(state, tyVarBnd).normalize()[0] + '" and "'
+                + other.instantiate(state, tyVarBnd).normalize()[0] + '".', this.constructor.name,
+            other.constructor.name];
+    };
+    RecordType.prototype.makeEqType = function (state, tyVarBnd) {
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            var tmp = type.makeEqType(state, tyVarBnd);
+            newElements.set(key, tmp[0]);
+            tyVarBnd = tmp[1];
+        });
+        return [new RecordType(newElements, this.complete, this.position), tyVarBnd];
+    };
+    RecordType.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        var res = new Map();
+        this.elements.forEach(function (val) {
+            val.getTypeVariables(free).forEach(function (dom, id) {
+                if (res.has(id)) {
+                    res = res.set(id, TypeVariable.mergeDomain(dom, res.get(id)));
+                }
+                else {
+                    res = res.set(id, dom);
+                }
+            });
+        });
+        return res;
+    };
+    RecordType.prototype.getOrderedTypeVariables = function () {
+        var res = [];
+        this.elements.forEach(function (val) {
+            res = res.concat(val.getOrderedTypeVariables());
+        });
+        return res;
+    };
+    RecordType.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        var rt = new Map();
+        this.elements.forEach(function (val, key) {
+            rt = rt.set(key, val.replaceTypeVariables(replacements, free));
+        });
+        return new RecordType(rt, this.complete, 0);
+    };
+    RecordType.prototype.getType = function (name) {
+        if (!this.elements.has(name)) {
+            throw new errors_1.ElaborationError(0, 'Tried accessing non-existing record part.');
+        }
+        return this.elements.get(name);
+    };
+    RecordType.prototype.hasType = function (name) {
+        return this.elements.has(name);
+    };
+    RecordType.prototype.admitsEquality = function (state) {
+        var res = true;
+        this.elements.forEach(function (type, key) {
+            if (!type.admitsEquality(state)) {
+                res = false;
+            }
+        });
+        return res;
+    };
+    RecordType.prototype.toString = function () {
+        var isTuple = this.elements.size !== 1;
+        for (var i = 1; i <= this.elements.size; ++i) {
+            if (!this.elements.has('' + i)) {
+                isTuple = false;
+            }
+        }
+        if (isTuple) {
+            if (this.elements.size === 0) {
+                return 'unit';
+            }
+            var res = '';
+            for (var i = 1; i <= this.elements.size; ++i) {
+                if (i > 1) {
+                    res += ' * ';
+                }
+                var sub = this.elements.get('' + i);
+                if (sub instanceof FunctionType ||
+                    (sub instanceof RecordType && sub.elements.size !== 0)) {
+                    res += '(' + sub + ')';
+                }
+                else {
+                    res += sub;
+                }
+            }
+            return res + '';
+        }
+        var result = '{';
+        var first = true;
+        this.elements.forEach(function (type, key) {
+            if (!first) {
+                result += ', ';
+            }
+            else {
+                first = false;
+            }
+            result += key + ': ' + type;
+        });
+        if (!this.complete) {
+            if (!first) {
+                result += ', ';
+            }
+            result += '...';
+        }
+        return result + '}';
+    };
+    RecordType.prototype.simplify = function () {
+        var newElements = new Map();
+        this.elements.forEach(function (type, key) {
+            newElements.set(key, type.simplify());
+        });
+        return new RecordType(newElements, this.complete, this.position);
+    };
+    RecordType.prototype.equals = function (other) {
+        var _this = this;
+        if (other instanceof AnyType) {
+            return true;
+        }
+        if (!(other instanceof RecordType) || this.complete !== other.complete) {
+            return false;
+        }
+        var res = true;
+        this.elements.forEach(function (val, name) {
+            if (!val.equals(other.elements.get(name))) {
+                res = false;
+            }
+        });
+        other.elements.forEach(function (val, name) {
+            if (!val.equals(_this.elements.get(name))) {
+                res = false;
+            }
+        });
+        return res;
+    };
+    return RecordType;
+}(Type));
+exports.RecordType = RecordType;
+var FunctionType = (function (_super) {
+    __extends(FunctionType, _super);
+    function FunctionType(parameterType, returnType, position) {
+        if (position === void 0) { position = 0; }
+        var _this = _super.call(this) || this;
+        _this.parameterType = parameterType;
+        _this.returnType = returnType;
+        _this.position = position;
+        return _this;
+    }
+    FunctionType.prototype.makeFree = function () {
+        return new FunctionType(this.parameterType.makeFree(), this.returnType.makeFree(), this.position);
+    };
+    FunctionType.prototype.flatten = function (repl) {
+        return new FunctionType(this.parameterType.flatten(repl), this.returnType.flatten(repl), this.position);
+    };
+    FunctionType.prototype.replace = function (sc, tg) {
+        if (this.equals(sc)) {
+            return tg;
+        }
+        return new FunctionType(this.parameterType.replace(sc, tg), this.returnType.replace(sc, tg), this.position);
+    };
+    FunctionType.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        return new FunctionType(this.parameterType.instantiate(state, tyVarBnd, seen), this.returnType.instantiate(state, tyVarBnd, seen), this.position);
+    };
+    FunctionType.prototype.qualify = function (state, qualifiers) {
+        return new FunctionType(this.parameterType.qualify(state, qualifiers), this.returnType.qualify(state, qualifiers), this.position);
+    };
+    FunctionType.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        return new FunctionType(this.parameterType.propagate(domains), this.returnType.propagate(domains), this.position);
+    };
+    FunctionType.prototype.merge = function (state, tyVarBnd, other) {
+        if (other instanceof TypeVariable || other instanceof AnyType) {
+            return other.merge(state, tyVarBnd, this);
+        }
+        if (other instanceof FunctionType) {
+            var p = this.parameterType.merge(state, tyVarBnd, other.parameterType);
+            var r = this.returnType.merge(state, p[1], other.returnType);
+            return [new FunctionType(p[0], r[0], this.position), r[1]];
+        }
+        // Merging didn't work
+        throw ['Cannot merge "' + this.instantiate(state, tyVarBnd).normalize()[0] + '" and "'
+                + other.instantiate(state, tyVarBnd).normalize()[0] + '".', this.constructor.name,
+            other.constructor.name];
+    };
+    FunctionType.prototype.makeEqType = function (state, tyVarBnd) {
+        return [this, tyVarBnd];
+    };
+    FunctionType.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        var res = new Map();
+        this.parameterType.getTypeVariables(free).forEach(function (dom, id) {
+            if (res.has(id)) {
+                res = res.set(id, TypeVariable.mergeDomain(dom, res.get(id)));
+            }
+            else {
+                res = res.set(id, dom);
+            }
+        });
+        this.returnType.getTypeVariables(free).forEach(function (dom, id) {
+            if (res.has(id)) {
+                res = res.set(id, TypeVariable.mergeDomain(dom, res.get(id)));
+            }
+            else {
+                res = res.set(id, dom);
+            }
+        });
+        return res;
+    };
+    FunctionType.prototype.getOrderedTypeVariables = function () {
+        var res = [];
+        res = res.concat(this.parameterType.getOrderedTypeVariables());
+        res = res.concat(this.returnType.getOrderedTypeVariables());
+        return res;
+    };
+    FunctionType.prototype.replaceTypeVariables = function (replacements, free) {
+        if (free === void 0) { free = new Set(); }
+        var res = this.parameterType.replaceTypeVariables(replacements, free);
+        var res2 = this.returnType.replaceTypeVariables(replacements, free);
+        return new FunctionType(res, res2, 0);
+    };
+    FunctionType.prototype.admitsEquality = function (state) {
+        return false;
+    };
+    FunctionType.prototype.toString = function () {
+        if (this.parameterType instanceof FunctionType) {
+            return '(' + this.parameterType + ')'
+                + ' → ' + this.returnType;
+        }
+        else {
+            return this.parameterType
+                + ' → ' + this.returnType;
+        }
+    };
+    FunctionType.prototype.simplify = function () {
+        return new FunctionType(this.parameterType.simplify(), this.returnType.simplify(), this.position);
+    };
+    FunctionType.prototype.equals = function (other) {
+        if (other instanceof AnyType) {
+            return true;
+        }
+        return other instanceof FunctionType && this.parameterType.equals(other.parameterType)
+            && this.returnType.equals(other.returnType);
+    };
+    return FunctionType;
+}(Type));
+exports.FunctionType = FunctionType;
+// A custom defined type similar to "list" or "option".
+// May have a type argument.
+var CustomType = (function (_super) {
+    __extends(CustomType, _super);
+    function CustomType(name, typeArguments, position, qualifiedName, opaque, id) {
+        if (typeArguments === void 0) { typeArguments = []; }
+        if (position === void 0) { position = 0; }
+        if (qualifiedName === void 0) { qualifiedName = undefined; }
+        if (opaque === void 0) { opaque = false; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        _this.typeArguments = typeArguments;
+        _this.position = position;
+        _this.qualifiedName = qualifiedName;
+        _this.opaque = opaque;
+        _this.id = id;
+        return _this;
+    }
+    CustomType.prototype.getDomain = function (state) {
+        var tp = state.getStaticType(this.name);
+        if (this.qualifiedName !== undefined) {
+            var reslv = state.getAndResolveStaticStructure(this.qualifiedName);
+            if (reslv !== undefined) {
+                tp = reslv.getType(this.name);
+            }
+            else {
+                tp = undefined;
+            }
+        }
+        if (tp === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'Mi…sa…Mi…sa…ka…MisakaMisakaMisakaMisaka');
+        }
+        if (tp.constructors.length === 0) {
+            return new Domain(undefined);
+        }
+        else {
+            return new Domain(tp.constructors);
+        }
+    };
+    CustomType.prototype.checkExhaustiveness = function (state, tyVarBnd, position, match) {
+        var _this = this;
+        var tp = state.getStaticType(this.name);
+        if (this.qualifiedName !== undefined) {
+            var reslv = state.getAndResolveStaticStructure(this.qualifiedName);
+            if (reslv !== undefined) {
+                tp = reslv.getType(this.name);
+            }
+            else {
+                tp = undefined;
+            }
+        }
+        if (tp === undefined) {
+            throw new errors_1.ElaborationError(position, 'Mi…sa…Mi…sa…ka…MisakaMisakaMisakaMisaka');
+        }
+        var found = new Map();
+        for (var i = 0; i < tp.constructors.length; ++i) {
+            found = found.set(tp.constructors[i], false);
+        }
+        var needCatchAll = tp.constructors.length === 0;
+        var hasCatchAll = false;
+        var needExtraWork = new Map();
+        var redun = false;
+        for (var i = 0; i < match.length; ++i) {
+            if (hasCatchAll) {
+                return [new errors_1.Warning(match[i][0].position, 'Some cases are unused in this match.')];
+            }
+            if (match[i][0] instanceof expressions_1.FunctionApplication) {
+                var cn = match[i][0].func.name.getText();
+                if ((match[i][0].func.name)
+                    instanceof tokens_1.LongIdentifierToken) {
+                    cn = match[i][0].func.name.id.getText();
+                }
+                var old = [];
+                if (needExtraWork.has(cn)) {
+                    old = needExtraWork.get(cn);
+                }
+                old.push([match[i][0].argument, match[i][1]]);
+                needExtraWork = needExtraWork.set(cn, old);
+                continue;
+            }
+            var tmp = match[i][0].getMatchedValues(state, tyVarBnd).entries;
+            if (tmp === undefined) {
+                hasCatchAll = true;
+                continue;
+            }
+            if (tmp instanceof Map) {
+                throw new errors_1.ElaborationError(position, 'Anpan.');
+            }
+            for (var _i = 0, tmp_1 = tmp; _i < tmp_1.length; _i++) {
+                var j = tmp_1[_i];
+                if (found.has(j)) {
+                    if (found.get(j) === true) {
+                        redun = true;
+                    }
+                    found = found.set(j, true);
+                }
+            }
+        }
+        var result = [];
+        needExtraWork.forEach(function (val, key) {
+            var cinf = state.getStaticValue(key);
+            var reslv = undefined;
+            if (_this.qualifiedName !== undefined) {
+                reslv = state.getAndResolveStaticStructure(_this.qualifiedName);
+                if (reslv !== undefined) {
+                    cinf = reslv.getValue(key);
+                }
+                else {
+                    cinf = undefined;
+                }
+            }
+            if (cinf === undefined || cinf[1] === 0) {
+                throw new errors_1.ElaborationError(position, 'Unacceptable.');
+            }
+            var ctp = cinf[0];
+            while (ctp instanceof TypeVariableBind) {
+                ctp = ctp.type;
+            }
+            if (_this.qualifiedName !== undefined) {
+                ctp = ctp.qualify(new state_1.State(0, undefined, reslv, new state_1.DynamicBasis({}, {}, {}, {}, {}), [0, {}]), _this.qualifiedName);
+            }
+            if (!(ctp instanceof FunctionType)) {
+                throw new errors_1.ElaborationError(position, 'Unacceptable.');
+            }
+            var rt = ctp.returnType.merge(state, new Map(), _this);
+            ctp = ctp.parameterType.instantiate(state, rt[1]);
+            var tmp = ctp.checkExhaustiveness(state, tyVarBnd, position, val);
+            var bad = false;
+            for (var _i = 0, tmp_2 = tmp; _i < tmp_2.length; _i++) {
+                var e = tmp_2[_i];
+                if (e.message.includes('non-exhaustive')) {
+                    bad = true;
+                }
+                else {
+                    result.push(new errors_1.Warning(e.position, 'Constructor "' + key + '": ' + e.message));
+                }
+            }
+            if (!bad) {
+                if (found.has(key)) {
+                    if (found.get(key) === true) {
+                        redun = true;
+                    }
+                    found = found.set(key, true);
+                }
+            }
+        });
+        var ok = !needCatchAll || hasCatchAll;
+        var missing = [];
+        found.forEach(function (val, key) {
+            if (!val) {
+                missing.push(key);
+                ok = false;
+            }
+        });
+        if (!ok) {
+            var res = '';
+            for (var i = 0; i < missing.length; ++i) {
+                if (i > 0) {
+                    res += ', ';
+                }
+                res += '"' + missing[i] + '"';
+            }
+            if (missing.length > 1) {
+                res = ' (Rules for constructors ' + res + ' are non-exhaustive.)\n';
+            }
+            else if (missing.length > 0) {
+                res = ' (Rules for constructor ' + res + ' are non-exhaustive.)\n';
+            }
+            else {
+                res = '\n';
+            }
+            if (!hasCatchAll) {
+                result = result.concat([new errors_1.Warning(position, 'Pattern matching is non-exhaustive.' + res)]);
+            }
+        }
+        if (redun) {
+            result.push(new errors_1.Warning(position, 'Some cases are unused in this match.'));
+        }
+        return result;
+    };
+    CustomType.prototype.isOpaque = function () {
+        return this.opaque;
+    };
+    CustomType.prototype.getOpaqueName = function () {
+        if (this.isOpaque) {
+            return this.name;
+        }
+        else {
+            return 'undefined';
+        }
+    };
+    CustomType.prototype.makeFree = function () {
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].makeFree());
+        }
+        return new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.replace = function (sc, tg) {
+        if (this.equals(sc)) {
+            return tg;
+        }
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].replace(sc, tg));
+        }
+        return new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.flatten = function (repl) {
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].flatten(repl));
+        }
+        return new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.qualify = function (state, qualifiers) {
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].qualify(state, qualifiers));
+        }
+        var rs = new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+        var tp = state.getStaticType(this.name);
+        if (tp !== undefined) {
+            rs.qualifiedName = qualifiers;
+        }
+        return rs;
+    };
+    CustomType.prototype.propagate = function (domains) {
+        if (domains === void 0) { domains = new Map(); }
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].propagate(domains));
+        }
+        return new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.instantiate = function (state, tyVarBnd, seen) {
+        if (seen === void 0) { seen = new Set(); }
+        var tp = state.getStaticType(this.name);
+        if (this.qualifiedName !== undefined) {
+            var rsv = state.getAndResolveStaticStructure(this.qualifiedName);
+            if (rsv !== undefined) {
+                tp = rsv.getType(this.name);
+            }
+            else {
+                tp = undefined;
+            }
+        }
+        if (tp !== undefined && tp.type instanceof FunctionType) {
+            try {
+                var tyvars = tp.type.getTypeVariables();
+                var nnm_1 = 1;
+                var repl_2 = new Map();
+                tyvars.forEach(function (val, key) {
+                    // TODO: Test that this is enough, i.e. we don't need to ensure that
+                    // the generated new names don't exist
+                    repl_2 = repl_2.set(key, '\'*q' + nnm_1);
+                    ++nnm_1;
+                });
+                var ntype = tp.type.replaceTypeVariables(repl_2);
+                var mt = this.merge(state, tyVarBnd, ntype.parameterType, true);
+                var newstate = state.getNestedState(state.id);
+                newstate.setStaticType(this.name, ntype.returnType, [], -1);
+                return ntype.returnType.instantiate(newstate, mt[1]);
+            }
+            catch (e) {
+                if (!(e instanceof Array)) {
+                    throw e;
+                }
+                throw new errors_1.ElaborationError(-1, 'Instantiating "' + this.normalize()[0]
+                    + '" failed: ' + e[0]);
+            }
+        }
+        else if (tp === undefined) {
+            if (this.id > 0) {
+                throw new errors_1.ElaborationError(-1, 'Unbound type "' + this.name + '/' + this.id + '".');
+            }
+            throw new errors_1.ElaborationError(-1, 'Unbound type "' + this.name + '".');
+        }
+        else if (tp !== undefined && tp.type.isOpaque()) {
+            this.opaque = true;
+        }
+        else if (tp !== undefined && ((!(tp.type instanceof CustomType))
+            || this.typeArguments.length !== tp.type.typeArguments.length)) {
+            throw new errors_1.ElaborationError(this.position, 'Arity mismatch: '
+                + this.normalize()[0] + ' vs ' + tp.type.normalize()[0] + '.');
+        }
+        else if (tp !== undefined && ((!(tp.type instanceof CustomType))
+            || this.id > tp.type.id)) {
+            if (this.id > 0) {
+                throw new errors_1.ElaborationError(-1, 'Unbound type "' + this.name + '/' + this.id + '".');
+            }
+            throw new errors_1.ElaborationError(-1, 'Unbound type "' + this.name + '".');
+        }
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res.push(this.typeArguments[i].instantiate(state, tyVarBnd, seen));
+        }
+        return new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.merge = function (state, tyVarBnd, other, noinst) {
+        if (noinst === void 0) { noinst = false; }
+        if (other instanceof TypeVariable || other instanceof AnyType) {
+            return other.merge(state, tyVarBnd, this);
+        }
+        var ths = this;
+        var oth = other;
+        if (!noinst) {
+            // Remove type alias and stuff
+            ths = this.instantiate(state, tyVarBnd);
+            if (!(ths instanceof CustomType)) {
+                return ths.merge(state, tyVarBnd, other);
+            }
+            oth = other.instantiate(state, tyVarBnd);
+        }
+        var ths2 = ths;
+        if (oth instanceof CustomType && ths2.name === oth.name
+            && ths2.id === oth.id) {
+            var res = [];
+            var tybnd = tyVarBnd;
+            for (var i = 0; i < ths.typeArguments.length; ++i) {
+                var tmp = ths.typeArguments[i].merge(state, tybnd, oth.typeArguments[i]);
+                res.push(tmp[0]);
+                tybnd = tmp[1];
+            }
+            return [new CustomType(ths2.name, res, ths2.position, ths2.qualifiedName, ths2.opaque, ths2.id), tybnd];
+        }
+        // Merging didn't work
+        throw ['Cannot merge "' + this.instantiate(state, tyVarBnd).normalize()[0] + '" and "'
+                + other.instantiate(state, tyVarBnd).normalize()[0] + '".', this.constructor.name,
+            other.constructor.name];
+    };
+    CustomType.prototype.makeEqType = function (state, tyVarBnd) {
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            var tmp = this.typeArguments[i].makeEqType(state, tyVarBnd);
+            res.push(tmp[0]);
+            tyVarBnd = tmp[1];
+        }
+        return [new CustomType(this.name, res, this.position, this.qualifiedName, this.opaque, this.id), tyVarBnd];
+    };
+    CustomType.prototype.getTypeVariables = function (free) {
+        if (free === void 0) { free = false; }
+        var res = new Map();
+        if (this.typeArguments.length > 0) {
+            for (var i = 0; i < this.typeArguments.length; ++i) {
+                this.typeArguments[i].getTypeVariables(free).forEach(function (dom, id) {
+                    if (res.has(id)) {
+                        res = res.set(id, TypeVariable.mergeDomain(dom, res.get(id)));
+                    }
+                    else {
+                        res = res.set(id, dom);
+                    }
+                });
+            }
+        }
+        return res;
+    };
+    CustomType.prototype.getOrderedTypeVariables = function () {
+        var res = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            res = res.concat(this.typeArguments[i].getOrderedTypeVariables());
+        }
+        return res;
+    };
+    CustomType.prototype.replaceTypeVariables = function (replacements, free) {
+        var rt = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            rt.push(this.typeArguments[i].replaceTypeVariables(replacements, free));
+        }
+        return new CustomType(this.name, rt, 0, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.admitsEquality = function (state) {
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            if (!this.typeArguments[i].admitsEquality(state)) {
+                return false;
+            }
+        }
+        var ti = state.getStaticType(this.name);
+        if (ti === undefined) {
+            return true;
+        }
+        return ti.allowsEquality;
+    };
+    CustomType.prototype.toString = function () {
+        var result = '';
+        if (this.typeArguments.length > 1
+            || (this.typeArguments.length === 1 && (this.typeArguments[0] instanceof FunctionType
+                || (this.typeArguments[0] instanceof RecordType && this.typeArguments[0].toString() !== 'unit')))) {
+            result += '(';
+        }
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            if (i > 0) {
+                result += ', ';
+            }
+            result += this.typeArguments[i];
+        }
+        if (this.typeArguments.length > 1
+            || (this.typeArguments.length === 1 && (this.typeArguments[0] instanceof FunctionType
+                || (this.typeArguments[0] instanceof RecordType && this.typeArguments[0].toString() !== 'unit')))) {
+            result += ')';
+        }
+        if (this.typeArguments.length > 0) {
+            result += ' ';
+        }
+        if (this.qualifiedName !== undefined) {
+            for (var i = 0; i < this.qualifiedName.qualifiers.length; ++i) {
+                result += this.qualifiedName.qualifiers[i].getText() + '.';
+            }
+        }
+        result += this.name;
+        if (this.id > 0) {
+            result += '/' + this.id;
+        }
+        return result;
+    };
+    CustomType.prototype.simplify = function () {
+        var args = [];
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            args.push(this.typeArguments[i].simplify());
+        }
+        return new CustomType(this.name, args, this.position, this.qualifiedName, this.opaque, this.id);
+    };
+    CustomType.prototype.equals = function (other) {
+        if (other instanceof AnyType) {
+            return true;
+        }
+        if (!(other instanceof CustomType) || this.name !== other.name || this.id !== other.id) {
+            return false;
+        }
+        for (var i = 0; i < this.typeArguments.length; ++i) {
+            if (!this.typeArguments[i].equals(other.typeArguments[i])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    return CustomType;
+}(Type));
+exports.CustomType = CustomType;
+// Derived Types
+var TupleType = (function (_super) {
+    __extends(TupleType, _super);
+    function TupleType(elements, position) {
+        if (position === void 0) { position = 0; }
+        var _this = _super.call(this) || this;
+        _this.elements = elements;
+        _this.position = position;
+        return _this;
+    }
+    TupleType.prototype.toString = function () {
+        var result = '(';
+        for (var i = 0; i < this.elements.length; ++i) {
+            if (i > 0) {
+                result += ' * ';
+            }
+            result += this.elements[i];
+        }
+        return result + ')';
+    };
+    TupleType.prototype.simplify = function () {
+        var entries = new Map();
+        for (var i = 0; i < this.elements.length; ++i) {
+            entries.set('' + (i + 1), this.elements[i].simplify());
+        }
+        return new RecordType(entries, true, this.position);
+    };
+    TupleType.prototype.equals = function (other) {
+        return this.simplify().equals(other);
+    };
+    return TupleType;
+}(Type));
+exports.TupleType = TupleType;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var expressions_1 = __webpack_require__(6);
+var tokens_1 = __webpack_require__(1);
+var types_1 = __webpack_require__(4);
+var state_1 = __webpack_require__(2);
+var errors_1 = __webpack_require__(0);
+var values_1 = __webpack_require__(3);
+var Declaration = (function () {
+    function Declaration() {
+    }
+    Declaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (isTopLevel === void 0) { isTopLevel = false; }
+        if (options === void 0) { options = {}; }
+        throw new errors_1.InternalInterpreterError(-1, 'Not yet implemented.');
+    };
+    Declaration.prototype.evaluate = function (params, callStack) {
+        throw new errors_1.InternalInterpreterError(-1, 'Not yet implemented.');
+    };
+    Declaration.prototype.toString = function () {
+        throw new errors_1.InternalInterpreterError(-1, 'Not yet implemented.');
+    };
+    Declaration.prototype.simplify = function () {
+        throw new errors_1.InternalInterpreterError(-1, 'Not yet implemented.');
+    };
+    return Declaration;
+}());
+exports.Declaration = Declaration;
+// Declaration subclasses
+var ValueDeclaration = (function (_super) {
+    __extends(ValueDeclaration, _super);
+    // val typeVariableSequence valueBinding
+    function ValueDeclaration(position, typeVariableSequence, valueBinding, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.typeVariableSequence = typeVariableSequence;
+        _this.valueBinding = valueBinding;
+        _this.id = id;
+        return _this;
+    }
+    ValueDeclaration.prototype.simplify = function () {
+        var valBnd = [];
+        for (var i = 0; i < this.valueBinding.length; ++i) {
+            valBnd.push(new ValueBinding(this.valueBinding[i].position, this.valueBinding[i].isRecursive, this.valueBinding[i].pattern.simplify(), this.valueBinding[i].expression.simplify()));
+        }
+        return new ValueDeclaration(this.position, this.typeVariableSequence, valBnd, this.id);
+    };
+    ValueDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        var result = [];
+        var isRec = false;
+        var warns = [];
+        var bnds = tyVarBnd;
+        var i = 0;
+        for (; i < this.valueBinding.length; ++i) {
+            if (this.valueBinding[i].isRecursive) {
+                isRec = true;
+                for (var j = i; j < this.valueBinding.length; ++j) {
+                    var pat = this.valueBinding[j].pattern;
+                    while (pat instanceof expressions_1.TypedExpression) {
+                        pat = pat.expression;
+                    }
+                    var r = pat.name.getText();
+                    result.push([r, new types_1.TypeVariableBind('\'a', new types_1.TypeVariableBind('\'b', new types_1.FunctionType(new types_1.TypeVariable('\'a'), new types_1.TypeVariable('\'b'))))]);
+                }
+                break;
+            }
+            var val = this.valueBinding[i].getType(this.typeVariableSequence, state, bnds, nextName, isTopLevel);
+            warns = warns.concat(val[1]);
+            bnds = val[2];
+            nextName = val[3];
+            state.valueIdentifierId = val[4];
+            for (var j = 0; j < val[0].length; ++j) {
+                result.push(val[0][j]);
+            }
+        }
+        for (var j = 0; j < result.length; ++j) {
+            state.setStaticValue(result[j][0], result[j][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+        }
+        var wcp = warns;
+        var bcp = new Map();
+        bnds.forEach(function (val, key) {
+            bcp = bcp.set(key, val);
+        });
+        var ncp = nextName;
+        var ids = state.valueIdentifierId;
+        for (var l = 0; l < 4; ++l) {
+            warns = wcp;
+            bnds = new Map();
+            bcp.forEach(function (val, key) {
+                bnds = bnds.set(key, val);
+            });
+            nextName = ncp;
+            state.valueIdentifierId = ids;
+            for (var j = i; j < this.valueBinding.length; ++j) {
+                var val = this.valueBinding[j].getType(this.typeVariableSequence, state, bnds, nextName, isTopLevel);
+                warns = warns.concat(val[1]);
+                bnds = val[2];
+                nextName = val[3];
+                state.valueIdentifierId = val[4];
+                for (var k = 0; k < val[0].length; ++k) {
+                    if (l === 3) {
+                        // TODO find a better way to check for circularity
+                        var oldtp = state.getStaticValue(val[0][k][0]);
+                        if (oldtp === undefined || !oldtp[0].normalize()[0].equals(val[0][k][1].normalize()[0])) {
+                            throw new errors_1.ElaborationError(this.position, 'My brain trembles; too much circularity.');
+                        }
+                    }
+                    state.setStaticValue(val[0][k][0], val[0][k][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+                }
+            }
+        }
+        return [state, warns, bnds, nextName];
+    };
+    ValueDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        if (params.step === undefined) {
+            params.result = [];
+            params.recursives = [];
+            params.isRec = false;
+            params.step = -1;
+        }
+        var result = params.result;
+        var recursives = params.recursives;
+        var isRec = params.isRec;
+        var step = params.step;
+        if (step >= 0) {
+            var val = params.recResult;
+            if (val === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined? ' + JSON.stringify(val));
+            }
+            if (this.valueBinding[step].isRecursive) {
+                isRec = true;
+            }
+            if (val.hasThrown) {
+                return {
+                    'newState': state,
+                    'value': val.value,
+                    'hasThrown': true,
+                };
+            }
+            var matched = this.valueBinding[step].pattern.matches(state, val.value);
+            if (matched === undefined) {
+                return {
+                    'newState': state,
+                    'value': new values_1.ExceptionValue('Bind'),
+                    'hasThrown': true,
+                };
+            }
+            for (var j = 0; j < matched.length; ++j) {
+                if (!isRec) {
+                    result.push(matched[j]);
+                }
+                else {
+                    recursives.push(matched[j]);
+                }
+            }
+        }
+        ++step;
+        if (step < this.valueBinding.length) {
+            params.step = step;
+            params.isRec = isRec;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.valueBinding[step].expression,
+                'params': { 'state': state, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        for (var j = 0; j < result.length; ++j) {
+            state.setDynamicValue(result[j][0], result[j][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+        }
+        for (var j = 0; j < recursives.length; ++j) {
+            if (recursives[j][1] instanceof values_1.FunctionValue) {
+                state.setDynamicValue(recursives[j][0], new values_1.FunctionValue(recursives[j][1].state, recursives, recursives[j][1].body), state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+            else {
+                state.setDynamicValue(recursives[j][0], recursives[j][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    ValueDeclaration.prototype.toString = function () {
+        var res = 'val <stuff>';
+        for (var i = 0; i < this.valueBinding.length; ++i) {
+            if (i > 0) {
+                res += ' and';
+            }
+            res += ' ' + this.valueBinding[i];
+        }
+        return res += ';';
+    };
+    return ValueDeclaration;
+}(Declaration));
+exports.ValueDeclaration = ValueDeclaration;
+var TypeDeclaration = (function (_super) {
+    __extends(TypeDeclaration, _super);
+    // type typeBinding
+    function TypeDeclaration(position, typeBinding, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.typeBinding = typeBinding;
+        _this.id = id;
+        return _this;
+    }
+    TypeDeclaration.prototype.simplify = function () {
+        var bnds = [];
+        for (var i = 0; i < this.typeBinding.length; ++i) {
+            bnds.push(new TypeBinding(this.typeBinding[i].position, this.typeBinding[i].typeVariableSequence, this.typeBinding[i].name, this.typeBinding[i].type.simplify()));
+        }
+        return new TypeDeclaration(this.position, bnds, this.id);
+    };
+    TypeDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        for (var i = 0; i < this.typeBinding.length; ++i) {
+            var ex = state.getStaticType(this.typeBinding[i].name.getText());
+            if (ex !== undefined && ex.type instanceof types_1.CustomType) {
+                throw new errors_1.ElaborationError(this.position, 'Nnaaa~ Redefining types as aliases is not yet implemented.');
+            }
+            state.setStaticType(this.typeBinding[i].name.getText(), new types_1.FunctionType(new types_1.CustomType(this.typeBinding[i].name.getText(), this.typeBinding[i].typeVariableSequence), this.typeBinding[i].type.instantiate(state, tyVarBnd)), [], this.typeBinding[i].typeVariableSequence.length);
+        }
+        return [state, [], tyVarBnd, nextName];
+    };
+    TypeDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        for (var i = 0; i < this.typeBinding.length; ++i) {
+            state.setDynamicType(this.typeBinding[i].name.getText(), []);
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    TypeDeclaration.prototype.toString = function () {
+        var res = 'type';
+        for (var i = 0; i < this.typeBinding.length; ++i) {
+            if (i > 0) {
+                res += ' and';
+            }
+            res += ' <stuff> ' + this.typeBinding[i].name.getText();
+            res += ' = ' + this.typeBinding[i].type;
+        }
+        return res + ';';
+    };
+    return TypeDeclaration;
+}(Declaration));
+exports.TypeDeclaration = TypeDeclaration;
+var DatatypeDeclaration = (function (_super) {
+    __extends(DatatypeDeclaration, _super);
+    // datatype datatypeBinding <withtype typeBinding>
+    function DatatypeDeclaration(position, datatypeBinding, typeBinding, id, givenIds) {
+        if (id === void 0) { id = 0; }
+        if (givenIds === void 0) { givenIds = {}; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.datatypeBinding = datatypeBinding;
+        _this.typeBinding = typeBinding;
+        _this.id = id;
+        _this.givenIds = givenIds;
+        if (_this.typeBinding !== undefined) {
+            throw new errors_1.FeatureDisabledError(_this.position, 'Who is "withtype"?');
+        }
+        return _this;
+    }
+    DatatypeDeclaration.prototype.simplify = function () {
+        var datbnd = [];
+        for (var i = 0; i < this.datatypeBinding.length; ++i) {
+            var ntype = [];
+            for (var j = 0; j < this.datatypeBinding[i].type.length; ++j) {
+                if (this.datatypeBinding[i].type[j][1] !== undefined) {
+                    ntype.push([this.datatypeBinding[i].type[j][0],
+                        this.datatypeBinding[i].type[j][1].simplify()]);
+                }
+                else {
+                    ntype.push(this.datatypeBinding[i].type[j]);
+                }
+            }
+            datbnd.push(new DatatypeBinding(this.datatypeBinding[i].position, this.datatypeBinding[i].typeVariableSequence, this.datatypeBinding[i].name, ntype));
+        }
+        return new DatatypeDeclaration(this.position, datbnd, undefined, this.id);
+    };
+    DatatypeDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        // I'm assuming the withtype is empty
+        for (var i = 0; i < this.datatypeBinding.length; ++i) {
+            var res = this.datatypeBinding[i].getType(state, isTopLevel);
+            for (var j = 0; j < res[0].length; ++j) {
+                if (!state_1.State.allowsRebind(res[0][j][0])) {
+                    throw new errors_1.ElaborationError(this.position, 'You simply cannot rebind "'
+                        + res[0][j][0] + '".');
+                }
+                state.setStaticValue(res[0][j][0], res[0][j][1], state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+            }
+            state.setStaticType(res[2][0], res[1], res[2][1], this.datatypeBinding[i].typeVariableSequence.length);
+            state.incrementValueIdentifierId(res[2][0]);
+        }
+        return [state, [], tyVarBnd, nextName];
+    };
+    DatatypeDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        var modifiable = params.modifiable;
+        // I'm assuming the withtype is empty
+        for (var i = 0; i < this.datatypeBinding.length; ++i) {
+            var res = this.datatypeBinding[i].compute(state, modifiable);
+            for (var j = 0; j < res[0].length; ++j) {
+                if (!state_1.State.allowsRebind(res[0][j][0])) {
+                    throw new errors_1.EvaluationError(this.position, 'You simply cannot rebind "'
+                        + res[0][j][0] + '".');
+                }
+                state.setDynamicValue(res[0][j][0], res[0][j][1], state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+            }
+            state.setDynamicType(res[1][0], res[1][1]);
+            if (this.givenIds[res[1][0]] === undefined) {
+                modifiable.incrementValueIdentifierId(res[1][0]);
+                this.givenIds[res[1][0]] = state.getValueIdentifierId(res[1][0]);
+            }
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    DatatypeDeclaration.prototype.toString = function () {
+        var res = 'datatype';
+        for (var i = 0; i < this.datatypeBinding.length; ++i) {
+            if (i > 0) {
+                res += ' and';
+            }
+            res += ' ' + this.datatypeBinding[i].name.getText() + ' =';
+            for (var j = 0; j < this.datatypeBinding[i].type.length; ++j) {
+                if (j > 0) {
+                    res += ' |';
+                }
+                res += ' ' + this.datatypeBinding[i].type[j][0].getText();
+                if (this.datatypeBinding[i].type[j][1] !== undefined) {
+                    res += ' of ' + this.datatypeBinding[i].type[j][1];
+                }
+            }
+        }
+        return res + ';';
+    };
+    return DatatypeDeclaration;
+}(Declaration));
+exports.DatatypeDeclaration = DatatypeDeclaration;
+var DatatypeReplication = (function (_super) {
+    __extends(DatatypeReplication, _super);
+    // datatype name = datatype oldname
+    function DatatypeReplication(position, name, oldname, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.name = name;
+        _this.oldname = oldname;
+        _this.id = id;
+        return _this;
+    }
+    DatatypeReplication.prototype.simplify = function () {
+        return this;
+    };
+    DatatypeReplication.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        var res = undefined;
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.oldname);
+            if (st !== undefined) {
+                res = st.getType(this.oldname.id.getText());
+            }
+        }
+        else {
+            res = state.getStaticType(this.oldname.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'The datatype "' + this.oldname.getText() + '" doesn\'t exist.');
+        }
+        var tp = res.type.instantiate(state, tyVarBnd);
+        state.setStaticType(this.name.getText(), new types_1.FunctionType(new types_1.CustomType(this.name.getText(), tp.typeArguments, 0, (this.oldname instanceof tokens_1.LongIdentifierToken)
+            ? this.oldname : undefined), tp), [], res.arity);
+        return [state, [], tyVarBnd, nextName];
+    };
+    DatatypeReplication.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        var tp = [];
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveDynamicStructure(this.oldname);
+            if (st !== undefined) {
+                tp = st.getType(this.oldname.id.getText());
+            }
+        }
+        else {
+            tp = state.getDynamicType(this.oldname.getText());
+        }
+        if (tp === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'The datatype "'
+                + this.oldname.getText() + '" does not exist.');
+        }
+        state.setDynamicType(this.name.getText(), tp);
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    DatatypeReplication.prototype.toString = function () {
+        return 'datatype ' + this.name.getText() + ' = datatype ' + this.oldname.getText() + ';';
+    };
+    return DatatypeReplication;
+}(Declaration));
+exports.DatatypeReplication = DatatypeReplication;
+var ExceptionDeclaration = (function (_super) {
+    __extends(ExceptionDeclaration, _super);
+    function ExceptionDeclaration(position, bindings, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.bindings = bindings;
+        _this.id = id;
+        return _this;
+    }
+    ExceptionDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    ExceptionDeclaration.prototype.toString = function () {
+        return 'exception <stuff>;';
+    };
+    ExceptionDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        for (var i = 0; i < this.bindings.length; ++i) {
+            state = this.bindings[i].elaborate(state, isTopLevel, options);
+        }
+        return [state, [], tyVarBnd, nextName];
+    };
+    ExceptionDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        for (var i = 0; i < this.bindings.length; ++i) {
+            this.bindings[i].evaluate(state);
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    return ExceptionDeclaration;
+}(Declaration));
+exports.ExceptionDeclaration = ExceptionDeclaration;
+var LocalDeclaration = (function (_super) {
+    __extends(LocalDeclaration, _super);
+    // local declaration in body end
+    function LocalDeclaration(position, declaration, body, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.declaration = declaration;
+        _this.body = body;
+        _this.id = id;
+        return _this;
+    }
+    LocalDeclaration.prototype.simplify = function () {
+        return new LocalDeclaration(this.position, this.declaration.simplify(), this.body.simplify(), this.id);
+    };
+    LocalDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        var nstate = [state.getNestedState(0).getNestedState(state.id), [], tyVarBnd, nextName];
+        var res = this.declaration.elaborate(nstate[0], tyVarBnd, nextName, false, options);
+        state.valueIdentifierId = res[0].getIdChanges(0);
+        var input = res[0].getNestedState(state.id);
+        nstate = this.body.elaborate(input, res[2], res[3], isTopLevel, options);
+        // Forget all local definitions
+        input.parent = state;
+        return [nstate[0], res[1].concat(nstate[1]), nstate[2], nstate[3]];
+    };
+    LocalDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        var modifiable = params.modifiable;
+        if (params.step === undefined) {
+            params.step = -1;
+        }
+        var step = params.step;
+        if (step === -1) {
+            var parent_1 = state.getNestedState(0);
+            var nstate = parent_1.getNestedState(state.id);
+            if (!parent_1.insideLocalDeclBody) {
+                parent_1.localDeclStart = true;
+            }
+            params.nstate = nstate;
+            params.step = step + 1;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.declaration,
+                'params': { 'state': nstate, 'modifiable': modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        if (step === 0) {
+            var res = params.recResult;
+            if (res === undefined
+                || res.newState === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            var nnstate = res.newState;
+            if (res.hasThrown) {
+                // Something came flying in our direction. So hide we were here and let it flow.
+                return {
+                    'newState': state,
+                    'value': res.value,
+                    'hasThrown': true,
+                };
+            }
+            var nstate = nnstate.getNestedState(state.id);
+            nstate.insideLocalDeclBody = true;
+            params.nstate = nstate;
+            params.res = res;
+            params.step = step + 1;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.body,
+                'params': { 'state': nstate, 'modifiable': modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        // braced, so linter does not complain about nstate being shadowed
+        {
+            var nres = params.recResult;
+            var nstate = params.nstate;
+            var res = params.res;
+            if (nres === undefined
+                || res === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            // Forget all local definitions
+            nstate.parent = state;
+            if (nres.newState !== undefined) {
+                (nres.newState.insideLocalDeclBody) = state.insideLocalDeclBody;
+            }
+            return nres;
+        }
+    };
+    LocalDeclaration.prototype.toString = function () {
+        var res = 'local ' + this.declaration;
+        res += ' in ' + this.body;
+        res += ' end;';
+        return res;
+    };
+    return LocalDeclaration;
+}(Declaration));
+exports.LocalDeclaration = LocalDeclaration;
+var OpenDeclaration = (function (_super) {
+    __extends(OpenDeclaration, _super);
+    // open name_1 ... name_n
+    function OpenDeclaration(position, names, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.names = names;
+        _this.id = id;
+        return _this;
+    }
+    OpenDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    OpenDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        for (var i = 0; i < this.names.length; ++i) {
+            var tmp = undefined;
+            if (this.names[i] instanceof tokens_1.LongIdentifierToken) {
+                tmp = state.getAndResolveStaticStructure(this.names[i]);
+                if (tmp !== undefined) {
+                    tmp = tmp.getStructure(this.names[i].id.getText());
+                }
+            }
+            else {
+                tmp = state.getStaticStructure(this.names[i].getText());
+            }
+            if (tmp === undefined) {
+                throw new errors_1.EvaluationError(this.position, 'Undefined module "' + this.names[i].getText() + '".');
+            }
+            state.staticBasis.extend(tmp);
+        }
+        return [state, [], tyVarBnd, nextName];
+    };
+    OpenDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        for (var i = 0; i < this.names.length; ++i) {
+            var tmp = void 0;
+            if (this.names[i] instanceof tokens_1.LongIdentifierToken) {
+                tmp = state.getAndResolveDynamicStructure(this.names[i]);
+                if (tmp !== undefined) {
+                    tmp = tmp.getStructure(this.names[i].id.getText());
+                }
+            }
+            else {
+                tmp = state.getDynamicStructure(this.names[i].getText());
+            }
+            if (tmp === undefined) {
+                throw new errors_1.EvaluationError(this.position, 'Undefined module "' + this.names[i].getText() + '".');
+            }
+            state.dynamicBasis.extend(tmp);
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    OpenDeclaration.prototype.toString = function () {
+        var res = 'open';
+        for (var i = 0; i < this.names.length; ++i) {
+            res += ' ' + this.names[i].getText();
+        }
+        return res + ';';
+    };
+    return OpenDeclaration;
+}(Declaration));
+exports.OpenDeclaration = OpenDeclaration;
+var EmptyDeclaration = (function (_super) {
+    __extends(EmptyDeclaration, _super);
+    // exactly what it says on the tin.
+    function EmptyDeclaration(id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.id = id;
+        return _this;
+    }
+    EmptyDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    EmptyDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        return [state, [], tyVarBnd, nextName];
+    };
+    EmptyDeclaration.prototype.evaluate = function (params, callStack) {
+        return {
+            'newState': params.state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    EmptyDeclaration.prototype.toString = function () {
+        return ' ;';
+    };
+    return EmptyDeclaration;
+}(Declaration));
+exports.EmptyDeclaration = EmptyDeclaration;
+var SequentialDeclaration = (function (_super) {
+    __extends(SequentialDeclaration, _super);
+    // declaration1 <;> declaration2
+    function SequentialDeclaration(position, declarations, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.declarations = declarations;
+        _this.id = id;
+        return _this;
+    }
+    SequentialDeclaration.prototype.simplify = function () {
+        var decls = [];
+        for (var i = 0; i < this.declarations.length; ++i) {
+            decls.push(this.declarations[i].simplify());
+        }
+        return new SequentialDeclaration(this.position, decls, this.id);
+    };
+    SequentialDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel, options) {
+        var _this = this;
+        var warns = [];
+        var bnds = tyVarBnd;
+        var str = nextName;
+        var _loop_1 = function (i) {
+            if (isTopLevel) {
+                bnds = new Map();
+                state.getTypeVariableBinds()[1].forEach(function (val, key) {
+                    bnds = bnds.set(key, val);
+                });
+            }
+            var res = this_1.declarations[i].elaborate(state.getNestedState(this_1.declarations[i].id), bnds, str, isTopLevel, options);
+            state = res[0];
+            warns = warns.concat(res[1]);
+            bnds = res[2];
+            var nbnds = new Map();
+            if (isTopLevel) {
+                nbnds = tyVarBnd;
+            }
+            res[2].forEach(function (val, key) {
+                if (val[1] && key[1] === '~') {
+                    // Only free type variables are to be kept
+                    var ntp = val[0].instantiate(state, res[2]).normalize(state.freeTypeVariables[0], options);
+                    if (!state.parent.getTypeVariableBinds()[1].has(key)) {
+                        warns.push(new errors_1.Warning(_this.position, 'The free type variable "'
+                            + key + '" has been instantiated to "' + ntp[0] + '".\n'));
+                    }
+                    nbnds = nbnds.set(key, [ntp[0], true]);
+                }
+                else if (!isTopLevel) {
+                    nbnds = nbnds.set(key, [val[0].instantiate(state, res[2]), false]);
+                }
+            });
+            bnds = nbnds;
+            if (isTopLevel) {
+                state.freeTypeVariables[1] = nbnds;
+                for (var v in state.staticBasis.valueEnvironment) {
+                    if (state.staticBasis.valueEnvironment.hasOwnProperty(v)) {
+                        var tp = state.staticBasis.valueEnvironment[v];
+                        var norm = tp[0].normalize(state.freeTypeVariables[0], options);
+                        state.freeTypeVariables[0] = norm[1];
+                        state.setStaticValue(v, norm[0], tp[1]);
+                    }
+                }
+            }
+            str = res[3];
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.declarations.length; ++i) {
+            _loop_1(i);
+        }
+        return [state, warns, bnds, str];
+    };
+    SequentialDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        if (params.step === undefined) {
+            params.step = -1;
+        }
+        var step = params.step;
+        if (step >= 0) {
+            var val = params.recResult;
+            if (val === undefined
+                || val.newState === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            if (val.hasThrown) {
+                // Something blew up, so let someone else handle the mess
+                return {
+                    'newState': val.newState,
+                    'value': val.value,
+                    'hasThrown': true,
+                };
+            }
+            state = val.newState;
+        }
+        ++step;
+        if (step < this.declarations.length) {
+            var nstate = state.getNestedState(this.declarations[step].id);
+            params.step = step;
+            params.state = state;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.declarations[step],
+                'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    SequentialDeclaration.prototype.toString = function () {
+        var res = '';
+        for (var i = 0; i < this.declarations.length; ++i) {
+            if (i > 0) {
+                res += ' ';
+            }
+            res += this.declarations[i];
+        }
+        return res;
+    };
+    return SequentialDeclaration;
+}(Declaration));
+exports.SequentialDeclaration = SequentialDeclaration;
+// Derived Forms and semantically irrelevant stuff
+var FunctionDeclaration = (function (_super) {
+    __extends(FunctionDeclaration, _super);
+    // fun typeVariableSequence functionValueBinding
+    function FunctionDeclaration(position, typeVariableSequence, functionValueBinding, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.typeVariableSequence = typeVariableSequence;
+        _this.functionValueBinding = functionValueBinding;
+        _this.id = id;
+        return _this;
+    }
+    FunctionDeclaration.prototype.simplify = function () {
+        var valbnd = [];
+        for (var i = 0; i < this.functionValueBinding.length; ++i) {
+            valbnd.push(this.functionValueBinding[i].simplify());
+        }
+        return new ValueDeclaration(this.position, this.typeVariableSequence, valbnd, this.id);
+    };
+    return FunctionDeclaration;
+}(Declaration));
+exports.FunctionDeclaration = FunctionDeclaration;
+var Evaluation = (function (_super) {
+    __extends(Evaluation, _super);
+    // do exp
+    function Evaluation(position, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        return _this;
+    }
+    Evaluation.prototype.simplify = function () {
+        return new ValueDeclaration(this.position, [], [new ValueBinding(this.position, false, new expressions_1.Tuple(-1, []), this.expression)]).simplify();
+    };
+    return Evaluation;
+}(Declaration));
+exports.Evaluation = Evaluation;
+var AbstypeDeclaration = (function (_super) {
+    __extends(AbstypeDeclaration, _super);
+    // abstype datatypeBinding <withtype typeBinding> with declaration end
+    function AbstypeDeclaration(position, datatypeBinding, typeBinding, declaration, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.datatypeBinding = datatypeBinding;
+        _this.typeBinding = typeBinding;
+        _this.declaration = declaration;
+        _this.id = id;
+        if (_this.typeBinding !== undefined) {
+            throw new errors_1.FeatureDisabledError(_this.position, 'Who is "withtype"?');
+        }
+        return _this;
+    }
+    AbstypeDeclaration.prototype.simplify = function () {
+        var dat = new DatatypeDeclaration(this.position, this.datatypeBinding, undefined, this.id);
+        var tpbnd = [];
+        for (var i = 0; i < this.datatypeBinding.length; ++i) {
+            tpbnd.push(new TypeBinding(this.datatypeBinding[i].position, this.datatypeBinding[i].typeVariableSequence, this.datatypeBinding[i].name, new types_1.CustomType(this.datatypeBinding[i].name.getText(), this.datatypeBinding[i].typeVariableSequence)));
+        }
+        var tp = new TypeDeclaration(this.position, tpbnd, this.id);
+        return new LocalDeclaration(this.position, dat, new SequentialDeclaration(this.position, [tp, this.declaration], this.id), this.id).simplify();
+    };
+    return AbstypeDeclaration;
+}(Declaration));
+exports.AbstypeDeclaration = AbstypeDeclaration;
+var InfixDeclaration = (function (_super) {
+    __extends(InfixDeclaration, _super);
+    // infix <d> vid1 .. vidn
+    function InfixDeclaration(position, operators, precedence, id) {
+        if (precedence === void 0) { precedence = 0; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.operators = operators;
+        _this.precedence = precedence;
+        _this.id = id;
+        return _this;
+    }
+    InfixDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    InfixDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        return [state, [], tyVarBnd, nextName];
+    };
+    InfixDeclaration.prototype.setInfixStatus = function (state) {
+        for (var i = 0; i < this.operators.length; ++i) {
+            state.setInfixStatus(this.operators[i], this.precedence, false, true);
+        }
+    };
+    InfixDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        this.setInfixStatus(state);
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    InfixDeclaration.prototype.toString = function () {
+        var res = 'infix';
+        res += ' ' + this.precedence;
+        for (var i = 0; i < this.operators.length; ++i) {
+            res += ' ' + this.operators[i].getText();
+        }
+        return res + ';';
+    };
+    return InfixDeclaration;
+}(Declaration));
+exports.InfixDeclaration = InfixDeclaration;
+var InfixRDeclaration = (function (_super) {
+    __extends(InfixRDeclaration, _super);
+    // infixr <d> vid1 .. vidn
+    function InfixRDeclaration(position, operators, precedence, id) {
+        if (precedence === void 0) { precedence = 0; }
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.operators = operators;
+        _this.precedence = precedence;
+        _this.id = id;
+        return _this;
+    }
+    InfixRDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    InfixRDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        return [state, [], tyVarBnd, nextName];
+    };
+    InfixRDeclaration.prototype.setInfixStatus = function (state) {
+        for (var i = 0; i < this.operators.length; ++i) {
+            state.setInfixStatus(this.operators[i], this.precedence, true, true);
+        }
+    };
+    InfixRDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        this.setInfixStatus(state);
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    InfixRDeclaration.prototype.toString = function () {
+        var res = 'infixr';
+        res += ' ' + this.precedence;
+        for (var i = 0; i < this.operators.length; ++i) {
+            res += ' ' + this.operators[i].getText();
+        }
+        return res + ';';
+    };
+    return InfixRDeclaration;
+}(Declaration));
+exports.InfixRDeclaration = InfixRDeclaration;
+var NonfixDeclaration = (function (_super) {
+    __extends(NonfixDeclaration, _super);
+    // nonfix <d> vid1 .. vidn
+    function NonfixDeclaration(position, operators, id) {
+        if (id === void 0) { id = 0; }
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.operators = operators;
+        _this.id = id;
+        return _this;
+    }
+    NonfixDeclaration.prototype.simplify = function () {
+        return this;
+    };
+    NonfixDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        return [state, [], tyVarBnd, nextName];
+    };
+    NonfixDeclaration.prototype.setInfixStatus = function (state) {
+        for (var i = 0; i < this.operators.length; ++i) {
+            state.setInfixStatus(this.operators[i], 0, false, false);
+        }
+    };
+    NonfixDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        this.setInfixStatus(state);
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    NonfixDeclaration.prototype.toString = function () {
+        var res = 'nonfix';
+        for (var i = 0; i < this.operators.length; ++i) {
+            res += ' ' + this.operators[i].getText();
+        }
+        return res + ';';
+    };
+    return NonfixDeclaration;
+}(Declaration));
+exports.NonfixDeclaration = NonfixDeclaration;
+// Value Bundings
+var ValueBinding = (function () {
+    // <rec> pattern = expression
+    function ValueBinding(position, isRecursive, pattern, expression) {
+        this.position = position;
+        this.isRecursive = isRecursive;
+        this.pattern = pattern;
+        this.expression = expression;
+    }
+    ValueBinding.prototype.toString = function () {
+        var res = '';
+        if (this.isRecursive) {
+            res += 'rec ';
+        }
+        res += this.pattern;
+        res += ' = ';
+        return res + this.expression;
+    };
+    ValueBinding.prototype.getType = function (tyVarSeq, state, tyVarBnd, nextName, isTopLevel) {
+        var _this = this;
+        var nstate = state.getNestedState(state.id);
+        var tp = this.expression.getType(nstate, tyVarBnd, nextName);
+        var res = this.pattern.matchType(nstate, tp[4], tp[0]);
+        var noBind = new Set();
+        res[2].forEach(function (val, key) {
+            noBind.add(key);
+            val[0].getTypeVariables().forEach(function (dom, v) {
+                noBind.add(v);
+            });
+        });
+        if (res === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'Type clash. An expression of type "' + tp[0]
+                + '" cannot be assigned to "' + res[1] + '".');
+        }
+        var ntys = [];
+        for (var i = 0; i < tyVarSeq.length; ++i) {
+            var nt = tyVarSeq[i].instantiate(state, res[2]);
+            if (!(nt instanceof types_1.TypeVariable) || nt.domain.length > 0
+                || tyVarSeq[i].admitsEquality(state) !== nt.admitsEquality(state)) {
+                throw new errors_1.ElaborationError(this.position, 'Type clash. An expression of explicit type "' + tyVarSeq[i]
+                    + '" cannot have type "' + nt.normalize()[0] + '".');
+            }
+            ntys.push(nt);
+        }
+        this.expression.getExplicitTypeVariables().forEach(function (val) {
+            var nt = val.instantiate(state, res[2]);
+            if (!(nt instanceof types_1.TypeVariable) || nt.domain.length > 0
+                || val.admitsEquality(state) !== nt.admitsEquality(state)) {
+                throw new errors_1.ElaborationError(_this.position, 'Type clash. An expression of explicit type "' + val
+                    + '" cannot have type "' + nt.normalize()[0] + '".');
+            }
+        });
+        var valuePoly = !this.isRecursive && !this.expression.isSafe(state);
+        var hasFree = false;
+        var _loop_2 = function (i) {
+            res[0][i][1] = res[0][i][1].instantiate(state, res[2]);
+            if (!isTopLevel) {
+                res[2] = res[2].set('\'**' + res[0][i][0], [res[0][i][1], false]);
+            }
+            var tv = res[0][i][1].getTypeVariables();
+            var free = res[0][i][1].getTypeVariables(true);
+            var done = new Set();
+            for (var j = ntys.length - 1; j >= 0; --j) {
+                if (tv.has(ntys[j].name)) {
+                    var dm = tv.get(ntys[j].name);
+                    if (res[2].has('$' + ntys[j].name)) {
+                        dm = types_1.TypeVariable.mergeDomain(dm, res[2].get('$' + ntys[j].name)[0].domain);
+                    }
+                    res[0][i][1] = new types_1.TypeVariableBind(ntys[j].name, res[0][i][1], dm);
+                    res[0][i][1].isFree = valuePoly || free.has(ntys[j].name);
+                    hasFree = hasFree || valuePoly || free.has(ntys[j].name);
+                    done.add(ntys[j].name);
+                }
+            }
+            ntys = [];
+            res[0][i][1].getTypeVariables().forEach(function (dom, val) {
+                if ((isTopLevel || !noBind.has(val)) && !done.has(val)) {
+                    var dm = dom;
+                    if (res[2].has('$' + val)) {
+                        dm = types_1.TypeVariable.mergeDomain(dm, res[2].get('$' + val)[0].domain);
+                    }
+                    ntys.push(new types_1.TypeVariable(val, 0, dm));
+                }
+            });
+            for (var j = ntys.length - 1; j >= 0; --j) {
+                res[0][i][1] = new types_1.TypeVariableBind(ntys[j].name, res[0][i][1], ntys[j].domain);
+                res[0][i][1].isFree = valuePoly || free.has(ntys[j].name);
+                hasFree = hasFree || valuePoly || free.has(ntys[j].name);
+            }
+        };
+        for (var i = 0; i < res[0].length; ++i) {
+            _loop_2(i);
+        }
+        if (hasFree && isTopLevel) {
+            tp[1].push(new errors_1.Warning(this.position, 'Free type variables at top level.\n'));
+        }
+        return [res[0], tp[1], res[2], tp[2], tp[5]];
+    };
+    return ValueBinding;
+}());
+exports.ValueBinding = ValueBinding;
+var FunctionValueBinding = (function () {
+    function FunctionValueBinding(position, parameters, name) {
+        this.position = position;
+        this.parameters = parameters;
+        this.name = name;
+    }
+    FunctionValueBinding.prototype.simplify = function () {
+        if (this.name === undefined) {
+            throw new errors_1.InternalInterpreterError(this.position, 'This function isn\'t ready to be simplified yet.');
+        }
+        // Build the case analysis, starting with the (vid1,...,vidn)
+        var arr = [];
+        var matches = [];
+        for (var i = 0; i < this.parameters[0][0].length; ++i) {
+            arr.push(new expressions_1.ValueIdentifier(-1, new tokens_1.IdentifierToken('__arg' + i, -1)));
+        }
+        for (var i = 0; i < this.parameters.length; ++i) {
+            var pat2 = void 0;
+            if (this.parameters[i][0].length === 1) {
+                pat2 = this.parameters[i][0][0];
+            }
+            else {
+                pat2 = new expressions_1.Tuple(-1, this.parameters[i][0]);
+            }
+            if (this.parameters[i][1] === undefined) {
+                matches.push([pat2, this.parameters[i][2]]);
+            }
+            else {
+                matches.push([pat2,
+                    new expressions_1.TypedExpression(-1, this.parameters[i][2], this.parameters[i][1])]);
+            }
+        }
+        var pat;
+        if (arr.length !== 1) {
+            pat = new expressions_1.Tuple(-1, arr).simplify();
+        }
+        else {
+            pat = arr[0];
+        }
+        var mat = new expressions_1.Match(-1, matches);
+        var exp;
+        //        if (arr.length === 1) {
+        //    exp = new Lambda(-1, mat);
+        // } else {
+        exp = new expressions_1.CaseAnalysis(-1, pat, mat);
+        // Now build the lambdas around
+        for (var i = this.parameters[0][0].length - 1; i >= 0; --i) {
+            exp = new expressions_1.Lambda(-1, new expressions_1.Match(-1, [[
+                    new expressions_1.ValueIdentifier(-1, new tokens_1.IdentifierToken('__arg' + i, -1)),
+                    exp
+                ]]));
+        }
+        // }
+        return new ValueBinding(this.position, true, this.name, exp.simplify());
+    };
+    FunctionValueBinding.prototype.toString = function () {
+        var res = '';
+        for (var i = 0; i < this.parameters.length; ++i) {
+            if (i > 0) {
+                res += ' | ';
+            }
+            res += this.name.name.getText();
+            for (var j = 0; j < this.parameters[i][0].length; ++j) {
+                res += ' ' + this.parameters[i][0][j];
+            }
+            if (this.parameters[i][1] !== undefined) {
+                res += ': ' + this.parameters[i][1];
+            }
+            res += ' = ' + this.parameters[i][2];
+        }
+        return res;
+    };
+    return FunctionValueBinding;
+}());
+exports.FunctionValueBinding = FunctionValueBinding;
+// Type Bindings
+var TypeBinding = (function () {
+    // typeVariableSequence name = type
+    function TypeBinding(position, typeVariableSequence, name, type) {
+        this.position = position;
+        this.typeVariableSequence = typeVariableSequence;
+        this.name = name;
+        this.type = type;
+    }
+    return TypeBinding;
+}());
+exports.TypeBinding = TypeBinding;
+// Datatype Bindings
+var DatatypeBinding = (function () {
+    // typeVariableSequence name = <op> constructor <of type>
+    // type: [constructorName, <type>]
+    function DatatypeBinding(position, typeVariableSequence, name, type, givenIds) {
+        if (givenIds === void 0) { givenIds = {}; }
+        this.position = position;
+        this.typeVariableSequence = typeVariableSequence;
+        this.name = name;
+        this.type = type;
+        this.givenIds = givenIds;
+    }
+    DatatypeBinding.prototype.getType = function (state, isTopLevel) {
+        var connames = [];
+        var ve = [];
+        var nstate = state.getNestedState(state.id);
+        var id = state.getValueIdentifierId(this.name.getText());
+        nstate.incrementValueIdentifierId(this.name.getText());
+        var restp = new types_1.CustomType(this.name.getText(), this.typeVariableSequence, -1, undefined, false, id);
+        nstate.setStaticType(this.name.getText(), restp, [], this.typeVariableSequence.length);
+        var _loop_3 = function (i) {
+            var numArg = 0;
+            var tp = restp;
+            if (this_2.type[i][1] !== undefined) {
+                numArg = 1;
+                tp = new types_1.FunctionType(this_2.type[i][1].instantiate(nstate, new Map()), tp);
+            }
+            var tvs = new Set();
+            for (var j = 0; j < this_2.typeVariableSequence.length; ++j) {
+                tvs = tvs.add(this_2.typeVariableSequence[j].name);
+            }
+            var ungar = [];
+            tp.getTypeVariables().forEach(function (val, key) {
+                if (!tvs.has(key)) {
+                    ungar.push(key);
+                }
+                else {
+                    tp = new types_1.TypeVariableBind(key, tp, val);
+                }
+            });
+            if (ungar.length > 0) {
+                throw errors_1.ElaborationError.getUnguarded(this_2.position, ungar);
+            }
+            ve.push([this_2.type[i][0].getText(), tp]);
+            connames.push(this_2.type[i][0].getText());
+        };
+        var this_2 = this;
+        for (var i = 0; i < this.type.length; ++i) {
+            _loop_3(i);
+        }
+        return [ve, restp, [this.name.getText(), connames]];
+    };
+    DatatypeBinding.prototype.compute = function (state, modifiable) {
+        var connames = [];
+        var ve = [];
+        for (var i = 0; i < this.type.length; ++i) {
+            var numArg = 0;
+            if (this.type[i][1] !== undefined) {
+                numArg = 1;
+            }
+            var id = -1;
+            if (this.givenIds[this.type[i][0].getText()] === undefined) {
+                id = modifiable.getValueIdentifierId(this.type[i][0].getText());
+                modifiable.incrementValueIdentifierId(this.type[i][0].getText());
+                this.givenIds[this.type[i][0].getText()] = id;
+            }
+            else {
+                id = this.givenIds[this.type[i][0].getText()];
+            }
+            ve.push([this.type[i][0].getText(), new values_1.ValueConstructor(this.type[i][0].getText(), numArg, id)]);
+            connames.push(this.type[i][0].getText());
+        }
+        return [ve, [this.name.getText(), connames]];
+    };
+    return DatatypeBinding;
+}());
+exports.DatatypeBinding = DatatypeBinding;
+var DirectExceptionBinding = (function () {
+    // <op> name <of type>
+    function DirectExceptionBinding(position, name, type) {
+        this.position = position;
+        this.name = name;
+        this.type = type;
+    }
+    DirectExceptionBinding.prototype.elaborate = function (state, isTopLevel, options) {
+        if (this.type !== undefined) {
+            var tp = this.type.simplify().instantiate(state, new Map());
+            var tyvars_1 = [];
+            tp.getTypeVariables().forEach(function (dom, val) {
+                tyvars_1.push(val);
+            });
+            if (isTopLevel && tyvars_1.length > 0) {
+                throw errors_1.ElaborationError.getUnguarded(this.position, tyvars_1);
+            }
+            state.setStaticValue(this.name.getText(), new types_1.FunctionType(tp, new types_1.CustomType('exn')).normalize()[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+        }
+        else {
+            state.setStaticValue(this.name.getText(), new types_1.CustomType('exn').normalize()[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+        }
+        return state;
+    };
+    DirectExceptionBinding.prototype.evaluate = function (state) {
+        var numArg = 0;
+        if (this.type !== undefined) {
+            numArg = 1;
+        }
+        var id = state.getValueIdentifierId(this.name.getText());
+        state.incrementValueIdentifierId(this.name.getText());
+        if (!state_1.State.allowsRebind(this.name.getText())) {
+            throw new errors_1.EvaluationError(this.position, 'You simply cannot rebind "'
+                + this.name.getText() + '".');
+        }
+        state.setDynamicValue(this.name.getText(), new values_1.ExceptionConstructor(this.name.getText(), numArg, id), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+    };
+    return DirectExceptionBinding;
+}());
+exports.DirectExceptionBinding = DirectExceptionBinding;
+var ExceptionAlias = (function () {
+    // <op> name = <op> oldname
+    function ExceptionAlias(position, name, oldname) {
+        this.position = position;
+        this.name = name;
+        this.oldname = oldname;
+    }
+    ExceptionAlias.prototype.elaborate = function (state, isTopLevel, options) {
+        var res = undefined;
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.oldname);
+            if (st !== undefined) {
+                res = st.getValue(this.oldname.id.getText());
+            }
+        }
+        else {
+            res = state.getStaticValue(this.oldname.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'Unbound value identifier "'
+                + this.oldname.getText() + '".');
+        }
+        else if (res[1] !== state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR) {
+            throw new errors_1.ElaborationError(this.position, 'You cannot transform "'
+                + res[0] + '" into an exception.');
+        }
+        state.setStaticValue(this.name.getText(), res[0].normalize()[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+        return state;
+    };
+    ExceptionAlias.prototype.evaluate = function (state) {
+        var res = undefined;
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveDynamicStructure(this.oldname);
+            if (st !== undefined) {
+                res = st.getValue(this.oldname.id.getText());
+            }
+        }
+        else {
+            res = state.getDynamicValue(this.oldname.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Unbound value identifier "'
+                + this.oldname.getText() + '".');
+        }
+        else if (res[1] !== state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR) {
+            throw new errors_1.EvaluationError(this.position, 'You cannot transform "'
+                + res[0].toString(state, 40) + '" into an exception.');
+        }
+        state.setDynamicValue(this.name.getText(), res[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+    };
+    return ExceptionAlias;
+}());
+exports.ExceptionAlias = ExceptionAlias;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = __webpack_require__(4);
+var declarations_1 = __webpack_require__(5);
+var tokens_1 = __webpack_require__(1);
+var state_1 = __webpack_require__(2);
+var errors_1 = __webpack_require__(0);
+var values_1 = __webpack_require__(3);
+var Expression = (function () {
+    function Expression() {
+    }
+    Expression.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        throw new errors_1.InternalInterpreterError(this.position, 'Called "getType" on a derived form.');
+    };
+    // Computes the value of an expression, returns [computed value, is thrown exception]
+    Expression.prototype.compute = function (params, callStack) {
+        throw new errors_1.InternalInterpreterError(this.position, 'Called "getValue" on a derived form.');
+    };
+    // Returns whether the expression could do nasty stuff (value polymorphism ...)
+    Expression.prototype.isSafe = function (state) {
+        return true;
+    };
+    Expression.prototype.getExplicitTypeVariables = function () {
+        return new Set();
+    };
+    Expression.prototype.toString = function () {
+        throw new errors_1.InternalInterpreterError(this.position, 'You humans can\'t seem to write bug-free code. What an inferior species.');
+    };
+    return Expression;
+}());
+exports.Expression = Expression;
+var Constant = (function (_super) {
+    __extends(Constant, _super);
+    function Constant(position, token) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.token = token;
+        return _this;
+    }
+    Constant.prototype.getMatchedValues = function (state, tyVarBnd) {
+        return new types_1.Domain([]);
+    };
+    Constant.prototype.matchType = function (state, tyVarBnd, t) {
+        return [[], this.getType(state, tyVarBnd)[0], tyVarBnd];
+    };
+    Constant.prototype.matches = function (state, v) {
+        // the call to compute just gets two states but will not use them
+        var val = this.compute({ 'state': state, 'modifiable': state, 'recResult': undefined }, []);
+        if (val === undefined || val.value === undefined) {
+            throw new errors_1.InternalInterpreterError(this.token.position, 'How is this undefined?');
+        }
+        if (val.value.equals(v)) {
+            return [];
+        }
+        else {
+            return undefined;
+        }
+    };
+    Constant.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        if (this.token instanceof tokens_1.IntegerConstantToken || this.token instanceof tokens_1.NumericToken) {
+            return [new types_1.CustomType('int'), [], nextName, tyVars, tyVarBnd,
+                state.valueIdentifierId];
+        }
+        else if (this.token instanceof tokens_1.RealConstantToken) {
+            return [new types_1.CustomType('real'), [], nextName, tyVars, tyVarBnd,
+                state.valueIdentifierId];
+        }
+        else if (this.token instanceof tokens_1.WordConstantToken) {
+            return [new types_1.CustomType('word'), [], nextName, tyVars, tyVarBnd,
+                state.valueIdentifierId];
+        }
+        else if (this.token instanceof tokens_1.CharacterConstantToken) {
+            return [new types_1.CustomType('char'), [], nextName, tyVars, tyVarBnd,
+                state.valueIdentifierId];
+        }
+        else if (this.token instanceof tokens_1.StringConstantToken) {
+            return [new types_1.CustomType('string'), [], nextName, tyVars, tyVarBnd,
+                state.valueIdentifierId];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(this.token.position, '"' + this + '" does not seem to be a valid constant.');
+        }
+    };
+    Constant.prototype.simplify = function () { return this; };
+    Constant.prototype.toString = function () {
+        return this.token.getText();
+    };
+    Constant.prototype.compute = function (params, callStack) {
+        var val = undefined;
+        if (this.token instanceof tokens_1.IntegerConstantToken || this.token instanceof tokens_1.NumericToken) {
+            val = new values_1.Integer(this.token.value);
+        }
+        else if (this.token instanceof tokens_1.RealConstantToken) {
+            val = new values_1.Real(this.token.value);
+        }
+        else if (this.token instanceof tokens_1.WordConstantToken) {
+            val = new values_1.Word(this.token.value);
+        }
+        else if (this.token instanceof tokens_1.CharacterConstantToken) {
+            val = new values_1.CharValue(this.token.value);
+        }
+        else if (this.token instanceof tokens_1.StringConstantToken) {
+            val = new values_1.StringValue(this.token.value);
+        }
+        if (val === undefined) {
+            throw new errors_1.EvaluationError(this.token.position, 'You sure that this is a constant?');
+        }
+        return {
+            'newState': undefined,
+            'value': val,
+            'hasThrown': false,
+        };
+    };
+    return Constant;
+}(Expression));
+exports.Constant = Constant;
+var ValueIdentifier = (function (_super) {
+    __extends(ValueIdentifier, _super);
+    // op longvid or longvid
+    function ValueIdentifier(position, name) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.name = name;
+        return _this;
+    }
+    ValueIdentifier.prototype.getMatchedValues = function (state, tyVarBnd) {
+        var val = state.getStaticValue(this.name.getText());
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            var reslv = state.getAndResolveStaticStructure(this.name);
+            if (reslv !== undefined) {
+                val = reslv.getValue(this.name.id.getText());
+            }
+            else {
+                val = undefined;
+            }
+        }
+        if (val !== undefined && val[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+            return new types_1.Domain(undefined);
+        }
+        else if (val === undefined && tyVarBnd.has('\'**' + this.name.getText())) {
+            return new types_1.Domain(undefined);
+        }
+        else if (val === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'RAINBOW!');
+        }
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            return new types_1.Domain([this.name.id.getText()]);
+        }
+        return new types_1.Domain([this.name.getText()]);
+    };
+    ValueIdentifier.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var res = undefined;
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.name);
+            if (st !== undefined) {
+                res = st.getValue(this.name.id.getText());
+                if (res !== undefined) {
+                    var nst = new state_1.State(0, undefined, st, state.dynamicBasis, [0, {}]);
+                    res = [res[0].qualify(nst, this.name), res[1]];
+                }
+            }
+        }
+        else {
+            res = state.getStaticValue(this.name.getText());
+        }
+        var mps = tyVarBnd;
+        var bnd = false;
+        if (res === undefined || res[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+            var tv = new types_1.TypeVariable('\'**' + this.name.getText());
+            if (forceRebind) {
+                res = [new types_1.TypeVariableBind('\'**' + this.name.getText(), tv), 0];
+                bnd = true;
+            }
+            else if (tyVarBnd.has(tv.name)) {
+                var tmp = tyVarBnd.get(tv.name)[0].instantiate(state, mps);
+                return [tmp, [], nextName, tyVars, mps, state.valueIdentifierId];
+            }
+            else if (res === undefined) {
+                throw new errors_1.ElaborationError(this.position, 'Unbound value identifier "'
+                    + this.name.getText() + '".');
+            }
+        }
+        var vars = new Set();
+        var frees = new Set();
+        var repl = new Map();
+        while (res[0] instanceof types_1.TypeVariableBind) {
+            if (res[0].isFree) {
+                frees = frees.add(res[0].name);
+                repl.set(res[0].name, res[0].name);
+            }
+            else {
+                vars = vars.add(res[0].name);
+            }
+            res[0] = res[0].type;
+        }
+        // force generating another new name
+        vars = vars.add('*');
+        var nwvar = [];
+        vars.forEach(function (val) {
+            var cur = (+nextName.substring(3)) + 1;
+            var nm = '';
+            for (;; ++cur) {
+                nextName = '\'' + nextName[1] + nextName[2] + cur;
+                if (!vars.has(nextName) && !tyVars.has(nextName) && !tyVarBnd.has(nextName)
+                    && state.getStaticValue(nextName) === undefined) {
+                    if (val[1] === '\'') {
+                        nm = '\'' + nextName;
+                    }
+                    else {
+                        nm = nextName;
+                    }
+                    nwvar.push(nm);
+                    repl = repl.set(val, nm);
+                    break;
+                }
+            }
+        });
+        for (var i = 0; i < nwvar.length; ++i) {
+            tyVars = tyVars.add(nwvar[i]);
+        }
+        var r2 = res[0].replaceTypeVariables(repl, frees).instantiate(state, mps);
+        if (bnd) {
+            mps = mps.set('\'**' + this.name.getText(), [r2, false]);
+        }
+        return [r2, [], nextName, tyVars, mps, state.valueIdentifierId];
+    };
+    ValueIdentifier.prototype.matchType = function (state, tyVarBnd, t) {
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            throw new errors_1.ElaborationError(this.position, 'Variable names in patterns cannot be qualified.');
+        }
+        var res = state.getStaticValue(this.name.getText());
+        if (res === undefined || res[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+            return [[[this.name.getText(), t.instantiate(state, tyVarBnd)]],
+                t.instantiate(state, tyVarBnd), tyVarBnd];
+        }
+        var tmp = this.getType(state, tyVarBnd, '\'*g0');
+        tmp[3].forEach(function (val) {
+            var nname = '\'*p' + val.substring(3);
+            if (val[1] === '\'') {
+                nname = '\'\'*p' + val.substring(4);
+            }
+            tmp[4] = tmp[4].set(val, [new types_1.TypeVariable(nname), false]);
+        });
+        res[0] = tmp[0];
+        tyVarBnd = tmp[4];
+        try {
+            var rt = t.merge(state, tyVarBnd, res[0]);
+            return [[], rt[0], rt[1]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'Type clash: "' + t.normalize()[0] + '" vs. "'
+                + res[0].normalize()[0] + '": ' + e[0]);
+        }
+    };
+    ValueIdentifier.prototype.matches = function (state, v) {
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            throw new errors_1.EvaluationError(this.position, 'Variable names in patterns cannot be qualified.');
+        }
+        var res = state.getDynamicValue(this.name.getText());
+        if (res === undefined || res[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+            return [[this.name.getText(), v]];
+        }
+        if (v.equals(res[0])) {
+            return [];
+        }
+        return undefined;
+    };
+    ValueIdentifier.prototype.simplify = function () { return this; };
+    ValueIdentifier.prototype.toString = function () {
+        return this.name.getText();
+    };
+    ValueIdentifier.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        var res = undefined;
+        if (this.name instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveDynamicStructure(this.name);
+            if (st !== undefined) {
+                res = st.getValue(this.name.id.getText());
+            }
+        }
+        else {
+            res = state.getDynamicValue(this.name.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Unbound value identifier "'
+                + this.name.getText() + '".');
+        }
+        if (res[1] === state_1.IdentifierStatus.VALUE_CONSTRUCTOR
+            && res[0].numArgs === 0) {
+            return {
+                'newState': undefined,
+                'value': res[0].construct(),
+                'hasThrown': false,
+            };
+        }
+        if (res[1] === state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR
+            && res[0].numArgs === 0) {
+            return {
+                'newState': undefined,
+                'value': res[0].construct(),
+                'hasThrown': false,
+            };
+        }
+        return {
+            'newState': undefined,
+            'value': res[0],
+            'hasThrown': false,
+        };
+    };
+    return ValueIdentifier;
+}(Expression));
+exports.ValueIdentifier = ValueIdentifier;
+var Record = (function (_super) {
+    __extends(Record, _super);
+    // { lab = exp, ... } or { }
+    // a record(pattern) is incomplete if it ends with '...'
+    function Record(position, complete, entries) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.complete = complete;
+        _this.entries = entries;
+        _this.entries.sort();
+        for (var i = 1; i < _this.entries.length; ++i) {
+            if (_this.entries[i][0] === _this.entries[i - 1][0]) {
+                throw new errors_1.ElaborationError(_this.position, 'Label "' + _this.entries[i][0] + '" occurs more than once in the same record.');
+            }
+        }
+        return _this;
+    }
+    Record.prototype.getExplicitTypeVariables = function () {
+        var res = new Set();
+        for (var i = 0; i < this.entries.length; ++i) {
+            this.entries[i][1].getExplicitTypeVariables().forEach(function (val) {
+                res = res.add(val);
+            });
+        }
+        return res;
+    };
+    Record.prototype.getMatchedValues = function (state, tyVarBnd) {
+        var res = new Map();
+        var def = false;
+        for (var _i = 0, _a = this.entries; _i < _a.length; _i++) {
+            var i = _a[_i];
+            res = res.set(i[0], i[1].getMatchedValues(state, tyVarBnd));
+            def = def || (res.get(i[0]).entries !== undefined);
+        }
+        if (!def) {
+            return new types_1.Domain(undefined);
+        }
+        return new types_1.Domain(res);
+    };
+    Record.prototype.getEntry = function (name) {
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (this.entries[i][0] === name) {
+                return this.entries[i][1];
+            }
+        }
+        throw new errors_1.InternalInterpreterError(this.position, 'Yeah, "' + name + '" would be nice to have.');
+    };
+    Record.prototype.isSafe = function (state) {
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (!this.entries[i][1].isSafe(state)) {
+                return false;
+            }
+        }
+        return true;
+    };
+    Record.prototype.matchType = function (state, tyVarBnd, t) {
+        if (!(t instanceof types_1.RecordType)) {
+            t = t.instantiate(state, tyVarBnd);
+        }
+        if (t instanceof types_1.TypeVariable) {
+            var ntype = new Map();
+            for (var i = 0; i < this.entries.length; ++i) {
+                var ntv = new types_1.TypeVariable(t.name + '*' + i);
+                ntv.isFree = t.isFree;
+                ntype = ntype.set(this.entries[i][0], ntv);
+            }
+            var tp = new types_1.RecordType(ntype, this.complete);
+            tyVarBnd = tyVarBnd.set(t.name, [tp, t.isFree]);
+            t = tp;
+        }
+        if (!(t instanceof types_1.RecordType)) {
+            throw new errors_1.ElaborationError(this.position, 'Expected pattern of a record type, got "' + t.constructor.name + '".');
+        }
+        if (this.complete && this.entries.length !== t.elements.size) {
+            throw new errors_1.ElaborationError(this.position, 'Expected a record type with ' + this.entries.length + ' entries,'
+                + ' but the given one has ' + t.elements.size + '.');
+        }
+        var res = [];
+        var rtp = new Map();
+        var bnd = tyVarBnd;
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (!t.hasType(this.entries[i][0])) {
+                throw new errors_1.ElaborationError(this.position, 'I am mad scientist. Sunovabitch!');
+            }
+            var cur = this.entries[i][1].matchType(state, bnd, t.getType(this.entries[i][0]));
+            res = res.concat(cur[0]);
+            rtp = rtp.set(this.entries[i][0], cur[1]);
+            bnd = cur[2];
+        }
+        return [res, new types_1.RecordType(rtp), bnd];
+    };
+    Record.prototype.matches = function (state, v) {
+        if (!(v instanceof values_1.RecordValue)) {
+            return undefined;
+        }
+        if (this.complete && this.entries.length !== v.entries.size) {
+            return undefined;
+        }
+        var res = [];
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (!v.hasValue(this.entries[i][0])) {
+                return undefined;
+            }
+            var cur = this.entries[i][1].matches(state, v.getValue(this.entries[i][0]));
+            if (cur === undefined) {
+                return cur;
+            }
+            for (var j = 0; j < cur.length; ++j) {
+                res.push(cur[j]);
+            }
+        }
+        return res;
+    };
+    Record.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var e = new Map();
+        var warns = [];
+        var bnds = tyVarBnd;
+        for (var i = 0; i < this.entries.length; ++i) {
+            var name_1 = this.entries[i][0];
+            var exp = this.entries[i][1];
+            if (e.has(name_1)) {
+                throw new errors_1.ElaborationError(this.position, 'Label "' + name_1 + '" occurs more than once in the same record.');
+            }
+            if (exp instanceof ValueIdentifier && forceRebind) {
+                var tm = state.getStaticValue(exp.name.getText());
+                if (tm !== undefined && tm[1] !== state_1.IdentifierStatus.VALUE_VARIABLE
+                    && tm[0] instanceof types_1.FunctionType) {
+                    throw new errors_1.ElaborationError(exp.position, 'Unary constructor in the pattern needs an argument.');
+                }
+            }
+            var tmp = exp.getType(state, bnds, nextName, tyVars, forceRebind);
+            warns = warns.concat(tmp[1]);
+            nextName = tmp[2];
+            tyVars = tmp[3];
+            tmp[4].forEach(function (val, key) {
+                bnds = bnds.set(key, val);
+            });
+            state.valueIdentifierId = tmp[5];
+            e = e.set(name_1, tmp[0]);
+        }
+        return [new types_1.RecordType(e, this.complete), warns, nextName, tyVars, bnds, state.valueIdentifierId];
+    };
+    Record.prototype.simplify = function () {
+        var newEntries = [];
+        for (var i = 0; i < this.entries.length; ++i) {
+            var e = this.entries[i];
+            newEntries.push([e[0], e[1].simplify()]);
+        }
+        return new Record(this.position, this.complete, newEntries);
+    };
+    Record.prototype.toString = function () {
+        var result = '{';
+        var first = true;
+        for (var i = 0; i < this.entries.length; ++i) {
+            if (!first) {
+                result += ', ';
+            }
+            first = false;
+            result += this.entries[i][0] + ' = '
+                + this.entries[i][1];
+        }
+        if (!this.complete) {
+            if (!first) {
+                result += ', ';
+            }
+            result += '...';
+        }
+        return result + '}';
+    };
+    Record.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        if (params.step === undefined) {
+            params.step = -1;
+            params.nentr = new Map();
+        }
+        var nentr = params.nentr;
+        var step = params.step;
+        if (step >= 0) {
+            var val = params.recResult;
+            if (val === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            if (val.hasThrown) {
+                // Computing some expression failed
+                return {
+                    'newState': undefined,
+                    'value': val.value,
+                    'hasThrown': true,
+                };
+            }
+            nentr = nentr.set(this.entries[step][0], val.value);
+        }
+        ++step;
+        if (step < this.entries.length) {
+            params.step = step;
+            params.nentr = nentr;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.entries[step][1],
+                'params': { 'state': state, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        return {
+            'newState': undefined,
+            'value': new values_1.RecordValue(nentr),
+            'hasThrown': false,
+        };
+    };
+    return Record;
+}(Expression));
+exports.Record = Record;
+var LocalDeclarationExpression = (function (_super) {
+    __extends(LocalDeclarationExpression, _super);
+    // let dec in exp1; ...; expn end
+    // A sequential expression exp1; ... ; expn is represented as such,
+    // despite the potentially missing parentheses
+    function LocalDeclarationExpression(position, declaration, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.declaration = declaration;
+        _this.expression = expression;
+        return _this;
+    }
+    LocalDeclarationExpression.prototype.simplify = function () {
+        return new LocalDeclarationExpression(this.position, this.declaration.simplify(), this.expression.simplify());
+    };
+    LocalDeclarationExpression.prototype.toString = function () {
+        var res = 'let ' + this.declaration;
+        res += ' in ' + this.expression + ' end';
+        return res;
+    };
+    LocalDeclarationExpression.prototype.isSafe = function (state) {
+        return this.expression.isSafe(state);
+    };
+    LocalDeclarationExpression.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var nstate = state.getNestedState(state.id);
+        tyVarBnd.forEach(function (val, key) {
+            if (key[1] === '*' && key[2] === '*') {
+                nstate.setStaticValue(key.substring(3), val[0].instantiate(state, tyVarBnd), state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+        });
+        var nvbnd = new Map();
+        tyVarBnd.forEach(function (val, key) {
+            nvbnd = nvbnd.set(key, val);
+        });
+        var res = this.declaration.elaborate(nstate, nvbnd, nextName);
+        /*
+    nextName = res[3];
+    let names = new Set<string>();
+    tyVarBnd.forEach((val: [Type, boolean], key: string) => {
+        if (key[1] === '*' && key[2] === '*') {
+            names.add(key);
+        }
+    });
+    while (true) {
+        let change = false;
+        let nnames = new Set<string>();
+        names.forEach((val: string) => {
+            if (res[2].has(val)) {
+                res[2].get(val)[0].instantiate(nstate, res[2]).getTypeVariables().forEach((v: string) => {
+                    if (!names.has(v)) {
+                        change = true;
+                        nnames.add(v);
+                        console.nog(v);
+                    }
+                });
+            }
+        });
+        nnames.forEach((val: string) => {
+            names.add(val);
+        });
+        if (!change) {
+            break;
+        }
+    }
+    let nbnds = new Map<string, [Type, boolean]>();
+    res[2].forEach((val: [Type, boolean], key: string) => {
+        //            if (names.has(key)) {
+            nbnds = nbnds.set(key, [val[0].instantiate(res[0], res[2]), val[1]]);
+            // }
+    });
+    for (let i = 0; i < chg.length; ++i) {
+        if ((<[Type, boolean]> tyVarBnd.get(chg[i][0]))[0].equals(
+            (<[Type, boolean]> res[2].get(chg[i][0]))[0])) {
+            // Make sure we're not using some type of some rebound identifier
+            let tmp = chg[i][1][0].merge(nstate, tyVarBnd,
+                chg[i][1][0].instantiate(nstate, res[2]));
+            tyVarBnd = tmp[1];
+        }
+    }
+            */
+        var r2 = this.expression.getType(res[0], res[2], res[3], tyVars, forceRebind);
+        return [r2[0], res[1].concat(r2[1]), r2[2], r2[3], r2[4], r2[5]];
+    };
+    LocalDeclarationExpression.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        if (params.step === undefined) {
+            params.step = -1;
+        }
+        var step = params.step;
+        if (step === -1) {
+            var nstate = state.getNestedState(0).getNestedState(state.id);
+            params.step = step + 1;
+            params.state = state;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.declaration,
+                'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        if (step === 0) {
+            var res = params.recResult;
+            if (res === undefined
+                || res.newState === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            var nstate = res.newState;
+            if (res.hasThrown) {
+                return {
+                    'newState': undefined,
+                    'value': res.value,
+                    'hasThrown': true,
+                };
+            }
+            callStack.push({
+                'next': this.expression,
+                'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        var nres = params.recResult;
+        if (nres === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        return {
+            'newState': undefined,
+            'value': nres.value,
+            'hasThrown': nres.hasThrown,
+        };
+    };
+    return LocalDeclarationExpression;
+}(Expression));
+exports.LocalDeclarationExpression = LocalDeclarationExpression;
+var TypedExpression = (function (_super) {
+    __extends(TypedExpression, _super);
+    // expression: type (L)
+    function TypedExpression(position, expression, typeAnnotation) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        _this.typeAnnotation = typeAnnotation;
+        return _this;
+    }
+    TypedExpression.prototype.getExplicitTypeVariables = function () {
+        var res = new Set();
+        this.typeAnnotation.getTypeVariables().forEach(function (val, key) {
+            res = res.add(new types_1.TypeVariable(key, 0, val));
+        });
+        return res;
+    };
+    TypedExpression.prototype.getMatchedValues = function (state, tyVarBnd) {
+        return this.expression.getMatchedValues(state, tyVarBnd);
+    };
+    TypedExpression.prototype.isSafe = function (state) {
+        return this.expression.isSafe(state);
+    };
+    TypedExpression.prototype.matchType = function (state, tyVarBnd, t) {
+        var tp = this.expression.matchType(state, tyVarBnd, t);
+        try {
+            var res = tp[1].merge(state, tp[2], this.typeAnnotation.instantiate(state, tp[2]));
+            for (var i = 0; i < tp[0].length; ++i) {
+                tp[0][i][1] = tp[0][i][1].instantiate(state, res[1]);
+            }
+            return [tp[0], res[0], res[1]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'The annotated type "' + this.typeAnnotation
+                + '" does not match the expression\'s type "'
+                + tp[1].normalize()[0] + '": ' + e[0]);
+        }
+    };
+    TypedExpression.prototype.matches = function (state, v) {
+        return this.expression.matches(state, v);
+    };
+    TypedExpression.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var tp = this.expression.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+        try {
+            var ann = this.typeAnnotation.instantiate(state, tp[4]);
+            var tmp = tp[0].merge(state, tp[4], ann);
+            return [tmp[0], tp[1], tp[2], tp[3], tmp[1], tp[5]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'The specified type "' + this.typeAnnotation
+                + '" does not match the annotated expression\'s type "'
+                + tp[0].normalize()[0] + '": ' + e[0]);
+        }
+    };
+    TypedExpression.prototype.simplify = function () {
+        return new TypedExpression(this.position, this.expression.simplify(), this.typeAnnotation.simplify());
+    };
+    TypedExpression.prototype.toString = function () {
+        var res = '( ' + this.expression;
+        res += ': ' + this.typeAnnotation;
+        return res + ' )';
+    };
+    TypedExpression.prototype.compute = function (params, callStack) {
+        return this.expression.compute(params, callStack);
+    };
+    return TypedExpression;
+}(Expression));
+exports.TypedExpression = TypedExpression;
+// May represent either a function application or a constructor with an argument
+var FunctionApplication = (function (_super) {
+    __extends(FunctionApplication, _super);
+    // function argument
+    function FunctionApplication(position, func, argument) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.func = func;
+        _this.argument = argument;
+        return _this;
+    }
+    FunctionApplication.prototype.getExplicitTypeVariables = function () {
+        var res = new Set();
+        this.func.getExplicitTypeVariables().forEach(function (val) {
+            res = res.add(val);
+        });
+        this.argument.getExplicitTypeVariables().forEach(function (val) {
+            res = res.add(val);
+        });
+        return res;
+    };
+    FunctionApplication.prototype.getMatchedValues = function (state, tyVarBnd) {
+        if (!(this.func instanceof ValueIdentifier)) {
+            throw new errors_1.InternalInterpreterError(this.position, 'Beep. Beep-Beep-Beep. Beep-Beep.');
+        }
+        var arg = this.argument.getMatchedValues(state, tyVarBnd);
+        if (arg.entries === undefined) {
+            return new types_1.Domain([this.func.name.getText()]);
+        }
+        // TODO
+        // Correctly implementing this should be really tedious
+        return new types_1.Domain([this.func.name.getText()]);
+    };
+    FunctionApplication.prototype.isSafe = function (state) {
+        if (!(this.func instanceof ValueIdentifier)) {
+            return false;
+        }
+        var f = state.getStaticValue(this.func.name.getText());
+        if (f === undefined) {
+            return false;
+        }
+        return f[1] !== state_1.IdentifierStatus.VALUE_VARIABLE;
+    };
+    FunctionApplication.prototype.matchType = function (state, tyVarBnd, t) {
+        if (!(this.func instanceof ValueIdentifier)) {
+            throw new errors_1.ElaborationError(this.position, 'Non-identifier applied to a pattern.');
+        }
+        var ti = state.getStaticValue(this.func.name.getText());
+        if (ti === undefined || ti[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+            throw new errors_1.ElaborationError(this.position, 'Expected a constructor, "'
+                + this.func.name.getText() + '" isn\'t.');
+        }
+        var tmp = this.func.getType(state, tyVarBnd, '\'g0');
+        tmp[3].forEach(function (val) {
+            var nname = '\'p' + val.substring(2);
+            if (val[1] === '\'') {
+                nname = '\'\'p' + val.substring(3);
+            }
+            tmp[4] = tmp[4].set(val, [new types_1.TypeVariable(nname), false]);
+        });
+        ti[0] = tmp[0];
+        tyVarBnd = tmp[4];
+        if (!(ti[0] instanceof types_1.FunctionType)) {
+            throw new errors_1.ElaborationError(this.position, 'This is truly more...slothful.');
+        }
+        try {
+            var ft = ti[0];
+            var mg = ft.returnType.merge(state, tyVarBnd, t);
+            var res = this.argument.matchType(state, mg[1], ft.parameterType.instantiate(state, mg[1]));
+            return [res[0], mg[0], res[2]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'Merge failed: ' + e[0]);
+        }
+    };
+    FunctionApplication.prototype.matches = function (state, v) {
+        if (v instanceof values_1.FunctionValue) {
+            throw new errors_1.EvaluationError(this.position, 'You simply cannot match function values.');
+        }
+        else if (v instanceof values_1.ConstructedValue) {
+            if (this.func instanceof ValueIdentifier
+                && this.func.name.getText()
+                    === v.constructorName
+                && this.func.name.getText() !== 'ref') {
+                if (v.argument !== undefined) {
+                    return this.argument.matches(state, v.argument);
+                }
+                return [];
+            }
+            return undefined;
+        }
+        else if (v instanceof values_1.ExceptionValue) {
+            if (this.func instanceof ValueIdentifier
+                && this.func.name.getText()
+                    === v.constructorName
+                && state.getValueIdentifierId(v.constructorName)
+                    === v.id + 1) {
+                if (v.argument !== undefined) {
+                    return this.argument.matches(state, v.argument);
+                }
+                return [];
+            }
+            return undefined;
+        }
+        else if (v instanceof values_1.PredefinedFunction) {
+            throw new errors_1.EvaluationError(this.position, 'You simply cannot match predefined functions.');
+        }
+        else if (v instanceof values_1.ReferenceValue) {
+            if (this.func instanceof ValueIdentifier
+                && this.func.name.getText() === 'ref') {
+                return this.argument.matches(state, state.getCell(v.address));
+            }
+            return undefined;
+        }
+        throw new errors_1.EvaluationError(this.position, 'Help me, I\'m broken. ('
+            + v.constructor.name + ').');
+    };
+    FunctionApplication.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        if (forceRebind && this.func instanceof ValueIdentifier) {
+            var t = state.getStaticValue(this.func.name.getText());
+            if (t === undefined || t[1] === state_1.IdentifierStatus.VALUE_VARIABLE) {
+                throw new errors_1.ElaborationError(this.position, '"' + this.func.name.getText() + '" is not a constructor.');
+            }
+        }
+        var f = this.func.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+        state.valueIdentifierId = f[5];
+        var nf4 = new Map();
+        f[4].forEach(function (val, key) {
+            nf4 = nf4.set(key, val);
+        });
+        var arg = this.argument.getType(state, nf4, f[2], f[3], forceRebind);
+        arg[4].forEach(function (val, key) {
+            f[4] = f[4].set(key, val);
+        });
+        f[0] = f[0].instantiate(state, f[4]);
+        if (f[0] instanceof types_1.TypeVariable) {
+            var tva = new types_1.TypeVariable(f[0].name + '*a');
+            var tvb = new types_1.TypeVariable(f[0].name + '*b');
+            tva.isFree = f[0].isFree;
+            tvb.isFree = f[0].isFree;
+            var ntype = new types_1.FunctionType(tva, tvb);
+            f[4] = f[4].set(f[0].name, [ntype, f[0].isFree]);
+            f[0] = ntype;
+        }
+        if (f[0] instanceof types_1.AnyType) {
+            f[0] = new types_1.FunctionType(new types_1.AnyType(), new types_1.AnyType());
+        }
+        if (f[0] instanceof types_1.FunctionType) {
+            try {
+                var tp = f[0].parameterType.merge(state, f[4], arg[0]);
+                var restp = f[0].returnType;
+                if (f[0].parameterType instanceof types_1.RecordType
+                    && (!f[0].parameterType.complete)) {
+                    restp = restp.replace(f[0].parameterType, tp[0]);
+                }
+                return [restp.instantiate(state, tp[1]), f[1].concat(arg[1]), arg[2],
+                    arg[3], tp[1], arg[5]];
+            }
+            catch (e) {
+                if (!(e instanceof Array)) {
+                    throw e;
+                }
+                throw new errors_1.ElaborationError(this.position, 'Type clash. Functions of type "' + f[0].normalize()[0]
+                    + '" cannot take an argument of type "' + arg[0].normalize()[0] + '": ' + e[0]);
+            }
+        }
+        else {
+            throw new errors_1.ElaborationError(this.func.position, '"' + this.func + '" of type "'
+                + f[0].normalize()[0] + '" is not a function.');
+        }
+    };
+    FunctionApplication.prototype.simplify = function () {
+        return new FunctionApplication(this.position, this.func.simplify(), this.argument.simplify());
+    };
+    FunctionApplication.prototype.toString = function () {
+        var res = '( ' + this.func;
+        res += ' ' + this.argument;
+        return res + ' )';
+    };
+    FunctionApplication.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        var modifiable = params.modifiable;
+        if (params.step === undefined) {
+            params.step = -1;
+        }
+        var step = params.step;
+        if (this.func instanceof ValueIdentifier) {
+            if (this.func.name.getText() === 'ref'
+                || this.func.name.getText() === ':='
+                || this.func.name.getText() === '!') {
+                if (step === -1) {
+                    params.step = step + 1;
+                    params.state = state;
+                    callStack.push({ 'next': this, 'params': params });
+                    callStack.push({
+                        'next': this.argument,
+                        'params': { 'state': state, 'modifiable': modifiable, 'recResult': undefined }
+                    });
+                    return;
+                }
+                var aVal = params.recResult;
+                if (aVal === undefined
+                    || aVal.value === undefined) {
+                    throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+                }
+                if (aVal.hasThrown) {
+                    return {
+                        'newState': undefined,
+                        'value': aVal.value,
+                        'hasThrown': true,
+                    };
+                }
+                var val = aVal.value;
+                if (this.func.name.getText() === 'ref') {
+                    var res = modifiable.setNewCell(val);
+                    return {
+                        'newState': undefined,
+                        'value': res,
+                        'hasThrown': false,
+                    };
+                }
+                else if (this.func.name.getText() === ':=') {
+                    if ((!(val instanceof values_1.RecordValue))
+                        || (!(val.getValue('1') instanceof values_1.ReferenceValue))) {
+                        throw new errors_1.EvaluationError(this.position, 'That\'s not how ":=" works.');
+                    }
+                    modifiable.setCell(val.getValue('1').address, val.getValue('2'));
+                    return {
+                        'newState': undefined,
+                        'value': new values_1.RecordValue(),
+                        'hasThrown': false,
+                    };
+                }
+                else if (this.func.name.getText() === '!') {
+                    if (!(val instanceof values_1.ReferenceValue)) {
+                        throw new errors_1.EvaluationError(this.position, 'You cannot dereference "' + this.argument + '".');
+                    }
+                    return {
+                        'newState': undefined,
+                        'value': modifiable.getCell(val.address),
+                        'hasThrown': false,
+                    };
+                }
+            }
+        }
+        if (step === -1) {
+            params.step = step + 1;
+            params.state = state;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.func,
+                'params': { 'state': state, 'modifiable': modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        if (step === 0) {
+            var funcVal = params.recResult;
+            if (funcVal === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            if (funcVal.hasThrown) {
+                // computing the function failed
+                return funcVal;
+            }
+            params.step = step + 1;
+            params.state = state;
+            params.funcVal = funcVal;
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.argument,
+                'params': { 'state': state, 'modifiable': modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        if (step === 1) {
+            var funcVal = params.funcVal;
+            var argVal = params.recResult;
+            if (funcVal === undefined
+                || funcVal.value === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            if (argVal === undefined
+                || argVal.value === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            if (argVal.hasThrown) {
+                return {
+                    'newState': undefined,
+                    'value': argVal.value,
+                    'hasThrown': true,
+                };
+            }
+            if (funcVal.value instanceof values_1.FunctionValue) {
+                funcVal.value.compute(callStack, argVal.value, modifiable);
+                return;
+            }
+            else if (funcVal.value instanceof values_1.ValueConstructor) {
+                return {
+                    'newState': undefined,
+                    'value': funcVal.value.construct(argVal.value),
+                    'hasThrown': false,
+                };
+            }
+            else if (funcVal.value instanceof values_1.ExceptionConstructor) {
+                return {
+                    'newState': undefined,
+                    'value': funcVal.value.construct(argVal.value),
+                    'hasThrown': false,
+                };
+            }
+            else if (funcVal.value instanceof values_1.PredefinedFunction) {
+                var res = funcVal.value.apply(argVal.value, params);
+                for (var _i = 0, _a = res[2]; _i < _a.length; _i++) {
+                    var warn = _a[_i];
+                    modifiable.addWarning(warn);
+                }
+                return {
+                    'newState': undefined,
+                    'value': res[0],
+                    'hasThrown': res[1],
+                };
+            }
+            throw new errors_1.EvaluationError(this.position, 'Cannot evaluate the function "'
+                + this.func + '" (' + funcVal[0].constructor.name + ').');
+        }
+        // brace so linter does not complain about shadowed names
+        {
+            var res = params.recResult;
+            if (res === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            return {
+                'newState': undefined,
+                'value': res.value,
+                'hasThrown': res.hasThrown,
+            };
+        }
+    };
+    return FunctionApplication;
+}(Expression));
+exports.FunctionApplication = FunctionApplication;
+var HandleException = (function (_super) {
+    __extends(HandleException, _super);
+    // expression handle match
+    function HandleException(position, expression, match) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        _this.match = match;
+        return _this;
+    }
+    HandleException.prototype.getExplicitTypeVariables = function () {
+        return this.expression.getExplicitTypeVariables();
+    };
+    HandleException.prototype.isSafe = function (state) {
+        return this.expression.isSafe(state);
+    };
+    HandleException.prototype.simplify = function () {
+        return new HandleException(this.position, this.expression.simplify(), this.match.simplify());
+    };
+    HandleException.prototype.toString = function () {
+        var res = '( ' + this.expression + ' )';
+        res += ' handle ' + this.match;
+        return res;
+    };
+    HandleException.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var mtp = this.match.getType(state, tyVarBnd, nextName, tyVars, forceRebind, false);
+        if (!(mtp[0] instanceof types_1.FunctionType)) {
+            throw new errors_1.ElaborationError(this.match.position, 'You can only handle things of type "exn" and not "'
+                + mtp[0].parameterType.normalize()[0] + '".');
+        }
+        try {
+            mtp[0].parameterType.merge(state, mtp[4], new types_1.CustomType('exn'));
+        }
+        catch (e) {
+            throw new errors_1.ElaborationError(this.match.position, 'You can only handle things of type "exn" and not "'
+                + mtp[0].parameterType.normalize()[0] + '".');
+        }
+        var rt = mtp[0].returnType;
+        state.valueIdentifierId = mtp[5];
+        var etp = this.expression.getType(state, mtp[4], mtp[2], mtp[3], forceRebind);
+        try {
+            var res = rt.merge(state, etp[4], etp[0]);
+            return [res[0], mtp[1].concat(etp[1]), etp[2], etp[3], res[1], etp[5]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.expression.position, 'The "handle" cannot change the type of the expression from "'
+                + etp[0].normalize()[0] + '" to "' + rt.normalize()[0] + '": ' + e[0]);
+        }
+    };
+    HandleException.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        if (params.recResult === undefined) {
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.expression,
+                'params': { 'state': state, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        var res = params.recResult;
+        if (res === undefined
+            || res.value === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        if (params.exprResult === undefined) {
+            if (res.hasThrown) {
+                params.exprResult = res;
+                callStack.push({ 'next': this, 'params': params });
+                callStack.push({
+                    'next': this.match,
+                    'params': {
+                        'state': state,
+                        'modifiable': params.modifiable,
+                        'recResult': undefined,
+                        'value': res.value
+                    }
+                });
+                return;
+            }
+            return res;
+        }
+        res = params.exprResult;
+        var next = params.recResult;
+        if (res === undefined
+            || res.value === undefined
+            || next === undefined
+            || next.value === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        if (!next.hasThrown || !next.value.equals(new values_1.ExceptionValue('Match', undefined, 0))) {
+            // Exception got handled
+            return {
+                'newState': undefined,
+                'value': next.value,
+                'hasThrown': next.hasThrown,
+            };
+        }
+        return {
+            'newState': undefined,
+            'value': res.value,
+            'hasThrown': res.hasThrown,
+        };
+    };
+    return HandleException;
+}(Expression));
+exports.HandleException = HandleException;
+var RaiseException = (function (_super) {
+    __extends(RaiseException, _super);
+    // raise expression
+    function RaiseException(position, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        return _this;
+    }
+    RaiseException.prototype.getExplicitTypeVariables = function () {
+        return this.expression.getExplicitTypeVariables();
+    };
+    RaiseException.prototype.simplify = function () {
+        return new RaiseException(this.position, this.expression.simplify());
+    };
+    RaiseException.prototype.isSafe = function (state) {
+        return this.expression.isSafe(state);
+    };
+    RaiseException.prototype.toString = function () {
+        return 'raise ' + this.expression;
+    };
+    RaiseException.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var res = this.expression.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+        try {
+            var mg = res[0].merge(state, tyVarBnd, new types_1.CustomType('exn'));
+            // TODO This is a really sloppy way to set a new "nextName"
+            return [new types_1.TypeVariable(res[2]), res[1], res[2] + '0', res[3], mg[1], res[5]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.expression.position, 'Raising anything but exceptions will only raise exceptions: ' + e[0]);
+        }
+    };
+    RaiseException.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        if (params.recResult === undefined) {
+            callStack.push({ 'next': this, 'params': params });
+            callStack.push({
+                'next': this.expression,
+                'params': { 'state': state, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        var res = params.recResult;
+        if (res === undefined
+            || res.value === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        if (!(res.value instanceof values_1.ExceptionValue)) {
+            throw new errors_1.EvaluationError(this.position, 'Cannot "raise" value of type "' + res.value.constructor.name
+                + '" (type must be "exn").');
+        }
+        return {
+            'newState': state,
+            'value': res.value,
+            'hasThrown': true,
+        };
+    };
+    return RaiseException;
+}(Expression));
+exports.RaiseException = RaiseException;
+var Lambda = (function (_super) {
+    __extends(Lambda, _super);
+    // fn match
+    function Lambda(position, match) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.match = match;
+        return _this;
+    }
+    Lambda.prototype.getExplicitTypeVariables = function () {
+        return this.match.getExplicitTypeVariables();
+    };
+    Lambda.prototype.simplify = function () {
+        return new Lambda(this.position, this.match.simplify());
+    };
+    Lambda.prototype.toString = function () {
+        return '( fn ' + this.match + ' )';
+    };
+    Lambda.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        return this.match.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+    };
+    Lambda.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        // We need to ensure that the function value receives a capture
+        // of the current state, and that that capture stays that way
+        // (Local declarations may change the past, so we must record that, too.
+        var nstate = state.getNestedState(state.id);
+        if (nstate.insideLocalDeclBody) {
+            nstate.dynamicBasis = state.getDynamicLocalDeclChanges(-1);
+            nstate.insideLocalDeclBody = false;
+        }
+        return {
+            'newState': undefined,
+            'value': new values_1.FunctionValue(nstate, [], this.match),
+            'hasThrown': false,
+        };
+    };
+    return Lambda;
+}(Expression));
+exports.Lambda = Lambda;
+// Matches
+var Match = (function () {
+    // pat => exp or pat => exp | match
+    function Match(position, matches) {
+        this.position = position;
+        this.matches = matches;
+    }
+    Match.prototype.getExplicitTypeVariables = function () {
+        var res = new Set();
+        for (var i = 0; i < this.matches.length; ++i) {
+            this.matches[i][0].getExplicitTypeVariables().forEach(function (val) {
+                res = res.add(val);
+            });
+            this.matches[i][1].getExplicitTypeVariables().forEach(function (val) {
+                res = res.add(val);
+            });
+        }
+        return res;
+    };
+    Match.prototype.toString = function () {
+        var res = '';
+        for (var i = 0; i < this.matches.length; ++i) {
+            if (i > 0) {
+                res += ' | ';
+            }
+            res += this.matches[i][0];
+            res += ' => ' + this.matches[i][1];
+        }
+        return res;
+    };
+    Match.prototype.compute = function (params, callStack) {
+        var state = params.state;
+        var value = params.value;
+        if (value === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        for (var i = 0; i < this.matches.length; ++i) {
+            var nstate = state.getNestedState(state.id);
+            var res = this.matches[i][0].matches(nstate, value);
+            if (res !== undefined) {
+                for (var j = 0; j < res.length; ++j) {
+                    nstate.setDynamicValue(res[j][0], res[j][1], state_1.IdentifierStatus.VALUE_VARIABLE);
+                }
+                callStack.push({
+                    'next': this.matches[i][1],
+                    'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+                });
+                return;
+            }
+        }
+        return {
+            'newState': undefined,
+            'value': new values_1.ExceptionValue('Match', undefined, 0),
+            'hasThrown': true,
+        };
+    };
+    Match.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind, checkEx) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        if (checkEx === void 0) { checkEx = true; }
+        var restp = new types_1.FunctionType(new types_1.AnyType(), new types_1.AnyType());
+        var warns = [];
+        var bnds = tyVarBnd;
+        var keep = new Map();
+        var _loop_1 = function (i) {
+            if (this_1.matches[i][0] instanceof ValueIdentifier) {
+                var tm = state.getStaticValue(this_1.matches[i][0].name.getText());
+                if (tm !== undefined && tm[1] !== state_1.IdentifierStatus.VALUE_VARIABLE
+                    && tm[0] instanceof types_1.FunctionType) {
+                    throw new errors_1.ElaborationError(this_1.matches[i][0].position, 'Unary constructor in the pattern needs an argument.');
+                }
+            }
+            var nmap = new Map();
+            bnds.forEach(function (val, key) {
+                nmap = nmap.set(key, val);
+            });
+            var r1 = this_1.matches[i][0].getType(state, bnds, nextName, tyVars, true);
+            state.valueIdentifierId = r1[5];
+            warns = warns.concat(r1[1]);
+            var r2 = this_1.matches[i][1].getType(state, r1[4], r1[2], r1[3], forceRebind);
+            warns = warns.concat(r2[1]);
+            state.valueIdentifierId = r2[5];
+            nextName = r2[2];
+            tyVars = r2[3];
+            var rtp = new types_1.FunctionType(r1[0], r2[0]);
+            try {
+                _a = restp.merge(state, r2[4], rtp), restp = _a[0], bnds = _a[1];
+                restp = restp.instantiate(state, bnds);
+            }
+            catch (e) {
+                if (!(e instanceof Array)) {
+                    throw e;
+                }
+                throw new errors_1.ElaborationError(this_1.position, 'Match rules disagree on type: ' + e[0]);
+            }
+            restp = restp.instantiate(state, bnds);
+            bnds.forEach(function (val, key) {
+                if (key[1] !== '*' || key[2] !== '*') {
+                    nmap = nmap.set(key, [val[0].instantiate(state, bnds), val[1]]);
+                }
+                else {
+                    keep = keep.set(key, val);
+                }
+            });
+            bnds = nmap;
+            var _a;
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.matches.length; ++i) {
+            _loop_1(i);
+        }
+        var nbnds = new Map();
+        bnds.forEach(function (val, key) {
+            nbnds = nbnds.set(key, val);
+        });
+        keep.forEach(function (val, key) {
+            nbnds = nbnds.set(key, val);
+        });
+        if (checkEx) {
+            try {
+                warns = warns.concat(restp.parameterType.checkExhaustiveness(state, nbnds, this.position, this.matches));
+            }
+            catch (e) {
+                warns.push(new errors_1.Warning(this.position, 'Couldn\'t check exhaustiveness: ' + e.message + '\n'));
+            }
+        }
+        return [restp, warns, nextName, tyVars, bnds, state.valueIdentifierId];
+    };
+    Match.prototype.simplify = function () {
+        var newMatches = [];
+        for (var i = 0; i < this.matches.length; ++i) {
+            var m = this.matches[i];
+            newMatches.push([m[0].simplify(), m[1].simplify()]);
+        }
+        return new Match(this.position, newMatches);
+    };
+    return Match;
+}());
+exports.Match = Match;
+// Pure Patterns
+var Wildcard = (function (_super) {
+    __extends(Wildcard, _super);
+    function Wildcard(position) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        return _this;
+    }
+    Wildcard.prototype.getMatchedValues = function (state, tyVarBnd) {
+        // Wildcards catch everything
+        return new types_1.Domain(undefined);
+    };
+    Wildcard.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var cur = (+nextName.substring(3)) + 1;
+        var nm = '';
+        for (;; ++cur) {
+            nextName = '\'' + nextName[1] + nextName[2] + cur;
+            if (!tyVars.has(nextName) && !tyVarBnd.has(nextName)
+                && state.getStaticValue(nextName) === undefined) {
+                nm = nextName;
+                return [new types_1.TypeVariable(nm), [], nm, tyVars.add(nm), tyVarBnd, state.valueIdentifierId];
+            }
+        }
+    };
+    Wildcard.prototype.compute = function (params, callStack) {
+        throw new errors_1.InternalInterpreterError(this.position, 'Wildcards are far too wild to have a value.');
+    };
+    Wildcard.prototype.matchType = function (state, tyVarBnd, t) {
+        return [[], t, tyVarBnd];
+    };
+    Wildcard.prototype.matches = function (state, v) {
+        return [];
+    };
+    Wildcard.prototype.simplify = function () {
+        return this;
+    };
+    Wildcard.prototype.toString = function () {
+        return '_';
+    };
+    return Wildcard;
+}(Expression));
+exports.Wildcard = Wildcard;
+var LayeredPattern = (function (_super) {
+    __extends(LayeredPattern, _super);
+    // <op> identifier <:type> as pattern
+    function LayeredPattern(position, identifier, typeAnnotation, pattern) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.identifier = identifier;
+        _this.typeAnnotation = typeAnnotation;
+        _this.pattern = pattern;
+        return _this;
+    }
+    LayeredPattern.prototype.getMatchedValues = function (state, tyVarBnd) {
+        return this.pattern.getMatchedValues(state, tyVarBnd);
+    };
+    LayeredPattern.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        if (!forceRebind) {
+            throw new errors_1.InternalInterpreterError(this.position, 'Layered patterns are far too layered to have a type.');
+        }
+        var valid = new ValueIdentifier(-1, this.identifier);
+        var gtp = valid.getType(state, tyVarBnd, nextName, tyVars, true);
+        var tp = gtp[0];
+        if (this.typeAnnotation !== undefined) {
+            try {
+                var mg = tp.merge(state, gtp[4], this.typeAnnotation);
+                tyVarBnd = mg[1];
+                tp = mg[0];
+            }
+            catch (e) {
+                if (!(e instanceof Array)) {
+                    throw e;
+                }
+                throw new errors_1.ElaborationError(this.position, 'Wrong type annotation: ' + e[0]);
+            }
+        }
+        var argtp = this.pattern.getType(state, tyVarBnd, gtp[2], gtp[3], true);
+        try {
+            var mg = tp.merge(state, argtp[4], argtp[0]);
+            tyVarBnd = mg[1];
+            tp = mg[0];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'Wrong type annotation: ' + e[0]);
+        }
+        return [tp, gtp[1].concat(argtp[1]), argtp[2], argtp[3], tyVarBnd, state.valueIdentifierId];
+    };
+    LayeredPattern.prototype.compute = function (params, callStack) {
+        throw new errors_1.InternalInterpreterError(this.position, 'Layered patterns are far too layered to have a value.');
+    };
+    LayeredPattern.prototype.matchType = function (state, tyVarBnd, t) {
+        var tp = t;
+        if (this.typeAnnotation !== undefined) {
+            try {
+                var mg = t.merge(state, tyVarBnd, this.typeAnnotation);
+                tyVarBnd = mg[1];
+                tp = mg[0];
+            }
+            catch (e) {
+                if (!(e instanceof Array)) {
+                    throw e;
+                }
+                throw new errors_1.ElaborationError(this.position, 'Wrong type annotation: ' + e[0]);
+            }
+        }
+        var res = this.pattern.matchType(state, tyVarBnd, tp);
+        var result = [[this.identifier.getText(), tp]];
+        return [result.concat(res[0]), t, res[2]];
+    };
+    LayeredPattern.prototype.matches = function (state, v) {
+        var res = this.pattern.matches(state, v);
+        if (res === undefined) {
+            return res;
+        }
+        var result = [[this.identifier.getText(), v]];
+        return result.concat(res);
+    };
+    LayeredPattern.prototype.simplify = function () {
+        if (this.typeAnnotation) {
+            return new LayeredPattern(this.position, this.identifier, this.typeAnnotation.simplify(), this.pattern.simplify());
+        }
+        else {
+            return new LayeredPattern(this.position, this.identifier, undefined, this.pattern.simplify());
+        }
+    };
+    LayeredPattern.prototype.toString = function () {
+        return this.identifier.getText() + ' as ' + this.pattern;
+    };
+    return LayeredPattern;
+}(Expression));
+exports.LayeredPattern = LayeredPattern;
+// Successor ML
+var ConjunctivePattern = (function (_super) {
+    __extends(ConjunctivePattern, _super);
+    // pat1 as pat2
+    function ConjunctivePattern(position, left, right) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.left = left;
+        _this.right = right;
+        return _this;
+    }
+    ConjunctivePattern.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var r1 = this.left.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+        var r2 = this.right.getType(state, r1[4], r1[2], r1[3], forceRebind);
+        try {
+            var res = r1[0].merge(state, r2[4], r2[0]);
+            return [res[0], r1[1].concat(r2[1]), r2[2], r2[3], res[1], r2[5]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'Both patterns of a conjunctive pattern must have the same type.');
+        }
+    };
+    ConjunctivePattern.prototype.getMatchedValues = function (state, tyVarBnd) {
+        // TODO
+        return new types_1.Domain([]);
+    };
+    ConjunctivePattern.prototype.simplify = function () {
+        return new ConjunctivePattern(this.position, this.left.simplify(), this.right.simplify());
+    };
+    ConjunctivePattern.prototype.matchType = function (state, tyVarBnd, t) {
+        // TODO
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    ConjunctivePattern.prototype.matches = function (state, v) {
+        var r1 = this.left.matches(state, v);
+        if (r1 === undefined) {
+            return undefined;
+        }
+        var nstate = state.getNestedState(state.id);
+        for (var _i = 0, r1_1 = r1; _i < r1_1.length; _i++) {
+            var i = r1_1[_i];
+            nstate.setDynamicValue(i[0], i[1], state_1.IdentifierStatus.VALUE_VARIABLE);
+        }
+        var r2 = this.right.matches(nstate, v);
+        if (r2 === undefined) {
+            return undefined;
+        }
+        return r1.concat(r2);
+    };
+    return ConjunctivePattern;
+}(Expression));
+exports.ConjunctivePattern = ConjunctivePattern;
+var DisjunctivePattern = (function (_super) {
+    __extends(DisjunctivePattern, _super);
+    // pat1 | pat2
+    function DisjunctivePattern(position, left, right) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.left = left;
+        _this.right = right;
+        return _this;
+    }
+    DisjunctivePattern.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        var r1 = this.left.getType(state, tyVarBnd, nextName, tyVars, forceRebind);
+        var r2 = this.right.getType(state, r1[4], r1[2], r1[3], forceRebind);
+        try {
+            var res = r1[0].merge(state, r2[4], r2[0]);
+            return [res[0], r1[1].concat(r2[1]), r2[2], r2[3], res[1], r2[5]];
+        }
+        catch (e) {
+            if (!(e instanceof Array)) {
+                throw e;
+            }
+            throw new errors_1.ElaborationError(this.position, 'Both patterns of a disjunctive pattern must have the same type.');
+        }
+    };
+    DisjunctivePattern.prototype.getMatchedValues = function (state, tyVarBnd) {
+        // TODO
+        return new types_1.Domain([]);
+    };
+    DisjunctivePattern.prototype.simplify = function () {
+        return new DisjunctivePattern(this.position, this.left.simplify(), this.right.simplify());
+    };
+    DisjunctivePattern.prototype.matchType = function (state, tyVarBnd, t) {
+        // TODO
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    DisjunctivePattern.prototype.matches = function (state, v) {
+        var r1 = this.left.matches(state, v);
+        if (r1 !== undefined) {
+            return r1;
+        }
+        return this.right.matches(state, v);
+    };
+    return DisjunctivePattern;
+}(Expression));
+exports.DisjunctivePattern = DisjunctivePattern;
+var NestedMatch = (function (_super) {
+    __extends(NestedMatch, _super);
+    // pat1 with pat2 = exp
+    function NestedMatch(position, pattern, nested, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.pattern = pattern;
+        _this.nested = nested;
+        _this.expression = expression;
+        return _this;
+    }
+    NestedMatch.prototype.getType = function (state, tyVarBnd, nextName, tyVars, forceRebind) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        if (tyVars === void 0) { tyVars = new Set(); }
+        if (forceRebind === void 0) { forceRebind = false; }
+        // TODO
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    NestedMatch.prototype.getMatchedValues = function (state, tyVarBnd) {
+        // TODO
+        return new types_1.Domain([]);
+    };
+    NestedMatch.prototype.simplify = function () {
+        return new NestedMatch(this.position, this.pattern.simplify(), this.nested.simplify(), this.expression.simplify());
+    };
+    NestedMatch.prototype.matchType = function (state, tyVarBnd, t) {
+        // TODO
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    NestedMatch.prototype.matches = function (state, v) {
+        var r1 = this.pattern.matches(state, v);
+        if (r1 === undefined) {
+            return undefined;
+        }
+        // TODO
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    return NestedMatch;
+}(Expression));
+exports.NestedMatch = NestedMatch;
+// The following classes are derived forms.
+// They will not be present in the simplified AST and do not implement elaborate/getType
+var InfixExpression = (function (_super) {
+    __extends(InfixExpression, _super);
+    // operators: (op, idx), to simplify simplify
+    function InfixExpression(expressions, operators) {
+        var _this = _super.call(this) || this;
+        _this.expressions = expressions;
+        _this.operators = operators;
+        return _this;
+    }
+    InfixExpression.prototype.getMatchedValues = function (state, tyVarBnd) {
+        throw new errors_1.InternalInterpreterError(this.position, 'This call is trash.');
+    };
+    InfixExpression.prototype.matchType = function (state, tyVarBnd, t) {
+        return this.reParse(state).matchType(state, tyVarBnd, t);
+    };
+    InfixExpression.prototype.matches = function (state, v) {
+        return this.reParse(state).matches(state, v);
+    };
+    InfixExpression.prototype.simplify = function () {
+        throw new errors_1.InternalInterpreterError(this.position, 'Ouch, I\'m not fully parsed.');
+    };
+    InfixExpression.prototype.reParse = function (state) {
+        var ops = this.operators;
+        var exps = this.expressions;
+        var poses = [];
+        for (var i = 0; i < exps.length; ++i) {
+            poses.push([i]);
+        }
+        ops.sort(function (_a, _b) {
+            var a = _a[0], p1 = _a[1];
+            var b = _b[0], p2 = _b[1];
+            var sta = state.getInfixStatus(a);
+            var stb = state.getInfixStatus(b);
+            if (sta.precedence > stb.precedence) {
+                return -1;
+            }
+            if (sta.precedence < stb.precedence) {
+                return 1;
+            }
+            if (sta.rightAssociative) {
+                if (p1 > p2) {
+                    return -1;
+                }
+                if (p1 < p2) {
+                    return 1;
+                }
+            }
+            else {
+                if (p1 > p2) {
+                    return 1;
+                }
+                if (p1 < p2) {
+                    return -1;
+                }
+            }
+            return 0;
+        });
+        // Using copy by reference to make this work whithout shrinking the array
+        for (var i = 0; i < ops.length; ++i) {
+            if (i > 0) {
+                var info1 = state.getInfixStatus(ops[i][0]);
+                var info2 = state.getInfixStatus(ops[i - 1][0]);
+                if (info1.precedence === info2.precedence
+                    && info1.rightAssociative !== info2.rightAssociative
+                    && (poses[ops[i - 1][1] + 1] === poses[ops[i][1]]
+                        || poses[ops[i - 1][1]] === poses[ops[i][1] + 1])) {
+                    throw new errors_1.ParserError('Could you ever imagine left associatives '
+                        + 'and right associatives living together in peace?', ops[i][0].position);
+                }
+            }
+            var left = exps[ops[i][1]];
+            var right = exps[ops[i][1] + 1];
+            var com = new FunctionApplication(ops[i][0].position, new ValueIdentifier(ops[i][0].position, ops[i][0]), new Tuple(ops[i][0].position, [left, right]));
+            var npos = poses[ops[i][1]];
+            for (var _i = 0, _a = poses[ops[i][1] + 1]; _i < _a.length; _i++) {
+                var j = _a[_i];
+                npos.push(j);
+            }
+            for (var _b = 0, npos_1 = npos; _b < npos_1.length; _b++) {
+                var j = npos_1[_b];
+                poses[j] = npos;
+                exps[j] = com;
+            }
+        }
+        return exps[0];
+    };
+    return InfixExpression;
+}(Expression));
+exports.InfixExpression = InfixExpression;
+var falseConstant = new ValueIdentifier(0, new tokens_1.IdentifierToken('false', 0));
+var trueConstant = new ValueIdentifier(0, new tokens_1.IdentifierToken('true', 0));
+var nilConstant = new ValueIdentifier(0, new tokens_1.IdentifierToken('nil', 0));
+var consConstant = new ValueIdentifier(0, new tokens_1.IdentifierToken('::', 0));
+var Conjunction = (function (_super) {
+    __extends(Conjunction, _super);
+    // leftOperand andalso rightOperand
+    function Conjunction(position, leftOperand, rightOperand) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.leftOperand = leftOperand;
+        _this.rightOperand = rightOperand;
+        return _this;
+    }
+    Conjunction.prototype.simplify = function () {
+        return new Conditional(this.position, this.leftOperand, this.rightOperand, falseConstant).simplify();
+    };
+    Conjunction.prototype.toString = function () {
+        return '( ' + this.leftOperand + ' andalso '
+            + this.rightOperand + ' )';
+    };
+    return Conjunction;
+}(Expression));
+exports.Conjunction = Conjunction;
+var Disjunction = (function (_super) {
+    __extends(Disjunction, _super);
+    // leftOperand orelse rightOperand
+    function Disjunction(position, leftOperand, rightOperand) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.leftOperand = leftOperand;
+        _this.rightOperand = rightOperand;
+        return _this;
+    }
+    Disjunction.prototype.simplify = function () {
+        return new Conditional(this.position, this.leftOperand, trueConstant, this.rightOperand).simplify();
+    };
+    Disjunction.prototype.toString = function () {
+        return '( ' + this.leftOperand + ' orelse '
+            + this.rightOperand + ' )';
+    };
+    return Disjunction;
+}(Expression));
+exports.Disjunction = Disjunction;
+var Tuple = (function (_super) {
+    __extends(Tuple, _super);
+    // (exp1, ..., expn), n > 1
+    function Tuple(position, expressions) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expressions = expressions;
+        return _this;
+    }
+    Tuple.prototype.getMatchedValues = function (state, tyVarBnd) {
+        throw new errors_1.InternalInterpreterError(this.position, 'What a wonderful explosion. I\'m going to faint now, though…');
+    };
+    Tuple.prototype.matchType = function (state, tyVarBnd, t) {
+        return this.simplify().matchType(state, tyVarBnd, t);
+    };
+    Tuple.prototype.matches = function (state, v) {
+        return this.simplify().matches(state, v);
+    };
+    Tuple.prototype.simplify = function () {
+        var entries = [];
+        for (var i = 0; i < this.expressions.length; ++i) {
+            entries.push(['' + (i + 1), this.expressions[i].simplify()]);
+        }
+        return new Record(this.position, true, entries);
+    };
+    Tuple.prototype.toString = function () {
+        var res = '( ';
+        for (var i = 0; i < this.expressions.length; ++i) {
+            if (i > 0) {
+                res += ', ';
+            }
+            res += this.expressions[i];
+        }
+        return res + ' )';
+    };
+    return Tuple;
+}(Expression));
+exports.Tuple = Tuple;
+var List = (function (_super) {
+    __extends(List, _super);
+    // [exp1, ..., expn]
+    function List(position, expressions) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expressions = expressions;
+        return _this;
+    }
+    List.prototype.getMatchedValues = function (state, tyVarBnd) {
+        throw new errors_1.InternalInterpreterError(this.position, 'You did nothing wrong.');
+    };
+    List.prototype.matchType = function (state, tyVarBnd, t) {
+        return this.simplify().matchType(state, tyVarBnd, t);
+    };
+    List.prototype.matches = function (state, v) {
+        return this.simplify().matches(state, v);
+    };
+    List.prototype.simplify = function () {
+        var res = nilConstant;
+        for (var i = this.expressions.length - 1; i >= 0; --i) {
+            var pair = new Tuple(-1, [this.expressions[i], res]).simplify();
+            res = new FunctionApplication(-1, consConstant, pair);
+        }
+        return res;
+    };
+    List.prototype.toString = function () {
+        var res = '[ ';
+        for (var i = 0; i < this.expressions.length; ++i) {
+            if (i > 0) {
+                res += ', ';
+            }
+            res += this.expressions[i];
+        }
+        return res + ' ]';
+    };
+    return List;
+}(Expression));
+exports.List = List;
+var Sequence = (function (_super) {
+    __extends(Sequence, _super);
+    // (exp1; ...; expn), n >= 2
+    function Sequence(position, expressions) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expressions = expressions;
+        return _this;
+    }
+    Sequence.prototype.simplify = function () {
+        var pos = this.expressions.length - 1;
+        var match = new Match(-1, [[new Wildcard(0), this.expressions[pos]]]);
+        var res = new CaseAnalysis(-1, this.expressions[pos - 1], match);
+        for (var i = pos - 2; i >= 0; --i) {
+            match = new Match(-1, [[new Wildcard(0), res]]);
+            res = new CaseAnalysis(-1, this.expressions[i], match);
+        }
+        return res.simplify();
+    };
+    Sequence.prototype.toString = function () {
+        var res = '( ';
+        for (var i = 0; i < this.expressions.length; ++i) {
+            if (i > 0) {
+                res += '; ';
+            }
+            res += this.expressions[i];
+        }
+        return res + ' )';
+    };
+    return Sequence;
+}(Expression));
+exports.Sequence = Sequence;
+var RecordSelector = (function (_super) {
+    __extends(RecordSelector, _super);
+    // #label record
+    function RecordSelector(position, label) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.label = label;
+        return _this;
+    }
+    RecordSelector.prototype.simplify = function () {
+        return new Lambda(this.position, new Match(-1, [[
+                new Record(-1, false, [[this.label.text, new ValueIdentifier(-1, new tokens_1.IdentifierToken('__rs', -1))]]),
+                new ValueIdentifier(-1, new tokens_1.IdentifierToken('__rs', -1))
+            ]]));
+    };
+    RecordSelector.prototype.toString = function () {
+        return '#' + this.label.getText();
+    };
+    return RecordSelector;
+}(Expression));
+exports.RecordSelector = RecordSelector;
+var CaseAnalysis = (function (_super) {
+    __extends(CaseAnalysis, _super);
+    // case expression of match
+    function CaseAnalysis(position, expression, match) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        _this.match = match;
+        return _this;
+    }
+    CaseAnalysis.prototype.simplify = function () {
+        return new FunctionApplication(this.position, new Lambda(this.position, this.match.simplify()), this.expression.simplify());
+    };
+    CaseAnalysis.prototype.toString = function () {
+        return 'case ' + this.expression + ' of ' + this.match;
+    };
+    return CaseAnalysis;
+}(Expression));
+exports.CaseAnalysis = CaseAnalysis;
+var Conditional = (function (_super) {
+    __extends(Conditional, _super);
+    // if condition then consequence else alternative
+    function Conditional(position, condition, consequence, alternative) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.condition = condition;
+        _this.consequence = consequence;
+        _this.alternative = alternative;
+        return _this;
+    }
+    Conditional.prototype.simplify = function () {
+        var match = new Match(this.position, [[trueConstant, this.consequence],
+            [falseConstant, this.alternative]]);
+        return new CaseAnalysis(this.position, this.condition, match).simplify();
+    };
+    Conditional.prototype.toString = function () {
+        return 'if ' + this.condition + ' then ' + this.consequence + ' else ' + this.alternative;
+    };
+    return Conditional;
+}(Expression));
+exports.Conditional = Conditional;
+var While = (function (_super) {
+    __extends(While, _super);
+    // while exp do exp
+    function While(position, condition, body) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.condition = condition;
+        _this.body = body;
+        return _this;
+    }
+    While.prototype.simplify = function () {
+        var nm = new ValueIdentifier(this.position, new tokens_1.IdentifierToken('__whl', this.position));
+        var fapp = new FunctionApplication(this.position, nm, new Tuple(this.position, []));
+        var cond = new Conditional(this.position, this.condition, new Sequence(this.position, [this.body, fapp]), new Tuple(this.position, []));
+        var valbnd = new declarations_1.ValueBinding(this.position, true, nm, new Lambda(this.position, new Match(this.position, [[new Tuple(this.position, []), cond]])));
+        var dec = new declarations_1.ValueDeclaration(this.position, [], [valbnd]);
+        return new LocalDeclarationExpression(this.position, dec, fapp).simplify();
+    };
+    While.prototype.toString = function () {
+        return '( while ' + this.condition + ' do ' + this.body + ' )';
+    };
+    return While;
+}(Expression));
+exports.While = While;
+// Successor ML
+var PatternGuard = (function (_super) {
+    __extends(PatternGuard, _super);
+    // pat if exp
+    function PatternGuard(position, pattern, condition) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.pattern = pattern;
+        _this.condition = condition;
+        return _this;
+    }
+    PatternGuard.prototype.getMatchedValues = function (state, tyVarBnd) {
+        return new types_1.Domain([]);
+    };
+    PatternGuard.prototype.simplify = function () {
+        return new NestedMatch(this.position, this.pattern.simplify(), trueConstant, this.condition.simplify());
+    };
+    PatternGuard.prototype.matchType = function (state, tyVarBnd, t) {
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    PatternGuard.prototype.matches = function (state, v) {
+        throw new errors_1.InternalInterpreterError(this.position, '「ニャ－、ニャ－」');
+    };
+    return PatternGuard;
+}(Expression));
+exports.PatternGuard = PatternGuard;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var state_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(4);
+var values_1 = __webpack_require__(3);
+var errors_1 = __webpack_require__(0);
+// Initial static basis (see SML Definition, appendix C through E)
+// let intType = new CustomType('int');
+var realType = new types_1.CustomType('real');
+// let wordType = new CustomType('word');
+var boolType = new types_1.CustomType('bool');
+var stringType = new types_1.CustomType('string');
+var charType = new types_1.CustomType('char');
+function functionType(type) {
+    return new types_1.FunctionType(new types_1.TupleType([type, type]), type).simplify();
+}
+function bfunctionType(type) {
+    return new types_1.FunctionType(new types_1.TupleType([type, type]), boolType).simplify();
+}
+var typeVar = new types_1.TypeVariable('\'a');
+var eqTypeVar = new types_1.TypeVariable('\'\'b');
+var intWordType = new types_1.TypeVariable('\'iw');
+var intRealType = new types_1.TypeVariable('\'ir');
+var intWordRealType = new types_1.TypeVariable('\'iwr');
+var anyType = new types_1.TypeVariable('\'any');
+function intWordBind(type) {
+    return new types_1.TypeVariableBind('\'iw', type, [new types_1.CustomType('int'), new types_1.CustomType('word')]).propagate();
+}
+function intRealBind(type) {
+    return new types_1.TypeVariableBind('\'ir', type, [new types_1.CustomType('int'), realType]).propagate();
+}
+function intWordRealBind(type) {
+    return new types_1.TypeVariableBind('\'iwr', type, [new types_1.CustomType('int'), new types_1.CustomType('word'),
+        realType]).propagate();
+}
+function anyBind(type) {
+    return new types_1.TypeVariableBind('\'any', type, [new types_1.CustomType('int'), new types_1.CustomType('word'),
+        realType, new types_1.CustomType('string'), new types_1.CustomType('char')]).propagate();
+}
+var initialState = new state_1.State(0, undefined, new state_1.StaticBasis({
+    'unit': new state_1.TypeInformation(new types_1.FunctionType(new types_1.CustomType('unit'), new types_1.TupleType([])).simplify(), [], 0, true),
+    'bool': new state_1.TypeInformation(new types_1.CustomType('bool'), ['true', 'false'], 0, true),
+    'int': new state_1.TypeInformation(new types_1.CustomType('int'), [], 0, true),
+    'word': new state_1.TypeInformation(new types_1.CustomType('word'), [], 0, true),
+    'real': new state_1.TypeInformation(realType, [], 0, false),
+    'string': new state_1.TypeInformation(new types_1.CustomType('string'), [], 0, true),
+    'char': new state_1.TypeInformation(new types_1.CustomType('char'), [], 0, true),
+    'list': new state_1.TypeInformation(new types_1.CustomType('list', [typeVar]), ['nil', '::'], 1, true),
+    'array': new state_1.TypeInformation(new types_1.CustomType('array', [typeVar]), [], 1, true),
+    'vector': new state_1.TypeInformation(new types_1.CustomType('vector', [typeVar]), [], 1, true),
+    'ref': new state_1.TypeInformation(new types_1.CustomType('ref', [typeVar]), ['ref'], 1, true),
+    'exn': new state_1.TypeInformation(new types_1.CustomType('exn'), [], 0, false)
+}, {
+    'div': [intWordBind(functionType(intWordType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'mod': [intWordBind(functionType(intWordType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '*': [intWordRealBind(functionType(intWordRealType)),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    '/': [functionType(realType), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '+': [intWordRealBind(functionType(intWordRealType)),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    '-': [intWordRealBind(functionType(intWordRealType)),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<': [anyBind(bfunctionType(anyType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<=': [anyBind(bfunctionType(anyType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '>': [anyBind(bfunctionType(anyType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '>=': [anyBind(bfunctionType(anyType)), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '=': [new types_1.TypeVariableBind('\'\'b', new types_1.FunctionType(new types_1.TupleType([eqTypeVar, eqTypeVar]), boolType)).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<>': [new types_1.TypeVariableBind('\'\'b', new types_1.FunctionType(new types_1.TupleType([eqTypeVar, eqTypeVar]), boolType)).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    'true': [new types_1.CustomType('bool'), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'false': [new types_1.CustomType('bool'), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'nil': [new types_1.TypeVariableBind('\'a', new types_1.CustomType('list', [typeVar])), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    '::': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(new types_1.TupleType([typeVar, new types_1.CustomType('list', [typeVar])]), new types_1.CustomType('list', [typeVar]))).simplify(),
+        state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'Match': [new types_1.CustomType('exn'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Bind': [new types_1.CustomType('exn'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Div': [new types_1.CustomType('exn'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Overflow': [new types_1.CustomType('exn'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    '^': [functionType(stringType), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'explode': [new types_1.FunctionType(stringType, new types_1.CustomType('list', [charType])).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    'implode': [new types_1.FunctionType(new types_1.CustomType('list', [charType]), stringType).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    '~': [intRealBind(new types_1.FunctionType(intRealType, intRealType)),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    'abs': [intRealBind(new types_1.FunctionType(intRealType, intRealType)),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    'print': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(typeVar, new types_1.TupleType([]))).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    'printLn': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(typeVar, new types_1.TupleType([]))).simplify(),
+        state_1.IdentifierStatus.VALUE_VARIABLE],
+    ':=': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(new types_1.TupleType([new types_1.CustomType('ref', [typeVar]), typeVar]), new types_1.TupleType([]))).simplify(), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'ref': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(typeVar, new types_1.CustomType('ref', [typeVar]))),
+        state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    '!': [new types_1.TypeVariableBind('\'a', new types_1.FunctionType(new types_1.CustomType('ref', [typeVar]), typeVar)),
+        state_1.IdentifierStatus.VALUE_VARIABLE]
+}, {}, {}, {}), new state_1.DynamicBasis({
+    'unit': [],
+    'bool': ['true', 'false'],
+    'int': [],
+    'word': [],
+    'real': [],
+    'string': [],
+    'char': [],
+    'list': ['nil', '::'],
+    'array': [],
+    'vector': [],
+    'ref': ['ref'],
+    'exn': [],
+}, {
+    'div': [new values_1.PredefinedFunction('div', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    if (val2.value === 0) {
+                        return [new values_1.ExceptionConstructor('Div').construct(), true, []];
+                    }
+                    return [val1.divide(val2), false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    if (val2.value === 0) {
+                        return [new values_1.ExceptionConstructor('Div').construct(), true, []];
+                    }
+                    return [val1.divide(val2), false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "div" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'mod': [new values_1.PredefinedFunction('mod', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    if (val2.value === 0) {
+                        return [new values_1.ExceptionConstructor('Div').construct(), true, []];
+                    }
+                    return [val1.modulo(val2), false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    if (val2.value === 0) {
+                        return [new values_1.ExceptionConstructor('Div').construct(), true, []];
+                    }
+                    return [val1.modulo(val2), false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "mod" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '*': [new values_1.PredefinedFunction('*', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    var result = val1.multiply(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    var result = val1.multiply(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    var result = val1.multiply(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "*" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '/': [new values_1.PredefinedFunction('/', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    if (val2.value === 0) {
+                        return [new values_1.ExceptionConstructor('Div').construct(), true, []];
+                    }
+                    return [val1.divide(val2), false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "/" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '+': [new values_1.PredefinedFunction('+', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    var result = val1.add(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    var result = val1.add(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    var result = val1.add(val2);
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "+" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '-': [new values_1.PredefinedFunction('-', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    var result = val1.add(val2.negate());
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    var result = val1.add(val2.negate());
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    var result = val1.add(val2.negate());
+                    if (result.hasOverflow()) {
+                        return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                    }
+                    return [result, false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "-" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<': [new values_1.PredefinedFunction('<', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) < 0), false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) < 0), false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) < 0), false, []];
+                }
+                else if (val1 instanceof values_1.StringValue && val2 instanceof values_1.StringValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) < 0),
+                        false, []];
+                }
+                else if (val1 instanceof values_1.CharValue && val2 instanceof values_1.CharValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) < 0),
+                        false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "<" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '>': [new values_1.PredefinedFunction('<', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) > 0), false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) > 0), false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) > 0), false, []];
+                }
+                else if (val1 instanceof values_1.StringValue && val2 instanceof values_1.StringValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) > 0),
+                        false, []];
+                }
+                else if (val1 instanceof values_1.CharValue && val2 instanceof values_1.CharValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) > 0),
+                        false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called ">" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<=': [new values_1.PredefinedFunction('<', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) <= 0),
+                        false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) <= 0), false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) <= 0), false, []];
+                }
+                else if (val1 instanceof values_1.StringValue && val2 instanceof values_1.StringValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) <= 0),
+                        false, []];
+                }
+                else if (val1 instanceof values_1.CharValue && val2 instanceof values_1.CharValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) <= 0),
+                        false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "<=" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '>=': [new values_1.PredefinedFunction('<', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.Integer && val2 instanceof values_1.Integer) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) >= 0), false, []];
+                }
+                else if (val1 instanceof values_1.Word && val2 instanceof values_1.Word) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) >= 0), false, []];
+                }
+                else if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) >= 0), false, []];
+                }
+                else if (val1 instanceof values_1.StringValue && val2 instanceof values_1.StringValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) >= 0),
+                        false, []];
+                }
+                else if (val1 instanceof values_1.CharValue && val2 instanceof values_1.CharValue) {
+                    return [new values_1.BoolValue(val1.compareTo(val2) >= 0), false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called ">=" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '=': [new values_1.PredefinedFunction('=', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                return [new values_1.BoolValue(val1.equals(val2)), false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "=" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '<>': [new values_1.PredefinedFunction('=', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                return [new values_1.BoolValue(!val1.equals(val2)), false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "<>" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    // ':='
+    // 'ref': new ValueIdentifier(new FunctionType(typeVar, new CustomType('ref', typeVar)),
+    'true': [new values_1.BoolValue(true), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'false': [new values_1.BoolValue(false), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'nil': [new values_1.ValueConstructor('nil'), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    '::': [new values_1.ValueConstructor('::', 1), state_1.IdentifierStatus.VALUE_CONSTRUCTOR],
+    'Match': [new values_1.ExceptionConstructor('Match'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Bind': [new values_1.ExceptionConstructor('Bind'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Div': [new values_1.ExceptionConstructor('Div'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    'Overflow': [new values_1.ExceptionConstructor('Overflow'), state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR],
+    '^': [new values_1.PredefinedFunction('^', function (val, params) {
+            if (val instanceof values_1.RecordValue) {
+                var val1 = val.getValue('1');
+                var val2 = val.getValue('2');
+                if (val1 instanceof values_1.StringValue && val2 instanceof values_1.StringValue) {
+                    return [val1.concat(val2), false, []];
+                }
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "^" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'explode': [new values_1.PredefinedFunction('explode', function (val, params) {
+            if (val instanceof values_1.StringValue) {
+                return [val.explode(), false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "explode" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'implode': [new values_1.PredefinedFunction('implode', function (val, params) {
+            if (val instanceof values_1.ConstructedValue) {
+                return [values_1.StringValue.implode(val), false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "implode" on value of the wrong type (' + val.constructor.name + ').');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    '~': [new values_1.PredefinedFunction('~', function (val, params) {
+            if (val instanceof values_1.Integer) {
+                var result = val.negate();
+                if (result.hasOverflow()) {
+                    return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                }
+                return [result, false, []];
+            }
+            else if (val instanceof values_1.Real) {
+                var result = val.negate();
+                if (result.hasOverflow()) {
+                    return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                }
+                return [result, false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "~" on something weird.');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'abs': [new values_1.PredefinedFunction('~', function (val, params) {
+            if (val instanceof values_1.Integer) {
+                if (val.value >= 0) {
+                    return [val, false, []];
+                }
+                var result = val.negate();
+                if (result.hasOverflow()) {
+                    return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                }
+                return [result, false, []];
+            }
+            else if (val instanceof values_1.Real) {
+                if (val.value >= 0) {
+                    return [val, false, []];
+                }
+                var result = val.negate();
+                if (result.hasOverflow()) {
+                    return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+                }
+                return [result, false, []];
+            }
+            throw new errors_1.InternalInterpreterError(-1, 'Called "~" on something weird.');
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'print': [new values_1.PredefinedFunction('print', function (val, params) {
+            var warns = [];
+            if (val instanceof values_1.StringValue) {
+                warns.push(new errors_1.Warning(-2, val.value));
+            }
+            else {
+                warns.push(new errors_1.Warning(-2, val.toString(undefined, 1e18)));
+            }
+            return [new values_1.RecordValue(), false, warns];
+        }), state_1.IdentifierStatus.VALUE_VARIABLE],
+    'printLn': [new values_1.PredefinedFunction('printLn', function (val, params) {
+            var warns = [];
+            if (val instanceof values_1.StringValue) {
+                warns.push(new errors_1.Warning(-2, val.value + '\n'));
+            }
+            else {
+                warns.push(new errors_1.Warning(-2, val.toString(undefined, 1e18) + '\n'));
+            }
+            return [new values_1.RecordValue(), false, warns];
+        }), state_1.IdentifierStatus.VALUE_VARIABLE]
+    // ref, :=, ! are implemented directly within evaluate.
+}, {}, {}, {}), [0, {}], [0, new Map()], {
+    'div': new state_1.InfixStatus(true, 7, false),
+    'mod': new state_1.InfixStatus(true, 7, false),
+    '*': new state_1.InfixStatus(true, 7, false),
+    '/': new state_1.InfixStatus(true, 7, false),
+    '+': new state_1.InfixStatus(true, 6, false),
+    '-': new state_1.InfixStatus(true, 6, false),
+    '<': new state_1.InfixStatus(true, 4, false),
+    '>': new state_1.InfixStatus(true, 4, false),
+    '<=': new state_1.InfixStatus(true, 4, false),
+    '>=': new state_1.InfixStatus(true, 4, false),
+    '::': new state_1.InfixStatus(true, 5, true),
+    '=': new state_1.InfixStatus(true, 4, false),
+    '<>': new state_1.InfixStatus(true, 4, false),
+    ':=': new state_1.InfixStatus(true, 3, false),
+    '^': new state_1.InfixStatus(true, 6, false),
+}, {
+    'Match': 1,
+    'Bind': 1,
+    'Div': 1,
+    'Overflow': 1,
+    'int': 1,
+    'real': 1,
+    'string': 1,
+    'char': 1,
+    'unit': 1,
+    'word': 1,
+    'list': 1,
+    'bool': 1
+});
+function getInitialState() {
+    return initialState.getNestedState();
+}
+exports.getInitialState = getInitialState;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+
+This file is the main entry point for the interpreter.
+It should only contain logic required to provide the API to the frontend (backend).
+All required modules should be included at the top, for example if the main interpreter class
+is located in the file interpreter.ts:
+
+import Interpreter = require("./interpreter");
+// Do stuff with Interpreter
+let instance = new Interpreter();
+let AST = instance.lexParse(..code..);
+...
+
+*/
+Object.defineProperty(exports, "__esModule", { value: true });
+var initialState_1 = __webpack_require__(7);
+var stdlib_1 = __webpack_require__(12);
+var errors_1 = __webpack_require__(0);
+var Lexer = __webpack_require__(10);
+var Parser = __webpack_require__(11);
+var Evaluator = __webpack_require__(9);
+function interpret(nextInstruction, oldState, options) {
+    if (oldState === void 0) { oldState = initialState_1.getInitialState(); }
+    if (options === void 0) { options = {
+        'allowUnicodeInStrings': false,
+        'allowSuccessorML': false,
+        'disableElaboration': false,
+        'strictMode': true
+    }; }
+    var state = oldState.getNestedState();
+    var tkn = Lexer.lex(nextInstruction, options);
+    var ast = Parser.parse(tkn, state, options);
+    state = oldState.getNestedState();
+    ast = ast.simplify();
+    if (options.disableElaboration === true) {
+        var tmp = Evaluator.evaluate(oldState.getNestedState(), ast /* , options */);
+        if (tmp === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        return {
+            'state': tmp.newState,
+            'evaluationErrored': tmp.hasThrown,
+            'error': tmp.value,
+            'warnings': tmp.newState.getWarnings()
+        };
+    }
+    var elab = ast.elaborate(state, new Map(), '\'*t0', true, options);
+    state = elab[0];
+    // Use a fresh state to be able to piece types and values together
+    var res = Evaluator.evaluate(oldState.getNestedState(), ast /* , options */);
+    if (res === undefined) {
+        throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+    }
+    for (var i = 0; i < elab[1].length; ++i) {
+        res.newState.addWarning(elab[1][i]);
+    }
+    if (res.hasThrown) {
+        return {
+            'state': res.newState,
+            'evaluationErrored': true,
+            'error': res.value,
+            'warnings': res.newState.getWarnings()
+        };
+    }
+    var curState = res.newState;
+    while (curState.id > oldState.id) {
+        if (curState.dynamicBasis !== undefined) {
+            curState.freeTypeVariables = state.getTypeVariableBinds(curState.id);
+            // For every new bound value, try to find its type
+            for (var i in curState.dynamicBasis.valueEnvironment) {
+                if (Object.prototype.hasOwnProperty.call(curState.dynamicBasis.valueEnvironment, i)) {
+                    var tp = state.getStaticValue(i, curState.id);
+                    if (tp !== undefined) {
+                        curState.setStaticValue(i, tp[0], tp[1]);
+                    }
+                }
+            }
+            // For every new bound type, try to find its type
+            for (var i in curState.dynamicBasis.typeEnvironment) {
+                if (Object.prototype.hasOwnProperty.call(curState.dynamicBasis.typeEnvironment, i)) {
+                    var tp = state.getStaticType(i, curState.id);
+                    if (tp !== undefined) {
+                        curState.setStaticType(i, tp.type, tp.constructors, tp.arity);
+                    }
+                }
+            }
+            // For every new bound structure, try to find its type
+            for (var i in curState.dynamicBasis.structureEnvironment) {
+                if (Object.prototype.hasOwnProperty.call(curState.dynamicBasis.structureEnvironment, i)) {
+                    var tp = state.getStaticStructure(i, curState.id);
+                    if (tp !== undefined) {
+                        curState.setStaticStructure(i, tp);
+                    }
+                }
+            }
+            // For every new bound signature, try to find its type
+            for (var i in curState.dynamicBasis.signatureEnvironment) {
+                if (Object.prototype.hasOwnProperty.call(curState.dynamicBasis.signatureEnvironment, i)) {
+                    var tp = state.getStaticSignature(i, curState.id);
+                    if (tp !== undefined) {
+                        curState.setStaticSignature(i, tp);
+                    }
+                }
+            }
+            // For every new bound functor, try to find its type
+            for (var i in curState.dynamicBasis.functorEnvironment) {
+                if (Object.prototype.hasOwnProperty.call(curState.dynamicBasis.functorEnvironment, i)) {
+                    var tp = state.getStaticFunctor(i, curState.id);
+                    if (tp !== undefined) {
+                        curState.setStaticFunctor(i, tp);
+                    }
+                }
+            }
+        }
+        if (state.parent === undefined) {
+            break;
+        }
+        curState = curState.parent;
+        while (state.id > curState.id && state.parent !== undefined) {
+            state = state.parent;
+        }
+    }
+    return {
+        'state': res.newState,
+        'evaluationErrored': false,
+        'error': res.value,
+        'warnings': res.newState.getWarnings()
+    };
+}
+exports.interpret = interpret;
+function getAvailableModules() {
+    var res = [];
+    for (var i in stdlib_1.STDLIB) {
+        if (Object.prototype.hasOwnProperty.call(stdlib_1.STDLIB, i)) {
+            if (i[0] !== '_') {
+                res.push(i);
+            }
+        }
+    }
+    return res;
+}
+exports.getAvailableModules = getAvailableModules;
+function getFirstState(loadModules, options) {
+    if (loadModules === void 0) { loadModules = getAvailableModules(); }
+    if (options === void 0) { options = {}; }
+    var res = stdlib_1.loadModule(initialState_1.getInitialState(), '__Base', options);
+    for (var _i = 0, loadModules_1 = loadModules; _i < loadModules_1.length; _i++) {
+        var i = loadModules_1[_i];
+        res = stdlib_1.loadModule(res, i, options);
+    }
+    return res;
+}
+exports.getFirstState = getFirstState;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var declarations_1 = __webpack_require__(5);
+var errors_1 = __webpack_require__(0);
+function evaluate(state, ast) {
+    var modifiable = state.getNestedState();
+    var callStack = [];
+    callStack.push({ 'next': ast, 'params': { 'state': state, 'modifiable': modifiable, 'recResult': undefined } });
+    var lastResult = undefined;
+    while (callStack.length > 0) {
+        var next = callStack.pop();
+        if (next === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        var target = next.next;
+        var params = next.params;
+        params.recResult = lastResult;
+        if (target instanceof declarations_1.Declaration) {
+            lastResult = target.evaluate(params, callStack);
+        }
+        else {
+            lastResult = target.compute(params, callStack);
+        }
+    }
+    if (lastResult !== undefined) {
+        var newState = lastResult.newState;
+        if (newState !== undefined) {
+            newState.setWarnings(modifiable.getWarnings());
+            for (var _i = 0, _a = modifiable.getMemoryChanges(state.id); _i < _a.length; _i++) {
+                var change = _a[_i];
+                newState.setCell(change[0], change[1]);
+            }
+            var idChanges = modifiable.getIdChanges(state.id);
+            for (var i in idChanges) {
+                if (idChanges.hasOwnProperty(i)) {
+                    newState.setValueIdentifierId(i, idChanges[i]);
+                }
+            }
+        }
+    }
+    return lastResult;
+}
+exports.evaluate = evaluate;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+ * TODO: Documentation for the lexer
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+var errors_1 = __webpack_require__(0);
+var tokens_1 = __webpack_require__(1);
+var values_1 = __webpack_require__(3);
+// TODO: maybe these should be static class members
+var reservedWords = new Set([
+    'abstype', 'and', 'andalso', 'as', 'case', 'datatype', 'do', 'else', 'end', 'exception', 'fn', 'fun', 'handle',
+    'if', 'in', 'infix', 'infixr', 'let', 'local', 'nonfix', 'of', 'op', 'open', 'orelse', 'raise', 'rec', 'then',
+    'type', 'val', 'with', 'withtype', 'while',
+    '(', ')', '[', ']', '{', '}', ',', ':', ';', '...', '_', '|', '=', '=>', '->', '#',
+    'eqtype', 'functor', 'signature', 'struct', 'include', 'sharing', 'structure', 'where', 'sig', ':>'
+]);
+var symbolicCharacters = new Set([
+    '!', '%', '&', '$', '#', '+', '-', '/', ':', '<', '=', '>', '?', '@', '\\', '~', '`', '^', '|', '*'
+]);
+var Lexer = (function () {
+    function Lexer(input, options) {
+        this.input = input;
+        this.options = options;
+        this.position = 0;
+        this.skipWhitespaceAndComments();
+    }
+    // TODO proper support for >= 256 chars
+    Lexer.isAlphanumeric = function (c) {
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c === '\'' || c === '_';
+    };
+    Lexer.isSymbolic = function (c) {
+        return symbolicCharacters.has(c);
+    };
+    Lexer.isWhitespace = function (c) {
+        return c === ' ' || c === '\t' || c === '\n' || c === '\f';
+    };
+    Lexer.isNumber = function (c, hexadecimal) {
+        return (c >= '0' && c <= '9') || (hexadecimal && ((c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')));
+    };
+    Lexer.prototype.consumeChar = function (errorMessageOnEOF, errornumberOnEOF) {
+        if (errorMessageOnEOF === void 0) { errorMessageOnEOF = ''; }
+        if (errornumberOnEOF === void 0) { errornumberOnEOF = this.input.length - 1; }
+        if (this.position >= this.input.length) {
+            if (errorMessageOnEOF === '') {
+                throw new errors_1.IncompleteError(errornumberOnEOF);
+            }
+            else {
+                throw new errors_1.IncompleteError(errornumberOnEOF, errorMessageOnEOF);
+            }
+        }
+        ++this.position;
+        return this.input.charAt(this.position - 1);
+    };
+    Lexer.prototype.getChar = function (offset) {
+        if (offset === void 0) { offset = 0; }
+        if (this.position + offset >= this.input.length) {
+            // This must be any character that has no syntactic meaning in SML. It may not be counted as whitespace.
+            return '\x04'; // End of Transmission character
+        }
+        else {
+            return this.input.charAt(this.position + offset);
+        }
+    };
+    Lexer.prototype.skipWhitespace = function () {
+        while (Lexer.isWhitespace(this.getChar())) {
+            ++this.position;
+        }
+    };
+    Lexer.prototype.skipWhitespaceAndComments = function () {
+        var oldnumber;
+        do {
+            oldnumber = this.position;
+            this.skipWhitespace();
+            while (this.position + 1 < this.input.length && this.input.substr(this.position, 2) === '(*') {
+                var commentStart = this.position;
+                this.position += 2;
+                var openComments = 1;
+                while (openComments > 0) {
+                    if (this.position > this.input.length - 2) {
+                        throw new errors_1.IncompleteError(commentStart, 'unclosed comment');
+                    }
+                    var s = this.input.substr(this.position, 2);
+                    if (s === '(*') {
+                        ++openComments;
+                        ++this.position;
+                    }
+                    else if (s === '*)') {
+                        --openComments;
+                        ++this.position;
+                    }
+                    ++this.position;
+                }
+            }
+        } while (this.position !== oldnumber);
+        this.tokenStart = this.position;
+    };
+    /* Reads a sequence of digits. Sign, exponent etc. are handled by lexNumber. Accepts leading zeros.
+     */
+    Lexer.prototype.readNumeric = function (hexadecimal, maxLength) {
+        if (maxLength === void 0) { maxLength = -1; }
+        var result = '';
+        while (Lexer.isNumber(this.getChar(), hexadecimal) && result.length !== maxLength) {
+            result += this.consumeChar();
+        }
+        return result;
+    };
+    Lexer.prototype.makeNumberToken = function (value, real, word, hexadecimal) {
+        if (real === void 0) { real = false; }
+        if (word === void 0) { word = false; }
+        if (hexadecimal === void 0) { hexadecimal = false; }
+        if (real && word) {
+            throw new errors_1.InternalInterpreterError(this.position);
+        }
+        var token = this.input.substring(this.tokenStart, this.position);
+        if (real) {
+            return new tokens_1.RealConstantToken(token, this.tokenStart, parseFloat(value));
+        }
+        var v = parseInt(value, hexadecimal ? 16 : 10);
+        if (v > values_1.MAXINT) {
+            throw new errors_1.LexerError(this.position, '"' + v + '", whoa, it\'s over "' + values_1.MAXINT + '".');
+        }
+        else if (v < values_1.MININT) {
+            throw new errors_1.LexerError(this.position, '"' + v
+                + '", whoa, it\'s ounder "' + values_1.MININT + '".');
+        }
+        if (word) {
+            return new tokens_1.WordConstantToken(token, this.tokenStart, v);
+        }
+        else {
+            var firstChar = token.charAt(0);
+            if (Lexer.isNumber(firstChar, false) && firstChar !== '0') {
+                // firstChar !== 0 also implies that the number is not hexadecimal
+                return new tokens_1.NumericToken(token, this.tokenStart, v);
+            }
+            else {
+                return new tokens_1.IntegerConstantToken(token, this.tokenStart, v);
+            }
+        }
+    };
+    Lexer.prototype.lexNumber = function () {
+        var value = '';
+        var hexadecimal = false;
+        var word = false;
+        var real = false;
+        var negative = false;
+        if (this.getChar() === '~') {
+            ++this.position;
+            negative = true;
+            value += '-';
+        }
+        if (this.getChar() === '0' && (this.getChar(1) === 'w' || this.getChar(1) === 'x')) {
+            ++this.position;
+            if (this.getChar() === 'w') {
+                word = true;
+            }
+            if (this.getChar(word ? 1 : 0) === 'x') {
+                hexadecimal = true;
+            }
+            var nextDigitOffset = (word && hexadecimal) ? 2 : 1;
+            if ((negative && word) || !Lexer.isNumber(this.getChar(nextDigitOffset), hexadecimal)) {
+                // The 'w' or 'x' is not part of the number
+                value += '0';
+                return this.makeNumberToken(value, false, false, false);
+            }
+            this.position += nextDigitOffset;
+        }
+        value += this.readNumeric(hexadecimal);
+        if (hexadecimal || word) {
+            return this.makeNumberToken(value, false, word, hexadecimal);
+        }
+        if (this.getChar() === '.') {
+            if (Lexer.isNumber(this.getChar(1), false)) {
+                value += this.consumeChar();
+                value += this.readNumeric(false);
+            }
+            else {
+                return this.makeNumberToken(value);
+            }
+            real = true;
+        }
+        if (this.getChar() === 'e' || this.getChar() === 'E') {
+            if (Lexer.isNumber(this.getChar(1), false)) {
+                value += 'e';
+                ++this.position;
+                value += this.readNumeric(false);
+            }
+            else if (this.getChar(1) === '~' && Lexer.isNumber(this.getChar(2), false)) {
+                value += 'e-';
+                this.position += 2;
+                value += this.readNumeric(false);
+            }
+            else {
+                return this.makeNumberToken(value, real);
+            }
+            real = true;
+        }
+        return this.makeNumberToken(value, real);
+    };
+    Lexer.prototype.lexString = function () {
+        var startnumber = this.position;
+        if (this.consumeChar() !== '"') {
+            throw new errors_1.InternalInterpreterError(this.position);
+        }
+        var value = '';
+        while (this.getChar() !== '"') {
+            if (this.getChar() === '\\') {
+                ++this.position;
+                if (Lexer.isWhitespace(this.getChar())) {
+                    this.skipWhitespace();
+                    if (this.consumeChar('unterminated whitespace escape sequence') !== '\\') {
+                        throw new errors_1.LexerError(this.position - 1, 'Found non-whitespace character in whitespace escape sequence.');
+                    }
+                }
+                else {
+                    var c = this.consumeChar();
+                    switch (c) {
+                        case 'a':
+                            value += '\x07';
+                            break;
+                        case 'b':
+                            value += '\b';
+                            break;
+                        case 't':
+                            value += '\t';
+                            break;
+                        case 'n':
+                            value += '\n';
+                            break;
+                        case 'v':
+                            value += '\v';
+                            break;
+                        case 'f':
+                            value += '\f';
+                            break;
+                        case 'r':
+                            value += '\r';
+                            break;
+                        case '"':
+                            value += '"';
+                            break;
+                        case '\\':
+                            value += '\\';
+                            break;
+                        case '^': {
+                            var cc = this.consumeChar().charCodeAt(0);
+                            if (cc < 64 || cc > 95) {
+                                throw new errors_1.LexerError(this.position - 1, '"' + String.fromCharCode(cc) +
+                                    '" does not represent a valid control character.');
+                            }
+                            value += String.fromCharCode(cc - 64);
+                            break;
+                        }
+                        case 'u': {
+                            var s = this.readNumeric(true, 4);
+                            if (s.length !== 4) {
+                                throw new errors_1.LexerError(this.position - s.length - 1, 'A Unicode escape sequence must consist of four digits.');
+                            }
+                            var v = parseInt(s, 16);
+                            if (v >= 256 && !this.options.allowUnicodeInStrings) {
+                                throw new errors_1.LexerError(this.position - s.length - 1, 'The character code "' + s + '" is too large,'
+                                    + ' only values between 00 and ff are allowed.');
+                            }
+                            value += String.fromCharCode(v);
+                            break;
+                        }
+                        default: {
+                            if (!Lexer.isNumber(c, false)) {
+                                throw new errors_1.LexerError(this.position - 1, 'Invalid escape sequence.');
+                            }
+                            --this.position; // 'un-consume' the first character of the number
+                            var s = this.readNumeric(false, 3);
+                            if (s.length !== 3) {
+                                throw new errors_1.LexerError(this.position - s.length - 1, 'A numeric escape sequence must consist of three digits.');
+                            }
+                            var v = parseInt(s, 10);
+                            if (v >= 256 && !this.options.allowUnicodeInStrings) {
+                                throw new errors_1.LexerError(this.position - s.length - 1, 'The character code "' + s + '" is too large,'
+                                    + ' only values between 000 and 255 are allowed.');
+                            }
+                            value += String.fromCharCode(v);
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                var c = this.consumeChar('unterminated string', this.tokenStart).charCodeAt(0);
+                // Only printable characters (33 to 126) and spaces are allowed (SML definition, chapter 2.2)
+                // We however also allow all non-ASCII characters (>128), since MosML and SML/NJ seem to do so as well.
+                if ((c < 33 || c > 126) && c !== 32 /*space*/ && c < 128) {
+                    // invalid characters are not printable, so we should print its code
+                    // rather than the character
+                    var info = '';
+                    if (c === 9) {
+                        info = ' (tab)';
+                    }
+                    if (c === 10) {
+                        info = ' (newline)';
+                    }
+                    if (c === 13) {
+                        info = ' (carriage return)';
+                    }
+                    throw new errors_1.LexerError(this.position - 1, 'A string may not contain the character <' + c + '>' + info + '.');
+                }
+                value += String.fromCharCode(c);
+            }
+        }
+        if (this.consumeChar() !== '"') {
+            throw new errors_1.InternalInterpreterError(this.position);
+        }
+        return new tokens_1.StringConstantToken(this.input.substring(startnumber, this.position), this.tokenStart, value);
+    };
+    Lexer.prototype.lexCharacter = function () {
+        if (this.consumeChar() !== '#') {
+            throw new errors_1.InternalInterpreterError(this.position);
+        }
+        var t = this.lexString();
+        if (t.value.length !== 1) {
+            throw new errors_1.LexerError(this.tokenStart, 'A character constant must have length 1, not ' + t.value.length + '.');
+        }
+        return new tokens_1.CharacterConstantToken('#' + t.text, this.tokenStart, t.value);
+    };
+    Lexer.prototype.lexIdentifierOrKeyword = function () {
+        // Both identifiers and keywords can be either symbolic (consisting only of the characters
+        // ! % & $ # + - / : < = > ? @ \ ~ ‘ ^ | *
+        // or alphanumeric (consisting only of letters, digits, ' or _).
+        // We first need to figure out which of these types the token belongs to, then find the longest possible token
+        // of that type at this position and lastly check whether it is a reserved word.
+        var token = '';
+        var charChecker;
+        var firstChar = this.getChar();
+        if (Lexer.isSymbolic(firstChar)) {
+            charChecker = Lexer.isSymbolic;
+        }
+        else if (Lexer.isAlphanumeric(firstChar) && !Lexer.isNumber(firstChar, false) && firstChar !== '_') {
+            // alphanumeric identifiers may not start with a number
+            charChecker = Lexer.isAlphanumeric;
+        }
+        else if (reservedWords.has(firstChar)) {
+            return new tokens_1.KeywordToken(this.consumeChar(), this.tokenStart);
+        }
+        else if (firstChar === '.' && this.getChar(1) === '.' && this.getChar(2) === '.') {
+            this.position += 3;
+            return new tokens_1.KeywordToken('...', this.tokenStart);
+        }
+        else {
+            if (firstChar.charCodeAt(0) < 32) {
+                throw new errors_1.LexerError(this.position, 'Invalid character <' + firstChar.charCodeAt(0) + '>.');
+            }
+            else {
+                throw new errors_1.LexerError(this.position, 'Invalid token "' + firstChar + '".');
+            }
+        }
+        do {
+            token += this.consumeChar();
+        } while (charChecker(this.getChar()));
+        if (token === '*') {
+            return new tokens_1.StarToken(this.tokenStart);
+        }
+        else if (token === '=') {
+            return new tokens_1.EqualsToken(this.tokenStart);
+        }
+        else if (reservedWords.has(token)) {
+            return new tokens_1.KeywordToken(token, this.tokenStart);
+        }
+        else if (firstChar === '\'') {
+            if (token.charAt(1) === '\'') {
+                return new tokens_1.EqualityTypeVariableToken(token, this.tokenStart);
+            }
+            else {
+                return new tokens_1.TypeVariableToken(token, this.tokenStart);
+            }
+        }
+        else if (Lexer.isAlphanumeric(firstChar)) {
+            return new tokens_1.AlphanumericIdentifierToken(token, this.tokenStart);
+        }
+        else {
+            return new tokens_1.IdentifierToken(token, this.tokenStart);
+        }
+    };
+    Lexer.prototype.lexLongIdentifierOrKeyword = function () {
+        var tokenStart = this.tokenStart;
+        var t = this.lexIdentifierOrKeyword();
+        if (this.getChar() !== '.') {
+            return t;
+        }
+        var qualifiers = [];
+        do {
+            this.consumeChar();
+            if (!(t instanceof tokens_1.AlphanumericIdentifierToken)) {
+                throw new errors_1.LexerError(t.position, 'Expected structure name before ".".');
+            }
+            qualifiers.push(t);
+            this.tokenStart = this.position;
+            t = this.lexIdentifierOrKeyword();
+        } while (this.getChar() === '.');
+        // Only value identifiers, type constructors and structure identifiers are allowed here.
+        // EqualsToken is not allowed because it cannot be re-bound.
+        if ((!(t instanceof tokens_1.IdentifierToken || t instanceof tokens_1.StarToken)) || t instanceof tokens_1.TypeVariableToken) {
+            throw new errors_1.LexerError(t.position, '"' + t.text + '" is not allowed in a long identifier.');
+        }
+        return new tokens_1.LongIdentifierToken(this.input.substring(tokenStart, this.position), tokenStart, qualifiers, t);
+    };
+    Lexer.prototype.nextToken = function () {
+        var token;
+        this.tokenStart = this.position;
+        if (Lexer.isNumber(this.getChar(), false)
+            || (this.getChar() === '~' && Lexer.isNumber(this.getChar(1), false))) {
+            token = this.lexNumber();
+        }
+        else if (this.getChar() === '"') {
+            token = this.lexString();
+        }
+        else if (this.getChar() === '#' && this.getChar(1) === '"') {
+            token = this.lexCharacter();
+        }
+        else {
+            token = this.lexLongIdentifierOrKeyword();
+        }
+        this.skipWhitespaceAndComments();
+        return token;
+    };
+    Lexer.prototype.finished = function () {
+        return this.position >= this.input.length;
+    };
+    return Lexer;
+}());
+function lex(s, options) {
+    var l = new Lexer(s, options);
+    var result = [];
+    while (!l.finished()) {
+        result.push(l.nextToken());
+    }
+    return result;
+}
+exports.lex = lex;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var expressions_1 = __webpack_require__(6);
+var types_1 = __webpack_require__(4);
+var errors_1 = __webpack_require__(0);
+var tokens_1 = __webpack_require__(1);
+var declarations_1 = __webpack_require__(5);
+var modules_1 = __webpack_require__(13);
+var Parser = (function () {
+    function Parser(tokens, state, currentId, options) {
+        this.tokens = tokens;
+        this.state = state;
+        this.currentId = currentId;
+        this.options = options;
+        this.position = 0; // position of the next not yet parsed token
+        if (this.state === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'What are you, stupid? Hurry up and give me ' +
+                'a state already!');
+        }
+    }
+    Parser.prototype.assertFinished = function () {
+        if (this.position <= this.tokens.length - 1) {
+            throw new errors_1.ParserError('Junk after declaration: "' + this.currentToken().getText()
+                + '".', this.position);
+        }
+    };
+    Parser.prototype.assertKeywordToken = function (tok, text) {
+        if (text === void 0) { text = undefined; }
+        if (!(tok instanceof tokens_1.KeywordToken)) {
+            throw new errors_1.ParserError('Expected a reserved word, got "' + tok.getText()
+                + '" (' + tok.constructor.name + ').', tok.position);
+        }
+        if (text !== undefined && tok.text !== text) {
+            throw new errors_1.ParserError('Expected "' + text + '" but got "' + tok.text + '".', tok.position);
+        }
+    };
+    Parser.prototype.assertVidToken = function (tok) {
+        if (!tok.isVid()) {
+            throw new errors_1.ParserError('Expected an identifier, got \"'
+                + tok.getText() + '\" ('
+                + tok.constructor.name + ').', tok.position);
+        }
+    };
+    Parser.prototype.assertIdentifierToken = function (tok) {
+        if (!(tok instanceof tokens_1.IdentifierToken)) {
+            throw new errors_1.ParserError('Expected an identifier, got \"'
+                + tok.getText() + '\" ('
+                + tok.constructor.name + ').', tok.position);
+        }
+    };
+    Parser.prototype.assertVidOrLongToken = function (tok) {
+        if (!tok.isVid() && !(tok instanceof tokens_1.LongIdentifierToken)) {
+            throw new errors_1.ParserError('Expected an identifier, got \"'
+                + tok.getText() + '\" ('
+                + tok.constructor.name + ').', tok.position);
+        }
+    };
+    Parser.prototype.assertIdentifierOrLongToken = function (tok) {
+        if (!(tok instanceof tokens_1.IdentifierToken)
+            && !(tok instanceof tokens_1.LongIdentifierToken)) {
+            throw new errors_1.ParserError('Expected an identifier, got \"'
+                + tok.getText() + '\" ('
+                + tok.constructor.name + ').', tok.position);
+        }
+    };
+    Parser.prototype.assertRecordLabelToken = function (tok) {
+        if (!tok.isValidRecordLabel()) {
+            throw new errors_1.ParserError('Expected a record label \"'
+                + tok.getText() + '\" ('
+                + tok.constructor.name + ').', tok.position);
+        }
+    };
+    Parser.prototype.checkVidOrLongToken = function (tok) {
+        return (tok.isVid() || (tok instanceof tokens_1.LongIdentifierToken));
+    };
+    Parser.prototype.checkIdentifierOrLongToken = function (tok) {
+        return ((tok instanceof tokens_1.IdentifierToken)
+            || (tok instanceof tokens_1.LongIdentifierToken));
+    };
+    Parser.prototype.checkKeywordToken = function (tok, text) {
+        if (text === void 0) { text = undefined; }
+        if (!(tok instanceof tokens_1.KeywordToken)) {
+            return false;
+        }
+        if (text !== undefined && tok.text !== text) {
+            return false;
+        }
+        return true;
+    };
+    Parser.prototype.parseOpIdentifierToken = function (allowLong) {
+        if (allowLong === void 0) { allowLong = false; }
+        var curTok = this.currentToken();
+        var opPrefixed = this.checkKeywordToken(curTok, 'op');
+        if (opPrefixed) {
+            ++this.position;
+        }
+        if (allowLong) {
+            this.assertIdentifierOrLongToken(this.currentToken());
+        }
+        else {
+            this.assertIdentifierToken(this.currentToken());
+        }
+        var name = this.currentToken();
+        name.opPrefixed = opPrefixed;
+        ++this.position;
+        return name;
+    };
+    Parser.prototype.parseAtomicExpression = function () {
+        /*
+         * atexp ::= scon                           Constant(position, token)
+         *              ConstantToken
+         *           [op] longvid                   ValueIdentifier(position, name:Token)
+         *              [KeywordToken] IdentifierToken
+         *           { [exprow] }
+         *           #lab                           RecordSelector(pos, label:Token)
+         *              KeywordToken IdentifierToken
+         *           ()                             Tuple(pos, [])
+         *              KeywordToken KeywordToken
+         *           (exp1, …, expn)                Tuple(pos, exps: (Pattern|Exp)[])
+         *              KeywordToken exp [KeywordToken exp]* KeywordToken
+         *           [exp1, …, expn]                List(pos, exps: (Pattern|Exp)[])
+         *              KeywordToken exp [KeywordToken exp]* KeywordToken
+         *           (exp1; …; expn)                Sequence(pos, exps:Exp[])
+         *              KeywordToken exp [KeywordToken exp]* KeywordToken
+         *           let dec in exp1, …, expn end   LocalDeclarationExpression(pos, decl:Decl, exp)
+         *              KeywordToken dec KeywordToken exp [KeywordToken exp]* KeywordToken
+         *           ( exp )                        Expression
+         *              KeywordToken exp KeywordToken
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'op')) {
+            ++this.position;
+            var nextCurTok = this.currentToken();
+            this.assertVidOrLongToken(nextCurTok);
+            nextCurTok.opPrefixed = true;
+            ++this.position;
+            return new expressions_1.ValueIdentifier(curTok.position, nextCurTok);
+        }
+        if (this.checkKeywordToken(curTok, '{')) {
+            // Record expression
+            ++this.position;
+            return this.parseExpressionRow();
+        }
+        if (this.checkKeywordToken(curTok, '(')) {
+            // Tuple expression
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ')')) {
+                ++this.position;
+                return new expressions_1.Tuple(curTok.position, []);
+            }
+            var results = [this.parseExpression()];
+            var isSequence = false;
+            var isTuple = false;
+            while (true) {
+                var nextCurTok = this.currentToken();
+                if (this.checkKeywordToken(nextCurTok, ',') && !isSequence) {
+                    ++this.position;
+                    isTuple = true;
+                    results.push(this.parseExpression());
+                    continue;
+                }
+                else if (this.checkKeywordToken(nextCurTok, ';') && !isTuple) {
+                    ++this.position;
+                    isSequence = true;
+                    if (!this.options.allowSuccessorML
+                        || !this.checkKeywordToken(this.currentToken(), ')')) {
+                        results.push(this.parseExpression());
+                        continue;
+                    }
+                    nextCurTok = this.currentToken();
+                }
+                if (this.checkKeywordToken(nextCurTok, ')')) {
+                    ++this.position;
+                    if (results.length === 1) {
+                        return results[0];
+                    }
+                    else {
+                        if (isTuple) {
+                            return new expressions_1.Tuple(curTok.position, results);
+                        }
+                        else if (isSequence) {
+                            return new expressions_1.Sequence(curTok.position, results);
+                        }
+                    }
+                }
+                else {
+                    throw new errors_1.IncompleteError(nextCurTok.position, 'Expected ",", ";" or ")" but got \"' + nextCurTok.getText() + '\".');
+                }
+                results.push(this.parseExpression());
+            }
+        }
+        if (this.checkKeywordToken(curTok, '[')) {
+            // List expression
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ']')) {
+                ++this.position;
+                return new expressions_1.List(curTok.position, []);
+            }
+            var results = [this.parseExpression()];
+            while (true) {
+                var nextCurTok = this.currentToken();
+                if (this.checkKeywordToken(nextCurTok, ',')) {
+                    ++this.position;
+                }
+                else if (this.checkKeywordToken(nextCurTok, ']')) {
+                    ++this.position;
+                    return new expressions_1.List(curTok.position, results);
+                }
+                else {
+                    throw new errors_1.ParserError('Expected "," or "]" but found "' +
+                        nextCurTok.getText() + '".', nextCurTok.position);
+                }
+                results.push(this.parseExpression());
+            }
+        }
+        if (this.checkKeywordToken(curTok, '#')) {
+            ++this.position;
+            var nextTok = this.currentToken();
+            this.assertRecordLabelToken(nextTok);
+            ++this.position;
+            return new expressions_1.RecordSelector(curTok.position, nextTok);
+        }
+        if (this.checkKeywordToken(curTok, 'let')) {
+            ++this.position;
+            var nstate = this.state;
+            this.state = this.state.getNestedState(this.state.id);
+            var dec = this.parseDeclaration();
+            this.assertKeywordToken(this.currentToken(), 'in');
+            ++this.position;
+            var res = [this.parseExpression()];
+            var newTok = this.currentToken();
+            var tpos = newTok.position;
+            while (this.checkKeywordToken(newTok, ';')) {
+                ++this.position;
+                if (this.options.allowSuccessorML
+                    && this.checkKeywordToken(this.currentToken(), 'end')) {
+                    newTok = this.currentToken();
+                    break;
+                }
+                res.push(this.parseExpression());
+                newTok = this.currentToken();
+            }
+            this.assertKeywordToken(newTok, 'end');
+            ++this.position;
+            this.state = nstate;
+            if (res.length >= 2) {
+                return new expressions_1.LocalDeclarationExpression(curTok.position, dec, new expressions_1.Sequence(tpos, res));
+            }
+            else {
+                return new expressions_1.LocalDeclarationExpression(curTok.position, dec, res[0]);
+            }
+        }
+        else if (curTok instanceof tokens_1.ConstantToken) {
+            ++this.position;
+            return new expressions_1.Constant(curTok.position, curTok);
+        }
+        else if (curTok.isVid() || curTok instanceof tokens_1.LongIdentifierToken) {
+            ++this.position;
+            if (this.state.getInfixStatus(curTok) !== undefined
+                && this.state.getInfixStatus(curTok).infix) {
+                throw new errors_1.ParserError('Infix operator "' + curTok.getText()
+                    + '" appeared in non-infix context without "op".', curTok.position);
+            }
+            return new expressions_1.ValueIdentifier(curTok.position, curTok);
+        }
+        throw new errors_1.ParserError('Expected atomic expression, "' +
+            curTok.getText() + '" found.', curTok.position);
+    };
+    Parser.prototype.parseExpressionRow = function () {
+        /*
+         * Parses Record expression, munches closing }
+         * exprow ::= lab = exp [, exprow]  Record(position, complete: boolean,
+         *                                         entries: [string, (Pattern|Expression)][])
+         *              IdentifierToken KeywordToken exp [KeywordToken exp]*
+         */
+        var curTok = this.currentToken();
+        var res = [];
+        var firstIt = true;
+        while (true) {
+            var newTok = this.currentToken();
+            if (this.checkKeywordToken(newTok, '}')) {
+                ++this.position;
+                return new expressions_1.Record(curTok.position, true, res);
+            }
+            if (!firstIt && this.checkKeywordToken(newTok, ',')) {
+                ++this.position;
+                continue;
+            }
+            firstIt = false;
+            if (newTok.isValidRecordLabel()) {
+                ++this.position;
+                var nextTok = this.currentToken();
+                this.assertKeywordToken(nextTok, '=');
+                ++this.position;
+                res.push([newTok.getText(), this.parseExpression()]);
+                continue;
+            }
+            throw new errors_1.ParserError('Expected "}", or identifier, got "'
+                + newTok.getText() + '".', newTok.position);
+        }
+    };
+    Parser.prototype.parseApplicationExpression = function () {
+        /* appexp ::= atexp
+         *            appexp atexp      FunctionApplication(position, func:exp, arg:exp)
+         *              exp exp
+         */
+        var curTok = this.currentToken();
+        var res = this.parseAtomicExpression();
+        while (true) {
+            var oldPos = this.position;
+            var nextTok = this.currentToken();
+            if (this.checkVidOrLongToken(nextTok)
+                && this.state.getInfixStatus(nextTok) !== undefined
+                && this.state.getInfixStatus(nextTok).infix) {
+                break;
+            }
+            try {
+                var newExp = this.parseAtomicExpression();
+                res = new expressions_1.FunctionApplication(curTok.position, res, newExp);
+            }
+            catch (e) {
+                this.position = oldPos;
+                break;
+            }
+        }
+        return res;
+    };
+    Parser.prototype.parseInfixExpression = function () {
+        /*
+         * infexp ::= appexp
+         *            infexp1 vid infexp2   FunctionApplication(pos, ValueIdentifier, (exp1,exp2))
+         *              exp IdentifierToken exp
+         */
+        var exps = [];
+        var ops = [];
+        var cnt = 0;
+        while (true) {
+            exps.push(this.parseApplicationExpression());
+            var curTok = this.currentToken();
+            if (this.checkVidOrLongToken(curTok)
+                && this.state.getInfixStatus(curTok) !== undefined
+                && this.state.getInfixStatus(curTok).infix) {
+                // We don't know anything about identifiers yet, so just assume they are infix
+                ++this.position;
+                ops.push([curTok, cnt++]);
+            }
+            else {
+                break;
+            }
+        }
+        if (cnt === 0) {
+            return exps[0];
+        }
+        return new expressions_1.InfixExpression(exps, ops).reParse(this.state);
+    };
+    Parser.prototype.parseAppendedExpression = function () {
+        /*
+         * exp ::= infexp
+         *         exp : ty                         TypedExpression(position, exp, type)
+         *          exp KeywordToken type
+         *         exp handle match                 HandleException(position, exp, match)
+         *          exp KeywordToken exp
+         *         raise exp                        RaiseException(position, exp)
+         *          KeywordToken exp
+         *         if exp1 then exp2 else exp3      Conditional(pos, exp1, exp2, exp3)
+         *          KeywordToken exp KeywordToken exp KeywordToken exp
+         *         case exp of match                CaseAnalysis(pos, exp, match)
+         *          KeywordToken exp KeywordToken match
+         *         while exp do exp                 While(pos, exp, exp)
+         *          KeywordToken exp KeywordToken exp
+         *         fn match                         Lambda(position, match)
+         *          KeywordToken match
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'raise')) {
+            ++this.position;
+            return new expressions_1.RaiseException(curTok.position, this.parseExpression());
+        }
+        else if (this.checkKeywordToken(curTok, 'if')) {
+            ++this.position;
+            var cond = this.parseExpression();
+            this.assertKeywordToken(this.currentToken(), 'then');
+            ++this.position;
+            var cons = this.parseExpression();
+            if (this.options.allowSuccessorML
+                && !this.checkKeywordToken(this.currentToken(), 'else')) {
+                return new expressions_1.Conditional(curTok.position, cond, cons, new expressions_1.Tuple(-1, []));
+            }
+            else {
+                this.assertKeywordToken(this.currentToken(), 'else');
+                ++this.position;
+                return new expressions_1.Conditional(curTok.position, cond, cons, this.parseExpression());
+            }
+        }
+        else if (this.checkKeywordToken(curTok, 'case')) {
+            ++this.position;
+            var cond = this.parseExpression();
+            this.assertKeywordToken(this.currentToken(), 'of');
+            ++this.position;
+            return new expressions_1.CaseAnalysis(curTok.position, cond, this.parseMatch());
+        }
+        else if (this.checkKeywordToken(curTok, 'while')) {
+            ++this.position;
+            var cond = this.parseExpression();
+            this.assertKeywordToken(this.currentToken(), 'do');
+            ++this.position;
+            return new expressions_1.While(curTok.position, cond, this.parseExpression());
+        }
+        else if (this.checkKeywordToken(curTok, 'fn')) {
+            ++this.position;
+            return new expressions_1.Lambda(curTok.position, this.parseMatch());
+        }
+        var exp = this.parseInfixExpression();
+        var nextTok = this.currentToken();
+        while (this.checkKeywordToken(nextTok, ':')) {
+            ++this.position;
+            exp = new expressions_1.TypedExpression(curTok.position, exp, this.parseType());
+            nextTok = this.currentToken();
+        }
+        return exp;
+    };
+    Parser.prototype.parseExpression = function () {
+        /*
+         * exp ::= exp1 andalso exp2                Conjunction(pos, exp1, exp2)
+         *          exp KeywordToken exp
+         *         exp1 orelse exp2                 Disjunction(pos, exp1, exp2)
+         *          exp KeywordToken exp
+         */
+        var exp = this.parseAppendedExpression();
+        var nextTok = this.currentToken();
+        var curTok = nextTok;
+        if (this.checkKeywordToken(nextTok, 'andalso')
+            || this.checkKeywordToken(nextTok, 'orelse')) {
+            var exps = [[exp, [0]]];
+            var ops = [];
+            var cnt = 0;
+            while (true) {
+                if (this.checkKeywordToken(nextTok, 'orelse')) {
+                    ops.push([1, cnt++]);
+                    ++this.position;
+                }
+                else if (this.checkKeywordToken(nextTok, 'andalso')) {
+                    ops.push([0, cnt++]);
+                    ++this.position;
+                }
+                else {
+                    break;
+                }
+                exps.push([this.parseAppendedExpression(), [cnt]]);
+                nextTok = this.currentToken();
+            }
+            ops.sort();
+            for (var i = 0; i < ops.length; ++i) {
+                // Using pointers or something similar could speed up this stuff here
+                // and achieve linear running time
+                var left = exps[ops[i][1]][0];
+                var right = exps[ops[i][1] + 1][0];
+                var res = void 0;
+                if (ops[i][0] === 0) {
+                    res = new expressions_1.Conjunction(left.position, left, right);
+                }
+                else {
+                    res = new expressions_1.Disjunction(left.position, left, right);
+                }
+                var npos = exps[ops[i][1]][1];
+                for (var _i = 0, _a = exps[ops[i][1] + 1][1]; _i < _a.length; _i++) {
+                    var j = _a[_i];
+                    npos.push(j);
+                }
+                for (var _b = 0, npos_1 = npos; _b < npos_1.length; _b++) {
+                    var j = npos_1[_b];
+                    exps[j] = [res, npos];
+                }
+            }
+            exp = exps[0][0];
+        }
+        nextTok = this.currentToken();
+        while (this.checkKeywordToken(nextTok, 'handle')) {
+            ++this.position;
+            exp = new expressions_1.HandleException(curTok.position, exp, this.parseMatch());
+            nextTok = this.currentToken();
+        }
+        return exp;
+    };
+    Parser.prototype.parseSimpleStructureExpression = function () {
+        /*
+         * strexp ::= struct strdec end         StructureExpression(pos, dec)
+         *            longstrid                 StructureIdentifier(pos, token)
+         *            funid ( strexp )          FunctorApplication(pos, funid, exp)
+         *            let strdec in strexp end  LocalDeclarationExpression(pos, dec, exp)
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'struct')) {
+            ++this.position;
+            var dec = this.parseDeclaration(false, true);
+            this.assertKeywordToken(this.currentToken(), 'end');
+            ++this.position;
+            return new modules_1.StructureExpression(curTok.position, dec);
+        }
+        else if (this.checkKeywordToken(curTok, 'let')) {
+            ++this.position;
+            var dec = this.parseDeclaration(false, true);
+            this.assertKeywordToken(this.currentToken(), 'in');
+            ++this.position;
+            var exp = this.parseStructureExpression();
+            this.assertKeywordToken(this.currentToken(), 'end');
+            ++this.position;
+            return new modules_1.LocalDeclarationStructureExpression(curTok.position, dec, exp);
+        }
+        if (curTok instanceof tokens_1.IdentifierToken) {
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), '(')) {
+                ++this.position;
+                var oldPos = this.position;
+                try {
+                    var exp = this.parseStructureExpression();
+                    this.assertKeywordToken(this.currentToken(), ')');
+                    ++this.position;
+                    return new modules_1.FunctorApplication(curTok.position, curTok, exp);
+                }
+                catch (e) {
+                    this.position = oldPos;
+                    var dec = this.parseDeclaration(false, true);
+                    this.assertKeywordToken(this.currentToken(), ')');
+                    ++this.position;
+                    return new modules_1.FunctorApplication(curTok.position, curTok, new modules_1.StructureExpression(curTok.position, dec));
+                }
+            }
+            else {
+                --this.position;
+            }
+        }
+        if (this.checkIdentifierOrLongToken(curTok)) {
+            ++this.position;
+            return new modules_1.StructureIdentifier(curTok.position, curTok);
+        }
+        throw new errors_1.ParserError('Expected a simple structure expression.', curTok.position);
+    };
+    Parser.prototype.parseStructureExpression = function () {
+        /*
+         * strexp ::= strexp : sigexp           TransparentConstraint(pos, strexp, sigexp)
+         *            strexp :> sigexp          OpaqueConstraint(pos, strexp, sigexp)
+         */
+        var curTok = this.currentToken();
+        var exp = this.parseSimpleStructureExpression();
+        while (true) {
+            if (this.checkKeywordToken(this.currentToken(), ':')) {
+                ++this.position;
+                exp = new modules_1.TransparentConstraint(curTok.position, exp, this.parseSignatureExpression());
+            }
+            else if (this.checkKeywordToken(this.currentToken(), ':>')) {
+                ++this.position;
+                exp = new modules_1.OpaqueConstraint(curTok.position, exp, this.parseSignatureExpression());
+            }
+            else {
+                break;
+            }
+        }
+        return exp;
+    };
+    Parser.prototype.parseSimpleSignatureExpression = function () {
+        /*
+         * sigexp ::= sig spec end              SignatureExpression
+         *            sigid                     SignatureIdentifier
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'sig')) {
+            ++this.position;
+            var spec = this.parseSpecification();
+            this.assertKeywordToken(this.currentToken(), 'end');
+            ++this.position;
+            return new modules_1.SignatureExpression(curTok.position, spec);
+        }
+        if (curTok instanceof tokens_1.IdentifierToken) {
+            ++this.position;
+            return new modules_1.SignatureIdentifier(curTok.position, curTok);
+        }
+        throw new errors_1.ParserError('Expected a simple signature expression.', curTok.position);
+    };
+    Parser.prototype.parseSignatureExpression = function () {
+        /*
+         * sigexp ::= sigexp where type tyvarseq longtycon = ty TypeRealisation(pos, exp, tyvar, ty)
+         */
+        var curTok = this.currentToken();
+        var sig = this.parseSimpleSignatureExpression();
+        var first = true;
+        while (this.checkKeywordToken(this.currentToken(), 'where')
+            || (!first && this.checkKeywordToken(this.currentToken(), 'and'))) {
+            first = false;
+            ++this.position;
+            this.assertKeywordToken(this.currentToken(), 'type');
+            ++this.position;
+            var tyvarseq = this.parseTypeVarSequence();
+            this.assertIdentifierOrLongToken(this.currentToken());
+            var token = this.currentToken();
+            ++this.position;
+            this.assertKeywordToken(this.currentToken(), '=');
+            ++this.position;
+            sig = new modules_1.TypeRealisation(curTok.position, sig, tyvarseq, token, this.parseType());
+        }
+        return sig;
+    };
+    Parser.prototype.parseSimpleSpecification = function () {
+        /*
+         * spec ::= val vid : ty <and valdesc>          ValueSpecification(pos, [Token, Type][])
+         *          type tyvarseq tycon <and tydesc>    TypeSpecification(pos, [tyvar, tycon][])
+         *          eqtype tyvarseq tycon <and tydesc>  EqualityTypeSpecification(ps, [tyva, tycn][])
+         *          datatype datdesc
+         *          datatype tycon = datatype longtycon
+         *          exception exdesc
+         *          structure strdesc
+         *          include sigexp
+         *          type tyvarseq tycon = ty <and ...>
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'val')) {
+            ++this.position;
+            var res = [];
+            while (true) {
+                this.assertIdentifierOrLongToken(this.currentToken());
+                var tkn = this.currentToken();
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), ':');
+                ++this.position;
+                res.push([tkn, this.parseType()]);
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.ValueSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'type')) {
+            ++this.position;
+            var res = [];
+            var oldpos = this.position;
+            while (true) {
+                var tyvar = this.parseTypeVarSequence();
+                this.assertIdentifierToken(this.currentToken());
+                res.push([tyvar, this.currentToken()]);
+                ++this.position;
+                if (this.checkKeywordToken(this.currentToken(), '=')) {
+                    var nres = [];
+                    this.position = oldpos;
+                    while (true) {
+                        tyvar = this.parseTypeVarSequence();
+                        this.assertIdentifierToken(this.currentToken());
+                        var tkn = this.currentToken();
+                        ++this.position;
+                        this.assertKeywordToken(this.currentToken(), '=');
+                        ++this.position;
+                        nres.push([tyvar, tkn, this.parseType()]);
+                        if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                            ++this.position;
+                            continue;
+                        }
+                        break;
+                    }
+                    return new modules_1.TypeAliasSpecification(curTok.position, nres);
+                }
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.TypeSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'eqtype')) {
+            ++this.position;
+            var res = [];
+            while (true) {
+                var tyvar = this.parseTypeVarSequence();
+                this.assertIdentifierToken(this.currentToken());
+                res.push([tyvar, this.currentToken()]);
+                ++this.position;
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.EqualityTypeSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'datatype')) {
+            ++this.position;
+            if (this.position + 2 < this.tokens.length &&
+                this.checkKeywordToken(this.tokens[this.position + 2], 'datatype')) {
+                this.assertIdentifierToken(this.currentToken());
+                var tk = this.currentToken();
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), '=');
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), 'datatype');
+                ++this.position;
+                this.assertIdentifierOrLongToken(this.currentToken());
+                var on = this.currentToken();
+                ++this.position;
+                return new modules_1.DatatypeReplicationSpecification(curTok.position, tk, on);
+            }
+            // Yeah I know that this stuff is ugly
+            var res = [];
+            while (true) {
+                var tyvar = this.parseTypeVarSequence();
+                this.assertIdentifierToken(this.currentToken());
+                var tk = this.currentToken();
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), '=');
+                ++this.position;
+                if (this.options.allowSuccessorML === true) {
+                    if (this.checkKeywordToken(this.currentToken(), '|')) {
+                        ++this.position;
+                    }
+                }
+                var cons = [];
+                while (true) {
+                    this.assertIdentifierToken(this.currentToken());
+                    var cn = this.currentToken();
+                    ++this.position;
+                    var tp = undefined;
+                    if (this.checkKeywordToken(this.currentToken(), 'of')) {
+                        ++this.position;
+                        tp = this.parseType();
+                    }
+                    cons.push([cn, tp]);
+                    if (this.checkKeywordToken(this.currentToken(), '|')) {
+                        ++this.position;
+                        continue;
+                    }
+                    break;
+                }
+                res.push([tyvar, tk, cons]);
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.DatatypeSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'exception')) {
+            ++this.position;
+            var res = [];
+            while (true) {
+                this.assertIdentifierToken(this.currentToken());
+                var tk = this.currentToken();
+                ++this.position;
+                var tp = undefined;
+                if (this.checkKeywordToken(this.currentToken(), 'of')) {
+                    ++this.position;
+                    tp = this.parseType();
+                }
+                res.push([tk, tp]);
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.ExceptionSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'structure')) {
+            ++this.position;
+            var res = [];
+            while (true) {
+                this.assertIdentifierToken(this.currentToken());
+                var tk = this.currentToken();
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), ':');
+                ++this.position;
+                res.push([tk, this.parseSignatureExpression()]);
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                    continue;
+                }
+                break;
+            }
+            return new modules_1.StructureSpecification(curTok.position, res);
+        }
+        else if (this.checkKeywordToken(curTok, 'include')) {
+            ++this.position;
+            var incs = [];
+            var oldPos = this.position;
+            try {
+                while (true) {
+                    incs.push(this.parseSignatureExpression());
+                    oldPos = this.position;
+                }
+            }
+            catch (e) {
+                this.position = oldPos;
+            }
+            return new modules_1.IncludeSpecification(curTok.position, incs);
+        }
+        return new modules_1.EmptySpecification(curTok.position);
+    };
+    Parser.prototype.parseSequentialSpecification = function () {
+        /*
+         * spec ::= spec <;> spec       SequentialSpecification(pos, Spec[])
+         */
+        var curTok = this.currentToken();
+        var res = [];
+        while (true) {
+            var cur = this.parseSimpleSpecification();
+            if (cur instanceof modules_1.EmptySpecification) {
+                break;
+            }
+            res.push(cur);
+            if (this.checkKeywordToken(this.currentToken(), ';')) {
+                ++this.position;
+            }
+        }
+        return new modules_1.SequentialSpecification(curTok.position, res);
+    };
+    Parser.prototype.parseSpecification = function () {
+        /*
+         * spec ::= spec sharing type longtycon = ... = longtycon
+         */
+        var curTok = this.currentToken();
+        var spec = this.parseSequentialSpecification();
+        while (this.checkKeywordToken(this.currentToken(), 'sharing')) {
+            ++this.position;
+            this.assertKeywordToken(this.currentToken(), 'type');
+            ++this.position;
+            this.assertIdentifierOrLongToken(this.currentToken());
+            var tkn = [this.currentToken()];
+            ++this.position;
+            while (this.checkKeywordToken(this.currentToken(), '=')) {
+                ++this.position;
+                this.assertIdentifierOrLongToken(this.currentToken());
+                tkn.push(this.currentToken());
+                ++this.position;
+            }
+            if (tkn.length < 2) {
+                throw new errors_1.ParserError('A "sharing" expression requires at least 2 type names.', curTok.position);
+            }
+            spec = new modules_1.SharingSpecification(curTok.position, spec, tkn);
+        }
+        return spec;
+    };
+    Parser.prototype.parseMatch = function () {
+        /*
+         * match ::= pat => exp [| match]       Match(pos, [Pattern, Expression][])
+         */
+        var curTok = this.currentToken();
+        if (this.options.allowSuccessorML && this.checkKeywordToken(this.currentToken(), '|')) {
+            ++this.position;
+        }
+        var res = [];
+        while (true) {
+            var pat = this.parsePattern();
+            this.assertKeywordToken(this.currentToken(), '=>');
+            ++this.position;
+            var exp = this.parseExpression();
+            res.push([pat, exp]);
+            if (!this.checkKeywordToken(this.currentToken(), '|')) {
+                break;
+            }
+            ++this.position;
+        }
+        return new expressions_1.Match(curTok.position, res);
+    };
+    Parser.prototype.parsePatternRow = function () {
+        /*
+         * Parses Record patterns, munches closing }
+         * patrow ::= ...
+         *              KeywordToken
+         *            lab = pat [, patrow]
+         *              IdentifierToken KeywordToken pat
+         *            vid [:ty] [as pat] [, patrow]
+         *              IdentifierToken [KeywordToken type] [KeywordToken pat]
+         */
+        var curTok = this.currentToken();
+        var res = [];
+        var firstIt = true;
+        var complete = true;
+        while (true) {
+            var newTok = this.currentToken();
+            if (this.checkKeywordToken(newTok, '}')) {
+                ++this.position;
+                return new expressions_1.Record(curTok.position, complete, res);
+            }
+            if (!complete) {
+                throw new errors_1.ParserError('Record wildcard must appear as last element of the record.', newTok.position);
+            }
+            if (!firstIt && this.checkKeywordToken(newTok, ',')) {
+                ++this.position;
+                continue;
+            }
+            firstIt = false;
+            if (this.checkKeywordToken(newTok, '...')) {
+                // A wildcard may only occur as the last entry of a record.
+                complete = false;
+                ++this.position;
+                continue;
+            }
+            if (newTok.isValidRecordLabel()) {
+                ++this.position;
+                var nextTok = this.currentToken();
+                if (!(nextTok instanceof tokens_1.KeywordToken)) {
+                    throw new errors_1.ParserError('Expected ":", "as", ",", or "=", got ' +
+                        nextTok.getText() + '".', nextTok.position);
+                }
+                if (nextTok.text === '=') {
+                    // lab = pat
+                    ++this.position;
+                    res.push([newTok.getText(), this.parsePattern()]);
+                    continue;
+                }
+                var tp = undefined;
+                if (newTok instanceof tokens_1.NumericToken) {
+                    throw new errors_1.ParserError('You cannot assign to "' + newTok.getText() + '".', newTok.position);
+                }
+                var pat = new expressions_1.ValueIdentifier(newTok.position, newTok);
+                if (nextTok.text === ':') {
+                    ++this.position;
+                    tp = this.parseType();
+                    nextTok = this.currentToken();
+                }
+                if (nextTok.text === 'as' && !this.options.allowSuccessorML) {
+                    ++this.position;
+                    pat = new expressions_1.LayeredPattern(pat.position, pat.name, tp, this.parsePattern());
+                    nextTok = this.currentToken();
+                }
+                else if (tp !== undefined) {
+                    pat = new expressions_1.TypedExpression(pat.position, pat, tp);
+                }
+                res.push([newTok.getText(), pat]);
+                continue;
+            }
+            throw new errors_1.ParserError('Expected "}", "...", or identifier.', newTok.position);
+        }
+    };
+    Parser.prototype.parseAtomicPattern = function () {
+        /*
+         * atpat ::= _                      Wildcard(pos)
+         *           scon                   Constant(pos, token)
+         *           [op] longvid           ValueIdentifier(pos, name:Taken)
+         *           [op] vid [:ty] as pat  LayeredPattern(pos, IdentifierToken, type, pattern)
+         *           { [patrow] }
+         *           ()                     Tuple(pos, [])
+         *           ( pat1, …, patn )      Tuple(pos, (Pattern|Exp)[])
+         *           [ pat1, …, patn ]      List(pos, (Pattern|Exp)[])
+         *           ( pat )
+         */
+        if (this.position >= this.tokens.length) {
+            throw new errors_1.ParserError('Unexpected end of token stream', -1);
+        }
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'op')) {
+            ++this.position;
+            var nextCurTok = this.currentToken();
+            this.assertIdentifierOrLongToken(nextCurTok);
+            nextCurTok.opPrefixed = true;
+            ++this.position;
+            var newOldPos = this.position;
+            try {
+                if (!(nextCurTok instanceof tokens_1.LongIdentifierToken)) {
+                    var newTok = this.currentToken();
+                    var tp = void 0;
+                    if (this.checkKeywordToken(newTok, ':')) {
+                        ++this.position;
+                        tp = this.parseType();
+                        newTok = this.currentToken();
+                    }
+                    this.assertKeywordToken(newTok, 'as');
+                    ++this.position;
+                    return new expressions_1.LayeredPattern(curTok.position, nextCurTok, tp, this.parsePattern());
+                }
+            }
+            catch (f) {
+                this.position = newOldPos;
+            }
+            return new expressions_1.ValueIdentifier(curTok.position, nextCurTok);
+        }
+        if (this.checkKeywordToken(curTok, '_')) {
+            // Wildcard pattern
+            ++this.position;
+            return new expressions_1.Wildcard(curTok.position);
+        }
+        if (this.checkKeywordToken(curTok, '{')) {
+            // Record pattern
+            ++this.position;
+            var result = this.parsePatternRow();
+            return result;
+        }
+        if (this.checkKeywordToken(curTok, '(')) {
+            // Tuple pattern
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ')')) {
+                ++this.position;
+                return new expressions_1.Tuple(curTok.position, []);
+            }
+            var results = [this.parsePattern()];
+            while (true) {
+                var nextCurTok = this.currentToken();
+                if (this.checkKeywordToken(nextCurTok, ',')) {
+                    ++this.position;
+                }
+                else if (this.checkKeywordToken(nextCurTok, ')')) {
+                    ++this.position;
+                    if (results.length === 1) {
+                        return results[0];
+                    }
+                    else {
+                        return new expressions_1.Tuple(curTok.position, results);
+                    }
+                }
+                else {
+                    throw new errors_1.ParserError('Expected "," or ")", but got "'
+                        + nextCurTok.getText() + '".', nextCurTok.position);
+                }
+                results.push(this.parsePattern());
+            }
+        }
+        if (this.checkKeywordToken(curTok, '[')) {
+            // List pattern
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ']')) {
+                ++this.position;
+                return new expressions_1.List(curTok.position, []);
+            }
+            var results = [this.parsePattern()];
+            while (true) {
+                var nextCurTok = this.currentToken();
+                if (this.checkKeywordToken(nextCurTok, ',')) {
+                    ++this.position;
+                }
+                else if (this.checkKeywordToken(nextCurTok, ']')) {
+                    ++this.position;
+                    return new expressions_1.List(curTok.position, results);
+                }
+                else {
+                    throw new errors_1.ParserError('Expected "," or "]" but found "' +
+                        nextCurTok.getText() + '".', nextCurTok.position);
+                }
+                results.push(this.parsePattern());
+            }
+        }
+        else if (curTok instanceof tokens_1.ConstantToken) {
+            ++this.position;
+            return new expressions_1.Constant(curTok.position, curTok);
+        }
+        else if (curTok instanceof tokens_1.IdentifierToken
+            || curTok instanceof tokens_1.LongIdentifierToken) {
+            ++this.position;
+            var newOldPos = this.position;
+            try {
+                if (!(curTok instanceof tokens_1.LongIdentifierToken)) {
+                    var newTok = this.currentToken();
+                    var tp = void 0;
+                    if (this.checkKeywordToken(newTok, ':')) {
+                        ++this.position;
+                        tp = this.parseType();
+                        newTok = this.currentToken();
+                    }
+                    this.assertKeywordToken(newTok, 'as');
+                    ++this.position;
+                    return new expressions_1.LayeredPattern(curTok.position, curTok, tp, this.parsePattern());
+                }
+            }
+            catch (f) {
+                this.position = newOldPos;
+            }
+            return new expressions_1.ValueIdentifier(curTok.position, curTok);
+        }
+        throw new errors_1.ParserError('Expected atomic pattern but got "'
+            + curTok.getText() + '".', curTok.position);
+    };
+    Parser.prototype.parseApplicationPattern = function () {
+        /*
+         *  pat ::= atpat
+         *          [op] longvid atpat      FunctionApplication(pos, func, argument)
+         */
+        var oldpos = this.position;
+        var curTok = this.currentToken();
+        var res = this.parseAtomicPattern();
+        if (res instanceof expressions_1.ValueIdentifier
+            && (this.state.getInfixStatus(res.name) !== undefined)
+            && (this.state.getInfixStatus(res.name).infix)) {
+            var opPrf = (oldpos > 0 && this.checkKeywordToken(this.tokens[oldpos - 1], 'op'))
+                || this.checkKeywordToken(curTok, 'op');
+            if (!opPrf) {
+                throw new errors_1.ParserError('Even Tunafishman can\'t save you from the "company" if you forget an "op".', curTok.position);
+            }
+        }
+        while (true) {
+            var oldPos = this.position;
+            var nextTok = this.currentToken();
+            if (this.checkVidOrLongToken(nextTok)
+                && this.state.getInfixStatus(nextTok) !== undefined
+                && this.state.getInfixStatus(nextTok).infix) {
+                break;
+            }
+            var thr = false;
+            try {
+                var newExp = this.parseAtomicPattern();
+                if (res instanceof expressions_1.Wildcard) {
+                    thr = true;
+                    throw new errors_1.ParserError('You cannot apply a pattern to a wildcard.', curTok.position);
+                }
+                res = new expressions_1.FunctionApplication(curTok.position, res, newExp);
+            }
+            catch (e) {
+                if (thr) {
+                    throw e;
+                }
+                this.position = oldPos;
+                break;
+            }
+        }
+        return res;
+    };
+    Parser.prototype.parseInfixPattern = function () {
+        /*
+         * pat ::= pat1 vid pat2            FunctionApplication(pos, vid, (pat1, pat2))
+         */
+        var pats = [];
+        var ops = [];
+        var cnt = 0;
+        while (true) {
+            pats.push(this.parseApplicationPattern());
+            var curTok = this.currentToken();
+            if (this.checkIdentifierOrLongToken(curTok)
+                && this.state.getInfixStatus(curTok) !== undefined
+                && this.state.getInfixStatus(curTok).infix) {
+                ++this.position;
+                ops.push([curTok, cnt++]);
+            }
+            else {
+                break;
+            }
+        }
+        if (cnt === 0) {
+            return pats[0];
+        }
+        return new expressions_1.InfixExpression(pats, ops).reParse(this.state);
+    };
+    Parser.prototype.parsePattern = function () {
+        /*
+         *          pat : ty                TypedExpression(pos, exp, type)
+         */
+        var curTok = this.currentToken();
+        var pat = this.parseInfixPattern();
+        while (true) {
+            if (this.checkKeywordToken(this.currentToken(), ':')) {
+                ++this.position;
+                pat = new expressions_1.TypedExpression(curTok.position, pat, this.parseType());
+                continue;
+            }
+            if (this.options.allowSuccessorML === true) {
+                if (this.checkKeywordToken(this.currentToken(), 'as')) {
+                    ++this.position;
+                    pat = new expressions_1.ConjunctivePattern(curTok.position, pat, this.parsePattern());
+                    continue;
+                }
+                if (this.checkKeywordToken(this.currentToken(), '|')) {
+                    ++this.position;
+                    pat = new expressions_1.DisjunctivePattern(curTok.position, pat, this.parseInfixPattern());
+                    continue;
+                }
+                if (this.checkKeywordToken(this.currentToken(), 'with')) {
+                    ++this.position;
+                    var nested = this.parsePattern();
+                    this.assertKeywordToken(this.currentToken(), '=');
+                    ++this.position;
+                    pat = new expressions_1.NestedMatch(curTok.position, pat, nested, this.parseExpression());
+                    continue;
+                }
+                if (this.checkKeywordToken(this.currentToken(), 'if')) {
+                    ++this.position;
+                    pat = new expressions_1.PatternGuard(curTok.position, pat, this.parseExpression());
+                    continue;
+                }
+            }
+            break;
+        }
+        return pat;
+    };
+    Parser.prototype.parseTypeRow = function () {
+        /*
+         * Parses Record type, munches closing }
+         * tyrow ::= lab : ty [, tyrow]     Record(comp:boolean, entries: [string, Type])
+         */
+        var firstTok = this.currentToken();
+        var elements = new Map();
+        var firstIt = true;
+        while (true) {
+            var curTok = this.currentToken();
+            if (this.checkKeywordToken(curTok, '}')) {
+                ++this.position;
+                return new types_1.RecordType(elements, true, firstTok.position);
+            }
+            if (!firstIt && this.checkKeywordToken(curTok, ',')) {
+                ++this.position;
+                continue;
+            }
+            firstIt = false;
+            if (curTok.isValidRecordLabel()) {
+                ++this.position;
+                var nextTok = this.currentToken();
+                if (!(nextTok instanceof tokens_1.KeywordToken)) {
+                    throw new errors_1.ParserError('Expected ":".', nextTok.position);
+                }
+                if (nextTok.text === ':') {
+                    // lab: type
+                    ++this.position;
+                    if (elements.has(curTok.getText())) {
+                        throw new errors_1.ParserError('Duplicate record label "' + curTok.getText()
+                            + '".', curTok.position);
+                    }
+                    elements.set(curTok.getText(), this.parseType());
+                    continue;
+                }
+                throw new errors_1.ParserError('Expected ":".', nextTok.position);
+            }
+            throw new errors_1.ParserError('Expected "}", or an identifier, got "' +
+                curTok.getText() + '".', curTok.position);
+        }
+    };
+    Parser.prototype.parseSimpleType = function () {
+        /*
+         * ty ::= tyvar                     TypeVariable(name:string)
+         *        longtycon                 CustomType
+         *        (ty1,..., tyn) longtycon  CustomType
+         *        { [tyrow] }
+         *        ( ty )
+         */
+        var curTok = this.currentToken();
+        if (curTok instanceof tokens_1.TypeVariableToken) {
+            ++this.position;
+            return new types_1.TypeVariable(curTok.getText(), curTok.position);
+        }
+        if (this.checkIdentifierOrLongToken(curTok)) {
+            ++this.position;
+            if (curTok instanceof tokens_1.LongIdentifierToken) {
+                return new types_1.CustomType(curTok.id.getText(), [], curTok.position, curTok);
+            }
+            else {
+                return new types_1.CustomType(curTok.getText(), [], curTok.position);
+            }
+        }
+        if (this.checkKeywordToken(curTok, '{')) {
+            ++this.position;
+            return this.parseTypeRow();
+        }
+        if (this.checkKeywordToken(curTok, '(')) {
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ')')) {
+                throw new errors_1.ParserError('Use "{}" or "unit" to denote the unit type.', this.currentToken().position);
+            }
+            var res = [this.parseType()];
+            while (true) {
+                var nextTok = this.currentToken();
+                if (this.checkKeywordToken(nextTok, ',')) {
+                    ++this.position;
+                    res.push(this.parseType());
+                    continue;
+                }
+                if (this.checkKeywordToken(nextTok, ')')) {
+                    ++this.position;
+                    if (res.length === 1) {
+                        return res[0];
+                    }
+                    this.assertIdentifierOrLongToken(this.currentToken());
+                    var name_1 = this.currentToken();
+                    ++this.position;
+                    return new types_1.CustomType(name_1.getText(), res, curTok.position);
+                }
+                throw new errors_1.ParserError('Expected "," or ")", got "' +
+                    nextTok.getText() + '".', nextTok.position);
+            }
+        }
+        throw new errors_1.ParserError('Expected either "(" or "{" got \"'
+            + curTok.getText() + '\".', curTok.position);
+    };
+    Parser.prototype.parseType = function () {
+        /*
+         * ty ::= ty1 -> ty2        Function(param:Type, return:Type)
+         */
+        var curTy = this.parseTupleType();
+        var curTok = this.currentToken();
+        if (!this.checkKeywordToken(curTok, '->')) {
+            return curTy;
+        }
+        ++this.position;
+        var tgTy = this.parseType();
+        return new types_1.FunctionType(curTy, tgTy, curTok.position);
+    };
+    Parser.prototype.parseTupleType = function () {
+        /*
+         * ty ::= ty1 * … * tyn     TupleType(types:Type[])
+         */
+        var curTy = [this.parseCustomType()];
+        var curTok = this.currentToken();
+        var pos = curTok.position;
+        while (this.checkKeywordToken(this.currentToken(), '*')) {
+            ++this.position;
+            curTy.push(this.parseCustomType());
+        }
+        if (curTy.length === 1) {
+            return curTy[0];
+        }
+        return new types_1.TupleType(curTy, pos);
+    };
+    Parser.prototype.parseCustomType = function () {
+        /*
+         * ty ::= ty longtycon    CustomType(fullName:String, tyArg:Type[])
+         */
+        var curTok = this.currentToken();
+        var ty = this.parseSimpleType();
+        while (this.position < this.tokens.length) {
+            var nextTok = this.currentToken();
+            if (!this.checkIdentifierOrLongToken(nextTok)) {
+                return ty;
+            }
+            ++this.position;
+            if (nextTok instanceof tokens_1.LongIdentifierToken) {
+                ty = new types_1.CustomType(nextTok.id.getText(), [ty], curTok.position, nextTok);
+            }
+            else {
+                ty = new types_1.CustomType(nextTok.getText(), [ty], curTok.position);
+            }
+            continue;
+        }
+        return ty;
+    };
+    Parser.prototype.parseValueBinding = function () {
+        /*
+         *  valbind ::= pat = exp       ValueBinding(pos, isRec, pat, exp)
+         *              rec valbind     isRecursive = true
+         */
+        var curTok = this.currentToken();
+        if (this.checkKeywordToken(curTok, 'rec')) {
+            ++this.position;
+            var res = this.parseValueBinding();
+            res.position = curTok.position;
+            res.isRecursive = true;
+            return res;
+        }
+        var pat = this.parsePattern();
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        return new declarations_1.ValueBinding(curTok.position, false, pat, this.parseExpression());
+    };
+    Parser.prototype.parseFunctionValueBinding = function () {
+        var curTok = this.currentToken();
+        var result = [];
+        var argcnt = -1;
+        var name = undefined;
+        if (this.options.allowSuccessorML === true) {
+            if (this.checkKeywordToken(this.currentToken(), '|')) {
+                ++this.position;
+            }
+        }
+        while (true) {
+            var args = [];
+            var ty = undefined;
+            var nm = void 0;
+            if (this.checkKeywordToken(this.currentToken(), '(')) {
+                var pat = this.parsePattern();
+                var isBad = false;
+                var revArgs = [];
+                if (!(pat instanceof expressions_1.FunctionApplication)) {
+                    isBad = true;
+                }
+                while (!isBad && (pat instanceof expressions_1.FunctionApplication)) {
+                    revArgs.push(pat.argument);
+                    pat = pat.func;
+                }
+                if (!(pat instanceof expressions_1.ValueIdentifier)) {
+                    isBad = true;
+                }
+                if (isBad) {
+                    throw new errors_1.ParserError('／人◕ ‿‿ ◕人＼', pat.position);
+                }
+                nm = pat;
+                for (var i = revArgs.length - 1; i >= 0; --i) {
+                    args.push(revArgs[i]);
+                }
+            }
+            else {
+                var oldPos = this.position;
+                var throwError = false;
+                var throwIfError = false;
+                try {
+                    var tok = this.parseOpIdentifierToken();
+                    nm = new expressions_1.ValueIdentifier(tok.position, tok);
+                    if (this.state.getInfixStatus(nm.name) !== undefined
+                        && this.state.getInfixStatus(nm.name).infix
+                        && !nm.name.opPrefixed) {
+                        throwError = true;
+                        throw new errors_1.ParserError('Missing "op".', nm.name.position);
+                    }
+                    while (true) {
+                        if (this.checkKeywordToken(this.currentToken(), '=')
+                            || this.checkKeywordToken(this.currentToken(), ':')) {
+                            break;
+                        }
+                        var pat = this.parseAtomicPattern();
+                        if (pat instanceof expressions_1.ValueIdentifier
+                            && this.state.getInfixStatus(pat.name) !== undefined
+                            && this.state.getInfixStatus(pat.name).infix) {
+                            throwIfError = true;
+                            throw new errors_1.ParserError('Cute little infix identifiers such as "' +
+                                pat + '" sure should play somewhere else.', pat.position);
+                        }
+                        args.push(pat);
+                    }
+                }
+                catch (e) {
+                    if (throwError) {
+                        throw e;
+                    }
+                    throwError = false;
+                    try {
+                        // Again infix
+                        this.position = oldPos;
+                        var left = this.parseAtomicPattern();
+                        this.assertIdentifierOrLongToken(this.currentToken());
+                        nm = new expressions_1.ValueIdentifier(this.currentToken().position, this.currentToken());
+                        if (this.state.getInfixStatus(this.currentToken()) === undefined
+                            || !this.state.getInfixStatus(this.currentToken()).infix) {
+                            if (throwIfError) {
+                                throwError = true;
+                                throw e;
+                            }
+                            throw new errors_1.ParserError('"' + this.currentToken().getText()
+                                + '" does not have infix status.', this.currentToken().position);
+                        }
+                        ++this.position;
+                        var right = this.parseAtomicPattern();
+                        args.push(new expressions_1.Tuple(-1, [left, right]));
+                    }
+                    catch (f) {
+                        // It wasn't infix at all, but simply wrong.
+                        throw e;
+                    }
+                }
+            }
+            if (this.checkKeywordToken(this.currentToken(), ':')) {
+                ++this.position;
+                ty = this.parseType();
+            }
+            this.assertKeywordToken(this.currentToken(), '=');
+            ++this.position;
+            if (argcnt === -1) {
+                argcnt = args.length;
+            }
+            else if (argcnt !== 2 && argcnt !== 3 && argcnt !== args.length) {
+                throw new errors_1.ParserError('Different number of arguments.', curTok.position);
+            }
+            if (argcnt === 0) {
+                throw new errors_1.ParserError('Functions need arguments to survive. Rely on "val" instead.', curTok.position);
+            }
+            if (name === undefined) {
+                name = nm;
+            }
+            else if (nm.name.getText() !== name.name.getText()) {
+                throw new errors_1.ParserError('Different function names in different cases ("' + nm.name.getText()
+                    + '" vs. "' + name.name.getText() + '")', curTok.position);
+            }
+            result.push([args, ty, this.parseExpression()]);
+            if (this.checkKeywordToken(this.currentToken(), '|')) {
+                ++this.position;
+                continue;
+            }
+            break;
+        }
+        return new declarations_1.FunctionValueBinding(curTok.position, result, name);
+    };
+    Parser.prototype.parseTypeBinding = function () {
+        /*
+         * tybind ::= tyvarseq tycon = ty       TypeBinding(pos, TypeVariable[], IdentifierToken, Type)
+         */
+        var curTok = this.currentToken();
+        var tyvar = this.parseTypeVarSequence();
+        this.assertIdentifierToken(this.currentToken());
+        var vid = this.currentToken();
+        ++this.position;
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        return new declarations_1.TypeBinding(curTok.position, tyvar, vid, this.parseType());
+    };
+    Parser.prototype.parseTypeBindingSeq = function () {
+        var tybinds = [];
+        while (true) {
+            tybinds.push(this.parseTypeBinding());
+            if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return tybinds;
+    };
+    Parser.prototype.parseExceptionBinding = function () {
+        var curTok = this.currentToken();
+        var name = this.parseOpIdentifierToken();
+        if (this.checkKeywordToken(this.currentToken(), 'of')) {
+            ++this.position;
+            var ty = this.parseType();
+            return new declarations_1.DirectExceptionBinding(curTok.position, name, ty);
+        }
+        if (this.checkKeywordToken(this.currentToken(), '=')) {
+            ++this.position;
+            var oldname = this.parseOpIdentifierToken(true);
+            return new declarations_1.ExceptionAlias(curTok.position, name, oldname);
+        }
+        return new declarations_1.DirectExceptionBinding(curTok.position, name, undefined);
+    };
+    Parser.prototype.parseDatatypeBinding = function () {
+        var curTok = this.currentToken();
+        var tyvars = this.parseTypeVarSequence();
+        this.assertIdentifierToken(this.currentToken());
+        var tycon = this.currentToken();
+        ++this.position;
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        var constrs = [];
+        if (this.options.allowSuccessorML === true) {
+            if (this.checkKeywordToken(this.currentToken(), '|')) {
+                ++this.position;
+            }
+        }
+        while (true) {
+            var name_2 = this.parseOpIdentifierToken();
+            if (this.checkKeywordToken(this.currentToken(), 'of')) {
+                ++this.position;
+                var ty = this.parseType();
+                constrs.push([name_2, ty]);
+            }
+            else {
+                constrs.push([name_2, undefined]);
+            }
+            if (this.checkKeywordToken(this.currentToken(), '|')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return new declarations_1.DatatypeBinding(curTok.position, tyvars, tycon, constrs);
+    };
+    Parser.prototype.parseDatatypeBindingSeq = function () {
+        var datbinds = [];
+        while (true) {
+            datbinds.push(this.parseDatatypeBinding());
+            if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return datbinds;
+    };
+    Parser.prototype.parseStructureBinding = function () {
+        /*
+         * strbind ::= strid = strexp
+         *             strid : sigexp = strexp
+         *             strid :> sigexp = strexp
+         */
+        var curTok = this.currentToken();
+        this.assertIdentifierToken(this.currentToken());
+        var tycon = this.currentToken();
+        ++this.position;
+        if (this.checkKeywordToken(this.currentToken(), ':')) {
+            ++this.position;
+            var sig = this.parseSignatureExpression();
+            this.assertKeywordToken(this.currentToken(), '=');
+            ++this.position;
+            var str = this.parseStructureExpression();
+            return new modules_1.StructureBinding(curTok.position, tycon, new modules_1.TransparentConstraint(curTok.position, str, sig));
+        }
+        else if (this.checkKeywordToken(this.currentToken(), ':>')) {
+            ++this.position;
+            var sig = this.parseSignatureExpression();
+            this.assertKeywordToken(this.currentToken(), '=');
+            ++this.position;
+            var str = this.parseStructureExpression();
+            return new modules_1.StructureBinding(curTok.position, tycon, new modules_1.OpaqueConstraint(curTok.position, str, sig));
+        }
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        return new modules_1.StructureBinding(curTok.position, tycon, this.parseStructureExpression());
+    };
+    Parser.prototype.parseStructureBindingSeq = function () {
+        var strbinds = [];
+        while (true) {
+            strbinds.push(this.parseStructureBinding());
+            if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return strbinds;
+    };
+    Parser.prototype.parseSignatureBinding = function () {
+        /*
+         * sigbind ::= sigid = sigexp
+         */
+        var curTok = this.currentToken();
+        this.assertIdentifierToken(this.currentToken());
+        var tycon = this.currentToken();
+        ++this.position;
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        return new modules_1.SignatureBinding(curTok.position, tycon, this.parseSignatureExpression());
+    };
+    Parser.prototype.parseSignatureBindingSeq = function () {
+        var sigbinds = [];
+        while (true) {
+            sigbinds.push(this.parseSignatureBinding());
+            if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return sigbinds;
+    };
+    Parser.prototype.parseFunctorBinding = function () {
+        /*
+         * funbind ::= funid (tycon : sigexp) = strexp
+         *             funid (tycon : sigexp) : sigexp' = strexp
+         *             funid (tycon : sigexp) :> sigexp' = strexp
+         *             funid (spec) [: sigexp] = strexp
+         *             funid (spec) [:> sigexp] = strexp
+         */
+        var curTok = this.currentToken();
+        this.assertIdentifierToken(this.currentToken());
+        var funid = this.currentToken();
+        ++this.position;
+        this.assertKeywordToken(this.currentToken(), '(');
+        ++this.position;
+        if (this.currentToken() instanceof tokens_1.IdentifierToken) {
+            var tycon = this.currentToken();
+            ++this.position;
+            this.assertKeywordToken(this.currentToken(), ':');
+            ++this.position;
+            var sigexp = this.parseSignatureExpression();
+            this.assertKeywordToken(this.currentToken(), ')');
+            ++this.position;
+            if (this.checkKeywordToken(this.currentToken(), ':')) {
+                ++this.position;
+                var sg = this.parseSignatureExpression();
+                this.assertKeywordToken(this.currentToken(), '=');
+                ++this.position;
+                return new modules_1.FunctorBinding(curTok.position, funid, tycon, sigexp, new modules_1.TransparentConstraint(curTok.position, this.parseStructureExpression(), sg));
+            }
+            else if (this.checkKeywordToken(this.currentToken(), ':>')) {
+                ++this.position;
+                var sg = this.parseSignatureExpression();
+                this.assertKeywordToken(this.currentToken(), '=');
+                ++this.position;
+                return new modules_1.FunctorBinding(curTok.position, funid, tycon, sigexp, new modules_1.OpaqueConstraint(curTok.position, this.parseStructureExpression(), sg));
+            }
+            this.assertKeywordToken(this.currentToken(), '=');
+            ++this.position;
+            return new modules_1.FunctorBinding(curTok.position, funid, tycon, sigexp, this.parseStructureExpression());
+        }
+        var spec = this.parseSpecification();
+        var specsig = new modules_1.SignatureExpression(-1, spec);
+        this.assertKeywordToken(this.currentToken(), ')');
+        ++this.position;
+        var opaque = false;
+        var sig = undefined;
+        if (this.checkKeywordToken(this.currentToken(), ':')) {
+            ++this.position;
+            sig = this.parseSignatureExpression();
+        }
+        else if (this.checkKeywordToken(this.currentToken(), ':>')) {
+            opaque = true;
+            ++this.position;
+            sig = this.parseSignatureExpression();
+        }
+        this.assertKeywordToken(this.currentToken(), '=');
+        ++this.position;
+        var str = this.parseStructureExpression();
+        var strid = new tokens_1.AlphanumericIdentifierToken('__farg', -1);
+        if (sig !== undefined) {
+            if (opaque) {
+                str = new modules_1.OpaqueConstraint(-1, str, sig);
+            }
+            else {
+                str = new modules_1.TransparentConstraint(-1, str, sig);
+            }
+        }
+        str = new modules_1.LocalDeclarationStructureExpression(-1, new declarations_1.OpenDeclaration(-1, [strid]), str);
+        return new modules_1.FunctorBinding(curTok.position, funid, strid, specsig, str);
+    };
+    Parser.prototype.parseFunctorBindingSeq = function () {
+        var funbinds = [];
+        while (true) {
+            funbinds.push(this.parseFunctorBinding());
+            if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                ++this.position;
+            }
+            else {
+                break;
+            }
+        }
+        return funbinds;
+    };
+    Parser.prototype.parseTypeVarSequence = function (allowFail) {
+        if (allowFail === void 0) { allowFail = false; }
+        /*
+         * ε                    []
+         * tyvar                [TypeVariable]
+         * (tyvar1,…,tyvarn)    TypeVariable[]
+         */
+        var curTok = this.currentToken();
+        var res = [];
+        if (curTok instanceof tokens_1.TypeVariableToken) {
+            res.push(new types_1.TypeVariable(curTok.text, curTok.position));
+            ++this.position;
+            return res;
+        }
+        if (this.checkKeywordToken(curTok, '(')) {
+            ++this.position;
+            while (true) {
+                curTok = this.currentToken();
+                if (!(curTok instanceof tokens_1.TypeVariableToken)) {
+                    if (allowFail) {
+                        return undefined;
+                    }
+                    throw new errors_1.ParserError('Expected a type varible.', curTok.position);
+                }
+                res.push(new types_1.TypeVariable(curTok.text, curTok.position));
+                ++this.position;
+                curTok = this.currentToken();
+                if (this.checkKeywordToken(curTok, ',')) {
+                    ++this.position;
+                    continue;
+                }
+                else if (this.checkKeywordToken(curTok, ')')) {
+                    ++this.position;
+                    break;
+                }
+                throw new errors_1.ParserError('Expected "," or ")" but got "'
+                    + curTok.getText() + '".', curTok.position);
+            }
+        }
+        return res;
+    };
+    Parser.prototype.parseDeclaration = function (topLevel, strDec) {
+        if (topLevel === void 0) { topLevel = false; }
+        if (strDec === void 0) { strDec = false; }
+        /*
+         * dec ::= dec [;] dec                          SequentialDeclaration(pos, Declaration[])
+         */
+        var res = [];
+        var curTok = this.currentToken();
+        var curId = this.currentId++;
+        while (this.position < this.tokens.length) {
+            var cur = this.parseSimpleDeclaration(topLevel, strDec);
+            if (cur instanceof declarations_1.EmptyDeclaration) {
+                if (this.position >= this.tokens.length
+                    || this.checkKeywordToken(this.currentToken(), 'in')
+                    || this.checkKeywordToken(this.currentToken(), 'end')
+                    || this.checkKeywordToken(this.currentToken(), ')')) {
+                    break;
+                }
+                continue;
+            }
+            res.push(cur);
+            if (this.checkKeywordToken(this.currentToken(), ';')) {
+                ++this.position;
+            }
+        }
+        return new declarations_1.SequentialDeclaration(curTok.position, res, curId);
+    };
+    Parser.prototype.parseSimpleDeclaration = function (topLevel, strDec) {
+        if (topLevel === void 0) { topLevel = false; }
+        if (strDec === void 0) { strDec = false; }
+        /*
+         * dec ::= val tyvarseq valbind                 ValueDeclaration(pos, tyvarseq, ValueBinding[])
+         *         fun tyvarseq fvalbind                FunctionDeclaration(pos, tyvarseq, FunctionValueBinding[])
+         *         type typbind                         TypeDeclaration(pos, TypeBinding[])
+         *         datatype datbind [withtype typbind]  DatatypeDeclaration(pos, DTBind[], TypeBind[]|undefined)
+         *         datatype tycon = datatype ltycon   DatatypeReplication(pos, IdentifierToken, oldname: Token)
+         *         abstype datbind [withtype typbind]
+         *              with dec end                    AbstypeDeclaration(pos, DTBind[], TypeBing[]|undef, Decl)
+         *         exception exbind                     ExceptionDeclaration(pos, ExceptionBinding[])
+         *         local dec1 in dec2 end               LocalDeclaration(pos, Declaration, body:Declaration)
+         *         open longstrid1 … longstr1dn         OpenDeclaration(pos, names: Token[])
+         *         infix [d] vid1 … vidn                InfixDeclaration(pos, ValueIdentifier[], d=0)
+         *         infixr [d] vid1 … vidn               InfixRDeclaration(pos, ValueIdentifier[], d=0)
+         *         nonfix vid1 … vidn                   NonfixDeclaration(pos, ValueIdentifier[])
+         *
+         *         structure strbind                    StructureDeclaration(pos, StrBind[])
+         *         signature sigbind                    SignatureDeclaration(pos, SigBind[])
+         *         functor funbind                      FunctorDeclaration(pos, FunBind[])
+         *
+         *         do exp                               Evaluation(pos, exp) [succML]
+         *
+         *         (empty)                              EmptyDeclaration()
+         *         exp                                  val it = exp
+         */
+        var curTok = this.currentToken();
+        var curId = this.currentId++;
+        if (this.checkKeywordToken(curTok, 'val')) {
+            ++this.position;
+            var tyvar = this.parseTypeVarSequence(true);
+            if (tyvar === undefined) {
+                --this.position;
+                tyvar = [];
+            }
+            var valbinds = [];
+            var isRec = false;
+            while (true) {
+                var curbnd = this.parseValueBinding();
+                if (curbnd.isRecursive) {
+                    isRec = true;
+                    var cpat = curbnd.pattern;
+                    while (cpat instanceof expressions_1.TypedExpression) {
+                        cpat = cpat.expression;
+                    }
+                    if (!(curbnd.expression instanceof expressions_1.Lambda)) {
+                        throw new errors_1.ParserError('Using "rec" requires binding a lambda.', curbnd.position);
+                    }
+                    if (!(cpat instanceof expressions_1.ValueIdentifier)
+                        && !(cpat instanceof expressions_1.Wildcard)) {
+                        throw new errors_1.ParserError('Using "rec" requires binding to a single identifier'
+                            + ' and not "' + cpat.toString(0, true) + '".', curbnd.position);
+                    }
+                }
+                curbnd.isRecursive = isRec;
+                valbinds.push(curbnd);
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                }
+                else {
+                    break;
+                }
+            }
+            return new declarations_1.ValueDeclaration(curTok.position, tyvar, valbinds, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'fun')) {
+            ++this.position;
+            var tyvar = this.parseTypeVarSequence(true);
+            if (tyvar === undefined) {
+                --this.position;
+                tyvar = [];
+            }
+            var fvalbinds = [];
+            while (true) {
+                fvalbinds.push(this.parseFunctionValueBinding());
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                }
+                else {
+                    break;
+                }
+            }
+            return new declarations_1.FunctionDeclaration(curTok.position, tyvar, fvalbinds, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'type')) {
+            ++this.position;
+            return new declarations_1.TypeDeclaration(curTok.position, this.parseTypeBindingSeq(), curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'datatype')) {
+            if (this.position + 3 < this.tokens.length &&
+                this.checkKeywordToken(this.tokens[this.position + 3], 'datatype')) {
+                ++this.position;
+                var nw = this.currentToken();
+                this.assertIdentifierToken(nw);
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), '=');
+                ++this.position;
+                this.assertKeywordToken(this.currentToken(), 'datatype');
+                ++this.position;
+                var old = this.currentToken();
+                this.assertIdentifierOrLongToken(old);
+                ++this.position;
+                return new declarations_1.DatatypeReplication(curTok.position, nw, old, curId);
+            }
+            else {
+                ++this.position;
+                var datbind = this.parseDatatypeBindingSeq();
+                if (this.checkKeywordToken(this.currentToken(), 'withtype')) {
+                    ++this.position;
+                    var tp = this.parseTypeBindingSeq();
+                    return new declarations_1.DatatypeDeclaration(curTok.position, datbind, tp, curId);
+                }
+                return new declarations_1.DatatypeDeclaration(curTok.position, datbind, undefined, curId);
+            }
+        }
+        else if (this.checkKeywordToken(curTok, 'abstype')) {
+            ++this.position;
+            var nstate = this.state;
+            this.state = this.state.getNestedState(this.state.id);
+            var datbind = this.parseDatatypeBindingSeq();
+            var tybind = undefined;
+            if (this.checkKeywordToken(this.currentToken(), 'withtype')) {
+                ++this.position;
+                tybind = this.parseTypeBindingSeq();
+            }
+            this.assertKeywordToken(this.currentToken(), 'with');
+            ++this.position;
+            var dec = this.parseDeclaration();
+            this.assertKeywordToken(this.currentToken(), 'end');
+            ++this.position;
+            this.state = nstate;
+            return new declarations_1.AbstypeDeclaration(curTok.position, datbind, tybind, dec, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'exception')) {
+            ++this.position;
+            var bnds = [];
+            while (true) {
+                bnds.push(this.parseExceptionBinding());
+                if (this.checkKeywordToken(this.currentToken(), 'and')) {
+                    ++this.position;
+                }
+                else {
+                    break;
+                }
+            }
+            return new declarations_1.ExceptionDeclaration(curTok.position, bnds, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'local')) {
+            ++this.position;
+            var nstate = this.state;
+            this.state = this.state.getNestedState(this.state.id);
+            var dec = this.parseDeclaration(false, strDec);
+            this.assertKeywordToken(this.currentToken(), 'in');
+            ++this.position;
+            var dec2 = this.parseDeclaration(false, strDec);
+            this.assertKeywordToken(this.currentToken(), 'end');
+            ++this.position;
+            this.state = nstate;
+            return new declarations_1.LocalDeclaration(curTok.position, dec, dec2, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'open')) {
+            ++this.position;
+            var res = [];
+            while (this.checkIdentifierOrLongToken(this.currentToken())) {
+                res.push(this.currentToken());
+                ++this.position;
+            }
+            if (res.length === 0) {
+                throw new errors_1.ParserError('Empty "open" declaration.', this.currentToken().position);
+            }
+            return new declarations_1.OpenDeclaration(curTok.position, res, curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'infix')) {
+            ++this.position;
+            var precedence = 0;
+            if (this.currentToken() instanceof tokens_1.IntegerConstantToken) {
+                if (this.currentToken().text.length !== 1) {
+                    throw new errors_1.ParserError('Precedences may only be single digits.', this.currentToken().position);
+                }
+                precedence = this.currentToken().value;
+                ++this.position;
+            }
+            var res = [];
+            while (this.currentToken().isVid()) {
+                res.push(this.currentToken());
+                ++this.position;
+            }
+            if (res.length === 0) {
+                throw new errors_1.ParserError('Empty "infix" declaration.', this.currentToken().position);
+            }
+            var resdec = new declarations_1.InfixDeclaration(curTok.position, res, precedence, curId);
+            resdec.setInfixStatus(this.state);
+            return resdec;
+        }
+        else if (this.checkKeywordToken(curTok, 'infixr')) {
+            ++this.position;
+            var precedence = 0;
+            if (this.currentToken() instanceof tokens_1.IntegerConstantToken) {
+                if (this.currentToken().text.length !== 1) {
+                    throw new errors_1.ParserError('Precedences may only be single digits.', this.currentToken().position);
+                }
+                precedence = this.currentToken().value;
+                ++this.position;
+            }
+            var res = [];
+            while (this.currentToken().isVid()) {
+                res.push(this.currentToken());
+                ++this.position;
+            }
+            if (res.length === 0) {
+                throw new errors_1.ParserError('Empty "infixr" declaration.', this.currentToken().position);
+            }
+            var resdec = new declarations_1.InfixRDeclaration(curTok.position, res, precedence, curId);
+            resdec.setInfixStatus(this.state);
+            return resdec;
+        }
+        else if (this.checkKeywordToken(curTok, 'nonfix')) {
+            ++this.position;
+            var res = [];
+            while (this.currentToken().isVid()) {
+                res.push(this.currentToken());
+                ++this.position;
+            }
+            if (res.length === 0) {
+                throw new errors_1.ParserError('Empty "nonfix" declaration.', this.currentToken().position);
+            }
+            var resdec = new declarations_1.NonfixDeclaration(curTok.position, res, curId);
+            resdec.setInfixStatus(this.state);
+            return resdec;
+        }
+        if (this.options.allowSuccessorML && this.checkKeywordToken(curTok, 'do')) {
+            ++this.position;
+            return new declarations_1.Evaluation(curTok.position, this.parseExpression());
+        }
+        if (this.options.allowStructuresAnywhere === true || strDec) {
+            if (this.checkKeywordToken(curTok, 'structure')) {
+                ++this.position;
+                return new modules_1.StructureDeclaration(curTok.position, this.parseStructureBindingSeq());
+            }
+        }
+        if (this.options.allowSignaturesAnywhere === true || topLevel) {
+            if (this.checkKeywordToken(curTok, 'signature')) {
+                ++this.position;
+                return new modules_1.SignatureDeclaration(curTok.position, this.parseSignatureBindingSeq());
+            }
+        }
+        if (this.options.allowFunctorsAnywhere === true || topLevel) {
+            if (this.checkKeywordToken(curTok, 'functor')) {
+                ++this.position;
+                return new modules_1.FunctorDeclaration(curTok.position, this.parseFunctorBindingSeq());
+            }
+        }
+        if (this.checkKeywordToken(curTok, ';')) {
+            ++this.position;
+            return new declarations_1.EmptyDeclaration(curId);
+        }
+        else if (this.checkKeywordToken(curTok, 'in')
+            || this.checkKeywordToken(curTok, 'end')
+            || this.checkKeywordToken(curTok, ')')) {
+            return new declarations_1.EmptyDeclaration(curId);
+        }
+        if (topLevel) {
+            if (this.position > 0 && !this.checkKeywordToken(this.tokens[this.position - 1], ';')) {
+                throw new errors_1.ParserError('A single top-level expression must be separated '
+                    + 'from preceeding declarations by a ";".', this.position);
+            }
+            var exp = this.parseExpression();
+            var valbnd = new declarations_1.ValueBinding(curTok.position, false, new expressions_1.ValueIdentifier(-1, new tokens_1.AlphanumericIdentifierToken('it', -1)), exp);
+            this.assertKeywordToken(this.currentToken(), ';');
+            return new declarations_1.ValueDeclaration(curTok.position, [], [valbnd], curId);
+        }
+        throw new errors_1.ParserError('Expected a declaration, found "' + curTok.getText() + '".', curTok.position);
+    };
+    Parser.prototype.currentToken = function () {
+        if (this.position >= this.tokens.length) {
+            throw new errors_1.IncompleteError(-1, 'More input, I\'m starving. ~nyan.');
+        }
+        return this.tokens[this.position];
+    };
+    return Parser;
+}());
+exports.Parser = Parser;
+function parse(tokens, state, options) {
+    if (options === void 0) { options = {}; }
+    var p = new Parser(tokens, state, state.id, options);
+    var res = p.parseDeclaration(true, true);
+    p.assertFinished();
+    return res;
+}
+exports.parse = parse;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var state_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(4);
+var values_1 = __webpack_require__(3);
+var errors_1 = __webpack_require__(0);
+var Interpreter = __webpack_require__(8);
+var version_1 = __webpack_require__(14);
+var intType = new types_1.CustomType('int');
+var realType = new types_1.CustomType('real');
+// let wordType = new CustomType('word');
+// let boolType = new CustomType('bool');
+var stringType = new types_1.CustomType('string');
+var charType = new types_1.CustomType('char');
+function addArrayLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    var arrayType = new types_1.CustomType('array', [new types_1.TypeVariable('\'a')]);
+    var listType = new types_1.CustomType('list', [new types_1.TypeVariable('\'a')]);
+    sres.setType('array', arrayType, [], 1, true);
+    dres.setType('array', []);
+    dres.setValue('array', new values_1.PredefinedFunction('array', function (val, params) {
+        if (val instanceof values_1.RecordValue && val.entries.size === 2) {
+            var cnt = val.getValue('1');
+            var value = val.getValue('2');
+            if (cnt instanceof values_1.Integer) {
+                var c = cnt.value;
+                if (c < 0) {
+                    return [new values_1.ExceptionConstructor('Size').construct(), true, []];
+                }
+                var arr = new values_1.ArrayValue(params.modifiable.memory[0] + 1, c);
+                // we need to waste one cell so that no two arrays can be the same
+                params.modifiable.setNewCell(arr);
+                for (var i = 0; i < c; ++i) {
+                    params.modifiable.setNewCell(value);
+                }
+                return [arr, false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('array', new types_1.FunctionType(new types_1.TupleType([intType, new types_1.TypeVariable('\'a')]).simplify(), arrayType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('fromList', new values_1.PredefinedFunction('fromList', function (val, params) {
+        var arr = new values_1.ArrayValue(params.modifiable.memory[0] + 1, 0);
+        params.modifiable.setNewCell(arr); // we need to waste one cell so that no two arrays can be the same
+        if (val instanceof values_1.ConstructedValue) {
+            var list = val;
+            while (list.constructorName !== 'nil') {
+                if (list.constructorName !== '::') {
+                    throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                }
+                var arg = list.argument;
+                if (arg instanceof values_1.RecordValue && arg.entries.size === 2) {
+                    var a1 = arg.getValue('1');
+                    var a2 = arg.getValue('2');
+                    if (a1 instanceof values_1.Value && a2 instanceof values_1.ConstructedValue) {
+                        params.modifiable.setNewCell(a1);
+                        arr.length++;
+                        list = a2;
+                    }
+                    else {
+                        throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                    }
+                }
+                else {
+                    throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                }
+            }
+            return [arr, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('fromList', new types_1.FunctionType(listType, arrayType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('sub', new values_1.PredefinedFunction('sub', function (val, params) {
+        if (val instanceof values_1.RecordValue && val.entries.size === 2) {
+            var arr = val.getValue('1');
+            var index = val.getValue('2');
+            if (arr instanceof values_1.ArrayValue && index instanceof values_1.Integer) {
+                var ind = index.value;
+                if (ind < 0 || ind >= arr.length) {
+                    return [new values_1.ExceptionConstructor('Subscript').construct(), true, []];
+                }
+                return [params.modifiable.getCell(arr.address + ind), false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('sub', new types_1.FunctionType(new types_1.TupleType([arrayType, intType]).simplify(), new types_1.TypeVariable('\'a')), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('update', new values_1.PredefinedFunction('update', function (val, params) {
+        if (val instanceof values_1.RecordValue && val.entries.size === 3) {
+            var arr = val.getValue('1');
+            var index = val.getValue('2');
+            var value = val.getValue('3');
+            if (arr instanceof values_1.ArrayValue && index instanceof values_1.Integer) {
+                var ind = index.value;
+                if (ind < 0 || ind >= arr.length) {
+                    return [new values_1.ExceptionConstructor('Subscript').construct(), true, []];
+                }
+                params.modifiable.setCell(arr.address + ind, value);
+                return [new values_1.RecordValue(), false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('update', new types_1.FunctionType(new types_1.TupleType([arrayType, intType, new types_1.TypeVariable('\'a')]), new types_1.TupleType([])).simplify(), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('length', new values_1.PredefinedFunction('length', function (val, params) {
+        if (val instanceof values_1.ArrayValue) {
+            var res = new values_1.Integer(val.length);
+            return [res, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('length', new types_1.FunctionType(arrayType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicStructure('Array', dres);
+    state.setStaticStructure('Array', sres);
+    return state;
+}
+function addMathLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    dres.setValue('sqrt', new values_1.PredefinedFunction('sqrt', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            if (value < 0) {
+                return [new values_1.ExceptionConstructor('Domain').construct(), true, []];
+            }
+            return [new values_1.Real(Math.sqrt(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('sqrt', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('sin', new values_1.PredefinedFunction('sin', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.sin(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('sin', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('cos', new values_1.PredefinedFunction('cos', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.cos(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('cos', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('tan', new values_1.PredefinedFunction('tan', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.tan(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('tan', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('asin', new values_1.PredefinedFunction('asin', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.asin(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('asin', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('acos', new values_1.PredefinedFunction('acos', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.acos(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('acos', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('atan', new values_1.PredefinedFunction('atan', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.atan(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('atan', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('atan2', new values_1.PredefinedFunction('atan2', function (val, params) {
+        if (val instanceof values_1.RecordValue) {
+            var val1 = val.getValue('1');
+            var val2 = val.getValue('2');
+            if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                var value1 = val1.value;
+                var value2 = val2.value;
+                return [new values_1.Real(Math.atan2(value1, value2)), false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('atan2', new types_1.FunctionType(new types_1.TupleType([realType, realType]), realType).simplify(), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('exp', new values_1.PredefinedFunction('exp', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.exp(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('exp', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('pow', new values_1.PredefinedFunction('pow', function (val, params) {
+        if (val instanceof values_1.RecordValue) {
+            var val1 = val.getValue('1');
+            var val2 = val.getValue('2');
+            if (val1 instanceof values_1.Real && val2 instanceof values_1.Real) {
+                var value1 = val1.value;
+                var value2 = val2.value;
+                return [new values_1.Real(Math.pow(value1, value2)), false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('pow', new types_1.FunctionType(new types_1.TupleType([realType, realType]), realType).simplify(), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('ln', new values_1.PredefinedFunction('ln', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.log(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('ln', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('log10', new values_1.PredefinedFunction('log10', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.log10(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('log10', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('sinh', new values_1.PredefinedFunction('sinh', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.sinh(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('sinh', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('cosh', new values_1.PredefinedFunction('cosh', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.cosh(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('cosh', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('tanh', new values_1.PredefinedFunction('tanh', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            return [new values_1.Real(Math.tanh(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('tanh', new types_1.FunctionType(realType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('pi', new values_1.Real(3.14159265359), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('pi', realType, state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('e', new values_1.Real(2.71828182846), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('e', realType, state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicStructure('Math', dres);
+    state.setStaticStructure('Math', sres);
+    return state;
+}
+function addCharLib(state) {
+    state.setDynamicValue('ord', new values_1.PredefinedFunction('ord', function (val, params) {
+        if (val instanceof values_1.CharValue) {
+            var value = val.value;
+            return [new values_1.Integer(value.charCodeAt(0)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setStaticValue('ord', new types_1.FunctionType(charType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicValue('chr', new values_1.PredefinedFunction('chr', function (val, params) {
+        if (val instanceof values_1.Integer) {
+            var value = val.value;
+            if (value < 0 || value > 255) {
+                return [new values_1.ExceptionConstructor('Chr').construct(), true, []];
+            }
+            return [new values_1.CharValue(String.fromCharCode(value)), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setStaticValue('chr', new types_1.FunctionType(intType, charType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    return state;
+}
+function addRealLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    dres.setValue('fromInt', new values_1.PredefinedFunction('fromInt', function (val, params) {
+        if (val instanceof values_1.Integer) {
+            var value = val.value;
+            return [new values_1.Real(value), false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('fromInt', new types_1.FunctionType(intType, realType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('round', new values_1.PredefinedFunction('round', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            var integer = new values_1.Integer(Math.round(value));
+            if (integer.hasOverflow()) {
+                return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+            }
+            return [integer, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('round', new types_1.FunctionType(realType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('floor', new values_1.PredefinedFunction('floor', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            var integer = new values_1.Integer(Math.floor(value));
+            if (integer.hasOverflow()) {
+                return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+            }
+            return [integer, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('floor', new types_1.FunctionType(realType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('ceil', new values_1.PredefinedFunction('ceil', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var value = val.value;
+            var integer = new values_1.Integer(Math.ceil(value));
+            if (integer.hasOverflow()) {
+                return [new values_1.ExceptionConstructor('Overflow').construct(), true, []];
+            }
+            return [integer, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('ceil', new types_1.FunctionType(realType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('toString', new values_1.PredefinedFunction('toString', function (val, params) {
+        if (val instanceof values_1.Real) {
+            var str = new values_1.StringValue(val.toString(undefined));
+            return [str, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('toString', new types_1.FunctionType(realType, stringType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicStructure('Real', dres);
+    state.setStaticStructure('Real', sres);
+    return state;
+}
+function addIntLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    dres.setValue('toString', new values_1.PredefinedFunction('toString', function (val, params) {
+        if (val instanceof values_1.Integer) {
+            var str = new values_1.StringValue(val.toString(undefined));
+            return [str, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('toString', new types_1.FunctionType(intType, stringType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicStructure('Int', dres);
+    state.setStaticStructure('Int', sres);
+    return state;
+}
+function addListLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    sres.setType('list', new types_1.CustomType('list', [new types_1.TypeVariable('\'a')]), ['nil', '::'], 1, true);
+    sres.setValue('nil', new types_1.TypeVariableBind('\'a', new types_1.CustomType('list', [new types_1.TypeVariable('\'a')])), state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+    sres.setValue('::', new types_1.TypeVariableBind('\'a', new types_1.FunctionType(new types_1.TupleType([new types_1.TypeVariable('\'a'),
+        new types_1.CustomType('list', [new types_1.TypeVariable('\'a')])]), new types_1.CustomType('list', [new types_1.TypeVariable('\'a')]))).simplify(), state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+    dres.setType('list', ['nil', '::']);
+    dres.setValue('nil', new values_1.ValueConstructor('nil'), state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+    dres.setValue('::', new values_1.ValueConstructor('::', 1), state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+    state.setDynamicStructure('List', dres);
+    state.setStaticStructure('List', sres);
+    return state;
+}
+function addStringLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    sres.setType('string', new types_1.CustomType('string', []), [], 0, true);
+    dres.setType('string', []);
+    sres.setType('char', new types_1.CustomType('char', []), [], 0, true);
+    dres.setType('char', []);
+    state.setDynamicStructure('String', dres);
+    state.setStaticStructure('String', sres);
+    return state;
+}
+function addVectorLib(state) {
+    var dres = new state_1.DynamicBasis({}, {}, {}, {}, {});
+    var sres = new state_1.StaticBasis({}, {}, {}, {}, {});
+    var vectorType = new types_1.CustomType('vector', [new types_1.TypeVariable('\'a')]);
+    var listType = new types_1.CustomType('list', [new types_1.TypeVariable('\'a')]);
+    sres.setType('vector', vectorType, [], 1, true);
+    dres.setType('vector', []);
+    dres.setValue('fromList', new values_1.PredefinedFunction('fromList', function (val, params) {
+        var vec = new values_1.VectorValue([]);
+        if (val instanceof values_1.ConstructedValue) {
+            var list = val;
+            while (list.constructorName !== 'nil') {
+                if (list.constructorName !== '::') {
+                    throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                }
+                var arg = list.argument;
+                if (arg instanceof values_1.RecordValue && arg.entries.size === 2) {
+                    var a1 = arg.getValue('1');
+                    var a2 = arg.getValue('2');
+                    if (a1 instanceof values_1.Value && a2 instanceof values_1.ConstructedValue) {
+                        vec.entries.push(a1);
+                        list = a2;
+                    }
+                    else {
+                        throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                    }
+                }
+                else {
+                    throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+                }
+            }
+            return [vec, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('fromList', new types_1.FunctionType(listType, vectorType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('sub', new values_1.PredefinedFunction('sub', function (val, params) {
+        if (val instanceof values_1.RecordValue && val.entries.size === 2) {
+            var vec = val.getValue('1');
+            var index = val.getValue('2');
+            if (vec instanceof values_1.VectorValue && index instanceof values_1.Integer) {
+                var ind = index.value;
+                if (ind < 0 || ind >= vec.entries.length) {
+                    return [new values_1.ExceptionConstructor('Subscript').construct(), true, []];
+                }
+                return [vec.entries[ind], false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('sub', new types_1.FunctionType(new types_1.TupleType([vectorType, intType]).simplify(), new types_1.TypeVariable('\'a')), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('update', new values_1.PredefinedFunction('update', function (val, params) {
+        if (val instanceof values_1.RecordValue && val.entries.size === 3) {
+            var vec = val.getValue('1');
+            var index = val.getValue('2');
+            var value = val.getValue('3');
+            if (vec instanceof values_1.VectorValue && index instanceof values_1.Integer) {
+                var ind = index.value;
+                if (ind < 0 || ind >= vec.entries.length) {
+                    return [new values_1.ExceptionConstructor('Subscript').construct(), true, []];
+                }
+                var res = new values_1.VectorValue(vec.entries.slice());
+                res.entries[ind] = value;
+                return [res, false, []];
+            }
+            else {
+                throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+            }
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('update', new types_1.FunctionType(new types_1.TupleType([vectorType, intType, new types_1.TypeVariable('\'a')]).simplify(), vectorType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    dres.setValue('length', new values_1.PredefinedFunction('length', function (val, params) {
+        if (val instanceof values_1.VectorValue) {
+            var res = new values_1.Integer(val.entries.length);
+            return [res, false, []];
+        }
+        else {
+            throw new errors_1.InternalInterpreterError(-1, 'std type mismatch');
+        }
+    }), state_1.IdentifierStatus.VALUE_VARIABLE);
+    sres.setValue('length', new types_1.FunctionType(vectorType, intType), state_1.IdentifierStatus.VALUE_VARIABLE);
+    state.setDynamicStructure('Vector', dres);
+    state.setStaticStructure('Vector', sres);
+    return state;
+}
+exports.STDLIB = {
+    '__Base': {
+        'native': undefined,
+        'code': "fun o (f,g) x = f (g x);\n            infix 3 o;\n            datatype order = LESS | EQUAL | GREATER;\n\n            exception Domain;\n            exception Size;\n            exception Chr;\n            exception Subscript;\n\n            fun not true = false | not false = true;\n\n            fun ! (a : 'A ref): 'A = ! a;\n            fun op := ((a, b) : ('A ref * 'A)): unit = a := b;\n            fun ref (a : 'A): 'A ref = ref a;",
+        'requires': undefined
+    },
+    'Array': {
+        'native': addArrayLib,
+        'code': "structure Array :> sig\n            (* eqtype 'a array = 'a array *)\n            (* type 'a vector = 'a Vector.vector *)\n            (* val maxLen : int *)\n            val array : int * 'a -> 'a array\n            val fromList : 'a list -> 'a array\n            val tabulate : int * (int -> 'a) -> 'a array\n            val length : 'a array -> int\n            val sub : 'a array * int -> 'a\n            val update : 'a array * int * 'a -> unit\n            (* val vector : 'a array -> 'a vector *)\n            (* val copy    : {src : 'a array, dst : 'a array, di : int} -> unit *)\n            (* val copyVec : {src : 'a vector, dst : 'a array, di : int} -> unit *)\n            (* val appi : (int * 'a -> unit) -> 'a array -> unit *)\n            (* val app  : ('a -> unit) -> 'a array -> unit *)\n            (* val modifyi : (int * 'a -> 'a) -> 'a array -> unit *)\n            (* val modify  : ('a -> 'a) -> 'a array -> unit *)\n            (* val foldli : (int * 'a * 'b -> 'b) -> 'b -> 'a array -> 'b *)\n            (* val foldri : (int * 'a * 'b -> 'b) -> 'b -> 'a array -> 'b *)\n            (* val foldl  : ('a * 'b -> 'b) -> 'b -> 'a array -> 'b *)\n            (* val foldr  : ('a * 'b -> 'b) -> 'b -> 'a array -> 'b *)\n            (* val findi : (int * 'a -> bool) -> 'a array -> (int * 'a) option *)\n            (* val find  : ('a -> bool) -> 'a array -> 'a option *)\n            (* val exists : ('a -> bool) -> 'a array -> bool *)\n            (* val all : ('a -> bool) -> 'a array -> bool *)\n            (* val collate : ('a * 'a -> order) -> 'a array * 'a array -> order *)\n        end = struct\n            open Array;\n            fun tabulate (n, f) = fromList (List.tabulate (n, f));\n            (* TODO *)\n        end;",
+        'requires': ['Option', 'List', 'Vector']
+    },
+    'Char': {
+        'native': addCharLib,
+        'code': "structure Char = struct\n                fun isLower c  = #\"a\" <= c andalso c <= #\"z\"\n                fun isUpper c  = #\"A\" <= c andalso c <= #\"Z\"\n                fun isDigit c  = #\"0\" <= c andalso c <= #\"9\"\n                fun isAlpha c  = isLower c orelse isUpper c\n                fun isHexDigit c = #\"0\" <= c andalso c <= #\"9\"\n                               orelse #\"a\" <= c andalso c <= #\"f\"\n                               orelse #\"A\" <= c andalso c <= #\"F\"\n                fun isAlphaNum c = isAlpha c orelse isDigit c\n                fun isPrint c  = c >= #\" \" andalso c < #\"\\127\"\n                fun isSpace c  = c = #\" \" orelse #\"\\009\" <= c andalso c <= #\"\\013\"\n                fun isGraph c  = isPrint c andalso not (isSpace c)\n                fun isPunct c  = isGraph c andalso not (isAlphaNum c)\n                fun isAscii c  = c <= #\"\\127\"\n                fun isCntrl c  = c < #\" \" orelse c >= #\"\\127\"\n\n                fun toLower c =\n                    if #\"A\" <= c andalso c <= #\"Z\" then chr (ord c + 32)\n                    else c;\n                fun toUpper c =\n                    if #\"a\" <= c andalso c <= #\"z\" then chr (ord c - 32)\n                    else c;\n\n                fun compare (a, b) = Int.compare(ord a, ord b);\n                fun op< (a, b) = Int.compare(ord a, ord b) = LESS;\n                fun op> (a, b) = Int.compare(ord a, ord b) = GREATER;\n                fun op<= (a, b) = Int.compare(ord a, ord b) <> GREATER;\n                fun op>= (a, b) = Int.compare(ord a, ord b) <> LESS;\n\n                val ord = ord;\n                val chr = chr;\n            end;",
+        'requires': ['Int']
+    },
+    'Int': {
+        'native': addIntLib,
+        'code': "structure Int = struct\n                open Int;\n                fun compare (x, y: int) = if x < y then LESS else if x > y then GREATER else EQUAL;\n\n                val minInt = SOME ~" + -values_1.MININT + ";\n                val maxInt = SOME " + values_1.MAXINT + ";\n                fun max (x, y) = if x < y then y else x : int;\n                fun min (x, y) = if x > y then y else x : int;\n            end;",
+        'requires': ['Option']
+    },
+    'List': {
+        'native': addListLib,
+        'code': "structure List : sig\n                datatype 'a list = nil | :: of 'a * 'a list;\n                val rev: 'a list -> 'a list;\n            end  = struct\n                open List;\n                fun rev' nil ys     = ys\n                  | rev' (x::xs) ys = rev' xs (x::ys)\n                fun rev xs = rev' xs nil;\n            end;\n\n            structure List = struct\n                exception Empty;\n                open List;\n\n                fun hd nil = raise Empty\n                  | hd (x::xr) = x;\n\n                fun tl nil = raise Empty\n                  | tl (x::xr) = xr;\n\n                fun null nil = true\n                  | null (x::xr) = false;\n\n                fun map f nil = nil\n                  | map f (x::xr) = (f x) :: (map f xr);\n\n                infixr 5 @;\n                fun [] @ ys = ys\n                  | (x::xr) @ ys = x :: (xr @ ys);\n\n                fun length nil = 0\n                  | length (x::xr) = 1 + length xr;\n\n                fun foldr f e []      = e\n                  | foldr f e (x::xr) = f(x, foldr f e xr);\n\n                fun foldl f e []      = e\n                  | foldl f e (x::xr) = foldl f (f(x, e)) xr;\n            end;\n            open List;\n            infixr 5 @;\n\n            structure List = struct\n                open List;\n\n                fun concat nil = nil\n                  | concat (x::xr) = x @ concat xr;\n\n                fun tabulate (n, f) = let\n                    fun h i = if i < n then f i :: h (i + 1) else []\n                in\n                    if n < 0 then raise Size else h 0\n                end;\n\n                fun exists p []      = false\n                  | exists p (x::xr) = p x orelse exists p xr;\n\n                fun all p []      = true\n                  | all p (x::xr) = p x andalso all p xr;\n\n                fun filter p []      = []\n                  | filter p (x::xr) = if p x then x :: filter p xr else filter p xr;\n\n                fun collate (compare : 'a * 'a -> order) p = case p of\n                    (nil, _::_)     => LESS\n                  | (nil, nil)      => EQUAL\n                  | (_::_, nil)     => GREATER\n                  | (x::xr, y::yr)  => case compare (x, y) of\n                         EQUAL  => collate compare (xr, yr)\n                       | s      => s;\n\n                fun nth ([], _)    = raise Subscript\n                  | nth (x::xs, 0) = x\n                  | nth (x::xs, n) = nth (xs, n - 1);\n\n                fun last [x] = x\n                  | last (x::xs) = last xs\n                  | last [] = raise Empty;\n\n                fun getItem [] = NONE\n                  | getItem x = SOME (hd x, tl x);\n\n                fun take (x, 0) = []\n                  | take ([], _) = raise Subscript\n                  | take (x::xs, n) = x :: take (xs, n - 1);\n\n                fun drop (x, 0) = x\n                  | drop ([], _) = raise Subscript\n                  | drop (x::xs, n) = drop (xs, n - 1);\n\n                fun revAppend (l1, l2) = (rev l1) @ l2;\n\n                fun app f [] = ()\n                  | app f (x::xs) = (f x; app f xs);\n\n                fun mapPartial f l\n                    = ((map valOf) o (filter isSome) o (map f)) l;\n\n                fun find f [] = NONE\n                  | find f (x::xs) = if f x then SOME x else find f xs;\n\n                fun partition f [] = ([], [])\n                  | partition f (x::xs) = let\n                    val tmp = partition f xs\n                in\n                    if f x then (x :: #1 tmp, #2 tmp)\n                    else (#1 tmp, x :: #2 tmp)\n                end;\n            end;",
+        'requires': ['Option']
+    },
+    'Listsort': {
+        'native': undefined,
+        'code': "structure Listsort : sig\n                val sort: ('a * 'a -> order) -> 'a list -> 'a list;\n                val sorted: ('a * 'a -> order) -> 'a list -> bool;\n                val mergeUniq: ('a * 'a -> order) -> 'a list * 'a list -> 'a list;\n                val merge: ('a * 'a -> order) -> 'a list * 'a list -> 'a list;\n                val eqclasses: ('a * 'a -> order) -> 'a list -> 'a list list;\n            end = struct\n              fun take ordr x1 xr []       = x1 :: xr\n                | take ordr x1 xr (y1::yr) = (case ordr(x1, y1) of\n                    LESS    => x1 :: take ordr y1 yr xr\n                  | _       => y1 :: take ordr x1 xr yr);\n\n              fun takeUniq ordr x1 xr []       = x1 :: xr\n                | takeUniq ordr x1 xr (y1::yr) = (case ordr(x1, y1) of\n                    LESS    => x1 :: takeUniq ordr y1 yr xr\n                  | GREATER => y1 :: takeUniq ordr x1 xr yr\n                  | EQUAL   => takeUniq ordr x1 xr yr);\n\n              fun merge ordr ([],     ys) = ys\n                | merge ordr (x1::xr, ys) = take ordr x1 xr ys;\n\n              fun mergeUniq ordr ([],     ys) = ys\n                | mergeUniq ordr (x1::xr, ys) = takeUniq ordr x1 xr ys;\n\n              fun mergepairs ordr l1  [] k              = [l1]\n                | mergepairs ordr l1 (ls as (l2::lr)) k =\n                  if k mod 2 = 1 then l1::ls\n                  else mergepairs ordr (merge ordr (l1, l2)) lr (k div 2);\n\n              fun nextrun ordr run []      = (run, [])\n                | nextrun ordr run (xs as (x::xr)) =\n                  if ordr(x, List.hd run) = LESS then (run, xs)\n                  else nextrun ordr (x::run) xr;\n\n              fun sorting ordr []      ls r = List.hd(mergepairs ordr [] ls 0)\n                | sorting ordr (x::xs) ls r = let\n                    val (revrun, tail) = nextrun ordr [x] xs\n                  in\n                    sorting ordr tail (mergepairs ordr (List.rev revrun) ls (r+1)) (r+1)\n                  end;\n\n              fun group ordr last rest cs1 css = case rest of\n                  []     => cs1 :: css\n                | r1::rr => if ordr(r1, last) = EQUAL then group ordr r1 rr (r1 :: cs1) css\n                            else group ordr r1 rr [r1] (cs1 :: css);\n\n              fun sort ordr []               = []\n                | sort ordr (xs as [_])      = xs\n                | sort ordr (xs as [x1, x2]) = (case ordr(x1, x2) of\n                    GREATER => [x2, x1]\n                  | _       => xs)\n                | sort ordr xs = sorting ordr xs [] 0;\n\n              fun sorted ordr []           = true\n                | sorted ordr [x]          = true\n                | sorted ordr (x1::x2::xr) =\n                  ordr(x1, x2) <> GREATER andalso sorted ordr (x2::xr);\n\n\n              fun eqclasses ordr xs = let\n                  val xs = List.rev (sort ordr xs)\n                in\n                  case xs of\n                      []     => []\n                    | x1::xr => group ordr x1 xr [x1] []\n                  end;\n            end;\n            structure List = struct\n                open List;\n                open Listsort;\n            end;",
+        'requires': ['List']
+    },
+    'Math': {
+        'native': addMathLib,
+        'code': undefined,
+        'requires': undefined
+    },
+    'Option': {
+        'native': undefined,
+        'code': "structure Option = struct\n                exception Option;\n\n                datatype 'a option = NONE | SOME of 'a;\n\n                fun getOpt (NONE, a) = a\n                  | getOpt (SOME x, a) = x;\n\n                fun isSome NONE = false\n                  | isSome (SOME _) = true;\n\n                fun valOf (SOME x) = x\n                  | valOf NONE = raise Option;\n\n                fun filter f x = if f x then SOME x else NONE;\n\n                fun join NONE = NONE\n                  | join (SOME (SOME x)) = SOME x;\n\n                fun app f (SOME v) = f v\n                  | app f NONE = ();\n\n                fun map f NONE = NONE\n                  | map f (SOME v) = SOME(f v);\n\n                fun mapPartial f NONE = NONE\n                  | mapPartial f (SOME v) = f v;\n\n                fun compose (f, g) a = case g a of\n                      NONE => NONE\n                    | SOME v => SOME (f v);\n\n                fun compose (f, g) a = case g a of\n                      NONE => NONE\n                    | SOME v => (f v);\n            end;\n            open Option;",
+        'requires': undefined
+    },
+    'Real': {
+        'native': addRealLib,
+        'code': "structure Real = struct\n                open Real;\n                fun compare (x, y: real) = if x < y then LESS else if x > y then GREATER else EQUAL;\n            end;",
+        'requires': undefined
+    },
+    'String': {
+        'native': addStringLib,
+        'code': "structure String : sig\n                eqtype string\n                eqtype char\n                val size : string -> int\n                val sub : string * int -> char\n                val extract   : string * int * int option -> string\n                val substring : string * int * int -> string\n                val ^ : string * string -> string\n                val concat : string list -> string\n                val concatWith : string -> string list -> string\n                val str : char -> string\n                val implode : char list -> string\n                val explode : string -> char list\n                val map : (char -> char) -> string -> string\n                val translate : (char -> string) -> string -> string\n                val tokens : (char -> bool) -> string -> string list\n                val fields : (char -> bool) -> string -> string list\n                val isPrefix    : string -> string -> bool\n                val isSubstring : string -> string -> bool\n                val isSuffix    : string -> string -> bool\n                val compare : string * string -> order\n                val collate : (char * char -> order)\n                                -> string * string -> order\n                val <  : string * string -> bool\n                val <= : string * string -> bool\n                val >  : string * string -> bool\n                val >= : string * string -> bool\n            end = struct\n                open String;\n\n                fun size s = List.length (explode s);\n                fun sub (s,i) = List.nth (explode s, i);\n                fun extract (s, i, NONE) = implode (List.drop (explode s, i))\n                  | extract (s, i, SOME j) = implode (List.take (List.drop (explode s, i), j));\n                fun substring (s, i, j) = extract (s, i, SOME j);\n                val op^ = op^;\n\n                fun cc2 b ([], y) = y\n                  | cc2 b (x::xs, y) = cc2 b (xs, y^b^x);\n                fun concat a = cc2 \"\" (a, \"\");\n                fun concatWith b [] = \"\"\n                  | concatWith b (a::c) = a ^ (cc2 b (c, \"\"));\n\n                fun str c = implode [c];\n                val implode = implode;\n                val explode = explode;\n                fun map f s = implode(List.map f (explode s));\n                fun translate f s = concat(List.map f (explode s));\n\n\n                fun cmp f ([], []) = EQUAL\n                  | cmp f ([], _) = LESS\n                  | cmp f (_, []) = GREATER\n                  | cmp f (x::xs, y::ys) = let\n                        val tmp = f (x, y);\n                    in\n                        if tmp <> EQUAL then tmp else cmp f (xs, ys)\n                    end;\n\n                fun matchPrefix ([], _) = true\n                  | matchPrefix (_, []) = false\n                  | matchPrefix (x::xs, y::ys) = if x <> y then false else matchPrefix (xs, ys);\n\n                fun matchSubstring ([], _) = true\n                  | matchSubstring (_, []) = false\n                  | matchSubstring (x, y as _::ys) = if matchPrefix (x, y) then true\n                    else matchSubstring (x, ys);\n\n                fun getFields (f, [], tmp, x) = (implode tmp) :: x\n                  | getFields (f, (r::rs), tmp, x) = if f r then\n                        getFields (f, rs, [], (implode tmp)::x)\n                    else\n                        getFields (f, rs, r::tmp, x);\n\n                fun tokens f s = List.filter (fn t => t <> \"\") (getFields (f, rev (explode s), [], []));\n                fun fields f s = getFields (f, rev (explode s), [], []);\n\n                fun isPrefix a b = matchPrefix (explode a, explode b);\n                fun isSubstring a b = matchSubstring (explode a, explode b);\n                fun isSuffix a b = matchPrefix (rev (explode a), rev (explode b));\n\n                fun compare (a, b) = cmp Char.compare (explode a, explode b);\n                fun collate f (a, b) = cmp f (explode a, explode b);\n\n                fun op< (a, b) = compare (a, b) = LESS;\n                fun op> (a, b) = compare (a, b) = GREATER;\n                fun op<= (a, b) = compare (a, b) <> GREATER;\n                fun op>= (a, b) = compare (a, b) <> LESS;\n            end;",
+        'requires': ['Char', 'List']
+    },
+    'Vector': {
+        'native': addVectorLib,
+        'code': "structure Vector :> sig\n            (* eqtype 'a vector = 'a vector *)\n            (* val maxLen : int *)\n            val fromList : 'a list -> 'a vector\n            val tabulate : int * (int -> 'a) -> 'a vector\n            val length : 'a vector -> int\n            val sub : 'a vector * int -> 'a\n            val update : 'a vector * int * 'a -> 'a vector\n            (* val concat : 'a vector list -> 'a vector *)\n            (* val appi : (int * 'a -> unit) -> 'a vector -> unit *)\n            (* val app  : ('a -> unit) -> 'a vector -> unit *)\n            (* val mapi : (int * 'a -> 'b) -> 'a vector -> 'b vector *)\n            (* val map  : ('a -> 'b) -> 'a vector -> 'b vector *)\n            (* val foldli : (int * 'a * 'b -> 'b) -> 'b -> 'a vector -> 'b *)\n            (* val foldri : (int * 'a * 'b -> 'b) -> 'b -> 'a vector -> 'b *)\n            (* val foldl  : ('a * 'b -> 'b) -> 'b -> 'a vector -> 'b *)\n            (* val foldr  : ('a * 'b -> 'b) -> 'b -> 'a vector -> 'b *)\n            (* val findi : (int * 'a -> bool) -> 'a vector -> (int * 'a) option *)\n            (* val find  : ('a -> bool) -> 'a vector -> 'a option *)\n            (* val exists : ('a -> bool) -> 'a vector -> bool *)\n            (* val all : ('a -> bool) -> 'a vector -> bool *)\n            (* val collate : ('a * 'a -> order) -> 'a vector * 'a vector -> order *)\n        end = struct\n            open Vector;\n            fun tabulate (n, f) = fromList (List.tabulate (n, f));\n        end; ",
+        'requires': ['Option', 'List']
+    },
+    'Version': {
+        'native': undefined,
+        'code': "structure Version = struct\n            val branch      = \"" + version_1.BRANCH_NAME + "\";\n            val commit      = \"" + version_1.COMMIT_HASH + "\";\n            val buildDate   = \"" + version_1.BUILD_DATE + "\";\n            val message     = \"" + version_1.COMMIT_MESSAGE + "\";\n        end;",
+        'requires': undefined
+    }
+};
+function loadModule(state, name, options) {
+    if (!exports.STDLIB.hasOwnProperty(name)) {
+        throw new errors_1.InternalInterpreterError(-1, 'The module "' + name + '" does not exist. Auuuu~');
+    }
+    if (state.hasModule(name)) {
+        return state;
+    }
+    var mod = exports.STDLIB[name];
+    if (mod.requires !== undefined) {
+        for (var _i = 0, _a = mod.requires; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (!state.hasModule(i)) {
+                state = loadModule(state, i, options);
+            }
+        }
+    }
+    if (mod.native !== undefined) {
+        state = mod.native(state);
+    }
+    if (mod.code !== undefined) {
+        state = Interpreter.interpret(mod.code, state, options).state;
+    }
+    state.registerModule(name);
+    return state;
+}
+exports.loadModule = loadModule;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var expressions_1 = __webpack_require__(6);
+var declarations_1 = __webpack_require__(5);
+var tokens_1 = __webpack_require__(1);
+var types_1 = __webpack_require__(4);
+var state_1 = __webpack_require__(2);
+var errors_1 = __webpack_require__(0);
+var values_1 = __webpack_require__(3);
+var initialState_1 = __webpack_require__(7);
+var StructureExpression = (function (_super) {
+    __extends(StructureExpression, _super);
+    // struct <strdec> end
+    function StructureExpression(position, structureDeclaration) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.structureDeclaration = structureDeclaration;
+        return _this;
+    }
+    StructureExpression.prototype.simplify = function () {
+        return new StructureExpression(this.position, this.structureDeclaration.simplify());
+    };
+    StructureExpression.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var nstate = state.getNestedState(0).getNestedState(state.id);
+        var tmp = this.structureDeclaration.elaborate(nstate, tyVarBnd, nextName, true);
+        state.valueIdentifierId = tmp[0].valueIdentifierId;
+        return [tmp[0].getStaticChanges(0), tmp[1], tmp[2], tmp[3]];
+    };
+    StructureExpression.prototype.computeStructure = function (params, callStack, recCall) {
+        if (params.recResult === undefined) {
+            var state = params.state;
+            var nstate = state.getNestedState(0).getNestedState(state.id);
+            callStack.push({ 'next': recCall, 'params': params });
+            callStack.push({
+                'next': this.structureDeclaration,
+                'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+            });
+            return;
+        }
+        // braced so linter does not complain about shadowed names
+        {
+            var tmp = params.recResult;
+            if (tmp === undefined
+                || tmp.newState === undefined) {
+                throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+            }
+            var nstate = tmp.newState;
+            if (tmp.hasThrown) {
+                return tmp.value;
+            }
+            return nstate.getDynamicChanges(0);
+        }
+    };
+    StructureExpression.prototype.toString = function () {
+        return 'struct ' + this.structureDeclaration + ' end';
+    };
+    return StructureExpression;
+}(expressions_1.Expression));
+exports.StructureExpression = StructureExpression;
+var StructureIdentifier = (function (_super) {
+    __extends(StructureIdentifier, _super);
+    // longstrid
+    function StructureIdentifier(position, identifier) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.identifier = identifier;
+        return _this;
+    }
+    StructureIdentifier.prototype.simplify = function () {
+        return this;
+    };
+    StructureIdentifier.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = undefined;
+        if (this.identifier instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.identifier);
+            if (st !== undefined) {
+                res = st.getStructure(this.identifier.id.getText());
+            }
+        }
+        else {
+            res = state.getStaticStructure(this.identifier.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'Undefined module "'
+                + this.identifier.getText() + '".');
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    StructureIdentifier.prototype.computeStructure = function (params, callStack, recCall) {
+        var state = params.state;
+        var res = undefined;
+        if (this.identifier instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveDynamicStructure(this.identifier);
+            if (st !== undefined) {
+                res = st.getStructure(this.identifier.id.getText());
+            }
+        }
+        else {
+            res = state.getDynamicStructure(this.identifier.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Undefined module "'
+                + this.identifier.getText() + '".');
+        }
+        return res;
+    };
+    StructureIdentifier.prototype.toString = function () {
+        return this.identifier.getText();
+    };
+    return StructureIdentifier;
+}(expressions_1.Expression));
+exports.StructureIdentifier = StructureIdentifier;
+var TransparentConstraint = (function (_super) {
+    __extends(TransparentConstraint, _super);
+    function TransparentConstraint(position, structureExpression, signatureExpression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.structureExpression = structureExpression;
+        _this.signatureExpression = signatureExpression;
+        return _this;
+    }
+    // strexp : sigexp
+    TransparentConstraint.restrict = function (sig, str, state, tyVarBnd, nextName, position) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var nstate = state.getNestedState(state.id);
+        nstate.staticBasis = str;
+        var nstate2 = state.getNestedState(state.id);
+        nstate2.staticBasis = sig;
+        for (var i in sig.typeEnvironment) {
+            if (sig.typeEnvironment.hasOwnProperty(i)) {
+                if (!str.typeEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Unimplemented type "' + i + '".');
+                }
+                var sg = sig.typeEnvironment[i];
+                var st = str.typeEnvironment[i];
+                if (sg.arity !== st.arity) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Implementation of type "' + i
+                        + '" has the wrong arity.');
+                }
+                try {
+                    var sgtp = sg.type;
+                    var sttp = st.type;
+                    if (st.type instanceof types_1.FunctionType) {
+                        sttp = st.type.parameterType;
+                    }
+                    var tp = sgtp.merge(nstate, tyVarBnd, sttp);
+                    res.setType(i, st.type.instantiate(nstate2, tp[1]), sg.constructors, sg.arity, sg.allowsEquality);
+                    tyVarBnd = tp[1];
+                }
+                catch (e) {
+                    if (!(e instanceof Array)) {
+                        throw e;
+                    }
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Wrong implementation of type "' + i + '": ' + e[0]);
+                }
+            }
+        }
+        for (var i in sig.valueEnvironment) {
+            if (sig.valueEnvironment.hasOwnProperty(i)) {
+                if (!str.valueEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Unimplemented value "' + i + '".');
+                }
+                var sg = sig.valueEnvironment[i];
+                var st = str.valueEnvironment[i];
+                var repl = new Map();
+                var vsg = sg[0].getTypeVariables();
+                var vst = st[0].getTypeVariables();
+                while (st[0] instanceof types_1.TypeVariableBind) {
+                    while (true) {
+                        var cur = +nextName.substring(3);
+                        var nname = '\'' + nextName[1] + nextName[2] + (cur + 1);
+                        nextName = nname;
+                        if (!tyVarBnd.has(nname) && !vsg.has(nname) && !vst.has(nname)) {
+                            if (st[0].name[1] === '\'') {
+                                nname = '\'' + nname;
+                            }
+                            repl = repl.set(st[0].name, nname);
+                            break;
+                        }
+                    }
+                    st[0] = st[0].type;
+                }
+                st[0] = st[0].replaceTypeVariables(repl);
+                var nsg = sg[0];
+                while (nsg instanceof types_1.TypeVariableBind) {
+                    while (true) {
+                        var cur = +nextName.substring(3);
+                        var nname = '\'' + nextName[1] + nextName[2] + (cur + 1);
+                        nextName = nname;
+                        if (!tyVarBnd.has(nname) && !vsg.has(nname) && !vst.has(nname)) {
+                            if (nsg.name[1] === '\'') {
+                                nname = '\'' + nname;
+                            }
+                            repl = repl.set(nsg.name, nname);
+                            break;
+                        }
+                    }
+                    nsg = nsg.type;
+                }
+                nsg = nsg.replaceTypeVariables(repl);
+                try {
+                    var mg = nsg.merge(nstate, tyVarBnd, st[0]);
+                    res.setValue(i, sg[0].instantiate(nstate, mg[1]), sg[1]);
+                }
+                catch (e) {
+                    if (!(e instanceof Array)) {
+                        throw e;
+                    }
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Wrong implementation of type "' + i + '": ' + e[0]);
+                }
+            }
+        }
+        for (var i in sig.structureEnvironment) {
+            if (sig.structureEnvironment.hasOwnProperty(i)) {
+                if (!str.structureEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Unimplemented structure "' + i + '".');
+                }
+                try {
+                    var tmp = TransparentConstraint.restrict(sig.getStructure(i), str.getStructure(i), nstate, tyVarBnd, nextName, position);
+                    res.setStructure(i, tmp[0]);
+                    tyVarBnd = tmp[2];
+                    nextName = tmp[3];
+                }
+                catch (e) {
+                    throw new errors_1.ElaborationError(position, 'Signature Mismatch: Wrong implementation of structure "' + i + '": '
+                        + e.message);
+                }
+            }
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    TransparentConstraint.prototype.simplify = function () {
+        return new TransparentConstraint(this.position, this.structureExpression.simplify(), this.signatureExpression.simplify());
+    };
+    TransparentConstraint.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var str = this.structureExpression.elaborate(state, tyVarBnd, nextName);
+        var sig = this.signatureExpression.elaborate(state, str[2], str[3]);
+        return TransparentConstraint.restrict(sig[0], str[0], state, sig[2], sig[3], this.position);
+    };
+    TransparentConstraint.prototype.computeStructure = function (params, callStack, recCall) {
+        var tmp = this.structureExpression.computeStructure(params, callStack, recCall);
+        if (tmp === undefined) {
+            return undefined;
+        }
+        if (tmp instanceof values_1.Value) {
+            return tmp;
+        }
+        var sig = this.signatureExpression.computeInterface(params.state);
+        return tmp.restrict(sig);
+    };
+    TransparentConstraint.prototype.toString = function () {
+        return this.structureExpression + ' : ' + this.signatureExpression;
+    };
+    return TransparentConstraint;
+}(expressions_1.Expression));
+exports.TransparentConstraint = TransparentConstraint;
+var OpaqueConstraint = (function (_super) {
+    __extends(OpaqueConstraint, _super);
+    function OpaqueConstraint(position, structureExpression, signatureExpression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.structureExpression = structureExpression;
+        _this.signatureExpression = signatureExpression;
+        return _this;
+    }
+    // strexp :> sigexp
+    OpaqueConstraint.restrict = function (sig, str, state, tyVarBnd, nextName, position) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var nstate = state.getNestedState(state.id);
+        nstate.staticBasis = str;
+        var nstate2 = state.getNestedState(state.id);
+        nstate2.staticBasis = sig;
+        nstate2 = nstate2.getNestedState(state.id);
+        for (var i in sig.typeEnvironment) {
+            if (sig.typeEnvironment.hasOwnProperty(i)) {
+                if (!str.typeEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Unimplemented type "' + i + '".');
+                }
+                var sg = sig.typeEnvironment[i];
+                var st = str.typeEnvironment[i];
+                if (sg.arity !== st.arity) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Implementation of type "' + i
+                        + '" has the wrong arity.');
+                }
+                try {
+                    var sgtp = sg.type;
+                    var sttp = st.type;
+                    if (st.type instanceof types_1.FunctionType) {
+                        sttp = st.type.parameterType;
+                    }
+                    var tp = sgtp.merge(nstate, tyVarBnd, sttp);
+                    // We need to create a new type here because of reference stuff
+                    sgtp = new types_1.CustomType(sgtp.name, sgtp.typeArguments, sgtp.position, sgtp.qualifiedName, true);
+                    res.setType(i, sgtp, [], sg.arity, sg.allowsEquality);
+                    nstate2.staticBasis.setType(i, sgtp, sg.constructors, sg.arity, sg.allowsEquality);
+                    tyVarBnd = tp[1];
+                }
+                catch (e) {
+                    if (!(e instanceof Array)) {
+                        throw e;
+                    }
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Wrong implementation of type "' + i + '": ' + e[0]);
+                }
+            }
+        }
+        for (var i in sig.valueEnvironment) {
+            if (sig.valueEnvironment.hasOwnProperty(i)) {
+                if (!str.valueEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Unimplemented value "' + i + '".');
+                }
+                var sg = sig.valueEnvironment[i];
+                var st = str.valueEnvironment[i];
+                var repl = new Map();
+                var vsg = sg[0].getTypeVariables();
+                var vst = st[0].getTypeVariables();
+                var nst = st[0];
+                while (nst instanceof types_1.TypeVariableBind) {
+                    while (true) {
+                        var cur = +nextName.substring(3);
+                        var nname = '\'' + nextName[1] + nextName[2] + (cur + 1);
+                        nextName = nname;
+                        if (!tyVarBnd.has(nname) && !vsg.has(nname) && !vst.has(nname)) {
+                            if (nst.name[1] === '\'') {
+                                nname = '\'' + nname;
+                            }
+                            repl = repl.set(nst.name, nname);
+                            break;
+                        }
+                    }
+                    nst = nst.type;
+                }
+                nst = nst.replaceTypeVariables(repl);
+                var nsg = sg[0];
+                while (nsg instanceof types_1.TypeVariableBind) {
+                    while (true) {
+                        var cur = +nextName.substring(3);
+                        var nname = '\'' + nextName[1] + nextName[2] + (cur + 1);
+                        nextName = nname;
+                        if (!tyVarBnd.has(nname) && !vsg.has(nname) && !vst.has(nname)) {
+                            if (nsg.name[1] === '\'') {
+                                nname = '\'' + nname;
+                            }
+                            repl = repl.set(nsg.name, nname);
+                            break;
+                        }
+                    }
+                    nsg = nsg.type;
+                }
+                nsg = nsg.replaceTypeVariables(repl);
+                try {
+                    nsg.merge(nstate, tyVarBnd, nst);
+                    res.setValue(i, sg[0].instantiate(nstate2, tyVarBnd), sg[1]);
+                }
+                catch (e) {
+                    if (!(e instanceof Array)) {
+                        throw e;
+                    }
+                    throw new errors_1.ElaborationError(position, 'Signature mismatch: Wrong implementation of type "' + i + '": ' + e[0]);
+                }
+            }
+        }
+        for (var i in sig.structureEnvironment) {
+            if (sig.structureEnvironment.hasOwnProperty(i)) {
+                if (!str.structureEnvironment.hasOwnProperty(i)) {
+                    throw new errors_1.ElaborationError(position, 'Unimplemented structure "' + i + '".');
+                }
+                try {
+                    var tmp = OpaqueConstraint.restrict(sig.getStructure(i), str.getStructure(i), nstate, tyVarBnd, nextName, position);
+                    res.setStructure(i, tmp[0]);
+                    tyVarBnd = tmp[2];
+                    nextName = tmp[3];
+                }
+                catch (e) {
+                    throw new errors_1.ElaborationError(position, 'Signature Mismatch: Wrong implementation of structure "' + i + '": '
+                        + e.message);
+                }
+            }
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    OpaqueConstraint.prototype.simplify = function () {
+        return new OpaqueConstraint(this.position, this.structureExpression.simplify(), this.signatureExpression.simplify());
+    };
+    OpaqueConstraint.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var str = this.structureExpression.elaborate(state, tyVarBnd, nextName);
+        var sig = this.signatureExpression.elaborate(state, str[2], str[3]);
+        return OpaqueConstraint.restrict(sig[0], str[0], state, sig[2], sig[3], this.position);
+    };
+    OpaqueConstraint.prototype.computeStructure = function (params, callStack, recCall) {
+        var tmp = this.structureExpression.computeStructure(params, callStack, recCall);
+        if (tmp === undefined) {
+            return undefined;
+        }
+        if (tmp instanceof values_1.Value) {
+            return tmp;
+        }
+        var sig = this.signatureExpression.computeInterface(params.state);
+        return tmp.restrict(sig);
+    };
+    OpaqueConstraint.prototype.toString = function () {
+        return this.structureExpression + ' :> ' + this.signatureExpression;
+    };
+    return OpaqueConstraint;
+}(expressions_1.Expression));
+exports.OpaqueConstraint = OpaqueConstraint;
+var FunctorApplication = (function (_super) {
+    __extends(FunctorApplication, _super);
+    // funid ( strexp )
+    function FunctorApplication(position, functorId, structureExpression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.functorId = functorId;
+        _this.structureExpression = structureExpression;
+        return _this;
+    }
+    FunctorApplication.prototype.simplify = function () {
+        return new FunctorApplication(this.position, this.functorId, this.structureExpression.simplify());
+    };
+    FunctorApplication.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var str = this.structureExpression.elaborate(state, tyVarBnd, nextName);
+        var fun = state.getStaticFunctor(this.functorId.getText());
+        if (fun === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Undefined functor "' + this.functorId.getText() + '".');
+        }
+        OpaqueConstraint.restrict(fun[0], str[0], state, tyVarBnd, nextName, this.position);
+        return [fun[1], str[1], str[2], str[3]];
+    };
+    FunctorApplication.prototype.computeStructure = function (params, callStack, recCall) {
+        var state = params.state;
+        var fun = state.getDynamicFunctor(this.functorId.getText());
+        if (fun === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Undefined functor "' + this.functorId.getText() + '".');
+        }
+        if (params.funappres === undefined) {
+            var res = this.structureExpression.computeStructure(params, callStack, recCall);
+            if (res === undefined) {
+                return undefined;
+            }
+            if (res instanceof values_1.Value) {
+                return res;
+            }
+            params.funappres = res;
+        }
+        // braced so linter does not complain about shadowing
+        {
+            var res = params.funappres;
+            if (params.nstate === undefined) {
+                var nstate = fun.state.getNestedState(fun.state.id);
+                nstate.setDynamicStructure(fun.paramName.getText(), res.restrict(fun.param));
+                params.nstate = nstate;
+            }
+            // we have to fake our state for a short time, so computeStructure will add the correct recursive state
+            params.state = params.nstate;
+            var nres = fun.body.computeStructure(params, callStack, recCall);
+            params.state = state;
+            return nres;
+        }
+    };
+    FunctorApplication.prototype.toString = function () {
+        return this.functorId.getText() + '( ' + this.structureExpression + ' )';
+    };
+    return FunctorApplication;
+}(expressions_1.Expression));
+exports.FunctorApplication = FunctorApplication;
+var LocalDeclarationStructureExpression = (function (_super) {
+    __extends(LocalDeclarationStructureExpression, _super);
+    // let strdec in exp1; ...; expn end
+    // A sequential expression exp1; ... ; expn is represented as such,
+    // despite the potentially missing parentheses
+    function LocalDeclarationStructureExpression(position, declaration, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.declaration = declaration;
+        _this.expression = expression;
+        return _this;
+    }
+    LocalDeclarationStructureExpression.prototype.simplify = function () {
+        return new LocalDeclarationStructureExpression(this.position, this.declaration.simplify(), this.expression.simplify());
+    };
+    LocalDeclarationStructureExpression.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var nstate = state.getNestedState(state.id);
+        tyVarBnd.forEach(function (val, key) {
+            if (key[1] === '*' && key[2] === '*') {
+                nstate.setStaticValue(key.substring(3), val[0].instantiate(state, tyVarBnd), state_1.IdentifierStatus.VALUE_VARIABLE);
+            }
+        });
+        var res = this.declaration.elaborate(nstate, tyVarBnd, nextName);
+        nextName = res[3];
+        var nbnds = new Map();
+        tyVarBnd.forEach(function (val, key) {
+            nbnds = nbnds.set(key, [val[0].instantiate(res[0], res[2]), val[1]]);
+        });
+        var r2 = this.expression.elaborate(res[0], res[2], nextName);
+        return [r2[0], res[1].concat(r2[1]), r2[2], r2[3]];
+    };
+    LocalDeclarationStructureExpression.prototype.toString = function () {
+        return 'let ' + this.declaration + ' in ' + this.expression + ' end';
+    };
+    LocalDeclarationStructureExpression.prototype.computeStructure = function (params, callStack, recCall) {
+        var state = params.state;
+        if (params.ldseRes === undefined) {
+            if (params.recResult === undefined) {
+                var nstate = state.getNestedState(0).getNestedState(state.id);
+                callStack.push({ 'next': recCall, 'params': params });
+                callStack.push({
+                    'next': this.declaration,
+                    'params': { 'state': nstate, 'modifiable': params.modifiable, 'recResult': undefined }
+                });
+                return undefined;
+            }
+            params.ldseRes = params.recResult;
+            params.recResult = undefined;
+        }
+        var res = params.ldseRes;
+        if (res === undefined
+            || res.newState === undefined) {
+            throw new errors_1.InternalInterpreterError(-1, 'How is this undefined?');
+        }
+        // braced so linter does not complain about shadowing
+        {
+            var nstate = res.newState;
+            if (res.hasThrown) {
+                return res.value;
+            }
+            // we have to fake the state in order for the recursion to work correctly
+            params.state = nstate;
+            var nres = this.expression.computeStructure(params, callStack, recCall);
+            params.state = state;
+            return nres;
+        }
+    };
+    return LocalDeclarationStructureExpression;
+}(expressions_1.Expression));
+exports.LocalDeclarationStructureExpression = LocalDeclarationStructureExpression;
+var SignatureExpression = (function (_super) {
+    __extends(SignatureExpression, _super);
+    // sig spec end
+    function SignatureExpression(position, specification) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.specification = specification;
+        return _this;
+    }
+    SignatureExpression.prototype.simplify = function () {
+        return new SignatureExpression(this.position, this.specification.simplify());
+    };
+    SignatureExpression.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        return this.specification.elaborate(state, tyVarBnd, nextName);
+    };
+    SignatureExpression.prototype.computeInterface = function (state) {
+        return this.specification.computeInterface(state);
+    };
+    SignatureExpression.prototype.toString = function () {
+        return 'sig ' + this.specification + ' end';
+    };
+    return SignatureExpression;
+}(expressions_1.Expression));
+exports.SignatureExpression = SignatureExpression;
+var SignatureIdentifier = (function (_super) {
+    __extends(SignatureIdentifier, _super);
+    // sigid
+    function SignatureIdentifier(position, identifier) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.identifier = identifier;
+        return _this;
+    }
+    SignatureIdentifier.prototype.simplify = function () {
+        return this;
+    };
+    SignatureIdentifier.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = undefined;
+        if (this.identifier instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.identifier);
+            if (st !== undefined) {
+                res = st.getSignature(this.identifier.id.getText());
+            }
+        }
+        else {
+            res = state.getStaticSignature(this.identifier.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Undefined signature "'
+                + this.identifier.getText() + '".');
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    SignatureIdentifier.prototype.computeInterface = function (state) {
+        var res = undefined;
+        if (this.identifier instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveDynamicStructure(this.identifier);
+            if (st !== undefined) {
+                res = st.getSignature(this.identifier.id.getText());
+            }
+        }
+        else {
+            res = state.getDynamicSignature(this.identifier.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'Undefined signature "'
+                + this.identifier.getText() + '".');
+        }
+        return res;
+    };
+    SignatureIdentifier.prototype.toString = function () {
+        return this.identifier.getText();
+    };
+    return SignatureIdentifier;
+}(expressions_1.Expression));
+exports.SignatureIdentifier = SignatureIdentifier;
+var TypeRealisation = (function (_super) {
+    __extends(TypeRealisation, _super);
+    // sigexp where type tyvarseq longtycon = ty
+    function TypeRealisation(position, signatureExpression, tyvarseq, name, type) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.signatureExpression = signatureExpression;
+        _this.tyvarseq = tyvarseq;
+        _this.name = name;
+        _this.type = type;
+        return _this;
+    }
+    TypeRealisation.prototype.simplify = function () {
+        return new TypeRealisation(this.position, this.signatureExpression.simplify(), this.tyvarseq, this.name, this.type.simplify());
+    };
+    TypeRealisation.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        // TODO
+        throw new Error('ニャ－');
+    };
+    TypeRealisation.prototype.computeInterface = function (state) {
+        return this.signatureExpression.computeInterface(state);
+    };
+    TypeRealisation.prototype.toString = function () {
+        return this.signatureExpression + ' where type <stuff> ' + this.name.getText()
+            + ' = ' + this.type;
+    };
+    return TypeRealisation;
+}(expressions_1.Expression));
+exports.TypeRealisation = TypeRealisation;
+// Module declarations and bindings
+// Sutrcture declaration
+var StructureDeclaration = (function (_super) {
+    __extends(StructureDeclaration, _super);
+    // structure strbind
+    function StructureDeclaration(position, structureBinding) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.structureBinding = structureBinding;
+        return _this;
+    }
+    StructureDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName, isTopLevel) {
+        var warns = [];
+        for (var i = 0; i < this.structureBinding.length; ++i) {
+            var tmp = this.structureBinding[i].elaborate(state, tyVarBnd, nextName);
+            state = tmp[0];
+            warns = warns.concat(tmp[1]);
+            tyVarBnd = tmp[2];
+            nextName = tmp[3];
+        }
+        return [state, warns, tyVarBnd, nextName];
+    };
+    StructureDeclaration.prototype.evaluate = function (params, callStack) {
+        if (params.whichBind === undefined) {
+            params.whichBind = 0;
+        }
+        var whichBind = params.whichBind;
+        var tmp = this.structureBinding[whichBind].evaluate(params, callStack, this);
+        if (tmp !== undefined) {
+            if (tmp.hasThrown) {
+                return tmp;
+            }
+            params.state = tmp.newState;
+            params.whichBind = params.whichBind + 1;
+            params.recResult = undefined;
+            if (params.whichBind === this.structureBinding.length) {
+                return {
+                    'newState': params.state,
+                    'value': undefined,
+                    'hasThrown': false,
+                };
+            }
+            callStack.push({ 'next': this, 'params': params });
+        }
+        return undefined;
+    };
+    StructureDeclaration.prototype.simplify = function () {
+        var bnd = [];
+        for (var i = 0; i < this.structureBinding.length; ++i) {
+            bnd.push(this.structureBinding[i].simplify());
+        }
+        return new StructureDeclaration(this.position, bnd);
+    };
+    StructureDeclaration.prototype.toString = function () {
+        var res = 'structure';
+        for (var i = 0; i < this.structureBinding.length; ++i) {
+            res += ' ' + this.structureBinding[i];
+        }
+        return res + ';';
+    };
+    return StructureDeclaration;
+}(declarations_1.Declaration));
+exports.StructureDeclaration = StructureDeclaration;
+var SignatureDeclaration = (function (_super) {
+    __extends(SignatureDeclaration, _super);
+    // signature sigbind
+    function SignatureDeclaration(position, signatureBinding) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.signatureBinding = signatureBinding;
+        return _this;
+    }
+    SignatureDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        var warns = [];
+        for (var i = 0; i < this.signatureBinding.length; ++i) {
+            var tmp = this.signatureBinding[i].elaborate(state, tyVarBnd, nextName);
+            state = tmp[0];
+            warns = warns.concat(tmp[1]);
+            tyVarBnd = tmp[2];
+            nextName = tmp[3];
+        }
+        return [state, warns, tyVarBnd, nextName];
+    };
+    SignatureDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        for (var i = 0; i < this.signatureBinding.length; ++i) {
+            state = this.signatureBinding[i].evaluate(state);
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    SignatureDeclaration.prototype.simplify = function () {
+        var bnd = [];
+        for (var i = 0; i < this.signatureBinding.length; ++i) {
+            bnd.push(this.signatureBinding[i].simplify());
+        }
+        return new SignatureDeclaration(this.position, bnd);
+    };
+    SignatureDeclaration.prototype.toString = function () {
+        var res = 'structure';
+        for (var i = 0; i < this.signatureBinding.length; ++i) {
+            res += ' ' + this.signatureBinding[i];
+        }
+        return res + ';';
+    };
+    return SignatureDeclaration;
+}(declarations_1.Declaration));
+exports.SignatureDeclaration = SignatureDeclaration;
+var FunctorDeclaration = (function (_super) {
+    __extends(FunctorDeclaration, _super);
+    // functor funbind
+    function FunctorDeclaration(position, functorBinding) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.functorBinding = functorBinding;
+        return _this;
+    }
+    FunctorDeclaration.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        var warns = [];
+        for (var i = 0; i < this.functorBinding.length; ++i) {
+            var tmp = [];
+            _a = this.functorBinding[i].elaborate(state, tyVarBnd, nextName), state = _a[0], tmp = _a[1], tyVarBnd = _a[2], nextName = _a[3];
+            warns = warns.concat(tmp);
+        }
+        return [state, warns, tyVarBnd, nextName];
+        var _a;
+    };
+    FunctorDeclaration.prototype.evaluate = function (params, callStack) {
+        var state = params.state;
+        for (var i = 0; i < this.functorBinding.length; ++i) {
+            state = this.functorBinding[i].evaluate(state);
+        }
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    FunctorDeclaration.prototype.simplify = function () {
+        var bnd = [];
+        for (var i = 0; i < this.functorBinding.length; ++i) {
+            bnd.push(this.functorBinding[i].simplify());
+        }
+        return new FunctorDeclaration(this.position, bnd);
+    };
+    FunctorDeclaration.prototype.toString = function () {
+        var res = 'functor';
+        for (var i = 0; i < this.functorBinding.length; ++i) {
+            res += ' ' + this.functorBinding[i];
+        }
+        return res + ';';
+    };
+    return FunctorDeclaration;
+}(declarations_1.Declaration));
+exports.FunctorDeclaration = FunctorDeclaration;
+var StructureBinding = (function () {
+    // strid = strexp
+    function StructureBinding(position, name, binding) {
+        this.position = position;
+        this.name = name;
+        this.binding = binding;
+    }
+    StructureBinding.prototype.simplify = function () {
+        return new StructureBinding(this.position, this.name, this.binding.simplify());
+    };
+    StructureBinding.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var tmp = this.binding.elaborate(state, tyVarBnd, nextName);
+        state.setStaticStructure(this.name.getText(), tmp[0]);
+        return [state, tmp[1], tmp[2], tmp[3]];
+    };
+    StructureBinding.prototype.evaluate = function (params, callStack, recCall) {
+        var tmp = this.binding.computeStructure(params, callStack, recCall);
+        if (tmp === undefined) {
+            return undefined;
+        }
+        var state = params.state;
+        if (tmp instanceof values_1.Value) {
+            return {
+                'newState': state,
+                'value': tmp,
+                'hasThrown': true,
+            };
+        }
+        state.setDynamicStructure(this.name.getText(), tmp);
+        return {
+            'newState': state,
+            'value': undefined,
+            'hasThrown': false,
+        };
+    };
+    StructureBinding.prototype.toString = function () {
+        return this.name.getText() + ' = ' + this.binding;
+    };
+    return StructureBinding;
+}());
+exports.StructureBinding = StructureBinding;
+var SignatureBinding = (function () {
+    // sigid = sigexp
+    function SignatureBinding(position, name, binding) {
+        this.position = position;
+        this.name = name;
+        this.binding = binding;
+    }
+    SignatureBinding.prototype.simplify = function () {
+        return new SignatureBinding(this.position, this.name, this.binding.simplify());
+    };
+    SignatureBinding.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = this.binding.elaborate(state, tyVarBnd, nextName);
+        state.setStaticSignature(this.name.getText(), res[0]);
+        return [state, res[1], res[2], res[3]];
+    };
+    SignatureBinding.prototype.evaluate = function (state) {
+        state.setDynamicSignature(this.name.getText(), this.binding.computeInterface(state));
+        return state;
+    };
+    SignatureBinding.prototype.toString = function () {
+        return this.name.getText() + ' = ' + this.binding;
+    };
+    return SignatureBinding;
+}());
+exports.SignatureBinding = SignatureBinding;
+var FunctorBinding = (function () {
+    // funid ( strid : sigexp ) = strexp
+    function FunctorBinding(position, name, signatureName, signatureBinding, binding) {
+        this.position = position;
+        this.name = name;
+        this.signatureName = signatureName;
+        this.signatureBinding = signatureBinding;
+        this.binding = binding;
+    }
+    FunctorBinding.prototype.simplify = function () {
+        return new FunctorBinding(this.position, this.name, this.signatureName, this.signatureBinding.simplify(), this.binding.simplify());
+    };
+    FunctorBinding.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        if (tyVarBnd === void 0) { tyVarBnd = new Map(); }
+        if (nextName === void 0) { nextName = '\'*t0'; }
+        var sig = this.signatureBinding.elaborate(state, tyVarBnd, nextName);
+        var nstate = state.getNestedState(state.id);
+        nstate.setStaticStructure(this.signatureName.getText(), sig[0]);
+        var str = this.binding.elaborate(nstate, sig[2], sig[3]);
+        state.setStaticFunctor(this.name.getText(), [sig[0], str[0]]);
+        return [state, sig[1].concat(str[1]), str[2], str[3]];
+    };
+    FunctorBinding.prototype.evaluate = function (state) {
+        var inter = this.signatureBinding.computeInterface(state);
+        var nstate = initialState_1.getInitialState().getNestedState(state.id);
+        nstate.dynamicBasis = state.getDynamicChanges(-1);
+        state.setDynamicFunctor(this.name.getText(), new state_1.DynamicFunctorInformation(this.signatureName, inter, this.binding, nstate));
+        return state;
+    };
+    FunctorBinding.prototype.toString = function () {
+        return this.name.getText() + '( ' + this.signatureName + ' : ' + this.signatureBinding
+            + ' ) = ' + this.binding;
+    };
+    return FunctorBinding;
+}());
+exports.FunctorBinding = FunctorBinding;
+// Specifications
+var Specification = (function () {
+    function Specification() {
+    }
+    Specification.prototype.simplify = function () {
+        return this;
+    };
+    return Specification;
+}());
+exports.Specification = Specification;
+var ValueSpecification = (function (_super) {
+    __extends(ValueSpecification, _super);
+    // val valdesc
+    function ValueSpecification(position, valueDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.valueDescription = valueDescription;
+        return _this;
+    }
+    ValueSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var _loop_1 = function (i) {
+            var tp = this_1.valueDescription[i][1].simplify().instantiate(state, tyVarBnd);
+            var tyv = tp.getTypeVariables();
+            tyv.forEach(function (dom, val) {
+                tp = new types_1.TypeVariableBind(val, tp, dom);
+            });
+            res.setValue(this_1.valueDescription[i][0].getText(), tp, state_1.IdentifierStatus.VALUE_VARIABLE);
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.valueDescription.length; ++i) {
+            _loop_1(i);
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    ValueSpecification.prototype.computeInterface = function (state) {
+        var res = {};
+        for (var i = 0; i < this.valueDescription.length; ++i) {
+            res[this.valueDescription[i][0].getText()] = state_1.IdentifierStatus.VALUE_VARIABLE;
+        }
+        return new state_1.DynamicInterface({}, res, {});
+    };
+    return ValueSpecification;
+}(Specification));
+exports.ValueSpecification = ValueSpecification;
+var TypeSpecification = (function (_super) {
+    __extends(TypeSpecification, _super);
+    // type [tyvarseq tycon][]
+    function TypeSpecification(position, typeDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.typeDescription = typeDescription;
+        return _this;
+    }
+    TypeSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        for (var i = 0; i < this.typeDescription.length; ++i) {
+            res.setType(this.typeDescription[i][1].getText(), new types_1.CustomType(this.typeDescription[i][1].getText(), this.typeDescription[i][0]), [], this.typeDescription[i][0].length);
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    TypeSpecification.prototype.computeInterface = function (state) {
+        var res = {};
+        for (var i = 0; i < this.typeDescription.length; ++i) {
+            res[this.typeDescription[i][1].getText()] = [];
+        }
+        return new state_1.DynamicInterface(res, {}, {});
+    };
+    return TypeSpecification;
+}(Specification));
+exports.TypeSpecification = TypeSpecification;
+var EqualityTypeSpecification = (function (_super) {
+    __extends(EqualityTypeSpecification, _super);
+    // eqtype [tyvarseq tycon][]
+    function EqualityTypeSpecification(position, typeDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.typeDescription = typeDescription;
+        return _this;
+    }
+    EqualityTypeSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        for (var i = 0; i < this.typeDescription.length; ++i) {
+            res.setType(this.typeDescription[i][1].getText(), new types_1.CustomType(this.typeDescription[i][1].getText(), this.typeDescription[i][0]), [], this.typeDescription[i][0].length, true);
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    EqualityTypeSpecification.prototype.computeInterface = function (state) {
+        var res = {};
+        for (var i = 0; i < this.typeDescription.length; ++i) {
+            res[this.typeDescription[i][1].getText()] = [];
+        }
+        return new state_1.DynamicInterface(res, {}, {});
+    };
+    return EqualityTypeSpecification;
+}(Specification));
+exports.EqualityTypeSpecification = EqualityTypeSpecification;
+var DatatypeSpecification = (function (_super) {
+    __extends(DatatypeSpecification, _super);
+    // datatype [tyvarseq tycon = [vid <of ty>][]][]
+    function DatatypeSpecification(position, datatypeDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.datatypeDescription = datatypeDescription;
+        return _this;
+    }
+    DatatypeSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        for (var i = 0; i < this.datatypeDescription.length; ++i) {
+            var ctr = [];
+            var ctp = new types_1.CustomType(this.datatypeDescription[i][1].getText(), this.datatypeDescription[i][0]);
+            var _loop_2 = function (j) {
+                ctr.push(this_2.datatypeDescription[i][2][j][0].getText());
+                if (this_2.datatypeDescription[i][2][j][1] === undefined) {
+                    var ntp_1 = ctp;
+                    ntp_1.getTypeVariables().forEach(function (val, name) {
+                        ntp_1 = new types_1.TypeVariableBind(name, ntp_1, val);
+                    });
+                    res.setValue(this_2.datatypeDescription[i][2][j][0].getText(), ntp_1, state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+                }
+                else {
+                    var ntp_2 = new types_1.FunctionType(this_2.datatypeDescription[i][2][j][1], ctp);
+                    ntp_2.getTypeVariables().forEach(function (val, name) {
+                        ntp_2 = new types_1.TypeVariableBind(name, ntp_2, val);
+                    });
+                    res.setValue(this_2.datatypeDescription[i][2][j][0].getText(), ntp_2, state_1.IdentifierStatus.VALUE_CONSTRUCTOR);
+                }
+            };
+            var this_2 = this;
+            for (var j = 0; j < this.datatypeDescription[i][2].length; ++j) {
+                _loop_2(j);
+            }
+            res.setType(this.datatypeDescription[i][1].getText(), ctp, ctr, this.datatypeDescription[i][0].length, true);
+        }
+        return [res, [], tyVarBnd, nextName];
+    };
+    DatatypeSpecification.prototype.computeInterface = function (state) {
+        var vi = {};
+        var ti = {};
+        for (var i = 0; i < this.datatypeDescription.length; ++i) {
+            var cns = [];
+            for (var j = 0; j < this.datatypeDescription[i][2].length; ++j) {
+                vi[this.datatypeDescription[i][2][j][0].getText()]
+                    = state_1.IdentifierStatus.VALUE_CONSTRUCTOR;
+                cns.push(this.datatypeDescription[i][2][j][0].getText());
+            }
+            ti[this.datatypeDescription[i][1].getText()] = cns;
+        }
+        return new state_1.DynamicInterface(ti, vi, {});
+    };
+    DatatypeSpecification.prototype.simplify = function () {
+        var dds = [];
+        for (var i = 0; i < this.datatypeDescription.length; ++i) {
+            var cds = [];
+            for (var j = 0; j < this.datatypeDescription[i][2].length; ++j) {
+                if (this.datatypeDescription[i][2][j][1] === undefined) {
+                    cds.push(this.datatypeDescription[i][2][j]);
+                }
+                else {
+                    cds.push([this.datatypeDescription[i][2][j][0],
+                        this.datatypeDescription[i][2][j][1].simplify()]);
+                }
+            }
+            dds.push([this.datatypeDescription[i][0], this.datatypeDescription[i][1], cds]);
+        }
+        return new DatatypeSpecification(this.position, dds);
+    };
+    return DatatypeSpecification;
+}(Specification));
+exports.DatatypeSpecification = DatatypeSpecification;
+var DatatypeReplicationSpecification = (function (_super) {
+    __extends(DatatypeReplicationSpecification, _super);
+    // datatype tycon = datatype longtycon
+    function DatatypeReplicationSpecification(position, name, oldname) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.name = name;
+        _this.oldname = oldname;
+        return _this;
+    }
+    DatatypeReplicationSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = undefined;
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var st = state.getAndResolveStaticStructure(this.oldname);
+            if (st !== undefined) {
+                res = st.getType(this.oldname.id.getText());
+            }
+        }
+        else {
+            res = state.getStaticType(this.oldname.getText());
+        }
+        if (res === undefined) {
+            throw new errors_1.ElaborationError(this.position, 'The datatype "' + this.oldname.getText() + '" doesn\'t exist.');
+        }
+        var tp = res.type.instantiate(state, tyVarBnd);
+        var stbas = new state_1.StaticBasis({}, {}, {}, {}, {});
+        stbas.setType(this.name.getText(), new types_1.FunctionType(new types_1.CustomType(this.name.getText(), tp.typeArguments, 0, (this.oldname instanceof tokens_1.LongIdentifierToken)
+            ? this.oldname : undefined), tp), [], res.arity);
+        return [stbas, [], tyVarBnd, nextName];
+    };
+    DatatypeReplicationSpecification.prototype.computeInterface = function (state) {
+        var tp = undefined;
+        if (this.oldname instanceof tokens_1.LongIdentifierToken) {
+            var tmp = state.getAndResolveDynamicStructure(this.oldname);
+            if (tmp !== undefined) {
+                tp = tmp.getType(this.oldname.id.getText());
+            }
+        }
+        else {
+            tp = state.getDynamicType(this.oldname.getText());
+        }
+        if (tp === undefined) {
+            throw new errors_1.EvaluationError(this.position, 'The datatype "'
+                + this.oldname.getText() + '" does not exist.');
+        }
+        var vi = {};
+        for (var i = 0; i < tp.length; ++i) {
+            vi[tp[i]] = state_1.IdentifierStatus.VALUE_CONSTRUCTOR;
+        }
+        var ti = {};
+        ti[this.name.getText()] = tp;
+        return new state_1.DynamicInterface(ti, vi, {});
+    };
+    return DatatypeReplicationSpecification;
+}(Specification));
+exports.DatatypeReplicationSpecification = DatatypeReplicationSpecification;
+var ExceptionSpecification = (function (_super) {
+    __extends(ExceptionSpecification, _super);
+    // exception [vid <of ty>][]
+    function ExceptionSpecification(position, exceptionDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.exceptionDescription = exceptionDescription;
+        return _this;
+    }
+    ExceptionSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var stbas = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var _loop_3 = function (i) {
+            if (this_3.exceptionDescription[i][1] !== undefined) {
+                var tp = this_3.exceptionDescription[i][1].simplify().instantiate(state, new Map());
+                var tyvars_1 = [];
+                tp.getTypeVariables().forEach(function (dom, val) {
+                    tyvars_1.push(val);
+                });
+                if (tyvars_1.length > 0) {
+                    throw errors_1.ElaborationError.getUnguarded(this_3.position, tyvars_1);
+                }
+                stbas.setValue(this_3.exceptionDescription[i][0].getText(), new types_1.FunctionType(tp, new types_1.CustomType('exn')).normalize()[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+            }
+            else {
+                stbas.setValue(this_3.exceptionDescription[i][0].getText(), new types_1.CustomType('exn').normalize()[0], state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR);
+            }
+        };
+        var this_3 = this;
+        for (var i = 0; i < this.exceptionDescription.length; ++i) {
+            _loop_3(i);
+        }
+        return [stbas, [], tyVarBnd, nextName];
+    };
+    ExceptionSpecification.prototype.computeInterface = function (state) {
+        var res = {};
+        for (var i = 0; i < this.exceptionDescription.length; ++i) {
+            res[this.exceptionDescription[i][0].getText()] = state_1.IdentifierStatus.EXCEPTION_CONSTRUCTOR;
+        }
+        return new state_1.DynamicInterface({}, res, {});
+    };
+    ExceptionSpecification.prototype.simplify = function () {
+        var exns = [];
+        for (var i = 0; i < this.exceptionDescription.length; ++i) {
+            if (this.exceptionDescription[i][1] === undefined) {
+                exns.push(this.exceptionDescription[i]);
+            }
+            else {
+                exns.push([this.exceptionDescription[i][0],
+                    this.exceptionDescription[i][1].simplify()]);
+            }
+        }
+        return new ExceptionSpecification(this.position, exns);
+    };
+    return ExceptionSpecification;
+}(Specification));
+exports.ExceptionSpecification = ExceptionSpecification;
+var StructureSpecification = (function (_super) {
+    __extends(StructureSpecification, _super);
+    // structure [strid: sigexp][]
+    function StructureSpecification(position, structureDescription) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.structureDescription = structureDescription;
+        return _this;
+    }
+    StructureSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        // TODO
+        throw new Error('ニャ－');
+    };
+    StructureSpecification.prototype.computeInterface = function (state) {
+        var res = {};
+        for (var i = 0; i < this.structureDescription.length; ++i) {
+            res[this.structureDescription[i][0].getText()] = this.structureDescription[i][1].computeInterface(state);
+        }
+        return new state_1.DynamicInterface({}, {}, res);
+    };
+    StructureSpecification.prototype.simplify = function () {
+        var res = [];
+        for (var i = 0; i < this.structureDescription.length; ++i) {
+            res.push([this.structureDescription[i][0],
+                this.structureDescription[i][1].simplify()]);
+        }
+        return new StructureSpecification(this.position, res);
+    };
+    return StructureSpecification;
+}(Specification));
+exports.StructureSpecification = StructureSpecification;
+var IncludeSpecification = (function (_super) {
+    __extends(IncludeSpecification, _super);
+    // include sigexp
+    function IncludeSpecification(position, expression) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.expression = expression;
+        return _this;
+    }
+    IncludeSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var warns = [];
+        for (var i = 0; i < this.expression.length; ++i) {
+            var tmp = this.expression[i].elaborate(state, tyVarBnd, nextName);
+            res = res.extend(tmp[0]);
+            warns = warns.concat(tmp[1]);
+            tyVarBnd = tmp[2];
+            nextName = tmp[3];
+        }
+        return [res, warns, tyVarBnd, nextName];
+    };
+    IncludeSpecification.prototype.computeInterface = function (state) {
+        var res = new state_1.DynamicInterface({}, {}, {});
+        for (var i = 0; i < this.expression.length; ++i) {
+            res = res.extend(this.expression[i].computeInterface(state));
+        }
+        return res;
+    };
+    IncludeSpecification.prototype.simplify = function () {
+        var res = [];
+        for (var i = 0; i < this.expression.length; ++i) {
+            res.push(this.expression[i].simplify());
+        }
+        return new IncludeSpecification(this.position, res);
+    };
+    return IncludeSpecification;
+}(Specification));
+exports.IncludeSpecification = IncludeSpecification;
+var EmptySpecification = (function (_super) {
+    __extends(EmptySpecification, _super);
+    //
+    function EmptySpecification(position) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        return _this;
+    }
+    EmptySpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        return [new state_1.StaticBasis({}, {}, {}, {}, {}), [], tyVarBnd, nextName];
+    };
+    EmptySpecification.prototype.computeInterface = function (state) {
+        return new state_1.DynamicInterface({}, {}, {});
+    };
+    return EmptySpecification;
+}(Specification));
+exports.EmptySpecification = EmptySpecification;
+var SequentialSpecification = (function (_super) {
+    __extends(SequentialSpecification, _super);
+    // spec[]
+    function SequentialSpecification(position, specifications) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.specifications = specifications;
+        return _this;
+    }
+    SequentialSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        var res = new state_1.StaticBasis({}, {}, {}, {}, {});
+        var warns = [];
+        var nstate = state;
+        for (var i = 0; i < this.specifications.length; ++i) {
+            var tmp = this.specifications[i].elaborate(nstate, tyVarBnd, nextName);
+            res = res.extend(tmp[0]);
+            warns = warns.concat(tmp[1]);
+            tyVarBnd = tmp[2];
+            nextName = tmp[3];
+            nstate = nstate.getNestedState(nstate.id);
+            nstate.staticBasis = tmp[0];
+        }
+        return [res, warns, tyVarBnd, nextName];
+    };
+    SequentialSpecification.prototype.computeInterface = function (state) {
+        var res = new state_1.DynamicInterface({}, {}, {});
+        for (var i = 0; i < this.specifications.length; ++i) {
+            res = res.extend(this.specifications[i].computeInterface(state));
+        }
+        return res;
+    };
+    SequentialSpecification.prototype.simplify = function () {
+        var res = [];
+        for (var i = 0; i < this.specifications.length; ++i) {
+            res.push(this.specifications[i].simplify());
+        }
+        return new SequentialSpecification(this.position, res);
+    };
+    return SequentialSpecification;
+}(Specification));
+exports.SequentialSpecification = SequentialSpecification;
+var SharingSpecification = (function (_super) {
+    __extends(SharingSpecification, _super);
+    // spec sharing type longtycon = ... = longtycon
+    function SharingSpecification(position, specification, typeNames) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.specification = specification;
+        _this.typeNames = typeNames;
+        return _this;
+    }
+    SharingSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        // TODO
+        throw new Error('ニャ－');
+    };
+    SharingSpecification.prototype.computeInterface = function (state) {
+        return this.specification.computeInterface(state);
+    };
+    return SharingSpecification;
+}(Specification));
+exports.SharingSpecification = SharingSpecification;
+// Derived forms
+var TypeAliasSpecification = (function (_super) {
+    __extends(TypeAliasSpecification, _super);
+    // type tyvarseq tycon = ty and ... and tyvarseq tycon = ty
+    function TypeAliasSpecification(position, alias) {
+        var _this = _super.call(this) || this;
+        _this.position = position;
+        _this.alias = alias;
+        return _this;
+    }
+    TypeAliasSpecification.prototype.elaborate = function (state, tyVarBnd, nextName) {
+        throw new errors_1.InternalInterpreterError(this.position, 'And you don\'t seem to understand…');
+    };
+    TypeAliasSpecification.prototype.computeInterface = function (state) {
+        throw new errors_1.InternalInterpreterError(this.position, 'Being an interpreter is suffering.');
+    };
+    TypeAliasSpecification.prototype.simplify = function () {
+        var tpspc = [];
+        for (var i = 0; i < this.alias.length; ++i) {
+            tpspc.push([this.alias[i][0], this.alias[i][1]]);
+        }
+        var sg = new SignatureExpression(-1, new TypeSpecification(-1, tpspc));
+        for (var i = 0; i < this.alias.length; ++i) {
+            sg = new TypeRealisation(-1, sg, this.alias[i][0], this.alias[i][1], this.alias[i][2]);
+        }
+        return new IncludeSpecification(-1, [sg]).simplify();
+    };
+    return TypeAliasSpecification;
+}(Specification));
+exports.TypeAliasSpecification = TypeAliasSpecification;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BRANCH_NAME = "dev";
+exports.COMMIT_HASH = "bffb60c";
+exports.BUILD_DATE = "Tue Jan  2 15:29:11 UTC 2018";
+exports.COMMIT_MESSAGE = "added the core functions for Array";
+
+
+/***/ })
+/******/ ]);
