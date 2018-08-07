@@ -341,7 +341,7 @@ class IncrementalInterpretation {
                         }
                         else if (ret.result === ErrorType.OK) {
                             let className = 'eval-success';
-                            if (previousCounter % 2 === 0) {
+                            if ((previousCounter + 1) % 2 === 1) {
                                 className = 'eval-success-odd';
                             }
                             this.addSemicolon(semiPos, ret.state, Communication.markText(lastPos, semiPos, className), ret.warnings, ++previousCounter);
@@ -440,23 +440,30 @@ class IncrementalInterpretation {
         }
     }
     getErrorMessage(error, partial, startPos) {
-        return '\\*' + this.getPrototypeName(error) + '\\*: ' + this.outputEscape(error.message);
-    }
-    /*
-private calculateErrorPos(partial: string, startPos: any, offset: number): [number, number] {
-    let pos = {line: startPos.line, ch: startPos.ch};
-    for (let i = 0; i < offset; i++) {
-        let char = partial.charAt(i);
-        if (char === '\n') {
-            pos.line ++;
-            pos.ch = 0;
-        } else {
-            pos.ch++;
+        if (error.position !== undefined) {
+            let position = this.calculateErrorPos(partial, startPos, error.position);
+            return 'Zeile ' + position[0] + ' Spalte ' + position[1] + ': \\*' +
+                this.getPrototypeName(error) + '\\*: ' + this.outputEscape(error.message);
+        }
+        else {
+            return 'Unbekannte Position: ' + this.getPrototypeName(error) + ': ' +
+                this.outputEscape(error.message);
         }
     }
-    return [pos.line + 1, pos.ch + 1];
-}
-     */
+    calculateErrorPos(partial, startPos, offset) {
+        let pos = { line: startPos.line, ch: startPos.ch };
+        for (let i = 0; i < offset; i++) {
+            let char = partial.charAt(i);
+            if (char === '\n') {
+                pos.line++;
+                pos.ch = 0;
+            }
+            else {
+                pos.ch++;
+            }
+        }
+        return [pos.line + 1, pos.ch + 1];
+    }
     addSemicolon(pos, newState, marker, warnings, newCounter) {
         this.semicoli.push(pos);
         let baseIndex = this.findBaseIndex(this.data.length - 1);
@@ -523,6 +530,12 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         else if (cD.getMonth() === 0 && cD.getDate() === 1) {
             fullst = "🎆";
         }
+        else if (cD.getMonth() === 1 && cD.getDate() === 14) {
+            fullst = "🍫";
+        }
+        else if (cD.getMonth() === 2 && cD.getDate() === 14) {
+            fullst = "🍫";
+        }
         else if (cD.getMonth() === 6 && cD.getDate() === 7) {
             fullst = "🎋";
         }
@@ -549,12 +562,10 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
                         out += stsym + ' ' + istr + 'datatype \\*' + staticBasis.getType(i).type
                             + '\\* = {\n';
                         for (let j of staticBasis.getType(i).constructors) {
-                            out += emptyst;
-                            out += '   ' + istr + this.printBinding(state, [j, dynamicBasis.valueEnvironment[j],
+                            out += emptyst + '   ' + istr + this.printBinding(state, [j, dynamicBasis.valueEnvironment[j],
                                 staticBasis.getValue(j)]) + '\n';
                         }
-                        out += emptyst;
-                        out += ' ' + istr + '};\n';
+                        out += emptyst + ' ' + istr + '};\n';
                     }
                 }
             }
@@ -579,8 +590,7 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
                 else {
                     out += this.printBasis(state, dynamicBasis.getStructure(i), undefined, indent + 1);
                 }
-                out += emptyst;
-                out += ' ' + istr + 'end;\n';
+                out += emptyst + ' ' + istr + 'end;\n';
             }
         }
         return out;
@@ -599,19 +609,16 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         }
         let needNewline = false;
         for (let val of warnings) {
-            if (val.position >= -1) {
-                res += '\\*WARN\\*: ';
-            }
             res += this.outputEscape(val.message);
             needNewline = !val.message.endsWith('\n');
         }
         if (res.trim() === '') {
-            res = '(No output.)\n';
+            res = '>\n';
         }
-        res = startWith + res;
         if (needNewline) {
             res += '\n';
         }
+        res = startWith + res;
         return res;
     }
     /*
@@ -655,24 +662,22 @@ private calculateErrorPos(partial: string, startPos: any, offset: number): [numb
         else {
             res += 'val';
         }
-        res += '\\*';
         if (value) {
             if (type && type.isOpaque()) {
-                res += ' ' + bnd[0] + ' = <' + this.outputEscape(type.getOpaqueName()) + '>';
+                res += ' \\*' + bnd[0] + ' = <' + this.outputEscape(type.getOpaqueName()) + '>\\*';
             }
             else {
-                res += ' ' + bnd[0] + ' = ' + this.outputEscape(value.toString(state));
+                res += ' \\*' + bnd[0] + ' = ' + this.outputEscape(value.toString(state)) + '\\*';
             }
         }
         else {
-            return res + ' ' + bnd[0] + ' = undefined;';
+            return res + ' \\*' + bnd[0] + ' = undefined\\*;';
         }
-        res += '\\*';
         if (type) {
-            return res + ': \\_' + this.outputEscape(type.toString()) + '\\_;';
+            return res + ': \\_' + this.outputEscape(type.toString(state)) + '\\_;';
         }
         else {
-            return res + ': \\_undefined\\_;';
+            return res + ': undefined;';
         }
     }
     stringArrayContains(arr, search) {
