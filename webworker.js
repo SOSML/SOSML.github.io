@@ -649,7 +649,12 @@ class IncrementalInterpretation {
         let curst = state;
         for (let i = state.id; i >= id; --i) {
             if (curst.id === i) {
-                res = this.printBasis(curst, curst.getDynamicChanges(i - 1), curst.getStaticChanges(i - 1), 0) + res;
+                if (interpreterSettings.disableEvaluation) {
+                    res = this.printBasis(curst, undefined, curst.getStaticChanges(i - 1), 0) + res;
+                }
+                else {
+                    res = this.printBasis(curst, curst.getDynamicChanges(i - 1), curst.getStaticChanges(i - 1), 0) + res;
+                }
             }
             while (curst.id >= i) {
                 curst = curst.parent;
@@ -698,7 +703,7 @@ class IncrementalInterpretation {
             }
         }
         else {
-            res += ' \\*' + bnd[0] + '\\*;';
+            res += ' \\*' + bnd[0] + '\\*';
         }
         if (type) {
             return res + ': \\_' + this.outputEscape(type.toString(state)) + '\\_;';
