@@ -441,30 +441,29 @@ class IncrementalInterpretation {
         }
     }
     getErrorMessage(error, partial, startPos) {
-        if (error.position !== undefined) {
-            let position = this.calculateErrorPos(partial, startPos, error.position);
-            return 'Line ' + position[0] + ': \\*' +
-                this.getPrototypeName(error) + '\\*: ' + this.outputEscape(error.message);
-        }
-        else {
-            return this.getPrototypeName(error) + ': ' +
-                this.outputEscape(error.message);
+        // if (error.position !== undefined) {
+        //    let position = this.calculateErrorPos(partial, startPos, error.position);
+        //    return 'Line ' + position[0] + /* ' Spalte ' + position[1] + */ ': \\*' +
+        //        this.getPrototypeName(error) + '\\*: ' + this.outputEscape(error.message);
+        // } else {
+        return this.outputEscape(error.name) + ': \\*' +
+            this.outputEscape(error.message) + '\\*';
+        // }
+    }
+    /*
+private calculateErrorPos(partial: string, startPos: any, offset: number): [number, number] {
+    let pos = {line: startPos.line, ch: startPos.ch};
+    for (let i = 0; i < offset; i++) {
+        let char = partial.charAt(i);
+        if (char === '\n') {
+            pos.line ++;
+            pos.ch = 0;
+        } else {
+            pos.ch++;
         }
     }
-    calculateErrorPos(partial, startPos, offset) {
-        let pos = { line: startPos.line, ch: startPos.ch };
-        for (let i = 0; i < offset; i++) {
-            let char = partial.charAt(i);
-            if (char === '\n') {
-                pos.line++;
-                pos.ch = 0;
-            }
-            else {
-                pos.ch++;
-            }
-        }
-        return [pos.line + 1, pos.ch + 1];
-    }
+    return [pos.line + 1, pos.ch + 1];
+} */
     addSemicolon(pos, newState, marker, warnings, newCounter) {
         this.semicoli.push(pos);
         let baseIndex = this.findBaseIndex(this.data.length - 1);
