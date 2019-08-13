@@ -11,7 +11,8 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("workbox-v4.3.1/workbox-sw.js");
+workbox.setConfig({modulePathPrefix: "workbox-v4.3.1"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -35,7 +36,7 @@ self.__precacheManifest = [
   },
   {
     "url": "interpreter.js",
-    "revision": "f0c8920875f23c44957b029f2b40e858"
+    "revision": "6eb68391db7f3507a67728ff8fa86aee"
   },
   {
     "url": "webworker.js",
@@ -47,3 +48,5 @@ self.__precacheManifest = [
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("index.html"));
