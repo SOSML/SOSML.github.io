@@ -47,8 +47,8 @@ self.__precacheManifest = [
     "revision": "d1e8a23fb9a1b45a9b9e84952a9679c0"
   },
   {
-    "url": "static/js/main.a9b88dde.js",
-    "revision": "0fd6bc8e44cf02a55a06a75d0f9677ca"
+    "url": "static/js/main.80f4a670.js",
+    "revision": "40bf8805f07f69abc8c3c1f0562acb65"
   },
   {
     "url": "static/fonts/glyphicons-halflings-regular.eot",
@@ -80,7 +80,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "bcc7330719d314e6ec4de90d2a0f7f64"
+    "revision": "bbdec1e7254042cdd343b603d44ae714"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
